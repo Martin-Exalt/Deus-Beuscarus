@@ -533,7 +533,8 @@ html,body,button,input,select,a,label{touch-action:manipulation}
 .lancer-de{font-size:20px;min-height:60px}
 .des{display:flex;flex-wrap:wrap;gap:14px;justify-content:center;margin:14px 0}
 .de-j{display:grid;justify-items:center;gap:6px;font-family:var(--font-titre);font-weight:700;font-size:14px}
-.de-j span{display:flex;align-items:center;gap:6px}
+.de-j > span{display:flex;align-items:center;gap:6px}
+.de-j .pastille{flex:none}
 .de-j .de{filter:drop-shadow(3px 4px 0 var(--ombre))}
 .de-j{padding:6px 8px;border-radius:14px;border:2px solid transparent}
 .de-j.bon{border-color:var(--olivier);background:color-mix(in srgb,var(--olivier) 12%,transparent)}
@@ -631,7 +632,17 @@ img,svg,table,pre{max-width:100%}
 .bandeau-joueur{padding-right:80px}
 
 .jr-place{position:relative}
-.rang1 .jr{border-color:#f29a2e;box-shadow:0 0 0 2px #ffcf5a,0 0 22px #ff9a2e88}
+.rang1 .jr{border-color:#c8961e;color:#2a2118;background:linear-gradient(135deg,#fff6d2 0%,#f5d978 38%,#fff1bd 52%,#e8c25a 100%);box-shadow:0 0 0 3px #f2d27a,0 0 28px #e0b13acc,var(--relief-2);animation:pulseOr 2.6s ease-in-out infinite}
+.rang1 .jr .nom{color:#2a2118}
+@keyframes pulseOr{0%,100%{box-shadow:0 0 0 3px #f2d27a,0 0 22px #e0b13a99,var(--relief-2)}50%{box-shadow:0 0 0 3px #ffe48a,0 0 38px #f0c040ee,var(--relief-2)}}
+.eclat-or{position:absolute;inset:0;border-radius:var(--r-carte);overflow:hidden;pointer-events:none;z-index:2}
+.eclat-or::before{content:"";position:absolute;top:-10%;bottom:-10%;width:35%;left:-50%;background:linear-gradient(105deg,transparent,#ffffffcc 50%,transparent);transform:skewX(-12deg);animation:balayageOr 3.2s ease-in-out infinite}
+@keyframes balayageOr{0%{left:-50%}55%,100%{left:130%}}
+.eclat-or i{position:absolute;width:14px;height:14px;top:calc(12% + var(--k) * 17%);left:calc(8% + var(--k) * 21%);animation:scintille 1.8s ease-in-out infinite;animation-delay:calc(var(--k) * -.37s)}
+.eclat-or i svg{width:100%;height:100%;display:block;filter:drop-shadow(0 0 3px #ffd75e)}
+@keyframes scintille{0%,100%{transform:scale(.2) rotate(0);opacity:0}50%{transform:scale(1) rotate(45deg);opacity:1}}
+.rang2 .jr{border-color:#aab2b9;box-shadow:0 0 0 2px #dfe4e8,0 0 14px #b6bec588,var(--relief-1)}
+.rang3 .jr{border-color:#b07a45;box-shadow:0 0 0 2px #e2b98c,0 0 14px #b07a4566,var(--relief-1)}
 .flammes{position:absolute;left:14px;right:14px;top:-17px;height:24px;display:flex;justify-content:space-around;align-items:flex-end;pointer-events:none;z-index:2}
 .flammes i{width:15px;height:24px;border-radius:50% 50% 45% 45%/65% 65% 35% 35%;background:radial-gradient(circle at 50% 78%,#fff6b8 0 16%,#ffc23a 38%,#ef6a1f 66%,#c8323c00 72%);transform-origin:50% 100%;animation:flamme calc(.55s + var(--k) * .06s) ease-in-out infinite alternate;animation-delay:calc(var(--k) * -.13s)}
 .flammes i:nth-child(odd){height:18px;width:12px}
@@ -641,7 +652,7 @@ img,svg,table,pre{max-width:100%}
 @keyframes chuteFeuille{0%{transform:translate(0,0) rotate(0);opacity:0}12%{opacity:.85}50%{transform:translate(10px,48px) rotate(120deg)}100%{transform:translate(-4px,104px) rotate(250deg);opacity:0}}
 .double .jr{animation:doubleLigne 1.1s ease 2}
 @keyframes doubleLigne{0%,100%{box-shadow:var(--relief-1)}40%{box-shadow:0 0 0 4px var(--olivier),0 0 26px color-mix(in srgb,var(--olivier) 60%,transparent);transform:scale(1.03)}}
-@media (prefers-reduced-motion:reduce){.flammes i,.feuilles i,.double .jr{animation:none}.feuilles{display:none}}
+@media (prefers-reduced-motion:reduce){.feuilles i,.double .jr,.rang1 .jr,.eclat-or::before,.eclat-or i{animation:none}.feuilles,.eclat-or i{display:none}}
 .pe-minis{display:flex;flex-wrap:wrap;gap:4px;margin-top:5px}
 .pe-mini{display:inline-flex;align-items:center;gap:3px;padding:1px 7px 1px 4px;border-radius:99px;border:1.5px solid var(--ligne);background:var(--surface-haute);font:700 12px/1.4 var(--font-texte);letter-spacing:0}
 .pe-mini.pe-bonus{border-color:var(--olivier);color:var(--olivier)}
@@ -691,6 +702,74 @@ img,svg,table,pre{max-width:100%}
 .oc-dieu{margin:0;font:700 15px var(--font-titre);color:var(--encre-douce);text-align:center}
 .oc-dieu-tel{font:700 13px var(--font-titre);letter-spacing:.04em;color:var(--encre-douce)}
 .version{margin-top:24px;font-size:12px;color:var(--encre-douce);opacity:.7}
+.recap-titre-tel{margin-top:40px;text-align:center}
+.selection .carte-dieu,.selection .carte-dos,.choix-carte.selection .carte-obj,.cc-carte.selection .carte-obj,.cc-dos.selection .carte-dos{outline:4px solid var(--egee);outline-offset:3px}
+.choix-objet.selection{border-color:var(--egee);box-shadow:0 0 0 3px var(--egee)}
+.cc-carte{display:block;padding:0;border:none;background:none;box-shadow:none;min-height:0;font:inherit;letter-spacing:0;color:inherit;text-align:left;border-radius:var(--r-carte)}
+.choix-dieu.selection{transform:translateY(-4px)}
+.choix-dieu:not(.selection):hover .carte-dieu,.choix-dieu:not(.selection):focus-visible .carte-dieu,.choix-carte:not(.selection):hover .carte-obj{outline:none}
+.choix-dieu:not(.selection):focus-visible{outline:3px dashed var(--egee);outline-offset:4px}
+
+.mj-titre{text-align:center;margin:8px 0 2px}
+.mj-consigne{text-align:center;margin:0 0 10px;color:var(--encre-douce)}
+.mj-zone{position:relative;min-height:380px;display:grid;justify-items:center;align-content:start;gap:10px}
+.mj-decompte{font:900 160px/1 var(--font-titre);color:var(--or-fonce,#9a6a14);margin-top:60px;animation:mjDec .9s ease}
+@keyframes mjDec{0%{transform:scale(1.6);opacity:0}30%{transform:scale(1);opacity:1}100%{transform:scale(.9);opacity:.85}}
+.mj-vase{padding:6px;min-height:0;border:none;background:none;box-shadow:none;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+.mj-vase.choc svg{animation:mjChoc .18s ease}
+@keyframes mjChoc{0%{transform:rotate(0)}30%{transform:rotate(-4deg) scale(.97)}70%{transform:rotate(3deg)}100%{transform:none}}
+.mj-compteur{font:700 26px var(--font-titre)}
+.mj-temps{font:700 22px var(--font-titre)}
+.mj-aire{position:relative;width:100%;height:380px;border-radius:var(--r-carte);background:radial-gradient(circle at 50% 30%,#fff7df,#f1e2bf);border:2px solid var(--ligne);overflow:hidden;touch-action:manipulation}
+.mj-piece{position:absolute;padding:0;min-height:0;border:none;background:none;box-shadow:none;animation:mjPiece .9s ease forwards;-webkit-tap-highlight-color:transparent}
+.mj-piece.pris{animation:mjPris .26s ease forwards}
+@keyframes mjPiece{0%{transform:scale(.3);opacity:0}15%{transform:scale(1.05);opacity:1}80%{opacity:1}100%{transform:scale(.6);opacity:0}}
+@keyframes mjPris{to{transform:scale(1.6) translateY(-20px);opacity:0}}
+.mj-fini{position:absolute;inset:0;display:grid;place-items:center;font:700 30px var(--font-titre);margin:0}
+.mj-riviere{position:relative;width:100%;border-radius:var(--r-carte);background:linear-gradient(180deg,#5fa3c9,#2f6f97);padding:6px 0;overflow:hidden}
+.mj-ligne{position:relative;height:44px;border-bottom:2px dashed #ffffff44}
+.mj-ligne.grande{height:74px}
+.mj-ligne.moi{background:#ffffff22}
+.mj-ligne .mj-nom{position:absolute;left:8px;top:2px;font:700 12px var(--font-texte);color:#fff;display:flex;align-items:center;gap:6px;z-index:1}
+.mj-ligne.grande .mj-nom{font-size:16px}
+.mj-bateau{position:absolute;bottom:2px;left:0;transition:left .35s linear}
+.mj-arrivee{position:absolute;right:10px;top:0;bottom:0;width:6px;background:repeating-linear-gradient(180deg,#fff 0 8px,#2a2118 8px 16px)}
+.mj-retour{font:700 22px var(--font-titre);min-height:30px}
+.mj-retour.top{color:var(--olivier)}.mj-retour.bien{color:var(--egee)}.mj-retour.mal{color:var(--terre-cuite)}
+.mj-rames{display:grid;grid-template-columns:1fr 1fr;gap:12px;width:100%}
+.mj-rame{min-height:110px;font-size:22px;touch-action:manipulation}
+.mj-rame.coup{animation:mjCoup .2s ease}
+@keyframes mjCoup{50%{transform:scale(.94)}}
+.mjp{max-width:1000px;margin:0 auto;text-align:center;position:relative}
+.mjp-sous{color:var(--encre-douce);margin:0}
+.mjp-consigne{font:700 20px var(--font-titre);margin:10px 0 20px}
+.mjp-scene{display:flex;flex-wrap:wrap;justify-content:center;gap:24px}
+.mjs-barque{display:block}
+.mjp-vase,.mjp-piece{display:grid;justify-items:center;gap:6px;padding:12px 16px;border-radius:var(--r-carte);background:var(--surface-haute);border:2px solid var(--ligne);border-top:6px solid var(--c);min-width:150px}
+.mjp-vase b,.mjp-piece b{display:flex;align-items:center;gap:6px;font-family:var(--font-titre)}
+.mjp-v{font:700 24px var(--font-titre)}
+.mjp-piece .mjp-v{font-size:40px}
+.mjp-dec{position:absolute;inset:0;display:none;place-items:center;font:900 220px/1 var(--font-titre);color:#9a6a14;text-shadow:0 6px 0 #fff;pointer-events:none}
+.mjp-dec.on{display:grid;background:#fdf8ee99}
+.mjr{max-width:900px;margin:0 auto;text-align:center}
+.mjr-liste{display:grid;gap:10px;margin:16px 0}
+.mjr-l{display:grid;grid-template-columns:48px 120px auto 1fr auto;align-items:center;gap:14px;padding:10px 16px;border-radius:var(--r-carte);background:var(--surface-haute);border:2px solid var(--ligne);border-left:8px solid var(--c);text-align:left}
+.mjr-l.gagne{border-color:var(--or);box-shadow:0 0 0 3px var(--or-clair),var(--relief-2)}
+.mjr-rang{font:900 28px var(--font-titre);text-align:center;align-self:center}
+.mjr-img{display:flex;justify-content:center;align-items:flex-end;min-height:40px}
+.mjr-nom{font:700 22px var(--font-titre);align-self:center}
+.mjr-val{font:700 20px var(--font-titre);align-self:center}
+.mjr-gain{font:700 26px var(--font-titre);opacity:0;transition:opacity .6s}
+.mjr.revele .mjr-gain,.mjr.mjr-tel .mjr-gain{opacity:1}
+.mjr-pile{position:relative;display:block;width:44px;height:150px}
+.mjr-l{overflow:hidden}
+.mjr-pile i{position:absolute;left:0;width:44px;height:12px;border-radius:50%;background:radial-gradient(ellipse at 50% 35%,#ffe8a0,#e0b13a 60%,#8a6512);border:1.5px solid #6b4a0c;animation:mjTombe .35s ease-in}
+@keyframes mjTombe{0%{transform:translateY(-160px);opacity:0}100%{transform:none;opacity:1}}
+.mjr.mjr-tel .mjr-l{grid-template-columns:30px 44px auto 1fr;gap:8px;padding:8px 10px}
+.mjr.mjr-tel .mjr-img svg{max-height:48px}
+.mjr.mjr-tel .mjr-nom{font-size:16px}
+.mjr.mjr-tel .mjr-val{grid-column:2/-1;font-size:14px;font-family:var(--font-texte)}
+.mjr.mjr-tel .mjr-gain{font-size:20px}
 </style>
 </head>
 <body>
@@ -3247,7 +3326,7 @@ var qrcode = function() {
       var off = (i - (nj - 1) / 2) * 6.2;
       OBJ.forEach(function (ob, k) {
         var v = (j.scores && j.scores[ob.id]) || 0; if (!v) return;
-        var b = pt(k, dist(v), off), s = 12, fini = j.completes ? j.completes.indexOf(ob.id) >= 0 : v >= FIN;
+        var b = pt(k, v >= MAX ? RL - 50 : dist(v), off), s = 12, fini = j.completes ? j.completes.indexOf(ob.id) >= 0 : v >= FIN;
         h += '<g' + (j.anim === ob.id ? ' class="db-tombe"' : '') + '><rect x="' + (b[0] - s / 2 + 2) + '" y="' + (b[1] - s / 2 + 3) + '" width="' + s + '" height="' + s + '" rx="2" style="fill:var(--ombre)"/>' +
           (fini ? '<rect x="' + (b[0] - s / 2 - 3) + '" y="' + (b[1] - s / 2 - 3) + '" width="' + (s + 6) + '" height="' + (s + 6) + '" rx="3.5" fill="#f2d27a" stroke="#9a6a14" stroke-width="1.2"/>' : '') +
           '<rect x="' + (b[0] - s / 2) + '" y="' + (b[1] - s / 2) + '" width="' + s + '" height="' + s + '" rx="2" style="fill:' + j.c + '" stroke="' + (fini ? '#c8961e' : '#2a2118') + '" stroke-width="' + (fini ? 1.6 : 1.3) + '"/>' +
@@ -3256,7 +3335,7 @@ var qrcode = function() {
     });
     // monuments des objectifs
     OBJ.forEach(function (ob, k) {
-      var p = pt(k, RL), l = [p[0], p[1] + 44], qui = js.filter(function (j) { return j.completes ? j.completes.indexOf(ob.id) >= 0 : (j.scores && j.scores[ob.id]) >= FIN; });
+      var p = pt(k, RL), haut = Math.sin(ang(k)) < 0.2, l = [p[0], p[1] + (haut ? -54 : 46)], qui = js.filter(function (j) { return j.completes ? j.completes.indexOf(ob.id) >= 0 : (j.scores && j.scores[ob.id]) >= FIN; });
       h += '<g class="db-noeud noeud' + (o.sel === ob.id ? ' sel' : '') + '" data-obj="' + ob.id + '"' + (ob.aria ? ' role="button" tabindex="0" aria-label="' + ob.aria + '"' : '') + '><ellipse cx="' + (p[0] + 6) + '" cy="' + (p[1] + 9) + '" rx="42" ry="40" style="fill:var(--ombre)"/>' +
         '<circle cx="' + p[0] + '" cy="' + p[1] + '" r="42" class="socle" style="fill:var(--socle);stroke:var(--obj-' + ob.id + ')" stroke-width="7"/>' +
         '<circle cx="' + p[0] + '" cy="' + p[1] + '" r="34" fill="none" stroke="#2a2118" stroke-opacity=".15" stroke-width="2"/>' +
@@ -3368,7 +3447,7 @@ var qrcode = function() {
    ===================================================================== */
 const MAX_PAR_OBJECTIF = 15;        // points pour compléter un objectif
 const POINTS_PAR_TOUR = 2;          // pions à distribuer chaque tour
-const OBJECTIFS_POUR_FINIR = 3;     // dès qu’un joueur y arrive, on finit le tour de table     // nb d’objectifs complétés qui termine la partie
+const OBJECTIFS_POUR_FINIR = 3;     // dès qu’un joueur y arrive, on finit le tour     // nb d’objectifs complétés qui termine la partie
 const DELAI_LECTURE = 1200;         // ms pour lire le texte d’une carte avant de voir son effet
 const DELAI_BOUTON = 400;          // ms de plus avant de pouvoir appliquer l’effet
 const MAX_LAISSE_PINOT = 20;        // plafond avec la Laisse de Pinot (complété toujours à 15)
@@ -3404,13 +3483,13 @@ const OBJECTIFS = [
 
 /* Effets quand on complète un objectif (onglet Objectifs de l’Excel) */
 const EFFETS_OBJECTIFS = {
-  vin:     {detail:"Il faut boire avec modération", nomMi:"On remet ça !", mi:"Tu obtiens une relance : quand tu choisis un dieu, tu peux remplacer un des dieux proposés par un autre (une seule fois).", complete:"Tu gagnes autant de points que le numéro du tour, sur l’objectif de ton choix.", passif:""},
+  vin:     {detail:"Il faut boire avec modération", nomMi:"On remet ça !", mi:"Tu obtiens une relance : quand tu choisis un dieu, tu peux remplacer un des dieux proposés par un autre (une seule fois).", complete:"Tu gagnes la moitié du numéro du tour en points (arrondi au supérieur), sur l’objectif de ton choix.", passif:""},
   lignee:  {detail:"L’aîné est toujours le préféré", nomMi:"Tradition familiale", mi:"À ton prochain tour, tu as le même choix de dieux qu’à ton tour précédent.", complete:"Rejoue une carte de ta défausse au choix.", passif:""},
   repas:   {detail:"Accord mets-vin", nomMi:"Le plus mal poli est le mieux servi", mi:"Tu gagnes +1 en Repas chaque fois qu’un autre joueur atteint 8 ou plus en Repas.", complete:"Si tu as au moins 10 en Vin, tu obtiens 4 pions supplémentaires à ton prochain tour.", passif:""},
-  culture: {detail:"Le savoir est une arme", nomMi:"Coup d’œil", mi:"À ton prochain tour, tu vois la carte d’un des dieux proposés.", complete:"", passif:"Tu vois la carte de chacun des 3 dieux proposés avant de choisir."},
+  culture: {detail:"Le savoir est une arme", nomMi:"Coup d’œil", mi:"À ton prochain tour, tu vois la carte d’un des dieux proposés.", complete:"", passif:"Les cartes et dieux face cachée t’apparaissent face visible."},
   humour:  {detail:"Ton humour est une excellente distraction", nomMi:"Croche-pied", mi:"Enlève 1 pion au joueur de ton choix pour son prochain tour.", complete:"Vole une carte permanente à un adversaire.", passif:""},
-  jeux:    {detail:"Alea jacta est", nomMi:"Petit pari", mi:"Lance un dé à 4 faces et avance d’autant en Jeux.", complete:"Choisis pair ou impair : chaque joueur lance un dé, tu gagnes 2 pions à placer par dé correspondant.", passif:""},
-  bonheur: {detail:"Le bonheur est la seule chose qu’on multiplie en le partageant", nomMi:"Bien dans ta peau", mi:"À ton prochain tour, tu choisis parmi 3 dieux au lieu de 2.", complete:"+1 point sur chacun de tes autres objectifs non complétés.", passif:""}
+  jeux:    {detail:"Alea jacta est", nomMi:"Que le meilleur gagne", mi:"Tout le monde joue à un mini-jeu. Si tu le gagnes : +4 en Jeux. Si un autre le gagne, il prend +1 en Jeux.", complete:"Choisis pair ou impair : chaque joueur lance un dé, tu gagnes 2 pions à placer par dé correspondant.", passif:""},
+  bonheur: {detail:"Le bonheur est la seule chose qu’on multiplie en le partageant", nomMi:"Ton bonheur prime sur celui des autres", mi:"Choisis un objectif : personne ne peut y avancer jusqu’à la fin de ce tour.", complete:"+1 point sur chacun de tes autres objectifs non complétés.", passif:""}
 };
 
 /* Dieux : objectif n°1 (principal), n°2 et n°3 (secondaires), d’après l’Excel */
@@ -3793,8 +3872,8 @@ function decrire(c) {
     case "perso_pikachu": return "Carte permanente : +1 pion chaque fois que tu choisis Simon.";
     case "perso_agay": return `Choisis un objectif : tes points des objectifs sous ${SEUIL_MI_PARCOURS} y sont déplacés un à un, jusqu’à le remplir.`;
     case "perso_ferrari": return "Rattrape un joueur qui a 1 à 3 points de plus que toi sur un objectif : tu montes à son score.";
-    case "perso_fairepart": return "Reprends les points gagnés avec leurs pions par les joueurs qui ont choisi Martin pendant ce tour de table.";
-    case "perso_platre": return "Choisis un objectif : personne ne peut y gagner de points jusqu’à la fin de ce tour de table.";
+    case "perso_fairepart": return "Reprends les points gagnés avec leurs pions par les joueurs qui ont choisi Martin pendant ce tour.";
+    case "perso_platre": return "Choisis un objectif : personne ne peut y gagner de points jusqu’à la fin de ce tour.";
     case "perso_groscoquin": return "Chaque autre joueur aura 1 pion de moins à son prochain tour.";
     case "perso_coquin": return "Échange deux cartes permanentes entre deux joueurs.";
     case "perso_oiseaux": return "Carte permanente : sur ton objectif en cours le plus haut, toute perte de points devient un gain.";
@@ -3843,9 +3922,18 @@ function fixer(g, pid, o, v) {
   if (r > 0 && pid === g.ordre[g.tour] && g.statut === "en_cours") { g.gt = g.gt || {}; const t = (g.gt[pid] = g.gt[pid] || {}); t[o] = (t[o] || 0) + r; }
   return r;
 }
+/* Pull troué : dès que la condition est remplie, à n’importe quel moment, l’objet est remplacé par sa carte permanente */
+function verifierPull(g, id) {
+  if (!g.objets || !aObjet(g, id, "pull") || g.objetUtilise?.[id] || !g.scores?.[id] || !g.actives?.[id]) return;
+  if (!OBJECTIFS.every(o => g.scores[id][o.id] >= 3 && g.scores[id][o.id] <= 7)) return;
+  g.objetUtilise = g.objetUtilise || {}; g.objetUtilise[id] = true;
+  g.actives[id].push({c: "objet-pull"});
+  g.pullT = g.pullT || {}; g.pullT[id] = g.nTour || 0;
+  log(g, `Pull troué : ${g.noms[id]} a entre 3 et 7 partout, son pull devient une carte permanente « +1 pion par tour ».`);
+}
 function fixerBrut(g, pid, o, v) {
   const av = g.scores[pid][o];
-  if (v > av && g.platre && g.platre.o === o) {
+  if (v > av && ((g.platre && g.platre.o === o) || (g.blocages || []).some(x => x.o === o))) {
     const bl = Math.min(v, plafond(g, pid, o)) - av;
     if (bl > 0) { g.platreBloque = g.platreBloque || {}; g.platreBloque[pid] = (g.platreBloque[pid] || 0) + bl; }
     v = av;
@@ -3854,6 +3942,7 @@ function fixerBrut(g, pid, o, v) {
   if (v < av && o === "lignee" && g.enCarte > 0 && aObjet(g, pid, "machine")) { v = av; g.machineLog = true; }
   if (v < av && oiseauxActif(g, pid, o)) { v = av + (av - v); g.oiseauxLog = true; }
   g.scores[pid][o] = Math.max(0, Math.min(plafond(g, pid, o), v));
+  if (g.scores[pid][o] !== av) verifierPull(g, pid);
   return g.scores[pid][o] - av;
 }
 function ajouter(g, pid, o, n) { if (o === "culture" && aObjet(g, pid, "peluche")) o = "jeux"; return fixer(g, pid, o, g.scores[pid][o] + n); }
@@ -4032,11 +4121,11 @@ function appliquerCarteBrut(g, pid, cid, inp, rejeu, miroir) {
       msg = `${nom} rattrape ${g.noms[id]} en ${court(o)} : ${fait(r, o)}.`; break; }
     case "perso_fairepart": {
       const vict = g.ordre.filter(id => id !== pid && g.tc?.[id]?.dieu === "martin" && Object.keys(g.tc[id].gains || {}).length);
-      msg = vict.length ? `${nom} reprend les points des joueurs qui ont choisi Martin.` : `Personne n’a choisi Martin ce tour de table.`;
+      msg = vict.length ? `${nom} reprend les points des joueurs qui ont choisi Martin.` : `Personne n’a choisi Martin ce tour.`;
       log(g, msg); msg = "";
       vict.forEach(id => viser(g, pid, id, {k: "reprise", pts: g.tc[id].gains}));
       break; }
-    case "perso_platre": g.platre = {o: inp.obj, par: pid, cid}; msg = `Plâtre : personne ne peut gagner de points en ${court(inp.obj)} jusqu’à la fin du tour de table.`; break;
+    case "perso_platre": g.platre = {o: inp.obj, par: pid, cid}; msg = `Plâtre : personne ne peut gagner de points en ${court(inp.obj)} jusqu’à la fin du tour.`; break;
     case "perso_groscoquin": log(g, `${nom} : chaque autre joueur aura 1 pion de moins.`); g.ordre.filter(id => id !== pid).forEach(id => viser(g, pid, id, {k: "pion_moins", n: 1, raison: `carte « ${c.texte} » de ${nom}`, cid})); break;
     case "perso_coquin": {
       if (!inp.c1 || !inp.c2) { msg = `Pas assez de cartes permanentes à échanger.`; break; }
@@ -4126,7 +4215,7 @@ function completer(g, pid, o) {
       log(g, `${g.noms[pid]} aura ${REPAS_PIONS_BONUS} pions supplémentaires à son prochain tour.`);
     } else { annoncer(g, pid, o, `Seulement ${g.scores[pid].vin} en Vin (il en faut ${REPAS_VIN_MIN}) : pas de pions supplémentaires.`); log(g, `${g.noms[pid]} n’a pas assez de Vin pour les pions supplémentaires.`); }
   }
-  else if (o === "culture") { annoncer(g, pid, o, "Désormais, voit les cartes des dieux proposés."); log(g, `Désormais, ${g.noms[pid]} voit les cartes des dieux proposés.`); }
+  else if (o === "culture") { annoncer(g, pid, o, "Désormais, voit face visible les cartes et les dieux face cachée."); log(g, `Désormais, ${g.noms[pid]} voit face visible les cartes et les dieux face cachée.`); }
   if (o === "vin") annoncer(g, pid, o, "Choisit où placer ses points…");
 }
 function annoncerMi(g, pid, o, t) {
@@ -4146,10 +4235,10 @@ function atteindreMi(g, pid, o) {
     g.ordre.filter(id => id !== pid && g.etapes[id].includes("repas")).forEach(id => { const r = ajouter(g, id, "repas", 1); if (r) log(g, `« ${EFFETS_OBJECTIFS.repas.nomMi} » : ${g.noms[id]} +1 en ${court("repas")}.`); });
     log(g, `Désormais, ${nom} gagne +1 en ${court("repas")} quand un autre joueur atteint ${SEUIL_MI_PARCOURS} en Repas.`);
     res(`+1 en Repas chaque fois qu’un autre joueur atteint ${SEUIL_MI_PARCOURS} en Repas`);
-  } else if (o === "jeux") { g.file.push({pid, obj: "jeux", de4: true}); res("Dé à 4 faces à lancer"); }
+  } else if (o === "jeux") { g.file.push({pid, obj: "jeux", mi: true, minijeu: true}); res("Mini-jeu pour tout le monde"); }
   else if (o === "lignee") { pr().meme = true; log(g, `${nom} aura le même choix de dieux à son prochain tour.`); res("Même choix de dieux au prochain tour"); }
   else if (o === "humour") { if (g.ordre.length > 1) { g.file.push({pid, obj: o, mi: true}); res("Croche-pied à choisir"); } else res("Personne à faire trébucher"); }
-  else if (o === "bonheur") { pr().plus = 1; log(g, `${nom} choisira parmi 3 dieux à son prochain tour.`); res(`${DIEUX_PROPOSES + 1} dieux au choix au prochain tour`); }
+  else if (o === "bonheur") { g.file.push({pid, obj: "bonheur", mi: true, bloque: true}); res("Objectif à bloquer pour tous"); }
   else if (o === "culture") { pr().voir = true; log(g, `${nom} verra la carte d’un des dieux à son prochain tour.`); res("Verra la carte d’un dieu au prochain tour"); }
   else if (o === "vin") {
     ajoutRelance(g, pid, {mi: "vin"});
@@ -4158,10 +4247,7 @@ function atteindreMi(g, pid, o) {
 }
 function verifier(g) {
   g.etapes = g.etapes || Object.fromEntries(g.ordre.map(id => [id, []]));
-  g.ordre.filter(id => aObjet(g, id, "pull") && !g.objetUtilise?.[id] && OBJECTIFS.every(o => g.scores[id][o.id] >= 3 && g.scores[id][o.id] <= 7)).forEach(id => {
-    g.objetUtilise[id] = true; g.actives[id].push({c: "objet-pull"});
-    log(g, `Pull troué : ${g.noms[id]} a entre 3 et 7 partout et gagne une carte « +1 pion par tour ».`);
-  });
+  g.ordre.forEach(id => verifierPull(g, id));
   g.ordre.filter(id => aObjet(g, id, "alarme")).forEach(id => {
     g.kindleBas = g.kindleBas || {}; const bas = (g.kindleBas[id] = g.kindleBas[id] || []);
     g.etapes[id].forEach(o => { if (g.scores[id][o] < SEUIL_MI_PARCOURS && !bas.includes(o)) bas.push(o); });
@@ -4212,7 +4298,7 @@ function poserPions(g, pid, alloc, avecTour) {
   delete g.mods.douche;
   if (g.manetteAFaire) {
     g.manetteAFaire = false;
-    if (g.etapes?.[pid]?.includes("jeux")) { g.file.push({pid, obj: "jeux", de4: true, manette: true}); log(g, `Manette : ${g.noms[pid]} rejoue « ${EFFETS_OBJECTIFS.jeux.nomMi} ».`); }
+    if (g.etapes?.[pid]?.includes("jeux")) { g.file.push({pid, obj: "jeux", mi: true, minijeu: true, manette: true}); log(g, `Manette : ${g.noms[pid]} relance un mini-jeu.`); }
     if (g.completes[pid].includes("jeux")) { g.file.push({pid, obj: "jeux"}); log(g, `Manette : ${g.noms[pid]} rejoue l’effet de fin de Jeux.`); }
   }
   log(g, det.length ? `${g.noms[pid]} pose ${det.join(", ")}.` : `${g.noms[pid]} n’a aucun pion à poser.`);
@@ -4247,7 +4333,7 @@ function appliquerObjet(g, pid, id) {
 }
 /* Tout le monde choisit en même temps : chaque téléphone écrit son choix dans sa fiche joueur,
    et c’est le plateau qui les reporte dans la partie (aucun choix ne peut en écraser un autre). */
-let objEnvoi = null;
+let objEnvoi = null, objChoisi = null;
 function choisirObjet(pid, id) {
   if (test) return agir(g => appliquerObjet(g, pid, id));
   objEnvoi = {jeu: jeu.objJeu, id};
@@ -4265,6 +4351,7 @@ function fusionnerObjets() {
     const tk = jetonPret(), ph = jeu.phase;
     const p = joueursLobby.filter(j => j.pret && j.pret === tk && jeu.ordre.includes(j.id) && !jeu.prets?.[j.id]);
     if (p.length) agir(g => { if (g.phase !== ph) return; g.prets = g.prets || {}; p.forEach(j => { g.prets[j.id] = true; }); if (g.ordre.every(x => g.prets[x])) finPrets(g); });
+    setTimeout(verifierFinRecap, 50);
     return;
   }
   if (jeu.phase === "choix") {
@@ -4283,7 +4370,17 @@ let pretEnvoi = null, departTimer = null;
 function premierTour(g) { g.objOffres = {}; g.tourLog = []; g.histo = []; debutManche(g); }
 function commencerPartie() { return agir(g => { if (g.phase === "objets_vus") premierTour(g); }); }
 const jetonPret = () => jeu.phase === "recap" ? "r" + jeu.mancheId : jeu.objJeu;
-function finPrets(g) { if (g.phase === "objets_vus") premierTour(g); else if (g.phase === "recap") finRecap(g); }
+function finPrets(g) { if (g.phase === "objets_vus") premierTour(g); }
+let finRecapLance = "";
+function verifierFinRecap() {
+  if (!(vue() === "plateau" || test) || jeu?.phase !== "recap" || jeu.statut !== "en_cours" || busy) return;
+  if (annEnCours || annFile.length) return;
+  const tous = jeu.ordre.every(id => jeu.prets?.[id]), delai = Date.now() - (jeu.recapT || 0) >= DELAI_RECAP;
+  if (!tous && !delai) return;
+  if (finRecapLance === jeu.mancheId) return;
+  finRecapLance = jeu.mancheId;
+  agir(g => { if (g.phase === "recap") finRecap(g); });
+}
 function marquerPret(pid) {
   if (test) return agir(g => { if (!["objets_vus", "recap"].includes(g.phase)) return; g.prets = g.prets || {}; g.prets[pid] = true; if (g.ordre.every(x => g.prets[x])) finPrets(g); });
   pretEnvoi = jetonPret();
@@ -4293,7 +4390,7 @@ function planifierDepart() {
   const ph = jeu?.phase;
   if (departTimer || !["objets_vus", "recap"].includes(ph)) return;
   const t0 = ph === "recap" ? jeu.recapT : jeu.revelT, d = ph === "recap" ? DELAI_RECAP : DELAI_REVELATION;
-  departTimer = setTimeout(() => { departTimer = null; if (jeu?.phase === ph) { if (busy) planifierDepart(); else agir(g => { if (g.phase === ph) finPrets(g); }); } }, Math.max(0, d - (Date.now() - (t0 || Date.now()))));
+  departTimer = setTimeout(() => { departTimer = null; if (jeu?.phase === ph) { if (ph === "recap") verifierFinRecap(); else if (busy) planifierDepart(); else agir(g => { if (g.phase === ph) finPrets(g); }); } }, Math.max(0, d - (Date.now() - (t0 || Date.now()))));
 }
 function taureauG(g, pid, cible) {
   const objs = OBJECTIFS.filter(o => g.scores[cible][o.id] > 0);
@@ -4360,7 +4457,7 @@ function finTour(g) {
   g.file = []; g.suite = null; g.des = null;
   if (finisseurs.length && !g.dernierTour) {
     g.dernierTour = true;
-    log(g, `${finisseurs.map(id => g.noms[id]).join(" et ")} a complété ${OBJECTIFS_POUR_FINIR} objectifs : on termine le tour de table.`);
+    log(g, `${finisseurs.map(id => g.noms[id]).join(" et ")} a complété ${OBJECTIFS_POUR_FINIR} objectifs : on termine le tour.`);
   }
   let tour = g.tour + 1, manche = g.manche;
   if (tour >= g.ordre.length) { tour = 0; manche++; if (g.platre) log(g, `Le plâtre a séché : on peut de nouveau gagner des points en ${court(g.platre.o)}.`); g.platre = null; g.tc = {}; }
@@ -4439,6 +4536,7 @@ function debutManche(g) {
   g.tirage = null; g.dieuDuTour = null; g.file = []; g.suite = null; g.des = null;
   g.nTour = (g.nTour || 0) + 1;
   const res = g.reserveProchaine || null; g.reserveProchaine = null; let resUtilisee = false;
+  g.ordre.forEach(id => verifierPull(g, id));
   g.ordre.forEach((pid, idx) => {
     g.tour = idx;
     const bonus = (g.bonus || {})[pid] || 0, pr = (g.prochain || {})[pid] || {}, info = [];
@@ -4585,6 +4683,7 @@ function finManche(g) {
   g.finApresRecap = g.ordre.some(id => g.completes[id].length >= OBJECTIFS_POUR_FINIR);
   if (g.platre) log(g, `Le plâtre a séché : on peut de nouveau gagner des points en ${court(g.platre.o)}.`);
   g.platreRecap = g.platre ? {...g.platre} : null;
+  g.blocRecap = (g.blocages || []).slice(); g.blocages = [];
   g.platre = null; g.tc = {};
   if (g.finApresRecap) {
     log(g, `${g.ordre.filter(id => g.completes[id].length >= OBJECTIFS_POUR_FINIR).map(id => g.noms[id]).join(" et ")} a complété ${OBJECTIFS_POUR_FINIR} objectifs : fin de la partie.`);
@@ -4597,7 +4696,7 @@ function finRecap(g) {
   g.recapFinT = Date.now(); g.manche++; debutManche(g);
 }
 /* --- côté téléphone : plan local, puis envoi --- */
-const plLoc = {};
+const plLoc = {}, recapVuTel = {};
 let planEnvoi = null;
 function planLocal(me) {
   let p = plLoc[me];
@@ -4653,10 +4752,12 @@ function ecranChoix(me, pied) {
   }
   if (p.etape === "dieu") {
     const voitTout = jeu.completes[me].includes("culture"), voit = voitTout || ctx.voirUne;
-    $app.innerHTML = `${titre}<h1>Choisis un dieu</h1>${banniere(me)}<div class="defile">${off.map((o, i) => { const d = dieu(o.dieu); if (o.cache) return `<button class="choix-dieu" data-ci="${i}" aria-label="Choisir le dieu mystère"><div class="carte-dos"><span>Dieu<br>mystère</span></div></button>`; return `<button class="choix-dieu" data-ci="${i}" aria-label="Choisir ${esc(d.nom)}">${DB.carteDieu({nom: esc(d.nom), objs: d.transverse ? [] : d.objs, extra: d.transverse ? domaines(d, o) : "", image: d.image})}${voitTout || (voit && i === 0) || o.visible ? `<span class="carte-vue"><strong>« ${esc(CARTE[o.carte].texte)} »</strong><br><span class="muted">${esc(decrire(CARTE[o.carte]))}</span></span>` : ""}</button>`; }).join("")}</div>
+    $app.innerHTML = `${titre}<h1>Choisis un dieu</h1>${banniere(me)}<div class="defile">${off.map((o, i) => { const d = dieu(o.dieu); if (o.cache && !voitTout) return `<button class="choix-dieu ${p.sel === i ? "selection" : ""}" data-ci="${i}" aria-pressed="${p.sel === i}" aria-label="Sélectionner le dieu mystère"><div class="carte-dos"><span>Dieu<br>mystère</span></div></button>`; return `<button class="choix-dieu ${p.sel === i ? "selection" : ""}" data-ci="${i}" aria-pressed="${p.sel === i}" aria-label="Sélectionner ${esc(d.nom)}">${DB.carteDieu({nom: esc(d.nom), objs: d.transverse ? [] : d.objs, extra: d.transverse ? domaines(d, o) : "", image: d.image})}${voitTout || (voit && i === 0) || o.visible ? `<span class="carte-vue"><strong>« ${esc(CARTE[o.carte].texte)} »</strong><br><span class="muted">${esc(decrire(CARTE[o.carte]))}</span></span>` : ""}</button>`; }).join("")}</div>
       ${relReste > 0 && p.rel.length < ctx.spares.length ? `<p class="small" style="margin:12px 0 6px;display:flex;align-items:center;gap:8px">${jetonIco(26)} Il te reste ${relReste} relance${relReste > 1 ? "s" : ""}. Remplacer un dieu :</p><div class="row">${off.map((o, i) => `<button data-crel="${i}">${jetonIco(22)} ${o.cache ? "Dieu mystère" : esc(dieu(o.dieu).nom)}</button>`).join("")}</div>` : ""}
+      <div class="valider-zone"><button class="primary large" id="vdieu" ${p.sel == null || !off[p.sel] ? "disabled" : ""}>${p.sel == null || !off[p.sel] ? "Touche un dieu pour le choisir" : off[p.sel].cache && !voitTout ? "Valider le dieu mystère" : `Valider ${esc(dieu(off[p.sel].dieu).nom)}`}</button></div>
       <h2>Tes points</h2>${mesScores(me)}${pied}`;
-    $app.querySelectorAll("[data-ci]").forEach(b => b.onclick = () => { if (p.i != null) return; const i = +b.dataset.ci; p.i = i; p.carte = off[i].carte; p.relC = false; p.fc = false; p.etape = off[i].cache ? "mystere" : ctx.deux && off[i].alt ? "deux" : "carte"; rendre(); });
+    $app.querySelectorAll("[data-ci]").forEach(b => b.onclick = () => { if (p.i != null) return; p.sel = +b.dataset.ci; rendre(); });
+    const vd = document.getElementById("vdieu"); if (vd) vd.onclick = () => { if (p.i != null || p.sel == null || !off[p.sel]) return; const i = p.sel; p.i = i; p.carte = off[i].carte; p.relC = false; p.fc = false; p.etape = off[i].cache && !jeu.completes[me].includes("culture") ? "mystere" : ctx.deux && off[i].alt ? "deux" : "carte"; rendre(); };
     $app.querySelectorAll("[data-crel]").forEach(b => b.onclick = () => { DB.son("relance"); p.rel.push(+b.dataset.crel); rendre(); });
     return;
   }
@@ -4674,21 +4775,25 @@ function ecranChoix(me, pied) {
   }
   if (p.etape === "deux") {
     $app.innerHTML = `${titre}<h1>${esc(dieu(o.dieu).nom)} te laisse choisir</h1><p>Tu ne trouves plus tes lunettes : choisis une des deux cartes.</p>
-      <div class="pick">${[o.carte, o.alt].map(id => `<button class="choix-carte" data-cc2="${id}">${carteHtml(id, "")}</button>`).join("")}</div>${pied}`;
-    $app.querySelectorAll("[data-cc2]").forEach(b => b.onclick = () => { p.carte = b.dataset.cc2; p.etape = "carte"; rendre(); });
+      <div class="pick">${[o.carte, o.alt].map(id => `<button class="choix-carte ${p.selc === id ? "selection" : ""}" data-cc2="${id}" aria-pressed="${p.selc === id}">${carteHtml(id, "")}</button>`).join("")}</div>
+      <div class="valider-zone"><button class="primary large" id="vdeux" ${!p.selc ? "disabled" : ""}>${p.selc ? "Valider cette carte" : "Touche une carte pour la choisir"}</button></div>${pied}`;
+    $app.querySelectorAll("[data-cc2]").forEach(b => b.onclick = () => { p.selc = b.dataset.cc2; rendre(); });
+    const v2 = document.getElementById("vdeux"); if (v2) v2.onclick = () => { if (!p.selc) return; p.carte = p.selc; p.etape = "carte"; rendre(); };
     return;
   }
   const cid = p.fc && o.fc ? o.fc : p.relC && o.rc ? o.rc : p.carte, c = CARTE[cid];
   if (p.etape === "carte") {
     const en = entrees(c, me);
     $app.innerHTML = `${titre}<h1>${esc(dieu(o.dieu).nom)} t’accorde…</h1>
-      ${!p.fc && o.fc ? `<div class="defile cartes-choix"><div class="cc-item">${carteHtml(cid, "")}</div><button class="cc-item cc-dos" id="fcarte" aria-label="Prendre la carte face cachée à la place"><div class="carte-dos"><span>?</span></div></button></div>` : carteHtml(cid, "")}${en.h}
-      <div class="row" style="margin-top:14px"><button class="primary" id="vcarte" ${!en.pret ? "disabled" : ""}>Valider</button>${!p.fc && relReste > 0 && o.rc && !p.relC ? `<button id="rcarte">${jetonIco(22)} Relancer la carte (${relReste})</button>` : ""}</div>
+      ${!p.fc && o.fc ? `<div class="defile cartes-choix"><button class="cc-item cc-carte ${!p.selFc ? "selection" : ""}" data-csel="0" aria-pressed="${!p.selFc}">${carteHtml(cid, "")}</button>${jeu.completes[me].includes("culture") ? `<button class="cc-item cc-carte ${p.selFc ? "selection" : ""}" data-csel="1" aria-pressed="${!!p.selFc}" aria-label="Sélectionner l’autre carte">${carteHtml(o.fc, "")}</button>` : `<button class="cc-item cc-dos ${p.selFc ? "selection" : ""}" data-csel="1" aria-pressed="${!!p.selFc}" aria-label="Sélectionner la carte face cachée"><div class="carte-dos"><span>?</span></div></button>`}</div>` : carteHtml(cid, "")}${!p.selFc ? en.h : ""}
+      <div class="row" style="margin-top:14px"><button class="primary" id="vcarte" ${!p.selFc && !en.pret ? "disabled" : ""}>${p.selFc ? (jeu.completes[me].includes("culture") ? "Valider cette carte" : "Valider la carte face cachée") : "Valider"}</button>${!p.fc && relReste > 0 && o.rc && !p.relC ? `<button id="rcarte">${jetonIco(22)} Relancer la carte (${relReste})</button>` : ""}</div>
 ${pied}`;
-    const fcb = document.getElementById("fcarte"); if (fcb) fcb.onclick = () => { p.fc = true; for (const k in p.ui) p.ui[k] = k === "oui" ? null : ""; DB.son("panneau"); rendre(); };
+    $app.querySelectorAll("[data-csel]").forEach(b => b.onclick = () => { p.selFc = b.dataset.csel === "1"; rendre(); });
     lierEntrees();
     const rc = document.getElementById("rcarte"); if (rc) rc.onclick = () => { DB.son("relance"); p.relC = true; rendre(); };
-    document.getElementById("vcarte").onclick = () => { p.inp = inp(); p.etape = "pions"; rendre(); };
+    document.getElementById("vcarte").onclick = () => {
+      if (p.selFc && !p.fc && o.fc) { p.fc = true; p.selFc = false; for (const k in p.ui) p.ui[k] = k === "oui" ? null : ""; DB.son("panneau"); rendre(); return; }
+      p.inp = inp(); p.etape = "pions"; rendre(); };
     return;
   }
   const {sim, lignes} = simulerPlan(me, p), vrai = jeu;
@@ -4706,7 +4811,7 @@ ${pied}`;
     if (l.length) opts += `<div class="card"><strong>${objIco("bateau", 22)} Bateau : vole un point</strong><label for="pvb">Joueur et objectif (facultatif)</label><select id="pvb"><option value="">Personne</option>${l.map(x => { const k = x.id + "|" + x.o; return `<option value="${k}" ${p.volb === k ? "selected" : ""}>${esc(jeu.noms[x.id])} : ${esc(court(x.o))}</option>`; }).join("")}</select></div>`;
   }
   $app.innerHTML = `${titre}<h1>Pose tes pions</h1>
-    <div class="card small"><strong>${esc(dieu(o.dieu).nom)} · « ${esc(c.texte)} »</strong><div class="muted">${esc(decrire(c))}</div>${lignes.length && !p.alea[cleAlea] ? `<div style="margin-top:6px">Effet prévu : ${esc(lignes.join(" "))}</div>` : ""}</div>
+    <div class="card small"><strong>${esc(dieu(o.dieu).nom)} · « ${esc(c.texte)} »</strong><div class="muted">${esc(decrire(c))}</div></div>
     ${opts}${bloc}<div class="row retour-zone"><button id="retour">Revenir à la carte</button></div>${pied}`;
   lierPions();
   $app.querySelectorAll("[data-pcr]").forEach(b => b.onclick = () => { p.crayon = +b.dataset.pcr; for (const k in p.alloc) delete p.alloc[k]; rendre(); });
@@ -4730,7 +4835,8 @@ function carteRecap(pid, i) {
     ${c ? `<div class="rc-bloc"><strong>CARTE</strong><p class="co-cit">« ${esc(c.texte)} »</p><p class="rc-eff">${esc(decrire(c))}</p>
       ${app ? `<p class="rc-app ${app.ok ? "oui" : "non"}">${app.ok ? "Appliquée" : "Sans effet"}</p>` : ""}
       ${app && app.details.length ? `<ul class="rc-det">${app.details.map(x => `<li>${x.pid ? `${pastille(x.pid, 22)} <b>${esc(jeu.noms[x.pid])}</b> ` : ""}${x.d ? x.d.map(([o, n]) => chip(o, n, 18)).join(" ") : esc(x.t)}</li>`).join("")}</ul>` : ""}</div>` : ""}
-    ${jeu.platreBloque?.[pid] > 0 && jeu.platreRecap ? `<div class="rc-bloc rc-platre"><strong>PLÂTRE</strong><p class="rc-pal">${DB.icone("cadenas", 24)}${DB.icone(jeu.platreRecap.o, 24)} <span>${jeu.platreBloque[pid]} point${jeu.platreBloque[pid] > 1 ? "s" : ""} bloqué${jeu.platreBloque[pid] > 1 ? "s" : ""}${jeu.platreRecap.par ? ` par la carte de ${esc(jeu.noms[jeu.platreRecap.par] || "")}` : ""}</span></p></div>` : ""}
+    ${(() => { const n = jeu.platreBloque?.[pid] || 0, src = [...(jeu.platreRecap ? [jeu.platreRecap] : []), ...(jeu.blocRecap || [])]; if (!n || !src.length) return "";
+      return `<div class="rc-bloc rc-platre"><strong>POINTS BLOQUÉS</strong><p class="rc-pal">${DB.icone("cadenas", 24)}${src.map(x => DB.icone(x.o, 24)).join("")} <span>${n} point${n > 1 ? "s" : ""} bloqué${n > 1 ? "s" : ""} (${src.map(x => x.cid ? `carte de ${esc(jeu.noms[x.par] || "")}` : `bonheur de ${esc(jeu.noms[x.par] || "")}`).join(", ")})</span></p></div>`; })()}
     ${(() => { const pn = n => `${n > 0 ? "+" : "−"}${Math.abs(n)} pion${Math.abs(n) > 1 ? "s" : ""}`, l = [];
       (jeu.bonusRaisons?.[pid] || []).forEach(x => l.push([x.n > 0 ? "plus" : "moins", x.n > 0 ? "gain" : "perte", `${pn(x.n)} : ${x.t}`]));
       if (jeu.sonne?.[pid]) l.push(["moins", "obj-cloche", `Sonné${jeu.sonnePar?.[pid] ? " par " + jeu.noms[jeu.sonnePar[pid]] : ""} : pas de pions`]);
@@ -4739,10 +4845,269 @@ function carteRecap(pid, i) {
       if (pr.voir) l.push(["plus", "oeil", "Verra la carte d’un des dieux"]);
       if (pr.meme) l.push(["info", "lignee", "Même choix de dieux"]);
       if (pr.deux) l.push(["info", "oeil", "Choisira entre deux cartes"]);
+      if (jeu.pullT?.[pid] === jeu.nTour) l.push(["plus", "obj-pull", "Pull troué devenu carte permanente : +1 pion à chaque tour"]);
       return l.length ? `<div class="rc-bloc rc-prochain"><strong>AU PROCHAIN TOUR</strong>${l.map(([t, ic, x]) => `<p class="rc-pal rc-${t}">${DB.icone(ic, 22)} <span>${esc(x)}</span></p>`).join("")}</div>` : ""; })()}
     ${pal.length ? `<div class="rc-bloc"><strong>BONUS DE PARCOURS</strong>${pal.map(a => { const e = EFFETS_OBJECTIFS[a.obj]; return `<p class="rc-pal">${DB.icone(a.mi ? "mi-parcours" : "laurier", 24)}${DB.icone(a.obj, 24)} <span>${a.mi ? `« ${esc(e.nomMi)} »${a.res ? ` : ${esc(a.res)}` : ""}` : `« ${esc(e.detail)} »${a.res && !/^En attente/.test(a.res) ? ` : ${esc(a.res)}` : ""}`}</span></p>`; }).join("")}</div>` : ""}
   </article>`;
 }
+/* ---------- Mini-jeux du bonus de parcours de Jeux (à 8) ---------- */
+const MJ = {
+  vase:   {nom: "Le vase romain", consigne: "Tape sur ton vase : le premier à le casser gagne !", max: 25000},
+  pieces: {nom: "La pluie de drachmes", consigne: "Attrape le plus de pièces possible en 20 secondes !", duree: 20000, max: 21500},
+  barque: {nom: "La course de barques", consigne: "Rame à gauche puis à droite, en rythme : le premier arrivé gagne !", max: 40000}
+};
+const MJ_DECOMPTE = 3000, MJ_COUPS = 40;
+let mjLoc = null, mjProg = {}, mjTicker = null, mjSnapT = 0, mjFinLance = "", mjLanceCle = "", mjResolLance = "", mjPilesVu = "";
+
+function vaseSvg(e, t) {
+  const ink = "#2a2118", terre = "#c4683a", ombre = "#8e4422";
+  if (e >= 4) return `<svg viewBox="0 0 100 140" width="${t}" height="${t * 1.4}" role="img" aria-label="vase cassé">
+    <ellipse cx="50" cy="128" rx="44" ry="8" fill="#000" opacity=".12"/>
+    <path d="M14 126l10-18 14 4-4 14z" fill="${terre}" stroke="${ink}" stroke-width="2.2" stroke-linejoin="round"/>
+    <path d="M40 128l6-22 16 2 2 20z" fill="${ombre}" stroke="${ink}" stroke-width="2.2" stroke-linejoin="round"/>
+    <path d="M66 126l4-16 16 8-6 10z" fill="${terre}" stroke="${ink}" stroke-width="2.2" stroke-linejoin="round"/>
+    <path d="M30 112l8-10 8 6-6 8z" fill="${terre}" stroke="${ink}" stroke-width="2" stroke-linejoin="round"/>
+    <path d="M60 104l10-4 4 8-10 2z" fill="${ombre}" stroke="${ink}" stroke-width="2" stroke-linejoin="round"/>
+    <path d="M44 110h10" stroke="${ink}" stroke-width="2.4"/><path d="M18 120l6 -6M70 116l8 4" stroke="#2a2118" stroke-width="1.6" stroke-dasharray="3 3"/></svg>`;
+  const fis = [
+    "",
+    `<path d="M58 52l-5 9 6 7-4 9" fill="none" stroke="${ink}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>`,
+    `<path d="M36 70l7 6-3 9 6 6" fill="none" stroke="${ink}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M62 84l-6 7 5 6-3 8" fill="none" stroke="${ink}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>`,
+    `<path d="M44 46l9 4-2 6 8 3-3 7z" fill="#5a2a12" stroke="${ink}" stroke-width="2" stroke-linejoin="round"/><path d="M30 92l9 3 2 8 7 4M66 66l6 6-2 8 6 6" fill="none" stroke="${ink}" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>`
+  ];
+  return `<svg viewBox="0 0 100 140" width="${t}" height="${t * 1.4}" role="img" aria-label="vase romain">
+    <ellipse cx="50" cy="132" rx="26" ry="5" fill="#000" opacity=".12"/>
+    <path d="M30 26c-14 2-16 18-6 24M70 26c14 2 16 18 6 24" fill="none" stroke="${ink}" stroke-width="6" stroke-linecap="round"/>
+    <path d="M30 26c-14 2-16 18-6 24M70 26c14 2 16 18 6 24" fill="none" stroke="${terre}" stroke-width="3" stroke-linecap="round"/>
+    <path d="M38 10h24v6c0 4-4 6-4 10 0 6 22 14 22 44 0 30-14 50-30 58-16-8-30-28-30-58 0-30 22-38 22-44 0-4-4-6-4-10z" fill="${terre}" stroke="${ink}" stroke-width="2.6" stroke-linejoin="round"/>
+    <path d="M24 66h52v12H24z" fill="${ink}"/><path d="M27 75v-6h5v4h4v-6h5v6h4v-4h5v6h4v-6h5v4h4v-4h5v6" fill="none" stroke="#e6b886" stroke-width="1.4"/>
+    <path d="M38 10h24" stroke="${ink}" stroke-width="4" stroke-linecap="round"/>
+    <path d="M34 40c-6 8-8 18-8 26" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" opacity=".35"/>
+    <path d="M64 92c4-6 7-12 8-18" fill="none" stroke="${ombre}" stroke-width="4" stroke-linecap="round" opacity=".5"/>
+    ${fis.slice(1, e + 1).join("")}</svg>`;
+}
+function pieceOrSvg(t) {
+  return `<svg viewBox="0 0 48 48" width="${t}" height="${t}" aria-hidden="true"><circle cx="24" cy="25" r="21" fill="#8a6512" opacity=".35"/><circle cx="24" cy="23" r="21" fill="#e0b13a" stroke="#6b4a0c" stroke-width="2.4"/><circle cx="24" cy="23" r="16" fill="none" stroke="#fff3c4" stroke-width="1.5" opacity=".8"/><g transform="translate(12 11) scale(.5)">${DB.icones.laurier}</g><path d="M11 14a15 15 0 0 1 8-6" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" opacity=".6"/></svg>`;
+}
+function bateauSvg(c, t) {
+  return `<svg viewBox="0 0 64 32" width="${t}" height="${t / 2}" aria-hidden="true"><path d="M4 16h56l-8 11H12z" fill="#8a5e38" stroke="#2a2118" stroke-width="2" stroke-linejoin="round"/><path d="M8 16h48" stroke="${c}" stroke-width="4"/><circle cx="32" cy="10" r="5" fill="${c}" stroke="#2a2118" stroke-width="1.6"/><path d="M20 20L10 30M44 20l10 10" stroke="#5a3b1c" stroke-width="2.4" stroke-linecap="round"/></svg>`;
+}
+const mjAutre = pid => test ? (mjProg[pid] || {}) : (jeu.mj?.prog?.[pid] || {});
+function mjClassement(m, prog) {
+  const p = id => prog[id] || {v: 0};
+  return jeu.ordre.slice().sort((a, b) => m.jeu === "pieces" ? (p(b).v || 0) - (p(a).v || 0)
+    : (p(b).fin ? 1 : 0) - (p(a).fin ? 1 : 0) || (p(a).fin ? (p(a).t || 0) - (p(b).t || 0) : (p(b).v || 0) - (p(a).v || 0)));
+}
+
+/* --- plateau : lancement, suivi en direct, fin --- */
+function mjVerifierLancement() {
+  if (!(vue() === "plateau" || test) || !jeu || jeu.statut !== "en_cours" || jeu.phase !== "completion" || busy) return;
+  const f = jeu.file?.[0];
+  if (!f?.minijeu || jeu.mj) return;
+  const cle = jeu.mancheId + "|" + jeu.file.length + "|" + f.pid + "|" + (jeu.journal || []).length;
+  if (mjLanceCle === cle) return;
+  mjLanceCle = cle;
+  agir(g => {
+    const f0 = g.file[0]; if (!f0?.minijeu || g.mj) return;
+    const l = Object.keys(MJ).filter(k => k !== g.mjDernier), choix = MJ[window.MJ_FORCE] ? window.MJ_FORCE : l[Math.floor(Math.random() * l.length)];
+    g.mj = {id: Math.random().toString(36).slice(2, 9), jeu: choix, par: f0.pid, debut: Date.now(), etat: "en_cours", prog: {}};
+    g.mjDernier = choix;
+    log(g, `${g.noms[f0.pid]} lance le mini-jeu « ${MJ[choix].nom} » !`);
+  });
+}
+function mjDemarrerTicker() { if (!mjTicker) mjTicker = setInterval(mjTick, 200); }
+function mjSnapshot() { const s = {}; jeu.ordre.forEach(id => { const p = mjProg[id]; if (p) s[id] = {v: p.v || 0, fin: !!p.fin, t: p.t || 0}; }); return s; }
+function mjBot(id, el) {
+  const p = mjProg[id] = mjProg[id] || {v: 0, fin: false, t: 0, vit: .55 + Math.random() * .5};
+  if (el < 0 || p.fin) return;
+  const j = jeu.mj.jeu;
+  if (j === "vase") { p.v = Math.min(MJ_COUPS, Math.floor(el / 1000 * 5.5 * p.vit)); if (p.v >= MJ_COUPS) { p.fin = true; p.t = el; } }
+  else if (j === "pieces") { p.v = Math.floor(Math.min(el, 20000) / 1000 * 1.3 * p.vit); if (el >= 20000) p.fin = true; }
+  else { p.v = Math.min(100, el / 1000 * 7 * p.vit); if (p.v >= 100) { p.fin = true; p.t = el; } }
+}
+function mjTick() {
+  const m = jeu?.mj;
+  if (!m || m.etat !== "en_cours" || jeu.statut !== "en_cours") { clearInterval(mjTicker); mjTicker = null; return; }
+  if (mjProg._id !== m.id) mjProg = {_id: m.id, _t0: Date.now()};
+  const el = Date.now() - mjProg._t0 - MJ_DECOMPTE;
+  if (test) jeu.ordre.forEach(id => { if (id !== testVue) mjBot(id, el); });
+  else joueursLobby.forEach(j => { if (j.mj?.id === m.id && jeu.ordre.includes(j.id)) mjProg[j.id] = {...j.mj}; });
+  mjMajPlateau();
+  if (!test && Date.now() - mjSnapT > 1000 && !busy) { mjSnapT = Date.now(); const snap = mjSnapshot(); agir(g => { if (g.mj?.id === m.id && g.mj.etat === "en_cours") g.mj.prog = snap; }); }
+  const p = id => mjProg[id] || {};
+  let finir = el >= MJ[m.jeu].max || jeu.ordre.every(id => p(id).fin);
+  if (m.jeu !== "pieces" && jeu.ordre.some(id => p(id).fin)) { mjProg._premier = mjProg._premier || Date.now(); if (Date.now() - mjProg._premier > 1200) finir = true; }
+  if (!finir || mjFinLance === m.id || busy) return;
+  mjFinLance = m.id;
+  const prog = mjSnapshot(), cl = mjClassement(m, prog), tete = cl[0], pt = prog[tete] || {};
+  let gagnant = (m.jeu === "pieces" ? (pt.v || 0) > 0 : pt.fin || (pt.v || 0) > 0) ? tete : null;
+  if (gagnant && m.jeu === "pieces") { const top = cl.filter(id => (prog[id]?.v || 0) === (pt.v || 0)); if (top.includes(m.par)) gagnant = m.par; }
+  agir(g => {
+    if (g.mj?.id !== m.id || g.mj.etat !== "en_cours") return;
+    let txt = "personne ne gagne";
+    if (gagnant) { const x = ajouter(g, gagnant, "jeux", gagnant === g.mj.par ? 4 : 1); txt = `${g.noms[gagnant]} gagne (${fait(x, "jeux")})`; }
+    Object.assign(g.mj, {etat: "fini", prog, gagnant, gain: txt, finT: Date.now()});
+    log(g, `${MJ[g.mj.jeu].nom} : ${txt}.`);
+    if (!g.file[0]?.manette) annoncerMi(g, g.mj.par, "jeux", `${MJ[g.mj.jeu].nom} : ${txt}`);
+  });
+}
+function mjMajPlateau() {
+  const m = jeu?.mj, st = document.getElementById("mj-plateau");
+  if (!m || !st || m.etat !== "en_cours") return;
+  const el = Date.now() - (mjProg._t0 || Date.now()) - MJ_DECOMPTE, dec = document.getElementById("mjp-dec");
+  if (dec) { dec.textContent = el < 0 ? Math.ceil(-el / 1000) : ""; dec.classList.toggle("on", el < 0); }
+  const tps = document.getElementById("mjp-temps");
+  if (tps && m.jeu === "pieces") tps.textContent = el < 0 ? "" : `${Math.max(0, Math.ceil((20000 - el) / 1000))} s`;
+  jeu.ordre.forEach(id => {
+    const p = mjProg[id] || {v: 0}, bloc = st.querySelector(`[data-mjp="${id}"]`);
+    if (!bloc) return;
+    if (m.jeu === "vase") { const e = p.fin ? 4 : Math.min(3, Math.floor((p.v || 0) / 10)); if (bloc.dataset.e !== String(e)) { bloc.dataset.e = e; bloc.querySelector(".mjp-img").innerHTML = vaseSvg(e, 120); } bloc.querySelector(".mjp-v").textContent = p.fin ? "Cassé !" : `${p.v || 0} / ${MJ_COUPS}`; }
+    else if (m.jeu === "pieces") bloc.querySelector(".mjp-v").textContent = p.v || 0;
+    else { bloc.querySelector(".mj-bateau").style.left = `calc(${Math.min(100, p.v || 0)}% * .86)`; }
+  });
+}
+function mjPlateauHtml(m) {
+  const lignes = jeu.ordre.map(id => {
+    if (m.jeu === "vase") return `<div class="mjp-vase" data-mjp="${id}" data-e="0" style="--c:${couleur(id)}"><div class="mjp-img">${vaseSvg(0, 120)}</div><b>${pastille(id, 28)} ${esc(jeu.noms[id])}</b><span class="mjp-v">0 / ${MJ_COUPS}</span></div>`;
+    if (m.jeu === "pieces") return `<div class="mjp-piece" data-mjp="${id}" style="--c:${couleur(id)}">${pieceOrSvg(56)}<span class="mjp-v">0</span><b>${pastille(id, 28)} ${esc(jeu.noms[id])}</b></div>`;
+    return `<div class="mj-ligne grande" data-mjp="${id}" style="--c:${couleur(id)}"><span class="mj-nom">${pastille(id, 26)} ${esc(jeu.noms[id])}</span><span class="mj-bateau" style="left:0">${bateauSvg(couleur(id), 92)}</span></div>`;
+  }).join("");
+  return `<div class="mjp"><h2 class="revele-t">${esc(MJ[m.jeu].nom)}</h2><p class="mjp-sous">Mini-jeu lancé par <strong>${esc(jeu.noms[m.par])}</strong> : s’il gagne, +4 en Jeux ; si un autre gagne, il prend +1 en Jeux.</p>
+    <p class="mjp-consigne">${esc(MJ[m.jeu].consigne)} <span id="mjp-temps"></span></p>
+    <div class="mjp-scene mjs-${m.jeu}">${m.jeu === "barque" ? `<div class="mj-riviere grande">${lignes}<span class="mj-arrivee"></span></div>` : lignes}</div>
+    <div class="mjp-dec" id="mjp-dec"></div></div>`;
+}
+function mjResultatsHtml(m, tel) {
+  const cl = mjClassement(m, m.prog || {}), p = id => (m.prog || {})[id] || {v: 0};
+  const val = id => m.jeu === "vase" ? (p(id).fin ? `cassé en ${(p(id).t / 1000).toFixed(1)} s` : `${p(id).v} / ${MJ_COUPS} coups`) : m.jeu === "pieces" ? `${p(id).v} pièce${p(id).v > 1 ? "s" : ""}` : (p(id).fin ? `arrivé en ${(p(id).t / 1000).toFixed(1)} s` : `${Math.round(p(id).v)} % du parcours`);
+  const img = id => m.jeu === "vase" ? vaseSvg(p(id).fin ? 4 : Math.min(3, Math.floor(p(id).v / 10)), tel ? 34 : 110) : m.jeu === "pieces" ? (tel ? pieceOrSvg(30) : `<span class="mjr-pile" data-pile="${id}" data-n="${p(id).v}"></span>`) : bateauSvg(couleur(id), tel ? 40 : 80);
+  return `<div class="mjr ${tel ? "mjr-tel" : ""}"><h2 class="revele-t">${esc(MJ[m.jeu].nom)}</h2>
+    <div class="mjr-liste">${cl.map((id, i) => `<div class="mjr-l ${id === m.gagnant ? "gagne" : ""}" style="--c:${couleur(id)}"><span class="mjr-rang">${id === m.gagnant ? DB.icone("laurier", 30) : i + 1}</span><span class="mjr-img">${img(id)}</span>${pastille(id, tel ? 30 : 40)}<span class="mjr-nom">${esc(jeu.noms[id])}</span><span class="mjr-val" ${m.jeu === "pieces" && !tel ? `data-compte="${id}"` : ""}>${m.jeu === "pieces" && !tel ? "0 pièce" : val(id)}</span></div>`).join("")}</div>
+    <p class="mjr-gain">${esc(m.gain ? m.gain.charAt(0).toUpperCase() + m.gain.slice(1) : "")} !</p></div>`;
+}
+function mjPilesAnimer(m) {
+  const esp = Math.min(5, 130 / Math.max(1, ...Object.values(m.prog || {}).map(x => x.v || 0)));
+  if (mjPilesVu === m.id) { document.querySelectorAll("#mj-plateau [data-pile]").forEach(e => { const n = +e.dataset.n; e.innerHTML = Array.from({length: n}, (_, k) => `<i style="bottom:${k * esp}px"></i>`).join(""); }); document.querySelectorAll("[data-compte]").forEach(e => { const n = (m.prog?.[e.dataset.compte]?.v) || 0; e.textContent = `${n} pièce${n > 1 ? "s" : ""}`; }); return; }
+  mjPilesVu = m.id;
+  let k = 0;
+  const max = Math.max(0, ...Object.values(m.prog || {}).map(x => x.v || 0));
+  const tic = () => {
+    if (!document.getElementById("mj-plateau")) return;
+    k++;
+    document.querySelectorAll("#mj-plateau [data-pile]").forEach(e => { const n = +e.dataset.n; if (k <= n) { const c = document.createElement("i"); c.style.bottom = (k - 1) * esp + "px"; e.appendChild(c); } });
+    document.querySelectorAll("[data-compte]").forEach(e => { const n = Math.min(k, (m.prog?.[e.dataset.compte]?.v) || 0); e.textContent = `${n} pièce${n > 1 ? "s" : ""}`; });
+    if (k % 3 === 0) DB.son("pion");
+    if (k < max) setTimeout(tic, 110);
+    else document.querySelector(".mjr")?.classList.add("revele");
+  };
+  if (max) setTimeout(tic, 400); else document.querySelector(".mjr")?.classList.add("revele");
+}
+function mjPlanifierSuite(m) {
+  if (mjResolLance === m.id) return;
+  mjResolLance = m.id;
+  const max = Math.max(0, ...Object.values(m.prog || {}).map(x => x.v || 0));
+  const d = m.jeu === "pieces" ? 4500 + max * 110 : 6500;
+  setTimeout(function go() { if (busy) return setTimeout(go, 300); agir(g => { if (g.mj?.id === m.id && g.mj.etat === "fini") { g.mj = null; resolu(g); } }); }, d);
+}
+
+/* --- téléphone --- */
+function mjEnvoyer(me, L, force) {
+  const d = {id: L.id, v: Math.round(L.v * 10) / 10, fin: L.fin, t: L.t};
+  if (test) { mjProg[me] = d; return; }
+  const now = Date.now();
+  if (!force && now - (L.envoiT || 0) < 600) { if (!L.envoiPrevu) { L.envoiPrevu = true; setTimeout(() => { L.envoiPrevu = false; mjEnvoyer(me, L, true); }, 650); } return; }
+  L.envoiT = now;
+  try { Promise.resolve(db.doc("parties/" + code + "/joueurs/" + me).set({nom: jeu.noms[me], arrivee: Date.now(), objet: jeu.objets?.[me] || "", objJeu: jeu.objJeu, mj: d})).catch(() => {}); } catch (e) {}
+}
+function ecranMiniJeu(me, pied) {
+  const m = jeu.mj, sc = document.getElementById("mj-scene");
+  if (m.etat === "fini") {
+    if (sc && sc.dataset.id === m.id && sc.dataset.etat === "fini") return true;
+    $app.innerHTML = `<div id="mj-scene" data-id="${m.id}" data-etat="fini">${mjResultatsHtml(m, true)}</div>${pied}`;
+    return false;
+  }
+  if (sc && sc.dataset.id === m.id && sc.dataset.etat === "en_cours") { mjMajBateaux(me); return true; }
+  if (!mjLoc || mjLoc.id !== m.id) mjLoc = {id: m.id, jeu: m.jeu, recu: Date.now(), v: 0, fin: false, t: 0};
+  $app.innerHTML = `<div id="mj-scene" data-id="${m.id}" data-etat="en_cours"><h1 class="mj-titre">${esc(MJ[m.jeu].nom)}</h1><p class="mj-consigne">${esc(MJ[m.jeu].consigne)}</p><div class="mj-zone" id="mj-zone"></div></div>${pied}`;
+  setTimeout(() => mjLancerTel(me), 0);
+  return false;
+}
+function mjLancerTel(me) {
+  const L = mjLoc, debut = L.recu + MJ_DECOMPTE;
+  const dec = () => {
+    const z = document.getElementById("mj-zone");
+    if (mjLoc !== L || !z) return;
+    const r = debut - Date.now();
+    if (r > 0) { const n = Math.ceil(r / 1000); if (z.dataset.n !== String(n)) { z.dataset.n = n; z.innerHTML = `<div class="mj-decompte">${n}</div>`; DB.son("tour"); } setTimeout(dec, 100); return; }
+    L.debut = debut; z.dataset.n = ""; MJ_TEL[L.jeu](me, z, L);
+  };
+  dec();
+}
+function mjMajBateaux(me) {
+  const L = mjLoc;
+  document.querySelectorAll("#mj-scene [data-mjb]").forEach(e => { const id = e.dataset.mjb, v = id === me ? L?.v || 0 : mjAutre(id).v || 0; e.querySelector(".mj-bateau").style.left = `calc(${Math.min(100, v)}% * .82)`; });
+}
+const MJ_TEL = {
+  vase(me, z, L) {
+    const etat = () => L.fin ? 4 : Math.min(3, Math.floor(L.v / 10));
+    z.innerHTML = `<button class="mj-vase" id="mjv" aria-label="Taper sur le vase">${vaseSvg(etat(), 200)}</button><div class="mj-compteur" id="mjc">${L.fin ? "Cassé !" : `${L.v} / ${MJ_COUPS}`}</div>`;
+    const b = document.getElementById("mjv");
+    b.onpointerdown = e => {
+      e.preventDefault();
+      if (L.fin || Date.now() - L.debut > MJ.vase.max) return;
+      const avant = etat(); L.v++;
+      if (L.v >= MJ_COUPS) { L.fin = true; L.t = Date.now() - L.debut; DB.son("perte"); }
+      else DB.son("pion");
+      if (etat() !== avant) b.innerHTML = vaseSvg(etat(), 200);
+      b.classList.remove("choc"); void b.offsetWidth; b.classList.add("choc");
+      document.getElementById("mjc").textContent = L.fin ? "Cassé !" : `${L.v} / ${MJ_COUPS}`;
+      mjEnvoyer(me, L, L.fin);
+    };
+  },
+  pieces(me, z, L) {
+    z.innerHTML = `<div class="mj-temps" id="mjt"></div><div class="mj-aire" id="mja"></div><div class="mj-compteur" id="mjc">${L.v} pièce${L.v > 1 ? "s" : ""}</div>`;
+    const fin = L.debut + MJ.pieces.duree;
+    const spawn = () => {
+      const aire = document.getElementById("mja");
+      if (mjLoc !== L || !aire) return;
+      const r = fin - Date.now();
+      document.getElementById("mjt").textContent = r > 0 ? `${Math.ceil(r / 1000)} s` : "Terminé";
+      if (r <= 0) { if (!L.fin) { L.fin = true; mjEnvoyer(me, L, true); } aire.innerHTML = `<p class="mj-fini">Terminé !</p>`; return; }
+      const c = document.createElement("button");
+      c.className = "mj-piece"; c.style.left = (4 + Math.random() * 72) + "%"; c.style.top = (4 + Math.random() * 72) + "%"; c.innerHTML = pieceOrSvg(56); c.setAttribute("aria-label", "pièce");
+      c.onpointerdown = e => { e.preventDefault(); if (c.dataset.pris) return; c.dataset.pris = "1"; L.v++; c.classList.add("pris"); DB.son("pion");
+        document.getElementById("mjc").textContent = `${L.v} pièce${L.v > 1 ? "s" : ""}`; mjEnvoyer(me, L); setTimeout(() => c.remove(), 260); };
+      aire.appendChild(c);
+      setTimeout(() => { if (!c.dataset.pris) c.remove(); }, 900);
+      setTimeout(spawn, 360 + Math.random() * 280);
+    };
+    spawn();
+  },
+  barque(me, z, L) {
+    z.innerHTML = `<div class="mj-riviere">${jeu.ordre.map(id => `<div class="mj-ligne ${id === me ? "moi" : ""}" data-mjb="${id}" style="--c:${couleur(id)}"><span class="mj-nom">${esc(jeu.noms[id])}</span><span class="mj-bateau">${bateauSvg(couleur(id), 54)}</span></div>`).join("")}<span class="mj-arrivee"></span></div>
+      <div class="mj-retour" id="mjf">${L.fin ? "Arrivé !" : "Rame !"}</div>
+      <div class="mj-rames"><button class="mj-rame" data-cote="g">Gauche</button><button class="mj-rame" data-cote="d">Droite</button></div>`;
+    mjMajBateaux(me);
+    const iv = setInterval(() => { if (mjLoc !== L || !document.getElementById("mjf")) return clearInterval(iv); mjMajBateaux(me); }, 300);
+    z.querySelectorAll("[data-cote]").forEach(b => b.onpointerdown = e => {
+      e.preventDefault();
+      if (L.fin || Date.now() - L.debut > MJ.barque.max) return;
+      const now = Date.now(), cote = b.dataset.cote, f = document.getElementById("mjf");
+      b.classList.remove("coup"); void b.offsetWidth; b.classList.add("coup");
+      if (L.cote === cote) { L.v = Math.max(0, L.v - 1); f.textContent = "Alterne gauche et droite !"; f.className = "mj-retour mal"; }
+      else {
+        const iv2 = L.dernier ? now - L.dernier : 450, q = Math.max(.15, 1 - Math.abs(iv2 - 450) / 450);
+        L.v = Math.min(100, L.v + (L.dernier ? 3.4 * q : 1.5));
+        f.textContent = q > .8 ? "Parfait !" : q > .5 ? "Bien" : iv2 < 450 ? "Trop vite" : "Trop lent"; f.className = "mj-retour " + (q > .8 ? "top" : q > .5 ? "bien" : "mal");
+        DB.son("pion");
+      }
+      L.cote = cote; L.dernier = now;
+      if (L.v >= 100) { L.fin = true; L.t = now - L.debut; f.textContent = "Arrivé !"; f.className = "mj-retour top"; DB.son("objectif"); }
+      mjMajBateaux(me); mjEnvoyer(me, L, L.fin);
+    });
+  }
+};
+
 /* ---------- Dés ---------- */
 const desVus = new Set();
 const PIPS = {1: [[24, 24]], 2: [[14, 14], [34, 34]], 3: [[14, 14], [24, 24], [34, 34]], 4: [[14, 14], [34, 14], [14, 34], [34, 34]], 5: [[14, 14], [34, 14], [24, 24], [14, 34], [34, 34]], 6: [[14, 13], [34, 13], [14, 24], [34, 24], [14, 35], [34, 35]]};
@@ -4818,6 +5183,8 @@ function animerDe() {
 function texteFile(f) {
   if (f.de4) return "lance le dé à 4 faces";
   if (f.piece) return "lance la pièce du Fusil à harpon";
+  if (f.minijeu) return "lance un mini-jeu pour tout le monde";
+  if (f.bloque) return "choisit l’objectif bloqué pour tous ce tour";
   if (f.obj === "jeux" && !f.mi && jeu.des && jeu.des.pid === f.pid && jeu.des.gain == null) return `a parié ${esc(jeu.des.choix)} : chaque joueur lance son dé`;
   return f.taureau ? "choisit qui charger avec son taureau " : f.blocage ? `décide s’il bloque l’action de ${esc(jeu.noms[f.auteur])} avec Psychorigide` : f.mi ? `atteint ${SEUIL_MI_PARCOURS} en ${esc(court(f.obj))} et applique « ${esc(EFFETS_OBJECTIFS[f.obj].nomMi)} »` : `applique l’effet de fin de ${esc(court(f.obj))}`;
 }
@@ -5015,7 +5382,7 @@ const sauver = g => db.doc("parties/" + code).set(g);
 async function agir(fn) { await ecrire(async () => { const g = clone(jeu); fn(g); if (test) recevoir(g); else await sauver(g); }); }
 /* Version du déroulé : une partie lancée avec l’ancien déroulé (tour par tour) est convertie en tours simultanés par le plateau,
    et un téléphone resté sur une ancienne copie de la page est invité à la recharger. */
-const VERSION_JEU = "simultane-3";
+const VERSION_JEU = "simultane-4";
 let migrationFaite = false;
 function migrer() {
   if (migrationFaite || vue() !== "plateau" || test || !jeu || jeu.statut !== "en_cours" || busy) return;
@@ -5124,17 +5491,25 @@ function animerPions() {
   const cle = jeu.recapManche + "|" + jeu.recapFinT;
   if (animPFaite === cle) return;
   animPFaite = cle;
-  if (Date.now() - jeu.recapFinT > 20000) return;
+  const vider = () => { complAttente.forEach(a => annFile.push({fn: () => popupComplete(a), duree: 4200})); complAttente = []; setTimeout(montrerAnnonce, 300); };
+  if (Date.now() - jeu.recapFinT > 20000) { vider(); return; }
   let max = 0;
   jeu.ordre.forEach(pid => OBJECTIFS.forEach(o => { max = Math.max(max, Math.abs((jeu.scores[pid]?.[o.id] || 0) - (jeu.recapAvant[pid]?.[o.id] ?? 0))); }));
-  if (!max) return;
-  animP = {from: jeu.recapAvant, step: 0, max};
+  if (!max) { vider(); return; }
+  const from = jeu.recapAvant;
+  const arrivees = complAttente.map(a => ({a, step: MAX_PAR_OBJECTIF - (from[a.pid]?.[a.obj] ?? 0)})).filter(x => x.step >= 1 && x.step <= max);
+  complAttente = complAttente.filter(a => !arrivees.some(x => x.a === a));
+  animP = {from, step: 0, max};
   majRoue();
+  const suite = () => { if (animP.step >= animP.max) { animP = null; rendre(); vider(); } else setTimeout(tic, 420); };
   const tic = () => {
     if (!animP) return;
     animP.step++; majRoue(); DB.son("pion");
-    if (animP.step >= animP.max) { animP = null; rendre(); setTimeout(montrerAnnonce, 300); }
-    else setTimeout(tic, 420);
+    const ici = arrivees.filter(x => x.step === animP.step);
+    if (!ici.length) return suite();
+    let k = 0;
+    const prochain = () => { if (k >= ici.length) return suite(); popupComplete(ici[k++].a, prochain); };
+    setTimeout(prochain, 300);
   };
   setTimeout(tic, 700);
 }
@@ -5179,7 +5554,8 @@ function effetsActifs(pid) {
   const r = jeu.phase === "choix" && jeu.ctx?.[pid] ? jeu.ctx[pid].nbRel : relancesDispo(jeu, pid);
   if (r) { const rs = (jeu.relancesSrc?.[pid] || []).filter(Boolean); const fc = (jeu.actives?.[pid] || []).find(a => CARTE[a.c].e.t === "perso_frisbee");
     l.push(["bonus", `Tu as ${r} relance${r > 1 ? "s" : ""} : tu peux remplacer un dieu proposé, ou ta carte.`, `${r} relance${r > 1 ? "s" : ""}`, "relance", false, rs.length ? rs : fc ? {carte: fc.c} : null]); }
-  if (jeu.completes[pid].includes("culture")) l.push(["bonus", "Culture complétée : tu vois les cartes des dieux proposés (sauf le dieu mystère).", "Voit les cartes", "oeil", false, {fin: "culture"}]);
+  if (jeu.completes[pid].includes("culture")) l.push(["bonus", "Culture complétée : les cartes et les dieux face cachée t’apparaissent face visible.", "Voit tout", "oeil", false, {fin: "culture"}]);
+  (jeu.blocages || []).forEach(x => l.push(["malus", `Personne ne gagne de points en ${court(x.o)} pendant ce tour.`, "Bloqué", x.o, false, {mi: "bonheur", par: x.par}]));
   if (jeu.platre) l.push(["malus", `Plâtre : personne ne gagne de points en ${court(jeu.platre.o)} pendant ce tour.`, "Plâtre", jeu.platre.o, false, jeu.platre.cid ? {carte: jeu.platre.cid, par: jeu.platre.par} : null]);
   if (!monTour || jeu.phase === "choix") {
     const b = jeu.bonus?.[pid] || 0, pr = jeu.prochain?.[pid] || {}, rs = jeu.bonusRaisons?.[pid] || [];
@@ -5210,7 +5586,7 @@ function courtCarte(c) {
   switch (e.t) {
     case "par_tour": return `+${e.n} chaque tour`;
     case "pion_x2_perm": return "Pions ×2";
-    case "obj_jeton": return "+1 pion par tour";
+    case "obj_jeton": return c.id === "objet-pull" ? "Pull : +1 pion" : "+1 pion par tour";
     case "obj_vol": return "Vol d’1 point";
     case "perso_frisbee": return "Relance par tour";
     case "jeanne_suit": return "Suit Jeanne";
@@ -5223,7 +5599,7 @@ function courtCarte(c) {
 }
 function etatItems(pid) {
   const it = [], id = jeu.objets?.[pid];
-  if (id) it.push({k: "objet", type: "objet", ic: objIco(id, 20), court: "Mon objet"});
+  if (id && !(id === "pull" && jeu.objetUtilise?.[pid])) it.push({k: "objet", type: "objet", ic: objIco(id, 20), court: "Mon objet"});
   (jeu.actives?.[pid] || []).forEach((a, i) => { const c = CARTE[a.c]; if (!c) return; const o = OBJECTIFS.some(x => x.id === c.obj) ? c.obj : "laurier";
     const d = dieu(c.dieu); it.push({k: "c" + i, type: "carte", ic: DB.icone(o, 20), court: courtCarte(c), titre: "Carte permanente", long: `<strong>« ${esc(c.texte)} »</strong><br>${esc(decrire(c))}${d ? `<div class="pe-src"><strong>Grâce à :</strong> ${esc(d.nom)}</div>` : ""}`}); });
   effetsActifs(pid).forEach((e, i) => { const so = srcTexte(e[5]); it.push({k: "e" + i, type: e[0], futur: !!e[4], ic: DB.icone(e[3], 20), court: e[2], long: esc(e[1]) + (so ? `<div class="pe-src"><strong>${e[0] === "malus" ? "À cause de" : "Grâce à"} :</strong> ${esc(so)}</div>` : ""),
@@ -5304,7 +5680,7 @@ function apresRendu() {
     cptPrec[k] = v;
   });
   if (change && (vue() === "plateau" || test)) DB.son(perte ? "perte" : "panneau");
-  animerAnnonce(); montrerAnnonce();
+  animerAnnonce(); montrerAnnonce(); setTimeout(verifierFinRecap, 50); setTimeout(mjVerifierLancement, 60);
 }
 function animerAnnonce() {
   const l = jeu?.annonces || [], cle = a => `${a.pid}|${a.obj}|${a.n}|${a.mi ? 1 : 0}`;
@@ -5313,7 +5689,17 @@ function animerAnnonce() {
   const nv = l.filter(a => !annVues.has(cle(a)));
   nv.forEach(a => annVues.add(cle(a)));
   if (!(vue() === "plateau" || test)) return;
-  annFile.push(...nv.filter(a => jeu.noms?.[a.pid]));
+  /* seuls les objectifs complétés (15) ont un pop-up, joué quand le pion arrive au bout pendant l’avancée des pions */
+  complAttente.push(...nv.filter(a => !a.mi && jeu.noms?.[a.pid]));
+}
+let complAttente = [];
+function popupComplete(a, fin) {
+  const o = OBJECTIFS.find(x => x.id === a.obj), e = EFFETS_OBJECTIFS[a.obj];
+  const d = document.createElement("div");
+  d.className = "annonce-anim"; d.setAttribute("role", "status");
+  d.innerHTML = `<div class="annonce-or"><span class="rayons"></span><span class="medaillon" style="width:130px;height:130px;--t:var(--obj-${o.id})">${DB.icone(o.id)}</span><b>${esc(jeu.noms[a.pid])} complète ${esc(o.court)}</b><p><i>« ${esc(e.detail)} »</i></p></div>`;
+  document.body.appendChild(d); DB.son("objectif");
+  setTimeout(() => { d.remove(); fin && fin(); }, 4200);
 }
 /* Sur le plateau, les pop-ups des événements (paliers, taureau, cloche, pièce, dés) attendent le récap de fin de tour
    et passent l’un après l’autre ; sur le téléphone du joueur concerné, ils s’affichent tout de suite. */
@@ -5326,18 +5712,18 @@ function montrerAnnonce() {
   if (jeu?.statut === "fini") { annFile = []; return; }
   if (["resolution", "completion", "objets", "objets_vus"].includes(jeu?.phase) && jeu?.statut === "en_cours") return;
   if (animP) return;
-  if (annFile[0].fn) { const it = annFile.shift(); annEnCours = true; it.fn(); setTimeout(() => { annEnCours = false; montrerAnnonce(); }, it.duree + 200); return; }
+  if (annFile[0].fn) { const it = annFile.shift(); annEnCours = true; it.fn(); setTimeout(() => { annEnCours = false; montrerAnnonce(); verifierFinRecap(); }, it.duree + 200); return; }
   const a = annFile.shift(), o = OBJECTIFS.find(x => x.id === a.obj), e = EFFETS_OBJECTIFS[a.obj];
   const res = (jeu?.annonces || []).find(x => x.pid === a.pid && x.obj === a.obj && x.n === a.n && !!x.mi === !!a.mi)?.res;
   const d = document.createElement("div");
   d.className = "annonce-anim"; d.setAttribute("role", "status");
   d.innerHTML = a.mi
     ? `<div class="annonce-or"><span class="medaillon" style="width:110px;height:110px">${DB.icone("mi-parcours")}</span><small>${esc(jeu.noms[a.pid])} atteint ${SEUIL_MI_PARCOURS} en ${esc(o.court)}</small><b>« ${esc(e.nomMi)} »</b><p class="eff">${esc(e.mi)}</p>${res ? `<p class="res">${esc(res)}</p>` : ""}</div>`
-    : `<div class="annonce-or"><span class="rayons"></span><span class="medaillon" style="width:130px;height:130px;--t:var(--obj-${o.id})">${DB.icone(o.id)}</span><b>${esc(jeu.noms[a.pid])} complète ${esc(o.court)}</b><p><i>« ${esc(e.detail)} »</i></p>${res && !/^En attente/.test(res) ? `<p class="res">${esc(res)}</p>` : ""}</div>`;
+    : `<div class="annonce-or"><span class="rayons"></span><span class="medaillon" style="width:130px;height:130px;--t:var(--obj-${o.id})">${DB.icone(o.id)}</span><b>${esc(jeu.noms[a.pid])} complète ${esc(o.court)}</b><p><i>« ${esc(e.detail)} »</i></p></div>`;
   document.body.appendChild(d);
   DB.son(a.mi ? "gain" : "objectif");
   annEnCours = true;
-  setTimeout(() => { d.remove(); annEnCours = false; montrerAnnonce(); }, 5600);
+  setTimeout(() => { d.remove(); annEnCours = false; montrerAnnonce(); verifierFinRecap(); }, 5600);
 }
 function bulleHtml(id) {
   const o = OBJECTIFS.find(x => x.id === id), qui = jeu.ordre.filter(pid => jeu.completes[pid].includes(id));
@@ -5380,12 +5766,14 @@ function animerClassement(avant) {
 function listeJoueurs() {
   const actuel = jeu.ordre[jeu.tour];
   const cl = jeu.ordre.slice().sort((a, b) => total(scoresAffiches(b)) - total(scoresAffiches(a)));
-  const FEUILLE = `<svg viewBox="0 0 20 20" width="14" height="14"><path d="M3 17C4 9 9 4 17 3c-1 8-6 13-14 14z" fill="#5e8a3e" stroke="#2a2118" stroke-opacity=".35" stroke-width="1"/><path d="M5 15L15 5" stroke="#2a2118" stroke-opacity=".3" stroke-width="1"/></svg>`;
+  const FEUILLE = (f, t, r) => `<svg viewBox="0 0 20 20" width="15" height="15"><path d="M3 17C4 9 9 4 17 3c-1 8-6 13-14 14z" fill="${f}" stroke="${t}" stroke-width="1"/><path d="M5 15L15 5" stroke="${t}" stroke-opacity=".6" stroke-width="1"/><path d="M6 12c2-3 4-5 7-7" stroke="${r}" stroke-opacity=".8" stroke-width="1.2" fill="none"/></svg>`;
+  const ARGENT = FEUILLE("#cfd5da", "#6f777e", "#ffffff"), BRONZE = FEUILLE("#b9844d", "#5a3b1c", "#f0c896");
+  const ETOILE = `<svg viewBox="0 0 20 20"><path d="M10 0l2.2 7.8L20 10l-7.8 2.2L10 20l-2.2-7.8L0 10l7.8-2.2z" fill="#fff6c8"/></svg>`;
   return `<div class="joueurs">${cl.map((pid, rg) => {
     const c = couleur(pid), ouvert = ouverts.has(pid), comp = jeu.completes[pid], tt = total(scoresAffiches(pid)), vivant = jeu.statut === "en_cours" && tt > 0;
-    const deco = vivant && rg === 0 ? `<span class="flammes" aria-hidden="true">${Array.from({length: 9}, (_, k) => `<i style="--k:${k}"></i>`).join("")}</span>`
-      : vivant && rg <= 2 ? `<span class="feuilles" aria-hidden="true">${Array.from({length: 6}, (_, k) => `<i style="--k:${k}">${FEUILLE}</i>`).join("")}</span>` : "";
-    return `<div class="jr-place ${vivant && rg === 0 ? "rang1" : vivant && rg <= 2 ? "rang23" : ""}" data-jr="${pid}" style="--c:${c}">${deco}<button class="jr ${(jeu.phase === "choix" ? !jeu.plans?.[pid] : pid === actuel) && jeu.statut === "en_cours" ? "actif" : ""}" data-j="${pid}" aria-expanded="${ouvert}">
+    const deco = vivant && rg === 0 ? `<span class="eclat-or" aria-hidden="true">${Array.from({length: 5}, (_, k) => `<i style="--k:${k}">${ETOILE}</i>`).join("")}</span>`
+      : vivant && rg <= 2 ? `<span class="feuilles" aria-hidden="true">${Array.from({length: 6}, (_, k) => `<i style="--k:${k}">${rg === 1 ? ARGENT : BRONZE}</i>`).join("")}</span>` : "";
+    return `<div class="jr-place ${vivant && rg === 0 ? "rang1" : vivant && rg === 1 ? "rang2" : vivant && rg === 2 ? "rang3" : ""}" data-jr="${pid}" style="--c:${c}">${deco}<button class="jr ${(jeu.phase === "choix" ? !jeu.plans?.[pid] : pid === actuel) && jeu.statut === "en_cours" ? "actif" : ""}" data-j="${pid}" aria-expanded="${ouvert}">
         ${pastille(pid)}<span><span class="nom">${esc(jeu.noms[pid])}</span><br><span class="sous" aria-label="${comp.length} objectif${comp.length > 1 ? "s" : ""} complété${comp.length > 1 ? "s" : ""} sur ${OBJECTIFS_POUR_FINIR}">${Array.from({length: Math.max(OBJECTIFS_POUR_FINIR, comp.length)}, (_, i) => `<span class="lau ${i < comp.length ? "" : "vide"}">${DB.icone("laurier", 24)}</span>`).join("")}${Array.from({length: Math.min(4, jeu.relances?.[pid] || 0)}, () => jetonIco(20)).join("")}</span>${(() => { const ef = effetsActifs(pid).filter(e => e[3] !== "relance"); return ef.length ? `<span class="pe-minis">${ef.map(e => `<span class="pe-mini pe-${e[0]} ${e[4] ? "futur" : ""}" title="${esc(e[1] + (srcTexte(e[5]) ? (e[0] === "malus" ? " À cause de : " : " Grâce à : ") + srcTexte(e[5]) : ""))}">${e[4] ? DB.icone("sablier", 12) : ""}${DB.icone(e[3], 16)}<span>${esc(e[2])}</span></span>`).join("")}</span>` : ""; })()}</span>
         ${cpt("tot-" + pid, total(enResolution() ? scoresAffiches(pid) : jeu.scores[pid]))}</button>
       ${ouvert ? `<div class="detail"><div class="objs">${OBJECTIFS.map(o => `<span class="o ${comp.includes(o.id) ? "ok" : ""}"><span class="o-ic">${DB.icone(o.id, 22)}${esc(o.court)}</span><strong>${scoresAffiches(pid)[o.id]}</strong></span>`).join("")}</div>
@@ -5462,8 +5850,17 @@ function rendrePlateau() {
     return;
   }
   recapVue = false;
+  if (jeu.statut === "en_cours" && jeu.mj) {
+    const m = jeu.mj, st = document.getElementById("mj-plateau");
+    if (st && st.dataset.id === m.id && st.dataset.etat === m.etat) { if (m.etat === "en_cours") { mjDemarrerTicker(); mjMajPlateau(); } else { mjPilesAnimer(m); mjPlanifierSuite(m); } return; }
+    $app.innerHTML = `${tete}<div id="mj-plateau" data-id="${m.id}" data-etat="${m.etat}">${m.etat === "en_cours" ? mjPlateauHtml(m) : mjResultatsHtml(m, false)}</div>`;
+    lierSon();
+    if (m.etat === "en_cours") { mjDemarrerTicker(); mjMajPlateau(); DB.son("revelation"); }
+    else { DB.son("objectif"); if (m.jeu === "pieces") mjPilesAnimer(m); else document.querySelector(".mjr")?.classList.add("revele"); mjPlanifierSuite(m); }
+    return;
+  }
   if (jeu.statut === "fini") {
-    annFile = []; document.querySelectorAll(".annonce-anim, .de-anim, .taureau-anim, .cloche-anim, .piece-anim").forEach(e => e.remove());
+    annFile = []; complAttente = []; document.querySelectorAll(".annonce-anim, .de-anim, .taureau-anim, .cloche-anim, .piece-anim").forEach(e => e.remove());
     const C = classementFinal(false);
     if (C.neuf) {
       C.cl.forEach((pid, i) => { if (C.gagnants.includes(pid)) return; const t = C.delai(pid, i) + 300 - C.el; if (t >= 0) setTimeout(() => DB.son("panneau"), t); });
@@ -5527,7 +5924,7 @@ function rendrePlateau() {
     else if (jeu.phase === "completion" && jeu.file[0].taureau) { pid = jeu.file[0].pid; txt = `a gagné des points en Blague et choisit qui charger. `; }
     else if (jeu.phase === "completion" && jeu.file[0].blocage) { const f = jeu.file[0]; pid = f.pid; txt = `décide s’il bloque l’action de ${esc(jeu.noms[f.auteur])} avec Psychorigide.`; }
     else if (jeu.phase === "completion") { const f = jeu.file[0]; pid = f.pid; txt = f.mi ? `atteint ${SEUIL_MI_PARCOURS} en ${esc(court(f.obj))}, « ${esc(EFFETS_OBJECTIFS[f.obj].nomMi)} » : ${esc(EFFETS_OBJECTIFS[f.obj].mi)}` : `applique l’effet de ${esc(court(f.obj))} : ${esc(EFFETS_OBJECTIFS[f.obj].complete)}`; }
-    if (!["objets", "choix"].includes(jeu.phase) && !enResolution()) etat = `<div class="panneau etat a-jouer" style="--c:${couleur(pid)}"><div class="muted small">${jeu.phase === "completion" ? (jeu.file[0].taureau ? "Taureau" : jeu.file[0].blocage ? "Action en attente" : jeu.file[0].mi ? "Étape de mi-parcours" : "Effet de fin d’objectif") : "En cours"}</div>${jeu.platre ? `<div class="small" style="margin-top:6px">Plâtre : personne ne gagne de points en ${esc(court(jeu.platre.o))} ce tour de table.</div>` : ""}<div class="qui">${pastille(pid, 36)} À ${esc(jeu.noms[pid])} de jouer</div><div>${txt}</div></div>`;
+    if (!["objets", "choix"].includes(jeu.phase) && !enResolution()) etat = `<div class="panneau etat a-jouer" style="--c:${couleur(pid)}"><div class="muted small">${jeu.phase === "completion" ? (jeu.file[0].taureau ? "Taureau" : jeu.file[0].blocage ? "Action en attente" : jeu.file[0].mi ? "Étape de mi-parcours" : "Effet de fin d’objectif") : "En cours"}</div>${jeu.platre ? `<div class="small" style="margin-top:6px">Plâtre : personne ne gagne de points en ${esc(court(jeu.platre.o))} ce tour.</div>` : ""}<div class="qui">${pastille(pid, 36)} À ${esc(jeu.noms[pid])} de jouer</div><div>${txt}</div></div>`;
   }
   const avantJ = positionsJoueurs();
   $app.innerHTML = `${tete}<div class="grille">
@@ -5641,7 +6038,7 @@ function entrees(c, pid) {
 function lierEntrees() {
   const cb = document.getElementById("cible"); if (cb) cb.onchange = () => { ui.cible = cb.value; rendre(); };
   $app.querySelectorAll("[data-qui]").forEach(b => b.onclick = () => { ui.cible = b.dataset.qui; rendre(); });
-  const nb = document.getElementById("nombre"); if (nb) nb.oninput = () => { ui.nombre = nb.value.trim(); const b = document.getElementById("appl"); if (b) b.disabled = !/^\d+$/.test(ui.nombre) || busy || (jeu.phase === "effet" && etapeCarte() < 2); };
+  const nb = document.getElementById("nombre"); if (nb) nb.oninput = () => { ui.nombre = nb.value.trim(); const ok = /^\d+$/.test(ui.nombre) && !busy; const b = document.getElementById("appl"); if (b) b.disabled = !ok || (jeu.phase === "effet" && etapeCarte() < 2); const v = document.getElementById("vcarte"); if (v) v.disabled = !ok; };
   $app.querySelectorAll("[data-on]").forEach(b => b.onclick = () => { ui.oui = b.dataset.on === "1"; rendre(); });
   const eo = document.getElementById("eobj"); if (eo) eo.onchange = () => { ui.obj = eo.value; rendre(); };
   $app.querySelectorAll("[data-pa]").forEach(b => b.onclick = () => { ui.paire = b.dataset.pa; rendre(); });
@@ -5662,6 +6059,7 @@ function volHtml(pid) {
 function objetHtml(pid) {
   const id = jeu.objets?.[pid]; if (!id) return volHtml(pid);
   const o = OBJET[id], used = jeu.objetUtilise?.[pid];
+  if (id === "pull" && used) return `<div class="card"><div class="muted small">Ton objet${o.dieu ? `, confié par ${esc(o.dieu)}` : ""}</div><div class="objet-ligne"><span class="medaillon" style="--t:var(--or);width:52px;height:52px">${objIco(id, 32)}</span><strong>Pull troué → carte permanente</strong></div><p class="desc">Ton pull troué est devenu une carte permanente : +1 pion à chaque tour.</p></div>` + volHtml(pid);
   let h = `<div class="card"><div class="muted small">Ton objet${o.dieu ? `, confié par ${esc(o.dieu)}` : ""}${used ? " (utilisé)" : ""}</div><div class="objet-ligne"><span class="medaillon" style="--t:var(--bronze);width:52px;height:52px">${objIco(id, 32)}</span><strong>${esc(o.nom)}</strong></div><p class="desc">${esc(o.effet)}</p>`;
   if (id === "velo" && !used && (jeu.phase === "choix" || (jeu.ordre[jeu.tour] === pid && ["dieu", "points"].includes(jeu.phase))) && jeu.scores[pid].lignee > 0 && !jeu.completes[pid].includes("lignee")) {
     const cibles = OBJECTIFS.filter(x => x.id !== "lignee" && !jeu.completes[pid].includes(x.id));
@@ -5698,7 +6096,7 @@ function lierObjet(pid) {
   const v = document.getElementById("velo"); if (v) v.onchange = () => { ui.velo = v.value; rendre(); };
   const b = document.getElementById("velogo"); if (b) b.onclick = () => utiliserVelo(pid, ui.velo);
 }
-let panneauTel = "", confirmeQ = false;
+let panneauTel = "", confirmeQ = false, ecranPrec = "";
 function barreTel(me) {
   const id = jeu.objets?.[me], cartes = jeu.actives?.[me] || [];
   if (!id && !cartes.length) return "";
@@ -5726,6 +6124,11 @@ function maintenir(sel, attr, poser) {
   });
 }
 function lierBarre() {
+  /* pendant la pose des pions, les pastilles s’ouvrent et se ferment d’un simple appui (pas besoin de maintenir) */
+  if (jeu?.phase === "choix" && plLoc[monId()]?.etape === "pions") {
+    $app.querySelectorAll("[data-pan]").forEach(b => { b.onpointerdown = null; b.onkeydown = null; b.onkeyup = null; b.onclick = () => { panneauTel = panneauTel === b.dataset.pan ? "" : b.dataset.pan; rendre(); }; });
+    return;
+  }
   /* l’objet garde un appui simple quand il a des actions à faire (vélo cargo, cloche) */
   const action = ["velo", "cloche"].includes(jeu?.objets?.[monId()]);
   if (action) $app.querySelectorAll("[data-pan='objet']").forEach(b => b.onclick = () => { panneauTel = panneauTel === "objet" ? "" : "objet"; rendre(); });
@@ -5798,6 +6201,19 @@ function ecranCompletion(pid, pied) {
     });
     return;
   }
+  if (f.minijeu) { $app.innerHTML = `<h1>« ${esc(eff.nomMi)} »</h1><p>Le mini-jeu se prépare… Regarde le plateau !</p>` + pied; return; }
+  if (f.bloque) {
+    $app.innerHTML = `<h1>« ${esc(eff.nomMi)} »</h1><p>${esc(eff.mi)}</p>
+      <div class="pick">${OBJECTIFS.map(x => `<button class="${ui.obj === x.id ? "selection" : ""}" data-bo="${x.id}" aria-pressed="${ui.obj === x.id}">${DB.icone(x.id, 28)} <strong>${esc(court(x.id))}</strong></button>`).join("")}</div>
+      <div class="valider-zone"><button class="primary large" id="okb" ${!ui.obj || busy ? "disabled" : ""}>${ui.obj ? `Bloquer ${esc(court(ui.obj))}` : "Touche un objectif"}</button></div>` + pied;
+    $app.querySelectorAll("[data-bo]").forEach(b => b.onclick = () => { ui.obj = b.dataset.bo; rendre(); });
+    document.getElementById("okb").onclick = () => agir(g => { const f0 = g.file[0]; if (!f0?.bloque || f0.pid !== pid || !ui.obj) return;
+      (g.blocages = g.blocages || []).push({o: ui.obj, par: pid});
+      log(g, `« ${EFFETS_OBJECTIFS.bonheur.nomMi} » : ${g.noms[pid]} bloque ${court(ui.obj)} pour tout le monde jusqu’à la fin du tour.`);
+      annoncerMi(g, pid, "bonheur", `${court(ui.obj)} bloqué pour tous ce tour`);
+      resolu(g); });
+    return;
+  }
   if (f.piece) {
     $app.innerHTML = `<h1>Fusil à harpon</h1><p><strong>${esc(jeu.noms[f.cible])}</strong> atteint ${esc(f.palier)}. Pile : tu gagnes 1 pion au prochain tour.</p>
       <button class="de-bouton" id="lancep" ${busy ? "disabled" : ""} aria-label="Lancer la pièce">${pieceSvg(130)}<span>Touche la pièce pour la lancer</span></button>` + pied;
@@ -5826,11 +6242,11 @@ function ecranCompletion(pid, pied) {
   }
   let h = `<h1>${esc(court(o))} complété !</h1><p><strong>« ${esc(eff.detail)} »</strong> : ${esc(eff.complete)}</p>`;
   if (o === "vin") {
-    h += `<label for="vobj">Objectif qui reçoit +${jeu.manche}</label><select id="vobj"><option value="">Choisir…</option>${OBJECTIFS.map(x => `<option value="${x.id}" ${x.id === ui.obj ? "selected" : ""}>${esc(court(x.id))}</option>`).join("")}</select>
+    h += `<label for="vobj">Objectif qui reçoit +${Math.ceil(jeu.manche / 2)}</label><select id="vobj"><option value="">Choisir…</option>${OBJECTIFS.map(x => `<option value="${x.id}" ${x.id === ui.obj ? "selected" : ""}>${esc(court(x.id))}</option>`).join("")}</select>
       <div class="row" style="margin-top:14px"><button class="primary" id="ok" ${!ui.obj || busy ? "disabled" : ""}>Valider</button></div>`;
     $app.innerHTML = h + pied;
     document.getElementById("vobj").onchange = e => { ui.obj = e.target.value; rendre(); };
-    document.getElementById("ok").onclick = () => agir(g => { const r = ajouter(g, pid, ui.obj, g.manche); annoncer(g, pid, "vin", `${fait(r, ui.obj)} (tour ${g.manche}).`); log(g, `${g.noms[pid]} : ${fait(r, ui.obj)} (tour ${g.manche}).`); resolu(g); });
+    document.getElementById("ok").onclick = () => agir(g => { const n = Math.ceil(g.manche / 2), r = ajouter(g, pid, ui.obj, n); annoncer(g, pid, "vin", `${fait(r, ui.obj)} (tour ${g.manche} ÷ 2).`); log(g, `${g.noms[pid]} : ${fait(r, ui.obj)} (tour ${g.manche} ÷ 2).`); resolu(g); });
     return;
   }
   if (o === "lignee") {
@@ -5898,11 +6314,15 @@ function rendreJoueur() {
   }
   const pied = `<p class="err">${esc(erreur)}</p>`;
   const fin = () => { lierScores();
+    /* changement de phase ou d’étape : on revient en haut de l’écran */
+    const cleEcran = [me, jeu.statut, jeu.phase, jeu.manche, plLoc[me]?.etape, plLoc[me]?.fc ? 1 : 0, jeu.file?.length || 0, jeu.file?.[0]?.pid, jeu.des ? (jeu.des.gain == null ? 1 : 2) : 0].join("|");
+    if (cleEcran !== ecranPrec) { ecranPrec = cleEcran; panneauTel = ""; window.scrollTo(0, 0); $app.scrollTop = 0; const tel = $app.closest?.(".tel"); if (tel) tel.scrollTop = 0; }
     if (jeu.scores?.[me] && jeu.ordre?.includes(me)) $app.insertAdjacentHTML("afterbegin", effetsHtml(me));
     lierObjet(me); lierBarre();
     $app.insertAdjacentHTML("afterbegin", `<div class="bandeau-joueur">${jeu.objets?.[me] ? `<button class="bandeau-obj" data-pan="objet" aria-label="Voir l’effet de mon objet">${pastille(me, 40)}</button>` : pastille(me, 40)}<span><b>${esc(jeu.noms[me])}</b><br><span class="muted small">${jeu.manche ? `Tour ${jeu.manche}${jeu.dernierTour ? " · dernier tour" : ""}` : ""}</span></span>${(jeu.phase === "choix" && jeu.ctx?.[me] ? jeu.ctx[me].nbRel : relancesDispo(jeu, me)) > 0 ? `<span class="puce">${jetonIco(22)} × ${jeu.phase === "choix" && jeu.ctx?.[me] ? jeu.ctx[me].nbRel : relancesDispo(jeu, me)}</span>` : ""}</div>`); if (!test) $app.insertAdjacentHTML("afterbegin", `<button class="quitter-mini ${confirmeQ ? "on" : ""}" id="q">${confirmeQ ? "Confirmer ?" : "Quitter"}</button>`);
     const q = document.getElementById("q"); if (q) q.onclick = () => { if (confirmeQ) { confirmeQ = false; quitter(); return; } confirmeQ = true; rendre(); setTimeout(() => { if (confirmeQ) { confirmeQ = false; rendre(); } }, 3500); };
     DB.graver($app); lierBarre(); };
+  if (jeu.statut === "en_cours" && jeu.mj && jeu.ordre.includes(me)) { if (!ecranMiniJeu(me, pied)) fin(); return; }
   if (jeu.statut === "attente" || !jeu.scores) { $app.innerHTML = `<h1>Partie ${esc(code)}</h1><p>C’est noté, ${esc(load("jdd-nom"))}. La partie commence dès que le plateau la lance.</p>${pied}`; fin(); return; }
   if (!jeu.ordre.includes(me)) { $app.innerHTML = `<p>Tu ne fais pas partie de cette partie.</p>${pied}`; fin(); return; }
   if (jeu.statut === "fini") {
@@ -5929,17 +6349,21 @@ function rendreJoueur() {
       fin(); return;
     }
     $app.innerHTML = `<h1>Choisis ton objet</h1><p>Tout le monde choisit en même temps. Ton objet t’accompagne toute la partie.</p>
-      <div class="pick">${(jeu.objOffres[me] || []).map(id => { const o = OBJET[id]; return `<button class="choix-objet" data-ob="${id}" ${busy ? "disabled" : ""}><span class="medaillon" style="--t:var(--bronze);width:60px;height:60px">${objIco(id, 38)}</span><span>${o.dieu ? `<span class="oc-dieu-tel">${esc(o.dieu)} te confie</span><br>` : ""}<strong>${esc(o.nom)}</strong>${o.texte ? `<br><em class="small">« ${esc(o.texte)} »</em>` : ""}<br><span class="muted small">${esc(o.effet)}${o.type === "une fois" ? " (une seule fois)" : o.type === "deux fois" ? " (deux fois)" : ""}</span></span></button>`; }).join("")}</div>${pied}`;
-    $app.querySelectorAll("[data-ob]").forEach(b => b.onclick = () => choisirObjet(me, b.dataset.ob));
+      <div class="pick">${(jeu.objOffres[me] || []).map(id => { const o = OBJET[id]; return `<button class="choix-objet ${objChoisi === id ? "selection" : ""}" data-ob="${id}" aria-pressed="${objChoisi === id}" ${busy ? "disabled" : ""}><span class="medaillon" style="--t:var(--bronze);width:60px;height:60px">${objIco(id, 38)}</span><span>${o.dieu ? `<span class="oc-dieu-tel">${esc(o.dieu)} te confie</span><br>` : ""}<strong>${esc(o.nom)}</strong>${o.texte ? `<br><em class="small">« ${esc(o.texte)} »</em>` : ""}<br><span class="muted small">${esc(o.effet)}${o.type === "une fois" ? " (une seule fois)" : o.type === "deux fois" ? " (deux fois)" : ""}</span></span></button>`; }).join("")}</div>${pied}`;
+    $app.insertAdjacentHTML("beforeend", `<div class="valider-zone"><button class="primary large" id="vobjet" ${!objChoisi || !(jeu.objOffres[me] || []).includes(objChoisi) || busy ? "disabled" : ""}>${objChoisi && (jeu.objOffres[me] || []).includes(objChoisi) ? `Valider ${esc(OBJET[objChoisi].nom)}` : "Touche un objet pour le choisir"}</button></div>`);
+    $app.querySelectorAll("[data-ob]").forEach(b => b.onclick = () => { objChoisi = b.dataset.ob; rendre(); });
+    const vo = document.getElementById("vobjet"); if (vo) vo.onclick = () => { const id = objChoisi; objChoisi = null; choisirObjet(me, id); };
     fin(); return;
   }
   if (jeu.phase === "choix") { ecranChoix(me, pied); fin(); return; }
   if (jeu.phase === "resolution") { $app.innerHTML = `<h1>Résolution du tour</h1><p class="muted">Les effets s’appliquent…</p>${mesScores(me)}${pied}`; fin(); return; }
   if (jeu.phase === "recap") {
     const pret = jeu.prets?.[me] || (pretEnvoi === jetonPret() && !test);
-    $app.innerHTML = `<h1>Récap du tour ${jeu.recapManche}</h1>${jeu.finApresRecap ? `<p class="muted">C’était le dernier tour.</p>` : ""}
-      <div style="margin:12px 0">${pret ? `<p class="pret-ok">${coche()} Tu es prêt. En attente des autres (${jeu.ordre.filter(id => jeu.prets?.[id]).length}/${jeu.ordre.length}).</p>` : `<button class="primary large" id="pret" ${busy ? "disabled" : ""}>Je suis prêt</button>`}</div>
-      <div class="recap-tel">${carteRecap(me, 0)}</div><h2>Les autres</h2><div class="recap-tel">${jeu.ordre.filter(id => id !== me).map((id, i) => carteRecap(id, i + 1)).join("")}</div>${pied}`;
+    recapVuTel[jeu.mancheId] = recapVuTel[jeu.mancheId] || Date.now();
+    const attente = 3000 - (Date.now() - recapVuTel[jeu.mancheId]);
+    if (attente > 0) setTimeout(() => { if (jeu?.phase === "recap") rendre(); }, attente + 30);
+    $app.innerHTML = `<h1 class="recap-titre-tel">Récapitulatif du tour ${jeu.recapManche}</h1>
+      <div style="margin:18px 0">${pret ? `<p class="pret-ok">${coche()} Tu es prêt. En attente des autres (${jeu.ordre.filter(id => jeu.prets?.[id]).length}/${jeu.ordre.length}).</p>` : attente > 0 ? "" : `<button class="primary large" id="pret" ${busy ? "disabled" : ""}>Je suis prêt</button>`}</div>${pied}`;
     const bp = document.getElementById("pret"); if (bp) bp.onclick = () => marquerPret(me);
     fin(); return;
   }
@@ -5952,7 +6376,7 @@ function rendreJoueur() {
     fin(); return;
   }
   if (actuel !== me) {
-    $app.innerHTML = `<h1>${esc(jeu.noms[me])}</h1>${banniere(me)}<p>Tour ${jeu.manche}${jeu.dernierTour ? " (dernier tour de table)" : ""}. C’est à <strong>${esc(jeu.noms[actuel])}</strong> de jouer.</p>${resumeHtml()}<h2>Tes points</h2>${mesScores(me)}${pied}`; fin(); return;
+    $app.innerHTML = `<h1>${esc(jeu.noms[me])}</h1>${banniere(me)}<p>Tour ${jeu.manche}${jeu.dernierTour ? " (dernier tour)" : ""}. C’est à <strong>${esc(jeu.noms[actuel])}</strong> de jouer.</p>${resumeHtml()}<h2>Tes points</h2>${mesScores(me)}${pied}`; fin(); return;
   }
   if (jeu.phase === "dieu") {
     const voitTout = jeu.completes[me].includes("culture"), voit = voitTout || jeu.voirUne;
