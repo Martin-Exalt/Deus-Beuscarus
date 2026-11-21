@@ -423,6 +423,49 @@ a{color:var(--egee)}
 .annonce-anim .annonce-or{position:relative;transform:none;animation:clPop 3.2s ease forwards;margin:16px}
 .annonce-anim .annonce-or b{font-size:clamp(28px,4vw,52px);line-height:1.15}
 .annonce-anim .annonce-or p{font-size:clamp(18px,2.2vw,28px);line-height:1.35}
+
+/* ====== Objets, résumés, bonus et malus ====== */
+.pastille>span svg{width:84%;height:84%}
+.objet-ligne{display:flex;align-items:center;gap:12px}
+.objet-ligne strong{font-family:var(--font-titre);font-size:1.1rem}
+.choix-objet .medaillon{flex:none}
+.choix-etat{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.choix-etat .puce{gap:6px}
+.revele{padding:8px 0 20px}
+.plat .revele-t,.revele-t{text-align:center;font-size:2.2rem;margin:4px 0}
+.revele-grille{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px;margin-top:18px}
+.objet-carte{display:grid;justify-items:center;gap:10px;text-align:center;background:var(--surface-haute);border:2px solid var(--ligne);border-top:8px solid var(--c);border-radius:var(--r-carte);padding:16px;box-shadow:var(--relief-2);animation:carteArrive .7s cubic-bezier(.3,1.3,.5,1) both}
+.objet-carte .oc-tete{display:flex;align-items:center;gap:10px;justify-self:start}
+.objet-carte .oc-tete b{font-family:var(--font-titre);font-size:1.2rem}
+.objet-carte h3{font-family:var(--font-titre);margin:0;font-size:1.3rem}
+.objet-carte .meandre{width:100%}
+.objet-carte .co-cit{font-style:italic;margin:0}
+.objet-carte .co-eff{margin:0;text-align:left;background:var(--surface);border:1px solid var(--ligne);border-radius:10px;padding:10px 12px;width:100%}
+.objet-carte .co-eff strong{display:block;font-family:var(--font-titre);font-size:12px;letter-spacing:.1em;color:var(--encre-douce)}
+@keyframes carteArrive{0%{opacity:0;transform:translateY(30px) rotateY(80deg)}100%{opacity:1;transform:none}}
+.lignes-objets{display:grid;gap:8px}
+.objet-autre{display:flex;gap:12px;align-items:center}
+.a-jouer .qui{display:flex;align-items:center;gap:10px}
+.resume{margin-top:14px}
+.resume h2{margin:0 0 10px}
+.res-j{display:grid;grid-template-columns:auto 1fr;gap:10px;padding:10px 0;border-top:1px solid var(--ligne)}
+.res-j:first-of-type{border-top:none}
+.res-j b{font-family:var(--font-titre)}
+.res-j ul{margin:4px 0 0;padding-left:18px}
+.res-j li{margin:2px 0}
+.effets{display:grid;gap:6px;margin:0 0 14px;padding:10px 12px;border-radius:var(--r-carte);background:var(--surface);border:2px solid var(--ligne)}
+.effets-t{font-family:var(--font-titre);font-weight:700;font-size:14px;letter-spacing:.06em;color:var(--encre-douce)}
+.effet{display:flex;gap:10px;align-items:center;font-weight:500}
+.effet .medaillon{width:32px;height:32px;border-width:3px}
+.effet.bonus{color:var(--olivier)}.effet.malus{color:var(--terre-cuite)}
+.effet span:last-child{color:var(--encre)}
+.annonce-carte.moi{border-color:var(--teinte)}
+.annonce-anim{animation-duration:5.6s!important}
+.annonce-anim .annonce-or{animation-duration:5.6s!important;max-width:min(760px,92vw)}
+.annonce-anim .annonce-or small{font-family:var(--font-titre);font-size:clamp(16px,2vw,24px);color:var(--encre-douce)}
+.annonce-anim .annonce-or .eff{color:var(--encre);font-weight:500;background:var(--surface);border-radius:12px;padding:10px 16px;margin:0}
+.annonce-anim .annonce-or .res{font-weight:700;color:var(--olivier);margin:0}
+@media (prefers-reduced-motion:reduce){.objet-carte{animation:none}}
 </style>
 </head>
 <body>
@@ -507,6 +550,63 @@ a{color:var(--egee)}
     perte: '<path d="M24 6c8 8 14 15 14 22a14 14 0 0 1-28 0c0-7 6-14 14-22z" ' + f('--terre-cuite') + ' ' + T + '/><path d="M17 30h14" stroke="#fffdf7" stroke-width="4" stroke-linecap="round"/>',
     gain: '<circle cx="24" cy="24" r="19" ' + f('--olivier') + ' ' + T + '/><path d="M24 15v18M15 24h18" stroke="#fffdf7" stroke-width="4" stroke-linecap="round"/>'
   };
+  /* ---------- Icônes des 24 objets de départ ---------- */
+  var T2 = T.replace('2.5', '2');
+  function corde(d, coul, l) { return '<path d="' + d + '" fill="none" stroke="' + INK + '" stroke-width="' + ((l || 4) + 2.5) + '" stroke-linecap="round" stroke-linejoin="round"/><path d="' + d + '" fill="none" stroke="' + coul + '" stroke-width="' + (l || 4) + '" stroke-linecap="round" stroke-linejoin="round"/>'; }
+  var O = {
+    peluche: '<ellipse cx="24" cy="37" rx="11" ry="9" fill="#c99a6b" ' + T + '/><circle cx="13" cy="11" r="6" fill="#c99a6b" ' + T + '/><circle cx="35" cy="11" r="6" fill="#c99a6b" ' + T + '/>' +
+      '<circle cx="13" cy="11" r="2.5" fill="#e8d3ae"/><circle cx="35" cy="11" r="2.5" fill="#e8d3ae"/><circle cx="24" cy="21" r="12" fill="#c99a6b" ' + T + '/><ellipse cx="24" cy="25" rx="5.5" ry="4" fill="#e8d3ae"/>' +
+      '<circle cx="19.5" cy="18" r="1.7" fill="' + INK + '"/><circle cx="28.5" cy="18" r="1.7" fill="' + INK + '"/><ellipse cx="24" cy="23.5" rx="2" ry="1.4" fill="' + INK + '"/>' +
+      '<path d="M22 26.5q2 1.5 4 0" fill="none" ' + T2 + '/><ellipse cx="24" cy="38" rx="5" ry="4" fill="#e8d3ae"/><path d="M16 15a8 8 0 0 1 5-4" ' + REFLET + '/>',
+    pinot: corde('M10 8a6 6 0 1 0 6 9', '#6e4a2c') + corde('M16 17C23 26 27 29 32 32', '#c8323c') +
+      '<rect x="29" y="28" width="7" height="5" rx="1" transform="rotate(35 32 30)" fill="#8a949c" ' + T2 + '/>' + corde('M37 31a6 6 0 1 0 .1 0', '#6e4a2c', 3.5) +
+      '<circle cx="37" cy="44" r="3" style="fill:var(--or)" ' + T2 + '/>',
+    echarpe: '<path d="M8 10c9 7 23 7 32 0v9c-9 7-23 7-32 0z" fill="#c8323c" ' + T + '/><path d="M26 18h9l3 22h-9z" fill="#c8323c" ' + T + '/>' +
+      '<path d="M27 25h9M28 31h9" stroke="#fffdf7" stroke-width="3"/><path d="M30 40v5M33 40v5M36 40v5" ' + T2 + '/><path d="M12 13c4 2 8 3 12 3" ' + REFLET + '/>',
+    crucifix: '<path d="M21 4h6v10h10v6H27v24h-6V20H11v-6h10z" ' + f('--or') + ' ' + T + '/><path d="M23.5 7v10" ' + REFLET + '/>',
+    telephone: '<path d="M13 6l8 8-5 5c3 6 7 10 13 13l5-5 8 8-5 6C24 42 6 24 7 11z" fill="#c8323c" ' + T + '/><path d="M11 13c1 6 4 11 8 15" ' + REFLET + '/>',
+    machine: '<rect x="9" y="5" width="30" height="38" rx="4" fill="#f3ecdd" ' + T + '/><path d="M9 14h30" ' + T2 + '/><circle cx="15" cy="9.5" r="1.8" fill="' + INK + '"/><circle cx="21" cy="9.5" r="1.8" style="fill:var(--terre-cuite)"/>' +
+      '<circle cx="24" cy="28" r="10" fill="#9ad0e0" ' + T + '/><path d="M16 30c3-3 5 2 8-1s5 2 8-1" fill="none" stroke="#2f6e8c" stroke-width="2"/><path d="M19 23a7 7 0 0 1 5-3" ' + REFLET + '/>',
+    velo: '<circle cx="11" cy="35" r="7" fill="none" ' + T + '/><circle cx="37" cy="35" r="7" fill="none" ' + T + '/><circle cx="11" cy="35" r="1.6" fill="' + INK + '"/><circle cx="37" cy="35" r="1.6" fill="' + INK + '"/>' +
+      corde('M11 35l7-12h12l7 12M24 23l-3-7h6M30 23l2-6h4', '#3b6fb6', 3) + '<rect x="3" y="17" width="16" height="11" rx="2" ' + f('--bois') + ' ' + T + '/><path d="M3 21h16" stroke="#6e4a2c" stroke-width="1.5"/>',
+    alarme: '<circle cx="12" cy="10" r="5" ' + f('--or') + ' ' + T + '/><circle cx="36" cy="10" r="5" ' + f('--or') + ' ' + T + '/><path d="M14 42l3-4M34 42l-3-4" ' + T + '/>' +
+      '<circle cx="24" cy="26" r="15" ' + f('--terre-cuite') + ' ' + T + '/><circle cx="24" cy="26" r="11" fill="#fffdf7" ' + T2 + '/><path d="M24 26v-7M24 26l5 3" ' + T + '/><path d="M15 18a12 12 0 0 1 6-5" ' + REFLET + '/>',
+    chateau: '<rect x="12" y="22" width="24" height="21" fill="#d8cdb6" ' + T + '/><path d="M5 43V12h3v3h3v-3h3v3h3v-3h0v31zM31 43V12h3v3h3v-3h3v3h3v-3v31z" fill="#c9bea4" ' + T + '/>' +
+      '<path d="M20 43v-8a4 4 0 0 1 8 0v8z" ' + f('--bois-fonce') + ' ' + T2 + '/><path d="M11 12V5l6 2.5-6 2.5" fill="#c8323c" ' + T2 + '/><path d="M37 12V5l6 2.5-6 2.5" fill="#3b6fb6" ' + T2 + '/><rect x="9" y="22" width="4" height="5" fill="' + INK + '" opacity=".6"/><rect x="35" y="22" width="4" height="5" fill="' + INK + '" opacity=".6"/>',
+    champagne: '<path d="M8 15h32c0 8-7 13-16 13S8 23 8 15z" fill="#f2d27a" ' + T + '/><path d="M24 28v12M15 43h18" ' + T + ' stroke-width="3"/>' +
+      '<circle cx="19" cy="9" r="2" fill="none" ' + T2 + '/><circle cx="26" cy="5" r="1.6" fill="none" ' + T2 + '/><circle cx="30" cy="10" r="2.2" fill="none" ' + T2 + '/><path d="M12 18c2 3 5 5 9 6" ' + REFLET + '/>',
+    tablette: '<rect x="10" y="4" width="28" height="40" rx="4" fill="#2a2118" ' + T + '/><rect x="13" y="8" width="22" height="29" rx="1" ' + f('--mer') + '/>' +
+      '<path d="M13 37l7-10 5 6 4-4 6 8z" ' + f('--olivier') + '/><circle cx="29" cy="15" r="3" ' + f('--or') + '/><circle cx="24" cy="40.5" r="1.4" fill="#d8cdb6"/>',
+    couronne: '<path d="M8 35L6 13l10 8 8-14 8 14 10-8-2 22z" ' + f('--or') + ' ' + T + '/><rect x="8" y="34" width="32" height="8" rx="2" ' + f('--or') + ' ' + T + '/>' +
+      '<circle cx="16" cy="38" r="2" fill="#c8323c"/><circle cx="24" cy="38" r="2" fill="#3b6fb6"/><circle cx="32" cy="38" r="2" fill="#c8323c"/><circle cx="24" cy="6" r="2.5" fill="#fffdf7" ' + T2 + '/><path d="M12 30l-1-10" ' + REFLET + '/>',
+    cloche: '',
+    crayon: '<path d="M14 40L36 10l6 4-22 30z" fill="#3b6fb6" ' + T + '/><path d="M14 40l6 4-8 3z" ' + f('--bois-clair') + ' ' + T2 + '/><path d="M12 45.5l-1 1.5 2.5-.5z" fill="' + INK + '" ' + T2 + '/>' +
+      '<path d="M36 10l6 4 2-3-6-4z" fill="#e06c9f" ' + T2 + '/><path d="M18 38L37 12" ' + REFLET + '/>',
+    perenoel: '<path d="M9 36C12 20 21 10 33 12c5 1 6 8 4 13" fill="#c8323c" ' + T + '/><rect x="5" y="33" width="34" height="10" rx="5" fill="#fffdf7" ' + T + '/>' +
+      '<circle cx="37" cy="27" r="5.5" fill="#fffdf7" ' + T + '/><path d="M15 30c2-7 6-12 11-14" ' + REFLET + '/>',
+    manette: '<path d="M11 16h26c6 0 9 7 9 14c0 7-3 10-6 10c-4 0-5-4-8-7H16c-3 3-4 7-8 7c-3 0-6-3-6-10c0-7 3-14 9-14z" ' + f('--fer-fonce') + ' ' + T + '/>' +
+      '<path d="M10 26h8M14 22v8" stroke="#fffdf7" stroke-width="3" stroke-linecap="round"/><circle cx="33" cy="23" r="2.4" fill="#e3a21a"/><circle cx="38" cy="27" r="2.4" fill="#c8323c"/><circle cx="33" cy="31" r="2.4" fill="#3f8a2a"/><circle cx="28" cy="27" r="2.4" fill="#2563b0"/>',
+    bonbon: '<path d="M14 24L4 16v16zM34 24l10-8v16z" fill="#e06c9f" ' + T + '/><ellipse cx="24" cy="24" rx="11" ry="9" fill="#e06c9f" ' + T + '/>' +
+      '<path d="M17 31l9-15M23 32l8-13" stroke="#fffdf7" stroke-width="2.5" opacity=".8"/><path d="M17 20a8 8 0 0 1 5-4" ' + REFLET + '/>',
+    douche: corde('M8 6v9h12', '#8a949c', 4) + '<path d="M14 16h16l5 9H9z" ' + f('--fer') + ' ' + T + '/>' +
+      '<path d="M12 31l-2 5M18 31l-1 6M24 31v6M30 31l1 6M36 31l2 5M15 40l-1 3M27 41v3M33 40l1 3" fill="none" stroke="#3c8db0" stroke-width="2.6" stroke-linecap="round"/>',
+    couteau: '<path d="M41 5c2 7-2 13-13 22l-6-6C28 13 34 7 41 5z" fill="#d6dce0" ' + T + '/><path d="M22 21l6 6-12 14c-2 3-7-2-4-4z" ' + f('--bois') + ' ' + T + '/>' +
+      '<circle cx="18" cy="32" r="1.3" fill="' + INK + '"/><circle cx="14.5" cy="36" r="1.3" fill="' + INK + '"/><path d="M38 9c-3 4-7 9-11 13" ' + REFLET + '/>',
+    cartouche: '<rect x="16" y="5" width="16" height="29" rx="3" fill="#c8323c" ' + T + '/><path d="M16 11h16M20 5v4M24 5v4M28 5v4" ' + T2 + '/>' +
+      '<rect x="14" y="32" width="20" height="11" rx="2" ' + f('--or') + ' ' + T + '/><path d="M14 37h20" stroke="#7a5a0c" stroke-width="1.5"/><path d="M19.5 14v16" ' + REFLET + '/>',
+    taureau: '<path d="M15 16c-6 0-10-4-11-10c4 3 8 4 12 4M33 16c6 0 10-4 11-10c-4 3-8 4-12 4" fill="#f3ecdd" ' + T + '/>' +
+      '<path d="M15 13c3-3 15-3 18 0c4 5 4 15 0 23c-2 6-16 6-18 0c-4-8-4-18 0-23z" fill="#6e4a2c" ' + T + '/><ellipse cx="24" cy="34" rx="7" ry="5" ' + f('--bois-clair') + ' ' + T2 + '/>' +
+      '<circle cx="21.5" cy="34" r="1.3" fill="' + INK + '"/><circle cx="26.5" cy="34" r="1.3" fill="' + INK + '"/><circle cx="19" cy="22" r="1.8" fill="#fffdf7"/><circle cx="29" cy="22" r="1.8" fill="#fffdf7"/>' +
+      '<path d="M21 39a3 3 0 0 0 6 0" fill="none" stroke="#c8961e" stroke-width="2.5"/>',
+    harpon: corde('M24 45V18', '#9a6a3a', 3.5) + corde('M13 8v6c0 4 5 6 11 6s11-2 11-6V8', '#c8961e', 3.5) +
+      '<path d="M13 2l-3.5 7h7zM24 2l-3.5 7h7zM35 2l-3.5 7h7z" ' + f('--fer') + ' ' + T2 + '/>',
+    pull: '<path d="M16 8L5 14l4 11 5-2v21h20V23l5 2 4-11-11-6c-2 4-5 5-8 5s-6-1-8-5z" ' + f('--obj-culture') + ' ' + T + '/>' +
+      '<path d="M14 30h20M14 35h20" stroke="#fffdf7" stroke-width="2" opacity=".5"/><path d="M25 26c2-2 6-2 7 1c1 3-2 5-5 4s-4-3-2-5z" fill="' + INK + '"/><path d="M12 17l3 6" ' + REFLET + '/>',
+    bateau: '<path d="M4 31h40l-7 9H11z" ' + f('--bois') + ' ' + T + '/><path d="M24 31V5" ' + T + '/><path d="M26 7l13 21H26z" fill="#fffdf7" ' + T + '/>' +
+      '<path d="M22 11L11 28h11z" fill="#f3ecdd" ' + T2 + '/><path d="M24 5l7 2-7 2" fill="#c8323c"/><path d="M4 44q4-3 8 0t8 0t8 0t8 0t8 0" fill="none" stroke="#3c8db0" stroke-width="2.5" stroke-linecap="round"/>'
+  };
+  O.cloche = I.cloche;
+  Object.keys(O).forEach(function (k) { I['obj-' + k] = O[k]; });
   var OBJ0 = [
     { id: 'repas', nom: 'Repas' }, { id: 'lignee', nom: 'Lignée' }, { id: 'vin', nom: 'Vin' }, { id: 'humour', nom: 'Blague' },
     { id: 'bonheur', nom: 'Bonheur' }, { id: 'jeux', nom: 'Jeux' }, { id: 'culture', nom: 'Culture' }
@@ -1212,7 +1312,7 @@ function fixerBrut(g, pid, o, v) {
   return g.scores[pid][o] - av;
 }
 function ajouter(g, pid, o, n) { if (o === "culture" && aObjet(g, pid, "peluche")) o = "jeux"; return fixer(g, pid, o, g.scores[pid][o] + n); }
-function log(g, l) { g.journal = [...(g.journal || []), l].slice(-25); }
+function log(g, l) { g.journal = [...(g.journal || []), l].slice(-25); g.tourLog = [...(g.tourLog || []), l].slice(-40); }
 const fait = (n, o) => `${signe(n)} en ${court(o)}`;
 
 /* ---------- paquets ---------- */
@@ -1573,7 +1673,7 @@ function nouvelleManche(g) {
   g.tour = 0; g.manche = 1; g.phase = "dieu"; g.tirage = null; g.dieuDuTour = null;
   g.aDistribuer = POINTS_PAR_TOUR; g.mods = {x2: [], valeur: null};
   g.file = []; g.suite = null; g.des = null; g.offre = []; g.paquets = {}; g.annonces = []; g.nTour = 0; g.bonus = {}; g.dernierTour = false; g.prochain = {}; g.derniereOffre = {}; g.voirUne = false;
-  g.relances = {}; g.relanceTour = 0; g.proteges = {}; g.platre = null; g.tc = {}; g.deuxCartes = false;
+  g.relances = {}; g.relanceTour = 0; g.proteges = {}; g.platre = null; g.tc = {}; g.deuxCartes = false; g.histo = []; g.tourLog = []; g.infoTour = null;
   g.etapes = Object.fromEntries(g.ordre.map(id => [id, []]));
   g.scores = Object.fromEntries(g.ordre.map(id => [id, scoresVides()]));
   g.completes = Object.fromEntries(g.ordre.map(id => [id, []]));
@@ -1586,17 +1686,31 @@ function nouvelleManche(g) {
   if (pool.length) {
     let k = 0;
     g.ordre.forEach(id => { const l = []; while (l.length < Math.min(OBJETS_PROPOSES, pool.length)) { const x = pool[k++ % pool.length]; if (!l.includes(x)) l.push(x); } g.objOffres[id] = l; });
-    g.phase = "objets"; g.objTour = 0;
+    g.phase = "objets"; g.objTour = 0; g.objJeu = Math.random().toString(36).slice(2, 9);
   }
 }
+function appliquerObjet(g, pid, id) {
+  if (g.phase !== "objets" || g.objets[pid] || !(g.objOffres[pid] || []).includes(id)) return;
+  g.objets[pid] = id;
+  log(g, `${g.noms[pid]} prend l’objet ${OBJET[id].emoji} ${OBJET[id].nom}.`);
+  if (g.ordre.every(x => g.objets[x])) g.phase = "objets_vus";
+}
+/* Tout le monde choisit en même temps : chaque téléphone écrit son choix dans sa fiche joueur,
+   et c’est le plateau qui les reporte dans la partie (aucun choix ne peut en écraser un autre). */
+let objEnvoi = null;
 function choisirObjet(pid, id) {
-  return agir(g => {
-    if (g.phase !== "objets" || g.ordre[g.objTour] !== pid) return;
-    g.objets[pid] = id;
-    log(g, `${g.noms[pid]} prend l’objet ${OBJET[id].emoji} ${OBJET[id].nom}.`);
-    g.objTour++;
-    if (g.objTour >= g.ordre.length) { g.phase = "dieu"; g.objOffres = {}; log(g, `Au tour de ${g.noms[g.ordre[0]]}.`); }
-  });
+  if (test) return agir(g => appliquerObjet(g, pid, id));
+  objEnvoi = {jeu: jeu.objJeu, id};
+  return ecrire(async () => { await db.doc("parties/" + code + "/joueurs/" + pid).set({nom: jeu.noms[pid], arrivee: Date.now(), objet: id, objJeu: jeu.objJeu}); });
+}
+function fusionnerObjets() {
+  if (vue() !== "plateau" || !jeu || jeu.phase !== "objets") return;
+  if (busy) { setTimeout(fusionnerObjets, 400); return; }
+  const nv = joueursLobby.filter(j => j.objet && j.objJeu === jeu.objJeu && jeu.ordre.includes(j.id) && !jeu.objets?.[j.id] && (jeu.objOffres?.[j.id] || []).includes(j.objet));
+  if (nv.length) agir(g => nv.forEach(j => appliquerObjet(g, j.id, j.objet)));
+}
+function commencerPartie() {
+  return agir(g => { if (g.phase !== "objets_vus") return; g.phase = "dieu"; g.objOffres = {}; log(g, `Au tour de ${g.noms[g.ordre[0]]}.`); g.tourLog = []; g.histo = []; });
 }
 function taureauG(g, pid, cible) {
   const objs = OBJECTIFS.filter(o => g.scores[cible][o.id] > 0);
@@ -1657,6 +1771,8 @@ function finTourJoueur(g) {
 }
 function finTour(g) {
   finTourJoueur(g);
+  g.histo = [...(g.histo || []), {pid: g.ordre[g.tour], manche: g.manche, lignes: (g.tourLog || []).filter(l => !l.startsWith("Au tour de "))}].slice(-24);
+  g.tourLog = [];
   const finisseurs = g.ordre.filter(id => g.completes[id].length >= OBJECTIFS_POUR_FINIR);
   g.file = []; g.suite = null; g.des = null;
   if (finisseurs.length && !g.dernierTour) {
@@ -1672,13 +1788,14 @@ function finTour(g) {
   g.aDistribuer = Math.max(0, POINTS_PAR_TOUR + bonus); g.mods = {x2: [], valeur: null};
   const jetons = (g.actives[pid] || []).filter(a => CARTE[a.c].e.t === "obj_jeton").length;
   if (jetons) g.aDistribuer += jetons;
+  const estSonne = !!g.sonne?.[pid], info = [];
   if (g.sonne?.[pid]) { g.aDistribuer = 0; delete g.sonne[pid]; log(g, `🔔 ${g.noms[pid]} est sonné : pas de pions ce tour-ci.`); }
   if (bonus) delete g.bonus[pid];
   if (g.prochain) delete g.prochain[pid];
   const meme = pr.meme && g.derniereOffre?.[pid] ? g.derniereOffre[pid] : null;
   g.deuxCartes = !!pr.deux;
   g.relanceTour = (g.actives[pid] || []).filter(a => CARTE[a.c].e.t === "perso_frisbee").length ? 1 : 0;
-  if (g.proteges?.[pid]) { delete g.proteges[pid]; g.relances = g.relances || {}; g.relances[pid] = (g.relances[pid] || 0) + 1; log(g, `Psychorigide : ${g.noms[pid]} n’a rien bloqué et gagne une relance.`); }
+  if (g.proteges?.[pid]) { info.push(["bonus", "Psychorigide : tu gagnes une relance"]); delete g.proteges[pid]; g.relances = g.relances || {}; g.relances[pid] = (g.relances[pid] || 0) + 1; log(g, `Psychorigide : ${g.noms[pid]} n’a rien bloqué et gagne une relance.`); }
   tirerOffre(g, meme, DIEUX_PROPOSES + (pr.plus || 0));
   if (g.reserve) {
     const rs = g.reserve; g.reserve = null;
@@ -1687,9 +1804,20 @@ function finTour(g) {
       const av = g.offre[j]; if (av) { g.paquets[av.dieu].push(av.carte); g.paquets[av.dieu] = shuffle(g.paquets[av.dieu]); }
       g.offre[j] = {...rs, visible: true};
       log(g, `🍬 Bonbon collant : ${g.noms[pid]} récupère ${dieu(rs.dieu).nom}, laissé par le joueur précédent, carte visible.`);
+      info.push(["bonus", `Bonbon collant : tu récupères ${dieu(rs.dieu).nom}, carte visible`]);
     } else { g.paquets[rs.dieu].push(rs.carte); g.paquets[rs.dieu] = shuffle(g.paquets[rs.dieu]); }
   }
   g.voirUne = !!pr.voir;
+  if (bonus > 0) info.push(["bonus", `${bonus} pion${bonus > 1 ? "s" : ""} en plus ce tour`]);
+  if (bonus < 0) info.push(["malus", `${-bonus} pion${bonus < -1 ? "s" : ""} en moins ce tour`]);
+  if (jetons) info.push(["bonus", `+${jetons} pion${jetons > 1 ? "s" : ""} grâce à tes cartes permanentes`]);
+  if (estSonne) info.push(["malus", "Tu as été sonné : pas de pions ce tour"]);
+  if (meme) info.push(["info", "Même choix de dieux qu’à ton tour précédent"]);
+  if (pr.plus) info.push(["bonus", `Tu choisis parmi ${DIEUX_PROPOSES + pr.plus} dieux`]);
+  if (pr.voir) info.push(["bonus", "Tu vois la carte d’un des dieux proposés"]);
+  if (pr.deux) info.push(["info", "Tu choisiras entre deux cartes du dieu"]);
+  if (g.relanceTour) info.push(["bonus", "Une relance gratuite ce tour"]);
+  g.infoTour = {pid, n: g.nTour, l: info};
   log(g, `Au tour de ${g.noms[pid]}.${bonus > 0 ? ` ${bonus} pion${bonus > 1 ? "s" : ""} en plus.` : bonus < 0 ? ` ${-bonus} pion${bonus < -1 ? "s" : ""} en moins.` : ""}${meme ? " Même choix de dieux qu’au tour précédent." : ""}${pr.plus ? " Un dieu de plus à choisir." : ""}`);
 }
 function enchainer(g, suite) {
@@ -1884,7 +2012,7 @@ function abonner(c) {
   if (vue() === "plateau") {
     unsubs.push(db.collection("parties/" + c + "/joueurs").onSnapshot(s => {
       joueursLobby = s.docs.map(d => ({id: d.id, ...d.data()})).sort((a, b) => (a.arrivee || 0) - (b.arrivee || 0));
-      rendre();
+      rendre(); fusionnerObjets();
     }, () => {}));
   }
 }
@@ -1970,8 +2098,50 @@ function cpt(cle, v, taille) {
 }
 const laurier = (t = 26) => `<span class="lau" role="img" aria-label="objectif complété">${DB.icone("laurier", t)}</span>`;
 const jetonIco = (t = 24) => `<span class="jeton" style="width:${t}px;height:${t}px"></span>`;
-const pastille = (pid, t) => `<span class="pastille" style="--c:${couleur(pid)}${t ? `;width:${t}px;height:${t}px` : ""}"><span ${t ? `style="width:${Math.round(t * .66)}px;height:${Math.round(t * .66)}px"` : ""}>${jeu?.objets?.[pid] ? OBJET[jeu.objets[pid]].emoji : ""}</span></span>`;
-let annVue = null;
+const pastille = (pid, t) => `<span class="pastille" style="--c:${couleur(pid)}${t ? `;width:${t}px;height:${t}px` : ""}"><span ${t ? `style="width:${Math.round(t * .66)}px;height:${Math.round(t * .66)}px"` : ""}>${jeu?.objets?.[pid] ? objIco(jeu.objets[pid], t ? Math.round(t * .55) : 24) : ""}</span></span>`;
+const objIco = (id, t = 26) => DB.icones["obj-" + id] ? DB.icone("obj-" + id, t) : (OBJET[id]?.emoji || "");
+function effetsActifs(pid) {
+  const l = [], fini = jeu.statut !== "en_cours" || ["objets", "objets_vus"].includes(jeu.phase);
+  if (fini || !jeu.scores?.[pid]) return l;
+  const monTour = jeu.ordre[jeu.tour] === pid;
+  if (monTour && jeu.infoTour?.pid === pid && jeu.infoTour.n === jeu.nTour) l.push(...jeu.infoTour.l);
+  if (monTour) {
+    if (jeu.mods?.valeur != null) l.push([jeu.mods.valeur > 1 ? "bonus" : "malus", `Tes pions valent ${signe(jeu.mods.valeur)} ce tour`]);
+    (jeu.mods?.x2 || []).forEach(o => l.push(["bonus", `Pions doublés en ${court(o)} ce tour`]));
+    if (doucheActive(jeu, pid)) l.push(["bonus", "Pommeau de douche : tes pions valent double ce tour"]);
+  }
+  const r = relancesDispo(jeu, pid);
+  if (r) l.push(["bonus", `${r} relance${r > 1 ? "s" : ""} disponible${r > 1 ? "s" : ""}`]);
+  (jeu.actives?.[pid] || []).forEach(a => { const c = CARTE[a.c]; if (c?.e?.t === "pion_x2_perm") l.push(["bonus", `Pions doublés en ${court(c.obj)} (carte permanente)`]); });
+  if (jeu.completes[pid].includes("culture")) l.push(["bonus", "Tu vois les cartes des dieux proposés"]);
+  if (jeu.completes[pid].includes("vin") && !jeu.completes[pid].includes("culture")) l.push(["malus", "Tu ne peux plus compléter Culture"]);
+  if (jeu.platre) l.push(["malus", `Plâtre : personne ne gagne de points en ${court(jeu.platre.o)} ce tour de table`]);
+  if (!monTour) {
+    const b = jeu.bonus?.[pid] || 0, pr = jeu.prochain?.[pid] || {};
+    if (b > 0) l.push(["bonus", `À ton prochain tour : ${b} pion${b > 1 ? "s" : ""} en plus`]);
+    if (b < 0) l.push(["malus", `À ton prochain tour : ${-b} pion${b < -1 ? "s" : ""} en moins`]);
+    if (jeu.sonne?.[pid]) l.push(["malus", "À ton prochain tour : tu es sonné, pas de pions"]);
+    if (pr.plus) l.push(["bonus", "À ton prochain tour : un dieu de plus à choisir"]);
+    if (pr.voir) l.push(["bonus", "À ton prochain tour : tu verras la carte d’un dieu"]);
+    if (pr.meme) l.push(["info", "À ton prochain tour : même choix de dieux"]);
+  }
+  return l;
+}
+function effetsHtml(pid) {
+  const l = effetsActifs(pid);
+  if (!l.length) return "";
+  const ic = {bonus: ["gain", "--olivier"], malus: ["perte", "--terre-cuite"], info: ["oeil", "--egee"]};
+  return `<div class="effets" role="status"><div class="effets-t">Tes bonus et malus</div>${l.map(([t, x]) => `<div class="effet ${t}"><span class="medaillon" style="--t:var(${ic[t][1]})">${DB.icone(ic[t][0], 22)}</span><span>${esc(x)}</span></div>`).join("")}</div>`;
+}
+function resumeHtml() {
+  const h = jeu.histo || [];
+  if (!h.length) return "";
+  const der = h[h.length - 1], recap = jeu.statut === "fini" || (jeu.tour === 0 && der.manche < jeu.manche);
+  const l = recap ? h.filter(e => e.manche === der.manche) : [der];
+  const bloc = e => `<div class="res-j" style="--c:${couleur(e.pid)}">${pastille(e.pid, 36)}<div><b>${esc(jeu.noms[e.pid] || "")}</b>${e.lignes.length ? `<ul>${e.lignes.map(x => `<li>${esc(x)}</li>`).join("")}</ul>` : `<p class="muted small">Rien de particulier.</p>`}</div></div>`;
+  return `<div class="panneau resume"><h2>${recap ? `Récap du tour ${der.manche}` : `Tour précédent : ${esc(jeu.noms[der.pid] || "")}`}</h2>${l.map(bloc).join("")}</div>`;
+}
+let annVues = null, annFile = [], annEnCours = false, revelVue = false;
 function apresRendu() {
   DB.graver(document);
   let change = false, perte = false;
@@ -1984,20 +2154,27 @@ function apresRendu() {
   animerAnnonce();
 }
 function animerAnnonce() {
-  const l = jeu?.annonces || [], a = l[l.length - 1], cle = a ? `${a.pid}|${a.obj}|${a.n}|${a.mi ? 1 : 0}` : "";
-  if (annVue === null || !a) { annVue = cle; return; }
-  if (cle === annVue) return;
-  annVue = cle;
-  if (!(vue() === "plateau" || test) || !jeu.noms?.[a.pid]) return;
-  const o = OBJECTIFS.find(x => x.id === a.obj), e = EFFETS_OBJECTIFS[a.obj];
+  const l = jeu?.annonces || [], cle = a => `${a.pid}|${a.obj}|${a.n}|${a.mi ? 1 : 0}`;
+  if (annVues === null) { annVues = new Set(l.map(cle)); return; }
+  const nv = l.filter(a => !annVues.has(cle(a)));
+  nv.forEach(a => annVues.add(cle(a)));
+  if (!(vue() === "plateau" || test)) return;
+  annFile.push(...nv.filter(a => jeu.noms?.[a.pid]));
+  montrerAnnonce();
+}
+function montrerAnnonce() {
+  if (annEnCours || !annFile.length) return;
+  const a = annFile.shift(), o = OBJECTIFS.find(x => x.id === a.obj), e = EFFETS_OBJECTIFS[a.obj];
+  const res = (jeu?.annonces || []).find(x => x.pid === a.pid && x.obj === a.obj && x.n === a.n && !!x.mi === !!a.mi)?.res;
   const d = document.createElement("div");
   d.className = "annonce-anim"; d.setAttribute("role", "status");
   d.innerHTML = a.mi
-    ? `<div class="annonce-or"><span class="medaillon" style="width:110px;height:110px">${DB.icone("mi-parcours")}</span><b>« ${esc(e.nomMi)} »</b><p>${esc(jeu.noms[a.pid])} atteint ${SEUIL_MI_PARCOURS} en ${esc(o.court)}.</p></div>`
-    : `<div class="annonce-or"><span class="rayons"></span><span class="medaillon" style="width:130px;height:130px;--t:var(--obj-${o.id})">${DB.icone(o.id)}</span><b>${esc(jeu.noms[a.pid])} complète ${esc(o.court)}</b><p><i>« ${esc(e.detail)} »</i></p></div>`;
+    ? `<div class="annonce-or"><span class="medaillon" style="width:110px;height:110px">${DB.icone("mi-parcours")}</span><small>${esc(jeu.noms[a.pid])} atteint ${SEUIL_MI_PARCOURS} en ${esc(o.court)}</small><b>« ${esc(e.nomMi)} »</b><p class="eff">${esc(e.mi)}</p></div>`
+    : `<div class="annonce-or"><span class="rayons"></span><span class="medaillon" style="width:130px;height:130px;--t:var(--obj-${o.id})">${DB.icone(o.id)}</span><b>${esc(jeu.noms[a.pid])} complète ${esc(o.court)}</b><p><i>« ${esc(e.detail)} »</i></p><p class="eff">${esc(e.complete || e.passif)}</p>${e.complete && e.passif ? `<p class="eff">${esc(e.passif)}</p>` : ""}${res && !/^En attente/.test(res) ? `<p class="res">${esc(res)}</p>` : ""}</div>`;
   document.body.appendChild(d);
   DB.son(a.mi ? "gain" : "objectif");
-  setTimeout(() => d.remove(), 3200);
+  annEnCours = true;
+  setTimeout(() => { d.remove(); annEnCours = false; montrerAnnonce(); }, 5600);
 }
 function bulleHtml(id) {
   const o = OBJECTIFS.find(x => x.id === id), qui = jeu.ordre.filter(pid => jeu.completes[pid].includes(id));
@@ -2025,7 +2202,7 @@ function listeJoueurs() {
         ${pastille(pid)}<span><span class="nom">${esc(jeu.noms[pid])}</span><br><span class="sous">${comp.map(() => laurier(22)).join("")}${Array.from({length: Math.min(4, jeu.relances?.[pid] || 0)}, () => jetonIco(20)).join("")} ${comp.length}/${OBJECTIFS_POUR_FINIR} · détail</span></span>
         ${cpt("tot-" + pid, total(jeu.scores[pid]))}</button>
       ${ouvert ? `<div class="detail"><div class="objs">${OBJECTIFS.map(o => `<span class="o ${comp.includes(o.id) ? "ok" : ""}"><span class="o-ic">${DB.icone(o.id, 22)}${esc(o.court)}</span><strong>${jeu.scores[pid][o.id]}</strong></span>`).join("")}</div>
-        ${jeu.objets?.[pid] ? `<p class="small" style="margin:10px 0 4px">Objet</p><span class="chip" title="${esc(OBJET[jeu.objets[pid]].effet)}">${OBJET[jeu.objets[pid]].emoji} ${esc(OBJET[jeu.objets[pid]].nom)}${jeu.objetUtilise?.[pid] ? " (utilisé)" : ""}</span>` : ""}
+        ${jeu.objets?.[pid] ? `<p class="small" style="margin:10px 0 4px">Objet</p><span class="chip" title="${esc(OBJET[jeu.objets[pid]].effet)}">${objIco(jeu.objets[pid], 18)} ${esc(OBJET[jeu.objets[pid]].nom)}${jeu.objetUtilise?.[pid] ? " (utilisé)" : ""}</span>` : ""}
         <p class="small" style="margin:10px 0 4px">Cartes permanentes</p>${permanentes(pid)}</div>` : ""}</div>`;
   }).join("")}</div>`;
 }
@@ -2079,26 +2256,44 @@ function rendrePlateau() {
   }
   const journal = `<details style="margin-top:18px"><summary>Historique de la partie</summary><ul class="log" style="margin-top:8px">${(jeu.journal || []).slice().reverse().map(l => `<li>${esc(l)}</li>`).join("")}</ul></details>`;
   const actuel = jeu.ordre[jeu.tour];
+  if (jeu.phase === "objets_vus" && jeu.statut === "en_cours") {
+    if (!revelVue) { revelVue = true; DB.son("revelation"); }
+    $app.innerHTML = `${tete}<div class="revele"><h2 class="revele-t">Les objets de départ</h2><p class="muted" style="text-align:center">Chaque objet accompagne son joueur toute la partie.</p>
+      <div class="revele-grille">${jeu.ordre.map((pid, i) => { const o = OBJET[jeu.objets[pid]]; return `<article class="objet-carte" style="--c:${couleur(pid)};animation-delay:${i * 140}ms">
+        <div class="oc-tete">${pastille(pid, 44)}<b>${esc(jeu.noms[pid])}</b></div>
+        <span class="medaillon" style="--t:var(--bronze);width:96px;height:96px">${objIco(o.id, 62)}</span><h3>${esc(o.nom)}</h3>
+        ${o.texte ? `<p class="co-cit">« ${esc(o.texte)} »</p>` : ""}<div class="meandre"></div>
+        <p class="co-eff"><strong>EFFET${o.type === "une fois" ? " · UNE FOIS" : o.type === "deux fois" ? " · DEUX FOIS" : ""}</strong>${esc(o.effet)}</p></article>`; }).join("")}</div>
+      <div class="row" style="justify-content:center;margin-top:22px"><button class="primary" id="debut" ${busy ? "disabled" : ""}>Commencer la partie</button></div></div>`;
+    document.getElementById("debut").onclick = commencerPartie;
+    const bs0 = document.getElementById("son"); if (bs0) bs0.onclick = () => { window.DB_MUET = !window.DB_MUET; store("jdd-son", window.DB_MUET ? "0" : "1"); if (!window.DB_MUET) DB.son("tour"); rendre(); };
+    return;
+  }
+  revelVue = false;
   let etat;
   if (jeu.statut === "fini") {
     const cl = jeu.ordre.slice().sort((a, b) => total(jeu.scores[b]) - total(jeu.scores[a]));
     const best = total(jeu.scores[cl[0]]), gagnants = cl.filter(id => total(jeu.scores[id]) === best);
     etat = `<div class="panneau etat" style="--c:${couleur(gagnants[0])}"><div class="muted small">Partie terminée</div>
       <div class="qui">${gagnants.length > 1 ? "Égalité : " : "Victoire de "}${esc(gagnants.map(id => jeu.noms[id]).join(" et "))}</div><p>${best} points</p>
-      <div class="row"><button class="primary" id="rej" ${busy ? "disabled" : ""}>Rejouer avec les mêmes joueurs</button><button id="nouv">Nouvelle partie</button></div></div>`;
+      <div class="row"><button class="primary" id="rej" ${busy ? "disabled" : ""}>Rejouer avec les mêmes joueurs</button><button id="nouv">Nouvelle partie</button></div></div>${resumeHtml()}`;
   } else if (!jeu.ordre.length) {
     etat = `<div class="panneau"><span class="muted">Aperçu sans joueur.</span> <button id="nouv">Nouvelle partie</button></div>`;
   } else {
     let pid = actuel, txt = "";
-    if (jeu.phase === "objets") { pid = jeu.ordre[jeu.objTour]; txt = `choisit son objet de départ.`; }
+    if (jeu.phase === "objets") {
+      const n = jeu.ordre.filter(id => jeu.objets?.[id]).length;
+      etat = `<div class="panneau etat"><div class="muted small">Début de partie</div><div class="qui">Choix des objets · ${n}/${jeu.ordre.length}</div><p>Chacun choisit son objet sur son téléphone, en même temps.</p>
+        <div class="choix-etat">${jeu.ordre.map(id => `<span class="puce">${pastille(id, 26)} ${esc(jeu.noms[id])} ${jeu.objets?.[id] ? "✓" : "…"}</span>`).join("")}</div></div>`;
+    }
     else if (jeu.phase === "dieu") txt = `choisit entre ${jeu.offre.map(o => esc(dieu(o.dieu).nom) + (o.dieu === "jeanne" ? ` (${humeurCourte(o.humeur)})` : "")).join(" et ")}.`;
     else if (jeu.phase === "effet" && jeu.tirage.alt) txt = `choisit entre deux cartes de ${esc(dieu(jeu.tirage.dieu).nom)}.`;
-    else if (jeu.phase === "effet") txt = `reçoit une carte.${carteHtml(jeu.tirage.carte, "", etapeCarte() === 0)}`;
+    else if (jeu.phase === "effet") txt = `découvre sa carte de ${esc(dieu(jeu.tirage.dieu).nom)}.`;
     else if (jeu.phase === "points") txt = `pose ${jeu.aDistribuer} pions.`;
     else if (jeu.phase === "completion" && jeu.file[0].taureau) { pid = jeu.file[0].pid; txt = `a gagné des points en Blague et choisit qui charger. 🐂`; }
     else if (jeu.phase === "completion" && jeu.file[0].blocage) { const f = jeu.file[0]; pid = f.pid; txt = `décide s’il bloque l’action de ${esc(jeu.noms[f.auteur])} avec Psychorigide.`; }
     else if (jeu.phase === "completion") { const f = jeu.file[0]; pid = f.pid; txt = f.mi ? `atteint ${SEUIL_MI_PARCOURS} en ${esc(court(f.obj))}, « ${esc(EFFETS_OBJECTIFS[f.obj].nomMi)} » : ${esc(EFFETS_OBJECTIFS[f.obj].mi)}` : `applique l’effet de ${esc(court(f.obj))} : ${esc(EFFETS_OBJECTIFS[f.obj].complete)}`; }
-    etat = `<div class="panneau etat" style="--c:${couleur(pid)}"><div class="muted small">${jeu.phase === "objets" ? "Début de partie" : jeu.phase === "completion" ? (jeu.file[0].taureau ? "Taureau" : jeu.file[0].blocage ? "Action en attente" : jeu.file[0].mi ? "Étape de mi-parcours" : "Effet de fin d’objectif") : "Au tour de"}</div>${jeu.platre ? `<div class="small" style="margin-top:6px">🧱 Plâtre : personne ne gagne de points en ${esc(court(jeu.platre.o))} ce tour de table.</div>` : ""}<div class="qui">${esc(jeu.noms[pid])}</div><div>${txt}</div></div>`;
+    if (jeu.phase !== "objets") etat = `<div class="panneau etat a-jouer" style="--c:${couleur(pid)}"><div class="muted small">${jeu.phase === "completion" ? (jeu.file[0].taureau ? "Taureau" : jeu.file[0].blocage ? "Action en attente" : jeu.file[0].mi ? "Étape de mi-parcours" : "Effet de fin d’objectif") : "En cours"}</div>${jeu.platre ? `<div class="small" style="margin-top:6px">🧱 Plâtre : personne ne gagne de points en ${esc(court(jeu.platre.o))} ce tour de table.</div>` : ""}<div class="qui">${pastille(pid, 36)} À ${esc(jeu.noms[pid])} de jouer</div><div>${txt}</div></div>${resumeHtml()}`;
   }
   $app.innerHTML = `${tete}<div class="grille">
       <div><div class="panneau roue-boite">${roue()}<div class="bulle" role="tooltip" hidden></div><p class="muted small" style="margin:4px 6px 0">Survole ou touche un objectif pour voir son effet.</p></div></div>
@@ -2228,7 +2423,7 @@ function volHtml(pid) {
 function objetHtml(pid) {
   const id = jeu.objets?.[pid]; if (!id) return volHtml(pid);
   const o = OBJET[id], used = jeu.objetUtilise?.[pid];
-  let h = `<div class="card"><div class="muted small">Ton objet${used ? " (utilisé)" : ""}</div><strong>${o.emoji} ${esc(o.nom)}</strong><p class="desc">${esc(o.effet)}</p>`;
+  let h = `<div class="card"><div class="muted small">Ton objet${used ? " (utilisé)" : ""}</div><div class="objet-ligne"><span class="medaillon" style="--t:var(--bronze);width:52px;height:52px">${objIco(id, 32)}</span><strong>${esc(o.nom)}</strong></div><p class="desc">${esc(o.effet)}</p>`;
   if (id === "velo" && !used && jeu.ordre[jeu.tour] === pid && ["dieu", "points"].includes(jeu.phase) && jeu.scores[pid].lignee > 0) {
     const cibles = OBJECTIFS.filter(x => x.id !== "lignee" && !jeu.completes[pid].includes(x.id));
     h += `<label for="velo">Déplacer tes ${jeu.scores[pid].lignee} points de Lignée vers</label><select id="velo"><option value="">Choisir…</option>${cibles.map(x => `<option value="${x.id}" ${ui.velo === x.id ? "selected" : ""}>${esc(court(x.id))}</option>`).join("")}</select>
@@ -2275,8 +2470,13 @@ function mesScores(pid) {
 }
 function lierScores() { $app.querySelectorAll("[data-to]").forEach(r => { r.onclick = () => { objTel = objTel === r.dataset.to ? "" : r.dataset.to; rendre(); }; r.onkeydown = e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); r.onclick(); } }; }); }
 function banniere(pid) {
-  const l = (jeu.annonces || []).filter(a => a.pid === pid && a.n >= (jeu.nTour || 0) - 1);
-  return l.map(a => `<div class="card annonce-carte" style="--teinte:var(--obj-${a.obj})"><span class="medaillon" style="--t:var(--obj-${a.obj});width:44px;height:44px">${DB.icone(a.mi ? "mi-parcours" : a.obj)}</span><strong>${a.mi ? `${SEUIL_MI_PARCOURS} en ${esc(court(a.obj))}, « ${esc(EFFETS_OBJECTIFS[a.obj].nomMi)} » : ${esc(EFFETS_OBJECTIFS[a.obj].mi)}` : `Tu as complété ${esc(court(a.obj))} !`}</strong></div>`).join("");
+  const l = (jeu.annonces || []).filter(a => a.n >= (jeu.nTour || 0) - 1 && jeu.noms?.[a.pid]);
+  return l.map(a => {
+    const e = EFFETS_OBJECTIFS[a.obj], moi = a.pid === pid, qui = moi ? "Tu" : esc(jeu.noms[a.pid]);
+    const titre = a.mi ? `${qui} ${moi ? "atteins" : "atteint"} ${SEUIL_MI_PARCOURS} en ${esc(court(a.obj))} : « ${esc(e.nomMi)} »` : `${qui} ${moi ? "complètes" : "complète"} ${esc(court(a.obj))} !`;
+    const eff = a.mi ? e.mi : (e.complete || e.passif);
+    return `<div class="card annonce-carte ${moi ? "moi" : ""}" style="--teinte:var(--obj-${a.obj})"><span class="medaillon" style="--t:var(--obj-${a.obj});width:44px;height:44px">${DB.icone(a.mi ? "mi-parcours" : a.obj)}</span><div><strong>${titre}</strong><div class="small">${esc(eff)}</div>${!a.mi && a.res && !/^En attente/.test(a.res) ? `<div class="small muted">${esc(a.res)}</div>` : ""}</div></div>`;
+  }).join("");
 }
 function blocPions(pid, nb, avecTour, idBouton, libelle) {
   const sc = jeu.scores[pid];
@@ -2405,6 +2605,7 @@ function rendreJoueur() {
   const me = monId();
   const pied = `<p class="err">${esc(erreur)}</p>${test ? "" : `<p style="margin-top:24px"><button id="q">Quitter la partie</button></p>`}`;
   const fin = () => { const q = document.getElementById("q"); if (q) q.onclick = quitter; lierScores(); lierObjet(me);
+    if (jeu.scores?.[me] && jeu.ordre?.includes(me)) $app.insertAdjacentHTML("afterbegin", effetsHtml(me));
     $app.insertAdjacentHTML("afterbegin", `<div class="bandeau-joueur">${pastille(me, 40)}<span><b>${esc(jeu.noms[me])}</b><br><span class="muted small">${jeu.manche ? `Tour ${jeu.manche}${jeu.dernierTour ? " · dernier tour" : ""}` : ""}</span></span>${relancesDispo(jeu, me) > 0 ? `<span class="puce">${jetonIco(22)} × ${relancesDispo(jeu, me)}</span>` : ""}</div>`); DB.graver($app); };
   if (jeu.statut === "attente" || !jeu.scores) { $app.innerHTML = `<h1>Partie ${esc(code)}</h1><p>C’est noté, ${esc(load("jdd-nom"))}. La partie commence dès que le plateau la lance.</p>${pied}`; fin(); return; }
   if (!jeu.ordre.includes(me)) { $app.innerHTML = `<p>Tu ne fais pas partie de cette partie.</p>${pied}`; fin(); return; }
@@ -2419,15 +2620,29 @@ function rendreJoueur() {
     $app.innerHTML = `<h1>${esc(jeu.noms[me])}</h1><p><strong>${esc(jeu.noms[f.pid])}</strong> ${f.taureau ? "choisit qui charger avec son taureau" : f.blocage ? "décide s’il bloque une action" : f.mi ? `a atteint ${SEUIL_MI_PARCOURS} en ${esc(court(f.obj))}` : `a complété ${esc(court(f.obj))}`} et applique son effet.</p>${mesScores(me)}${pied}`; fin(); return;
   }
   if (jeu.phase === "objets") {
-    const qui = jeu.ordre[jeu.objTour];
-    if (qui !== me) { $app.innerHTML = `<h1>Objets de départ</h1><p><strong>${esc(jeu.noms[qui])}</strong> choisit son objet.</p>${jeu.objets?.[me] ? objetHtml(me) : `<p class="muted">Ton tour de choisir arrive.</p>`}${pied}`; fin(); return; }
-    $app.innerHTML = `<h1>Choisis ton objet</h1><p>Il t’accompagne toute la partie.</p>
-      <div class="pick">${(jeu.objOffres[me] || []).map(id => { const o = OBJET[id]; return `<button class="choix-objet" data-ob="${id}" ${busy ? "disabled" : ""}><span class="pastille" style="--c:${couleur(me)}"><span>${o.emoji}</span></span><span><strong>${esc(o.nom)}</strong>${o.texte ? `<br><em class="small">« ${esc(o.texte)} »</em>` : ""}<br><span class="muted small">${esc(o.effet)}${o.type === "une fois" ? " (une seule fois)" : ""}</span></span></button>`; }).join("")}</div>${pied}`;
+    if (jeu.objets?.[me]) {
+      const n = jeu.ordre.filter(id => jeu.objets?.[id]).length;
+      $app.innerHTML = `<h1>Ton objet</h1>${objetHtml(me)}<p class="muted">En attente des autres joueurs : ${n}/${jeu.ordre.length} ont choisi.</p>${pied}`; fin(); return;
+    }
+    if (objEnvoi && objEnvoi.jeu === jeu.objJeu && !busy) {
+      const o = OBJET[objEnvoi.id];
+      $app.innerHTML = `<h1>Choix envoyé</h1><div class="card objet-ligne"><span class="medaillon" style="--t:var(--bronze);width:52px;height:52px">${objIco(o.id, 32)}</span><strong>${esc(o.nom)}</strong></div><p class="muted">Le plateau l’enregistre…</p><div class="row"><button id="renv">Renvoyer mon choix</button><button id="autre">Choisir un autre objet</button></div>${pied}`;
+      document.getElementById("renv").onclick = () => choisirObjet(me, objEnvoi.id);
+      document.getElementById("autre").onclick = () => { objEnvoi = null; rendre(); };
+      fin(); return;
+    }
+    $app.innerHTML = `<h1>Choisis ton objet</h1><p>Tout le monde choisit en même temps. Ton objet t’accompagne toute la partie.</p>
+      <div class="pick">${(jeu.objOffres[me] || []).map(id => { const o = OBJET[id]; return `<button class="choix-objet" data-ob="${id}" ${busy ? "disabled" : ""}><span class="medaillon" style="--t:var(--bronze);width:60px;height:60px">${objIco(id, 38)}</span><span><strong>${esc(o.nom)}</strong>${o.texte ? `<br><em class="small">« ${esc(o.texte)} »</em>` : ""}<br><span class="muted small">${esc(o.effet)}${o.type === "une fois" ? " (une seule fois)" : o.type === "deux fois" ? " (deux fois)" : ""}</span></span></button>`; }).join("")}</div>${pied}`;
     $app.querySelectorAll("[data-ob]").forEach(b => b.onclick = () => choisirObjet(me, b.dataset.ob));
     fin(); return;
   }
+  if (jeu.phase === "objets_vus") {
+    $app.innerHTML = `<h1>Les objets sont révélés</h1><p class="muted">Regarde le plateau : la partie commence dès qu’on lance le premier tour.</p>${objetHtml(me)}
+      <h2>Les objets des autres</h2><div class="lignes-objets">${jeu.ordre.filter(id => id !== me).map(id => { const o = OBJET[jeu.objets[id]]; return `<div class="card objet-autre">${pastille(id, 40)}<div><b>${esc(jeu.noms[id])} · ${esc(o.nom)}</b><div class="small muted">${esc(o.effet)}</div></div></div>`; }).join("")}</div>${pied}`;
+    fin(); return;
+  }
   if (actuel !== me) {
-    $app.innerHTML = `<h1>${esc(jeu.noms[me])}</h1>${banniere(me)}<p>Tour ${jeu.manche}${jeu.dernierTour ? " (dernier tour de table)" : ""}. C’est à <strong>${esc(jeu.noms[actuel])}</strong> de jouer.</p>${mesScores(me)}${pied}`; fin(); return;
+    $app.innerHTML = `<h1>${esc(jeu.noms[me])}</h1>${banniere(me)}<p>Tour ${jeu.manche}${jeu.dernierTour ? " (dernier tour de table)" : ""}. C’est à <strong>${esc(jeu.noms[actuel])}</strong> de jouer.</p>${resumeHtml()}<h2>Tes points</h2>${mesScores(me)}${pied}`; fin(); return;
   }
   if (jeu.phase === "dieu") {
     const voitTout = jeu.completes[me].includes("culture"), voit = voitTout || jeu.voirUne;
@@ -2489,7 +2704,7 @@ function rendreTest() {
     };
     return;
   }
-  if (suivre && jeu.statut === "en_cours") testVue = jeu.phase === "completion" ? jeu.file[0].pid : jeu.phase === "objets" ? jeu.ordre[jeu.objTour] : jeu.ordre[jeu.tour];
+  if (suivre && jeu.statut === "en_cours") testVue = jeu.phase === "completion" ? jeu.file[0].pid : jeu.phase === "objets" ? (jeu.ordre.find(id => !jeu.objets?.[id]) || jeu.ordre[0]) : jeu.phase === "objets_vus" ? testVue : jeu.ordre[jeu.tour];
   if (!jeu.ordre.includes(testVue)) testVue = jeu.ordre[0];
   main.innerHTML = `<div class="test"><div id="tplat" class="plat"></div>
     <div><div class="onglets">${jeu.ordre.map(id => `<button data-tv="${id}" class="${id === testVue ? "sel" : ""}">${esc(jeu.noms[id])}</button>`).join("")}</div>
