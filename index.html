@@ -703,6 +703,7 @@ img,svg,table,pre{max-width:100%}
 .oc-dieu-tel{font:700 13px var(--font-titre);letter-spacing:.04em;color:var(--encre-douce)}
 .version{margin-top:24px;font-size:12px;color:var(--encre-douce);opacity:.7}
 .recap-titre-tel{margin-top:40px;text-align:center}
+.recap-info-tel{text-align:center;font-size:18px;color:var(--encre-douce)}
 .selection .carte-dieu,.selection .carte-dos,.choix-carte.selection .carte-obj,.cc-carte.selection .carte-obj,.cc-dos.selection .carte-dos{outline:4px solid var(--egee);outline-offset:3px}
 .choix-objet.selection{border-color:var(--egee);box-shadow:0 0 0 3px var(--egee)}
 .cc-carte{display:block;padding:0;border:none;background:none;box-shadow:none;min-height:0;font:inherit;letter-spacing:0;color:inherit;text-align:left;border-radius:var(--r-carte)}
@@ -763,13 +764,47 @@ img,svg,table,pre{max-width:100%}
 .mjr.revele .mjr-gain,.mjr.mjr-tel .mjr-gain{opacity:1}
 .mjr-pile{position:relative;display:block;width:44px;height:150px}
 .mjr-l{overflow:hidden}
-.mjr-pile i{position:absolute;left:0;width:44px;height:12px;border-radius:50%;background:radial-gradient(ellipse at 50% 35%,#ffe8a0,#e0b13a 60%,#8a6512);border:1.5px solid #6b4a0c;animation:mjTombe .35s ease-in}
-@keyframes mjTombe{0%{transform:translateY(-160px);opacity:0}100%{transform:none;opacity:1}}
+.mjr-pile i{position:absolute;left:0;width:44px;height:12px;border-radius:50%;background:radial-gradient(ellipse at 50% 35%,#ffe8a0,#e0b13a 60%,#8a6512);border:1.5px solid #6b4a0c;box-shadow:0 1px 0 #6b4a0c;animation:mjTombe .45s cubic-bezier(.5,0,.75,0) both}
+.mjr-pile i.posee{animation:none}
+@keyframes mjTombe{0%{transform:translate(var(--dx,0),-190px) rotate(25deg) scaleY(2.2);opacity:0}15%{opacity:1}80%{transform:translate(0,0) rotate(0) scaleY(1)}90%{transform:translateY(-4px)}100%{transform:none;opacity:1}}
+.mjr-l.pile-finie .mjr-val{color:var(--olivier)}
+.mjr.suspense:not(.revele) .mjr-l.gagne{border-color:var(--ligne);box-shadow:none}
+.mjr.suspense:not(.revele) .mjr-rang{visibility:hidden}
+.mjr.suspense.revele .mjr-l.gagne{animation:vainqueur .9s cubic-bezier(.2,1.5,.4,1)}
 .mjr.mjr-tel .mjr-l{grid-template-columns:30px 44px auto 1fr;gap:8px;padding:8px 10px}
 .mjr.mjr-tel .mjr-img svg{max-height:48px}
 .mjr.mjr-tel .mjr-nom{font-size:16px}
 .mjr.mjr-tel .mjr-val{grid-column:2/-1;font-size:14px;font-family:var(--font-texte)}
 .mjr.mjr-tel .mjr-gain{font-size:20px}
+.jr{position:relative;overflow:hidden}
+.detail2{margin:-6px 4px 0;padding:14px 12px 12px;border-radius:0 0 14px 14px;background:var(--surface-haute);border:2px solid var(--ligne);border-top:none;color:var(--encre)}
+.d2-objs{display:grid;grid-template-columns:repeat(auto-fill,minmax(112px,1fr));gap:8px}
+.d2-o{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:6px;padding:6px 8px 8px;border-radius:10px;background:var(--surface);border:1.5px solid var(--ligne)}
+.d2-o.ok{border-color:var(--or);box-shadow:inset 0 0 0 1px var(--or-clair)}
+.d2-ic{display:inline-grid}
+.d2-n{font:600 13px var(--font-texte);color:var(--encre-douce)}
+.d2-v{display:inline-flex;align-items:center;gap:2px;font:700 18px var(--font-titre)}
+.d2-barre{grid-column:1/-1;height:5px;border-radius:9px;background:color-mix(in srgb,var(--t) 15%,transparent);overflow:hidden}
+.d2-barre i{display:block;height:100%;border-radius:9px;background:var(--t)}
+.d2-bas{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.d2-chip{display:inline-flex;align-items:center;gap:5px;padding:3px 10px 3px 6px;border-radius:99px;font:700 13px var(--font-texte);background:var(--surface);border:1.5px solid var(--ligne)}
+.d2-chip.objet{border-color:var(--bronze)}
+.d2-chip.carte{border-color:var(--or);background:color-mix(in srgb,var(--or-clair) 30%,var(--surface))}
+.mj-metro{position:relative;width:100%;height:34px;border-radius:99px;background:var(--surface);border:2px solid var(--ligne)}
+.mj-bille{position:absolute;top:4px;width:22px;height:22px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff3c4,#e0b13a 60%,#8a6512);box-shadow:0 2px 4px #0003}
+.mj-cible{position:absolute;top:2px;width:26px;height:26px;border-radius:50%;border:3px dashed var(--egee);opacity:.6}
+.mj-cible.g{left:1%}.mj-cible.d{right:1%}
+.mj-rame{position:relative;overflow:visible}
+.mj-anneau{position:absolute;inset:6px;border-radius:14px;border:3px solid var(--egee);pointer-events:none;transform-origin:center}
+.mj-rame.attendu{background:var(--egee);color:var(--sur-egee,#fff);border-color:var(--egee);box-shadow:0 0 0 4px color-mix(in srgb,var(--egee) 35%,transparent)}
+.tmj-barre{align-items:center;margin-bottom:6px}
+.tmj-barre button{font-size:12px;padding:4px 10px;min-height:30px}
+/* plateau : la toile tient toujours en entier dans la hauteur de l’écran */
+.plat .grille{grid-template-columns:minmax(0,calc(100vh - 175px)) minmax(300px,1fr)}
+.plat .roue{width:100%;max-height:calc(100vh - 175px);aspect-ratio:1/1;margin:0 auto}
+@supports (height:100dvh){.plat .grille{grid-template-columns:minmax(0,calc(100dvh - 175px)) minmax(300px,1fr)}.plat .roue{max-height:calc(100dvh - 175px)}}
+@container (max-width:760px){ .plat .grille{grid-template-columns:1fr} }
+.mj-ligne.arrive{background:linear-gradient(90deg,transparent 60%,#ffffff44)}
 </style>
 </head>
 <body>
@@ -3791,13 +3826,13 @@ const OBJETS = [
 {"id": "couronne", "dieu": "Nicole", "nom": "Couronne de doyenne", "emoji": "👑", "texte": "C’est pas au vieux singe qu’on apprend à faire des grimaces", "type": "permanent", "effet": "Personne ne peut te voler de carte", "actif": true, "src": ["Nicole", "Couronne de doyenne", "C’est pas au vieux singe qu’on apprend à faire des grimaces", "permanent", "Personne ne peut te voler de carte", "validé"]},
 {"id": "cloche", "dieu": "Madeleine", "nom": "Cloche", "emoji": "🔔", "texte": "Ding Dong, tu sonnes comme personne", "type": "deux fois", "effet": "Tu as deux possibilités de « sonner » un adversaire qui a impacté ton jeu (points, cartes ou pions) : un adversaire sonné ne joue pas de pions au prochain tour", "actif": true, "src": ["Madeleine", "Cloche", "Ding Dong, tu sonnes comme personne", "deux fois", "Tu as deux possibilités de « sonner » un adversaire qui a impacté ton jeu (points, cartes ou pions) : un adversaire sonné ne joue pas de pions au prochain tour", "validé"]},
 {"id": "crayon", "dieu": "Madeleine", "nom": "Crayon de couleur", "emoji": "🖍️", "texte": "Tu dessines comme Mozart", "type": "une fois", "effet": "Au moment des pions, choisis un chiffre de 1 à 3 : tu perds autant de points de Culture pour gagner autant de pions", "actif": true, "src": ["Madeleine", "Crayon de couleur", "Tu dessines comme Mozart", "une fois", "Au moment des pions, choisis un chiffre de 1 à 3 : tu perds autant de points de Culture pour gagner autant de pions", "validé"]},
-{"id": "perenoel", "dieu": "Madeleine", "nom": "Père Noël", "emoji": "🎅", "texte": "Ta passion pour Noël est dévorante", "type": "permanent", "effet": "Tout pion supplémentaire ajoute 1 en Repas", "actif": true, "src": ["Madeleine", "Père Noël", "Ta passion pour Noël est dévorante", "permanent", "Tout pion supplémentaire ajoute 1 en Repas", "validé"]},
+{"id": "perenoel", "dieu": "Madeleine", "nom": "Bonnet de Noël", "emoji": "🎅", "texte": "Ta passion pour Noël est dévorante", "type": "permanent", "effet": "Tout pion supplémentaire ajoute 1 en Repas", "actif": true, "src": ["Madeleine", "Bonnet de Noël", "Ta passion pour Noël est dévorante", "permanent", "Tout pion supplémentaire ajoute 1 en Repas", "validé"]},
 {"id": "manette", "dieu": "Martin", "nom": "Manette", "emoji": "🎮", "texte": "Gros geek", "type": "condition", "effet": "Si tu n’as joué que des pions en Jeux, rejoue les effets de parcours de Jeux", "actif": true, "src": ["Martin", "Manette", "Gros geek", "condition", "Si tu n’as joué que des pions en Jeux, rejoue les effets de parcours de Jeux", "validé"]},
 {"id": "bonbon", "dieu": "Martin", "nom": "Bonbon collant", "emoji": "🍬", "texte": "Tu as deux couronnes et pourtant tu n’es pas roi", "type": "permanent", "effet": "Tu as toujours le choix du dieu qui n’a pas été choisi par le joueur précédent, la carte de ce dieu est face visible", "actif": true, "src": ["Martin", "Bonbon collant", "Tu as deux couronnes et pourtant tu n’es pas roi", "permanent", "Tu as toujours le choix du dieu qui n’a pas été choisi par le joueur précédent, la carte de ce dieu est face visible", "validé"]},
 {"id": "douche", "dieu": "Martin", "nom": "Pommeau de douche", "emoji": "🚿", "texte": "Un jour sur deux", "type": "condition", "effet": "Tous les débuts de tours impairs tu choisis une catégorie ; tous les tours pairs, avant d’utiliser les pions, si tu es dernier (égalité comprise) sur la catégorie tu gagnes x2 sur tes pions pour le tour", "actif": true, "src": ["Martin", "Pommeau de douche", "Un jour sur deux", "condition", "Tous les débuts de tours impairs tu choisis une catégorie ; tous les tours pairs, avant d’utiliser les pions, si tu es dernier (égalité comprise) sur la catégorie tu gagnes x2 sur tes pions pour le tour", "validé"]},
 {"id": "couteau", "dieu": "Christophe", "nom": "Couteau de cuisine", "emoji": "🔪", "texte": "Petit verre de rouge et couteau aiguisé, rien ne t’arrête en cuisine", "type": "permanent", "effet": "Tu as 10 % de chances en plus d’avoir un dieu qui propose du Vin ou du Repas", "actif": true, "src": ["Christophe", "Couteau de cuisine", "Petit verre de rouge et couteau aiguisé, rien ne t’arrête en cuisine", "permanent", "Tu as 10 % de chances en plus d’avoir un dieu qui propose du Vin ou du Repas", "validé"]},
 {"id": "cartouche", "dieu": "Christophe", "nom": "Cartouche", "emoji": "🎯", "texte": "Tu douilles tes adversaires", "type": "condition", "effet": "Quand tu complètes un objectif, chaque autre joueur y perd 1 point", "actif": true, "src": ["Christophe", "Cartouche", "Tu douilles tes adversaires", "condition", "Quand tu complètes un objectif, chaque autre joueur y perd 1 point", "validé"]},
-{"id": "taureau", "dieu": "Christophe", "nom": "Taureau", "emoji": "🐂", "texte": "Piscine !", "type": "condition", "effet": "Chaque fois que tu gagnes des points en Blague, tu peux attaquer un joueur qui perd 1 sur un objectif aléatoire", "actif": true, "src": ["Christophe", "Taureau", "Piscine !", "condition", "Chaque fois que tu gagnes des points en Blague, tu peux attaquer un joueur qui perd 1 sur un objectif aléatoire", "validé"]},
+{"id": "taureau", "dieu": "Christophe", "nom": "Taureau", "emoji": "🐂", "texte": "Taureau Piscine !", "type": "condition", "effet": "Chaque fois que tu gagnes des points en Blague, tu peux attaquer un joueur qui perd 1 sur un objectif aléatoire", "actif": true, "src": ["Christophe", "Taureau", "Taureau Piscine !", "condition", "Chaque fois que tu gagnes des points en Blague, tu peux attaquer un joueur qui perd 1 sur un objectif aléatoire", "validé"]},
 {"id": "harpon", "dieu": "Jeanne", "nom": "Fusil à harpon", "emoji": "🔱", "texte": "Belle prise", "type": "condition", "effet": "À chaque fois qu’un adversaire atteint un palier d’objectif, tu as une chance sur 2 de gagner un jeton pour le prochain tour (pièce pile ou face)", "actif": true, "src": ["Jeanne", "Fusil à harpon", "Belle prise", "condition", "À chaque fois qu’un adversaire atteint un palier d’objectif, tu as une chance sur 2 de gagner un jeton pour le prochain tour (pièce pile ou face)", "validé"]},
 {"id": "pull", "dieu": "Jeanne", "nom": "Pull troué", "emoji": "🧶", "texte": "Celui-là a grandi avec toi, littéralement", "type": "condition", "effet": "Dès lors que tu as entre 3 et 7 points dans tous les objectifs, tu gagnes une carte longue durée qui t’accorde un jeton en plus chaque tour", "actif": true, "src": ["Jeanne", "Pull troué", "Celui-là a grandi avec toi, littéralement", "condition", "Dès lors que tu as entre 3 et 7 points dans tous les objectifs, tu gagnes une carte longue durée qui t’accorde un jeton en plus chaque tour", "validé"]},
 {"id": "bateau", "dieu": "Jeanne", "nom": "Bateau", "emoji": "⛵", "texte": "Ti t’eu bin sur tin rafio", "type": "condition", "effet": "Si tu es le premier joueur à atteindre l’objectif Bonheur, tu gagnes une carte longue durée qui te permet de voler un point chaque tour sur l’objectif de ton choix au joueur de ton choix", "actif": true, "src": ["Jeanne", "Bateau", "Ti t’eu bin sur tin rafio", "condition", "Si tu es le premier joueur à atteindre l’objectif Bonheur, tu gagnes une carte longue durée qui te permet de voler un point chaque tour sur l’objectif de ton choix au joueur de ton choix", "validé"]}
@@ -4395,8 +4430,8 @@ function planifierDepart() {
 function taureauG(g, pid, cible) {
   const objs = OBJECTIFS.filter(o => g.scores[cible][o.id] > 0);
   g.taureauAnim = {id: Math.random().toString(36).slice(2), par: pid, cible, t: Date.now()};
-  if (objs.length) { const o = shuffle(objs)[0].id; log(g, `Piscine ! ${g.noms[pid]} charge ${g.noms[cible]} en ${court(o)}.`); viser(g, pid, cible, {k: "pertes", l: [o]}); }
-  else log(g, `Piscine ! ${g.noms[pid]} charge ${g.noms[cible]}, qui n’a aucun point à perdre.`);
+  if (objs.length) { const o = shuffle(objs)[0].id; log(g, `Taureau Piscine ! ${g.noms[pid]} charge ${g.noms[cible]} en ${court(o)}.`); viser(g, pid, cible, {k: "pertes", l: [o]}); }
+  else log(g, `Taureau Piscine ! ${g.noms[pid]} charge ${g.noms[cible]}, qui n’a aucun point à perdre.`);
   resolu(g);
 }
 function volBateauG(g, pid, cible, o) {
@@ -4658,7 +4693,7 @@ function resoudrePions(g, pid) {
   OBJECTIFS.forEach(o => { const k = Math.max(0, Math.min(reste, parseInt(p.alloc?.[o.id], 10) || 0)); if (k) { alloc[o.id] = k; reste -= k; } });
   const extra = Math.max(0, g.aDistribuer - POINTS_PAR_TOUR);
   poserPions(g, pid, alloc, true);
-  if (extra && aObjet(g, pid, "perenoel")) { const r = ajouter(g, pid, "repas", extra); log(g, `Père Noël : ${extra} pion${extra > 1 ? "s" : ""} en plus, ${fait(r, "repas")}.`); }
+  if (extra && aObjet(g, pid, "perenoel")) { const r = ajouter(g, pid, "repas", extra); log(g, `Bonnet de Noël : ${extra} pion${extra > 1 ? "s" : ""} en plus, ${fait(r, "repas")}.`); }
   g.actives[pid].forEach(a => { const c = CARTE[a.c]; if (c.e.t === "par_tour") { const r = ajouter(g, pid, c.obj, c.e.n); log(g, `Carte permanente : ${g.noms[pid]} ${fait(r, c.obj)}.`); }
     if (c.e.t === "perso_asso") { const l = OBJECTIFS.filter(o => !g.completes[pid].includes(o.id)); if (l.length) { const o = shuffle(l)[0].id; const r = ajouter(g, pid, o, 1); log(g, `Asso des aveugles : ${g.noms[pid]} ${fait(r, o)}.`); } } });
 }
@@ -4854,14 +4889,15 @@ function carteRecap(pid, i) {
 const MJ = {
   vase:   {nom: "Le vase romain", consigne: "Tape sur ton vase : le premier à le casser gagne !", max: 25000},
   pieces: {nom: "La pluie de drachmes", consigne: "Attrape le plus de pièces possible en 20 secondes !", duree: 20000, max: 21500},
-  barque: {nom: "La course de barques", consigne: "Rame à gauche puis à droite, en rythme : le premier arrivé gagne !", max: 40000}
+  barque: {nom: "La course de barques", consigne: "Appuie à gauche puis à droite au rythme indiqué : le premier arrivé gagne !", max: 40000}
 };
-const MJ_DECOMPTE = 3000, MJ_COUPS = 40;
+const MJ_DECOMPTE = 3000, MJ_COUPS = 50;
+const etatVase = (v, fin) => fin ? 5 : Math.min(4, Math.floor((v || 0) / 10));
 let mjLoc = null, mjProg = {}, mjTicker = null, mjSnapT = 0, mjFinLance = "", mjLanceCle = "", mjResolLance = "", mjPilesVu = "";
 
 function vaseSvg(e, t) {
   const ink = "#2a2118", terre = "#c4683a", ombre = "#8e4422";
-  if (e >= 4) return `<svg viewBox="0 0 100 140" width="${t}" height="${t * 1.4}" role="img" aria-label="vase cassé">
+  if (e >= 5) return `<svg viewBox="0 0 100 140" width="${t}" height="${t * 1.4}" role="img" aria-label="vase cassé">
     <ellipse cx="50" cy="128" rx="44" ry="8" fill="#000" opacity=".12"/>
     <path d="M14 126l10-18 14 4-4 14z" fill="${terre}" stroke="${ink}" stroke-width="2.2" stroke-linejoin="round"/>
     <path d="M40 128l6-22 16 2 2 20z" fill="${ombre}" stroke="${ink}" stroke-width="2.2" stroke-linejoin="round"/>
@@ -4873,7 +4909,8 @@ function vaseSvg(e, t) {
     "",
     `<path d="M58 52l-5 9 6 7-4 9" fill="none" stroke="${ink}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>`,
     `<path d="M36 70l7 6-3 9 6 6" fill="none" stroke="${ink}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M62 84l-6 7 5 6-3 8" fill="none" stroke="${ink}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>`,
-    `<path d="M44 46l9 4-2 6 8 3-3 7z" fill="#5a2a12" stroke="${ink}" stroke-width="2" stroke-linejoin="round"/><path d="M30 92l9 3 2 8 7 4M66 66l6 6-2 8 6 6" fill="none" stroke="${ink}" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>`
+    `<path d="M44 46l9 4-2 6 8 3-3 7z" fill="#5a2a12" stroke="${ink}" stroke-width="2" stroke-linejoin="round"/><path d="M30 92l9 3 2 8 7 4M66 66l6 6-2 8 6 6" fill="none" stroke="${ink}" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>`,
+    `<path d="M60 88l10-4 4 9-6 8-9-3z" fill="#5a2a12" stroke="${ink}" stroke-width="2" stroke-linejoin="round"/><path d="M28 54l-6 10 5 6" fill="#5a2a12" stroke="${ink}" stroke-width="2" stroke-linejoin="round"/><path d="M50 12v14l-6 10 8 12-4 14 6 12-3 16 5 14M38 104l12-6 14 8M24 66l10 4 6 12" fill="none" stroke="${ink}" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M70 104l6 8-4 4" fill="none" stroke="${ink}" stroke-width="2" stroke-linecap="round"/>`
   ];
   return `<svg viewBox="0 0 100 140" width="${t}" height="${t * 1.4}" role="img" aria-label="vase romain">
     <ellipse cx="50" cy="132" rx="26" ry="5" fill="#000" opacity=".12"/>
@@ -4923,7 +4960,7 @@ function mjBot(id, el) {
   const j = jeu.mj.jeu;
   if (j === "vase") { p.v = Math.min(MJ_COUPS, Math.floor(el / 1000 * 5.5 * p.vit)); if (p.v >= MJ_COUPS) { p.fin = true; p.t = el; } }
   else if (j === "pieces") { p.v = Math.floor(Math.min(el, 20000) / 1000 * 1.3 * p.vit); if (el >= 20000) p.fin = true; }
-  else { p.v = Math.min(100, el / 1000 * 7 * p.vit); if (p.v >= 100) { p.fin = true; p.t = el; } }
+  else { p.v = Math.min(100, el / 1000 * 5.2 * p.vit); if (p.v >= 100) { p.fin = true; p.t = el; } }
 }
 function mjTick() {
   const m = jeu?.mj;
@@ -4961,14 +4998,14 @@ function mjMajPlateau() {
   jeu.ordre.forEach(id => {
     const p = mjProg[id] || {v: 0}, bloc = st.querySelector(`[data-mjp="${id}"]`);
     if (!bloc) return;
-    if (m.jeu === "vase") { const e = p.fin ? 4 : Math.min(3, Math.floor((p.v || 0) / 10)); if (bloc.dataset.e !== String(e)) { bloc.dataset.e = e; bloc.querySelector(".mjp-img").innerHTML = vaseSvg(e, 120); } bloc.querySelector(".mjp-v").textContent = p.fin ? "Cassé !" : `${p.v || 0} / ${MJ_COUPS}`; }
+    if (m.jeu === "vase") { const e = etatVase(p.v, p.fin); if (bloc.dataset.e !== String(e)) { bloc.dataset.e = e; bloc.querySelector(".mjp-img").innerHTML = vaseSvg(e, 120); } bloc.querySelector(".mjp-v").textContent = p.fin ? "Cassé !" : ""; }
     else if (m.jeu === "pieces") bloc.querySelector(".mjp-v").textContent = p.v || 0;
-    else { bloc.querySelector(".mj-bateau").style.left = `calc(${Math.min(100, p.v || 0)}% * .86)`; }
+    else { bloc.querySelector(".mj-bateau").style.left = `calc(${Math.min(100, p.v || 0)}% * .86)`; const cle = m.id + "|" + id; if (p.fin && !mjArrives.has(cle)) { mjArrives.add(cle); foule(mjArrives.size % 2 ? 2800 : 2000); bloc.classList.add("arrive"); } }
   });
 }
 function mjPlateauHtml(m) {
   const lignes = jeu.ordre.map(id => {
-    if (m.jeu === "vase") return `<div class="mjp-vase" data-mjp="${id}" data-e="0" style="--c:${couleur(id)}"><div class="mjp-img">${vaseSvg(0, 120)}</div><b>${pastille(id, 28)} ${esc(jeu.noms[id])}</b><span class="mjp-v">0 / ${MJ_COUPS}</span></div>`;
+    if (m.jeu === "vase") return `<div class="mjp-vase" data-mjp="${id}" data-e="0" style="--c:${couleur(id)}"><div class="mjp-img">${vaseSvg(0, 120)}</div><b>${pastille(id, 28)} ${esc(jeu.noms[id])}</b><span class="mjp-v"></span></div>`;
     if (m.jeu === "pieces") return `<div class="mjp-piece" data-mjp="${id}" style="--c:${couleur(id)}">${pieceOrSvg(56)}<span class="mjp-v">0</span><b>${pastille(id, 28)} ${esc(jeu.noms[id])}</b></div>`;
     return `<div class="mj-ligne grande" data-mjp="${id}" style="--c:${couleur(id)}"><span class="mj-nom">${pastille(id, 26)} ${esc(jeu.noms[id])}</span><span class="mj-bateau" style="left:0">${bateauSvg(couleur(id), 92)}</span></div>`;
   }).join("");
@@ -4978,35 +5015,45 @@ function mjPlateauHtml(m) {
     <div class="mjp-dec" id="mjp-dec"></div></div>`;
 }
 function mjResultatsHtml(m, tel) {
-  const cl = mjClassement(m, m.prog || {}), p = id => (m.prog || {})[id] || {v: 0};
-  const val = id => m.jeu === "vase" ? (p(id).fin ? `cassé en ${(p(id).t / 1000).toFixed(1)} s` : `${p(id).v} / ${MJ_COUPS} coups`) : m.jeu === "pieces" ? `${p(id).v} pièce${p(id).v > 1 ? "s" : ""}` : (p(id).fin ? `arrivé en ${(p(id).t / 1000).toFixed(1)} s` : `${Math.round(p(id).v)} % du parcours`);
-  const img = id => m.jeu === "vase" ? vaseSvg(p(id).fin ? 4 : Math.min(3, Math.floor(p(id).v / 10)), tel ? 34 : 110) : m.jeu === "pieces" ? (tel ? pieceOrSvg(30) : `<span class="mjr-pile" data-pile="${id}" data-n="${p(id).v}"></span>`) : bateauSvg(couleur(id), tel ? 40 : 80);
-  return `<div class="mjr ${tel ? "mjr-tel" : ""}"><h2 class="revele-t">${esc(MJ[m.jeu].nom)}</h2>
+  const suspense = m.jeu === "pieces" && !tel, cl = suspense ? jeu.ordre.slice() : mjClassement(m, m.prog || {}), p = id => (m.prog || {})[id] || {v: 0};
+  const val = id => m.jeu === "vase" ? (p(id).fin ? `cassé en ${(p(id).t / 1000).toFixed(1)} s` : ["intact", "fêlé", "fissuré", "très fissuré", "en morceaux", "cassé"][etatVase(p(id).v, false)]) : m.jeu === "pieces" ? `${p(id).v} pièce${p(id).v > 1 ? "s" : ""}` : (p(id).fin ? `arrivé en ${(p(id).t / 1000).toFixed(1)} s` : `${Math.round(p(id).v)} % du parcours`);
+  const img = id => m.jeu === "vase" ? vaseSvg(etatVase(p(id).v, p(id).fin), tel ? 34 : 110) : m.jeu === "pieces" ? (tel ? pieceOrSvg(30) : `<span class="mjr-pile" data-pile="${id}" data-n="${p(id).v}"></span>`) : bateauSvg(couleur(id), tel ? 40 : 80);
+  return `<div class="mjr ${tel ? "mjr-tel" : ""} ${suspense ? "suspense" : ""}"><h2 class="revele-t">${esc(MJ[m.jeu].nom)}</h2>
     <div class="mjr-liste">${cl.map((id, i) => `<div class="mjr-l ${id === m.gagnant ? "gagne" : ""}" style="--c:${couleur(id)}"><span class="mjr-rang">${id === m.gagnant ? DB.icone("laurier", 30) : i + 1}</span><span class="mjr-img">${img(id)}</span>${pastille(id, tel ? 30 : 40)}<span class="mjr-nom">${esc(jeu.noms[id])}</span><span class="mjr-val" ${m.jeu === "pieces" && !tel ? `data-compte="${id}"` : ""}>${m.jeu === "pieces" && !tel ? "0 pièce" : val(id)}</span></div>`).join("")}</div>
     <p class="mjr-gain">${esc(m.gain ? m.gain.charAt(0).toUpperCase() + m.gain.slice(1) : "")} !</p></div>`;
 }
+let mjPiles = {id: "", k: 0, max: 0};
 function mjPilesAnimer(m) {
-  const esp = Math.min(5, 130 / Math.max(1, ...Object.values(m.prog || {}).map(x => x.v || 0)));
-  if (mjPilesVu === m.id) { document.querySelectorAll("#mj-plateau [data-pile]").forEach(e => { const n = +e.dataset.n; e.innerHTML = Array.from({length: n}, (_, k) => `<i style="bottom:${k * esp}px"></i>`).join(""); }); document.querySelectorAll("[data-compte]").forEach(e => { const n = (m.prog?.[e.dataset.compte]?.v) || 0; e.textContent = `${n} pièce${n > 1 ? "s" : ""}`; }); return; }
-  mjPilesVu = m.id;
-  let k = 0;
-  const max = Math.max(0, ...Object.values(m.prog || {}).map(x => x.v || 0));
+  const max = Math.max(0, ...Object.values(m.prog || {}).map(x => x.v || 0)), esp = Math.min(5, 130 / Math.max(1, max));
+  const piles = () => document.querySelectorAll("#mj-plateau [data-pile]");
+  const compteurs = k => document.querySelectorAll("#mj-plateau [data-compte]").forEach(e => { const n = Math.min(k, (m.prog?.[e.dataset.compte]?.v) || 0); e.textContent = `${n} pièce${n > 1 ? "s" : ""}`; e.closest(".mjr-l")?.classList.toggle("pile-finie", k >= ((m.prog?.[e.dataset.compte]?.v) || 0)); });
+  if (mjPiles.id === m.id) {
+    /* l’écran a été redessiné pendant l’animation : on remet les piles là où elles en étaient, sans tout montrer d’un coup */
+    piles().forEach(e => { if (e.children.length) return; const n = Math.min(+e.dataset.n, mjPiles.k); e.innerHTML = Array.from({length: n}, (_, k) => `<i class="posee" style="bottom:${k * esp}px"></i>`).join(""); });
+    compteurs(mjPiles.k);
+    if (mjPiles.k >= max) document.querySelector(".mjr")?.classList.add("revele");
+    return;
+  }
+  mjPiles = {id: m.id, k: 0, max};
+  piles().forEach(e => { e.innerHTML = ""; });
+  compteurs(0);
   const tic = () => {
-    if (!document.getElementById("mj-plateau")) return;
-    k++;
-    document.querySelectorAll("#mj-plateau [data-pile]").forEach(e => { const n = +e.dataset.n; if (k <= n) { const c = document.createElement("i"); c.style.bottom = (k - 1) * esp + "px"; e.appendChild(c); } });
-    document.querySelectorAll("[data-compte]").forEach(e => { const n = Math.min(k, (m.prog?.[e.dataset.compte]?.v) || 0); e.textContent = `${n} pièce${n > 1 ? "s" : ""}`; });
-    if (k % 3 === 0) DB.son("pion");
-    if (k < max) setTimeout(tic, 110);
-    else document.querySelector(".mjr")?.classList.add("revele");
+    if (mjPiles.id !== m.id || !document.getElementById("mj-plateau")) return;
+    mjPiles.k++;
+    const k = mjPiles.k;
+    piles().forEach(e => { if (k <= +e.dataset.n) { const c = document.createElement("i"); c.style.bottom = (k - 1) * esp + "px"; c.style.setProperty("--dx", (Math.random() * 16 - 8).toFixed(1) + "px"); e.appendChild(c); } });
+    compteurs(k);
+    if (k % 2 === 0) DB.son("pion");
+    if (k < max) setTimeout(tic, Math.max(60, 140 - k * 2));
+    else setTimeout(() => { document.querySelector(".mjr")?.classList.add("revele"); DB.son("objectif"); }, 500);
   };
-  if (max) setTimeout(tic, 400); else document.querySelector(".mjr")?.classList.add("revele");
+  if (max) setTimeout(tic, 900); else document.querySelector(".mjr")?.classList.add("revele");
 }
 function mjPlanifierSuite(m) {
   if (mjResolLance === m.id) return;
   mjResolLance = m.id;
   const max = Math.max(0, ...Object.values(m.prog || {}).map(x => x.v || 0));
-  const d = m.jeu === "pieces" ? 4500 + max * 110 : 6500;
+  const d = m.jeu === "pieces" ? 5500 + max * 120 : 6500;
   setTimeout(function go() { if (busy) return setTimeout(go, 300); agir(g => { if (g.mj?.id === m.id && g.mj.etat === "fini") { g.mj = null; resolu(g); } }); }, d);
 }
 
@@ -5049,8 +5096,8 @@ function mjMajBateaux(me) {
 }
 const MJ_TEL = {
   vase(me, z, L) {
-    const etat = () => L.fin ? 4 : Math.min(3, Math.floor(L.v / 10));
-    z.innerHTML = `<button class="mj-vase" id="mjv" aria-label="Taper sur le vase">${vaseSvg(etat(), 200)}</button><div class="mj-compteur" id="mjc">${L.fin ? "Cassé !" : `${L.v} / ${MJ_COUPS}`}</div>`;
+    const etat = () => etatVase(L.v, L.fin);
+    z.innerHTML = `<button class="mj-vase" id="mjv" aria-label="Taper sur le vase">${vaseSvg(etat(), 200)}</button><div class="mj-compteur" id="mjc">${L.fin ? "Cassé !" : ""}</div>`;
     const b = document.getElementById("mjv");
     b.onpointerdown = e => {
       e.preventDefault();
@@ -5060,7 +5107,7 @@ const MJ_TEL = {
       else DB.son("pion");
       if (etat() !== avant) b.innerHTML = vaseSvg(etat(), 200);
       b.classList.remove("choc"); void b.offsetWidth; b.classList.add("choc");
-      document.getElementById("mjc").textContent = L.fin ? "Cassé !" : `${L.v} / ${MJ_COUPS}`;
+      document.getElementById("mjc").textContent = L.fin ? "Cassé !" : "";
       mjEnvoyer(me, L, L.fin);
     };
   },
@@ -5084,25 +5131,49 @@ const MJ_TEL = {
     spawn();
   },
   barque(me, z, L) {
+    /* rythme imposé : un temps toutes les 560 ms, à gauche puis à droite ; la bille et la lueur indiquent quand appuyer */
+    const P = 560, cote = k => k % 2 === 0 ? "g" : "d";
     z.innerHTML = `<div class="mj-riviere">${jeu.ordre.map(id => `<div class="mj-ligne ${id === me ? "moi" : ""}" data-mjb="${id}" style="--c:${couleur(id)}"><span class="mj-nom">${esc(jeu.noms[id])}</span><span class="mj-bateau">${bateauSvg(couleur(id), 54)}</span></div>`).join("")}<span class="mj-arrivee"></span></div>
-      <div class="mj-retour" id="mjf">${L.fin ? "Arrivé !" : "Rame !"}</div>
-      <div class="mj-rames"><button class="mj-rame" data-cote="g">Gauche</button><button class="mj-rame" data-cote="d">Droite</button></div>`;
+      <div class="mj-metro"><span class="mj-bille" id="mjbille"></span><span class="mj-cible g"></span><span class="mj-cible d"></span></div>
+      <div class="mj-retour" id="mjf">${L.fin ? "Arrivé !" : "Suis le rythme !"}</div>
+      <div class="mj-rames"><button class="mj-rame" data-cote="g"><span class="mj-anneau"></span>Gauche</button><button class="mj-rame" data-cote="d"><span class="mj-anneau"></span>Droite</button></div>`;
     mjMajBateaux(me);
-    const iv = setInterval(() => { if (mjLoc !== L || !document.getElementById("mjf")) return clearInterval(iv); mjMajBateaux(me); }, 300);
+    L.faits = L.faits || {};
+    const bille = document.getElementById("mjbille"), btn = {g: z.querySelector("[data-cote='g']"), d: z.querySelector("[data-cote='d']")};
+    const boucle = () => {
+      if (mjLoc !== L || !document.getElementById("mjf")) return;
+      const t = Date.now() - L.debut, ph = ((t % (2 * P)) + 2 * P) % (2 * P) / (2 * P);
+      /* la bille va de gauche (temps pair) à droite (temps impair) et revient */
+      const x = ph < .5 ? ph * 2 : 2 - ph * 2;
+      bille.style.left = `calc(${(x * 100).toFixed(1)}% * .9 + 2%)`;
+      const k = Math.round(t / P), dist = Math.abs(t - k * P) / P;
+      ["g", "d"].forEach(c => {
+        const actif = cote(k) === c && !L.fin;
+        btn[c].classList.toggle("attendu", actif && dist < .22);
+        const an = btn[c].querySelector(".mj-anneau"), kp = Math.ceil(t / P), reste = Math.max(0, (kp * P - t) / P);
+        const montre = !L.fin && cote(kp) === c;
+        an.style.transform = `scale(${(1 + reste * .22).toFixed(3)})`; an.style.opacity = montre ? (1 - reste * .7).toFixed(2) : 0;
+      });
+      requestAnimationFrame(boucle);
+    };
+    requestAnimationFrame(boucle);
+    const ivB = setInterval(() => { if (mjLoc !== L || !document.getElementById("mjf")) return clearInterval(ivB); mjMajBateaux(me); }, 300);
     z.querySelectorAll("[data-cote]").forEach(b => b.onpointerdown = e => {
       e.preventDefault();
       if (L.fin || Date.now() - L.debut > MJ.barque.max) return;
-      const now = Date.now(), cote = b.dataset.cote, f = document.getElementById("mjf");
+      const now = Date.now(), t = now - L.debut, k = Math.round(t / P), ecart = Math.abs(t - k * P), c = b.dataset.cote, f = document.getElementById("mjf");
       b.classList.remove("coup"); void b.offsetWidth; b.classList.add("coup");
-      if (L.cote === cote) { L.v = Math.max(0, L.v - 1); f.textContent = "Alterne gauche et droite !"; f.className = "mj-retour mal"; }
+      if (k < 0) return;
+      if (cote(k) !== c) { L.v = Math.max(0, L.v - 1.5); f.textContent = "Mauvais côté !"; f.className = "mj-retour mal"; }
+      else if (L.faits[k]) { f.textContent = "Un seul coup par temps"; f.className = "mj-retour mal"; }
       else {
-        const iv2 = L.dernier ? now - L.dernier : 450, q = Math.max(.15, 1 - Math.abs(iv2 - 450) / 450);
-        L.v = Math.min(100, L.v + (L.dernier ? 3.4 * q : 1.5));
-        f.textContent = q > .8 ? "Parfait !" : q > .5 ? "Bien" : iv2 < 450 ? "Trop vite" : "Trop lent"; f.className = "mj-retour " + (q > .8 ? "top" : q > .5 ? "bien" : "mal");
-        DB.son("pion");
+        L.faits[k] = true;
+        const q = Math.max(0, 1 - ecart / (P / 2)), gain = q > .8 ? 4 : q > .55 ? 2.6 : q > .3 ? 1.2 : 0;
+        L.v = Math.min(100, L.v + gain);
+        f.textContent = q > .8 ? "Parfait !" : q > .55 ? "Bien" : q > .3 ? "Presque" : "Raté"; f.className = "mj-retour " + (q > .8 ? "top" : q > .55 ? "bien" : "mal");
+        if (gain) DB.son("pion");
       }
-      L.cote = cote; L.dernier = now;
-      if (L.v >= 100) { L.fin = true; L.t = now - L.debut; f.textContent = "Arrivé !"; f.className = "mj-retour top"; DB.son("objectif"); }
+      if (L.v >= 100) { L.fin = true; L.t = now - L.debut; f.textContent = "Arrivé !"; f.className = "mj-retour top"; if (!test) foule(); }
       mjMajBateaux(me); mjEnvoyer(me, L, L.fin);
     });
   }
@@ -5649,25 +5720,100 @@ function classementFinal(pourTel) {
       <div class="pluie-or" aria-hidden="true">${pluie}</div></div>`;
     return {html, cl, gagnants, delai, el, neuf, tSusp, tW};
 }
-/* roulement de tambour synthétisé, qui monte en puissance puis finit sur un coup sourd */
-let tambourCtx = null;
-function tambour(duree) {
+/* Sons d’ambiance : un enregistrement déposé dans le dossier sons/ (sons/tambour.mp3, sons/foule.mp3) est utilisé en priorité ;
+   sinon, une version synthétisée prend le relais. */
+let mjArrives = new Set(), tambourCtx = null;
+const SONS_FICHIERS = {tambour: "sons/tambour.mp3", foule: "sons/foule.mp3"}, sonsFichiers = {};
+function prechargerSons() {
+  Object.entries(SONS_FICHIERS).forEach(([nom, url]) => {
+    if (sonsFichiers[nom]) return;
+    const a = new Audio(); a.preload = "auto"; a.etat = "attente";
+    a.addEventListener("canplaythrough", () => { a.etat = "ok"; }, {once: true});
+    a.addEventListener("error", () => { a.etat = "absent"; }, {once: true});
+    a.src = url; sonsFichiers[nom] = a;
+  });
+}
+function jouerSon(nom, duree, repli) {
   if (window.DB_MUET) return;
+  prechargerSons();
+  const a = sonsFichiers[nom];
+  if (!a || a.etat !== "ok") return repli(duree);
+  const x = a.cloneNode(); x.volume = .9;
+  x.play().catch(() => repli(duree));
+  if (duree) setTimeout(() => { const f = setInterval(() => { x.volume = Math.max(0, x.volume - .1); if (x.volume <= 0) { x.pause(); clearInterval(f); } }, 40); }, duree + 600);
+}
+function audioCtx() { const c = tambourCtx = tambourCtx || new (window.AudioContext || window.webkitAudioContext)(); c.resume(); return c; }
+function bufBruit(c, sec) { const b = c.createBuffer(1, Math.floor(c.sampleRate * sec), c.sampleRate), d = b.getChannelData(0); for (let i = 0; i < d.length; i++) d[i] = Math.random() * 2 - 1; return b; }
+const tambour = duree => jouerSon("tambour", duree, tambourSynth);
+const foule = duree => jouerSon("foule", duree || 2600, fouleSynth);
+/* roulement de caisse claire : frappes serrées (timbre + fût), crescendo, puis coup de grosse caisse et cymbale */
+function tambourSynth(duree) {
   try {
-    const c = tambourCtx = tambourCtx || new (window.AudioContext || window.webkitAudioContext)(); c.resume();
-    const t0 = c.currentTime + .02, fin = t0 + duree / 1000;
-    const len = Math.floor(c.sampleRate * .06), buf = c.createBuffer(1, len, c.sampleRate), d = buf.getChannelData(0);
-    for (let i = 0; i < len; i++) d[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / len, 2);
-    for (let t = t0, k = 0; t < fin; k++) {
-      const p = (t - t0) / (fin - t0), s = c.createBufferSource(), f = c.createBiquadFilter(), g = c.createGain();
-      s.buffer = buf; f.type = "bandpass"; f.frequency.value = 180 + 60 * Math.random(); f.Q.value = 1.2; g.gain.value = .08 + .5 * p * p;
-      s.connect(f); f.connect(g); g.connect(c.destination); s.start(t);
-      t += Math.max(.028, .075 - .05 * p);
+    const c = audioCtx(), t0 = c.currentTime + .03, fin = t0 + duree / 1000, br = bufBruit(c, .3), sortie = c.createGain();
+    sortie.gain.value = .9; sortie.connect(c.destination);
+    const frappe = (t, v) => {
+      const s = c.createBufferSource(), hp = c.createBiquadFilter(), bp = c.createBiquadFilter(), g = c.createGain();
+      s.buffer = br; hp.type = "highpass"; hp.frequency.value = 1200; bp.type = "peaking"; bp.frequency.value = 3800; bp.gain.value = 6; bp.Q.value = 1;
+      g.gain.setValueAtTime(v * .55, t); g.gain.exponentialRampToValueAtTime(.0001, t + .11);
+      s.connect(hp); hp.connect(bp); bp.connect(g); g.connect(sortie); s.start(t, Math.random() * .15); s.stop(t + .13);
+      const o = c.createOscillator(), go = c.createGain();
+      o.type = "triangle"; o.frequency.setValueAtTime(205, t); o.frequency.exponentialRampToValueAtTime(150, t + .05);
+      go.gain.setValueAtTime(v * .35, t); go.gain.exponentialRampToValueAtTime(.0001, t + .06);
+      o.connect(go); go.connect(sortie); o.start(t); o.stop(t + .07);
+    };
+    for (let t = t0; t < fin; ) {
+      const p = (t - t0) / (fin - t0);
+      frappe(t, (.12 + .8 * Math.pow(p, 1.6)) * (.85 + Math.random() * .3));
+      t += 1 / (26 + 8 * p) + (Math.random() - .5) * .004;
     }
-    const o = c.createOscillator(), g = c.createGain();
-    o.type = "sine"; o.frequency.setValueAtTime(110, fin); o.frequency.exponentialRampToValueAtTime(45, fin + .5);
-    g.gain.setValueAtTime(.0001, fin); g.gain.linearRampToValueAtTime(.7, fin + .02); g.gain.exponentialRampToValueAtTime(.0001, fin + .9);
-    o.connect(g); g.connect(c.destination); o.start(fin); o.stop(fin + 1);
+    frappe(fin, 1.3);
+    const k = c.createOscillator(), gk = c.createGain();
+    k.type = "sine"; k.frequency.setValueAtTime(110, fin); k.frequency.exponentialRampToValueAtTime(42, fin + .35);
+    gk.gain.setValueAtTime(1, fin); gk.gain.exponentialRampToValueAtTime(.0001, fin + .6);
+    k.connect(gk); gk.connect(sortie); k.start(fin); k.stop(fin + .65);
+    const cy = c.createBufferSource(), hc = c.createBiquadFilter(), gc = c.createGain();
+    cy.buffer = bufBruit(c, 2.5); hc.type = "highpass"; hc.frequency.value = 5000;
+    gc.gain.setValueAtTime(.0001, fin); gc.gain.linearRampToValueAtTime(.45, fin + .01); gc.gain.exponentialRampToValueAtTime(.0001, fin + 2.2);
+    cy.connect(hc); hc.connect(gc); gc.connect(sortie); cy.start(fin); cy.stop(fin + 2.4);
+  } catch (e) {}
+}
+/* foule : brouhaha en plusieurs bandes qui fluctuent, voix qui crient, sifflets et applaudissements serrés */
+function fouleSynth(duree) {
+  try {
+    const c = audioCtx(), t0 = c.currentTime + .03, fin = t0 + duree / 1000, sortie = c.createGain();
+    sortie.gain.setValueAtTime(.0001, t0); sortie.gain.linearRampToValueAtTime(.9, t0 + .3); sortie.gain.setValueAtTime(.9, fin - 1.3); sortie.gain.exponentialRampToValueAtTime(.0001, fin);
+    sortie.connect(c.destination);
+    const br = bufBruit(c, duree / 1000 + .5);
+    [[350, .18], [700, .22], [1300, .2], [2400, .12]].forEach(([fq, v]) => {
+      const s = c.createBufferSource(), f = c.createBiquadFilter(), g = c.createGain();
+      s.buffer = br; f.type = "bandpass"; f.frequency.value = fq; f.Q.value = 1.4;
+      for (let t = t0; t < fin; t += .07) g.gain.setValueAtTime(v * (.6 + Math.random() * .7), t);
+      s.connect(f); f.connect(g); g.connect(sortie); s.start(t0, Math.random() * .3); s.stop(fin + .1);
+    });
+    for (let k = 0; k < 16; k++) {
+      const d0 = t0 + Math.random() * .5, d1 = Math.min(fin, d0 + .7 + Math.random() * 1.4), base = 160 + Math.random() * 280;
+      const o = c.createOscillator(), vib = c.createOscillator(), gv = c.createGain(), f1 = c.createBiquadFilter(), f2 = c.createBiquadFilter(), g = c.createGain(), m = c.createGain();
+      o.type = "sawtooth"; o.frequency.setValueAtTime(base, d0); o.frequency.linearRampToValueAtTime(base * (1.3 + Math.random() * .3), d0 + .25); o.frequency.linearRampToValueAtTime(base * (1.05 + Math.random() * .2), d1);
+      vib.frequency.value = 5 + Math.random() * 2.5; gv.gain.value = base * .02; vib.connect(gv); gv.connect(o.frequency);
+      f1.type = "bandpass"; f1.frequency.value = 650 + Math.random() * 150; f1.Q.value = 5;
+      f2.type = "bandpass"; f2.frequency.value = 1100 + Math.random() * 250; f2.Q.value = 6;
+      g.gain.setValueAtTime(.0001, d0); g.gain.linearRampToValueAtTime(.035, d0 + .12); g.gain.setValueAtTime(.03, d1 - .25); g.gain.exponentialRampToValueAtTime(.0001, d1);
+      o.connect(f1); o.connect(f2); f1.connect(m); f2.connect(m); m.connect(g); g.connect(sortie);
+      o.start(d0); vib.start(d0); o.stop(d1 + .05); vib.stop(d1 + .05);
+    }
+    for (let k = 0; k < 2; k++) {
+      const d0 = t0 + .2 + Math.random() * .6, o = c.createOscillator(), g = c.createGain(), f0 = 2300 + Math.random() * 600;
+      o.type = "sine"; o.frequency.setValueAtTime(f0 * .8, d0); o.frequency.linearRampToValueAtTime(f0 * 1.15, d0 + .25); o.frequency.linearRampToValueAtTime(f0 * .75, d0 + .55);
+      g.gain.setValueAtTime(.0001, d0); g.gain.linearRampToValueAtTime(.05, d0 + .05); g.gain.exponentialRampToValueAtTime(.0001, d0 + .6);
+      o.connect(g); g.connect(sortie); o.start(d0); o.stop(d0 + .65);
+    }
+    const clap = bufBruit(c, .04);
+    for (let t = t0 + .2; t < fin - .2; t += .012 + Math.random() * .03) {
+      const b = c.createBufferSource(), f = c.createBiquadFilter(), g = c.createGain();
+      b.buffer = clap; f.type = "bandpass"; f.frequency.value = 1100 + Math.random() * 1600; f.Q.value = 1.2;
+      g.gain.setValueAtTime((.05 + Math.random() * .08), t); g.gain.exponentialRampToValueAtTime(.0001, t + .035);
+      b.connect(f); f.connect(g); g.connect(sortie); b.start(t); b.stop(t + .04);
+    }
   } catch (e) {}
 }
 function lierSon() { const b = document.getElementById("son"); if (b) b.onclick = () => { window.DB_MUET = !window.DB_MUET; store("jdd-son", window.DB_MUET ? "0" : "1"); if (!window.DB_MUET) DB.son("tour"); rendre(); }; }
@@ -5681,6 +5827,7 @@ function apresRendu() {
   });
   if (change && (vue() === "plateau" || test)) DB.son(perte ? "perte" : "panneau");
   animerAnnonce(); montrerAnnonce(); setTimeout(verifierFinRecap, 50); setTimeout(mjVerifierLancement, 60);
+  if (vue() === "plateau" || test) prechargerSons();
 }
 function animerAnnonce() {
   const l = jeu?.annonces || [], cle = a => `${a.pid}|${a.obj}|${a.n}|${a.mi ? 1 : 0}`;
@@ -5773,12 +5920,16 @@ function listeJoueurs() {
     const c = couleur(pid), ouvert = ouverts.has(pid), comp = jeu.completes[pid], tt = total(scoresAffiches(pid)), vivant = jeu.statut === "en_cours" && tt > 0;
     const deco = vivant && rg === 0 ? `<span class="eclat-or" aria-hidden="true">${Array.from({length: 5}, (_, k) => `<i style="--k:${k}">${ETOILE}</i>`).join("")}</span>`
       : vivant && rg <= 2 ? `<span class="feuilles" aria-hidden="true">${Array.from({length: 6}, (_, k) => `<i style="--k:${k}">${rg === 1 ? ARGENT : BRONZE}</i>`).join("")}</span>` : "";
-    return `<div class="jr-place ${vivant && rg === 0 ? "rang1" : vivant && rg === 1 ? "rang2" : vivant && rg === 2 ? "rang3" : ""}" data-jr="${pid}" style="--c:${c}">${deco}<button class="jr ${(jeu.phase === "choix" ? !jeu.plans?.[pid] : pid === actuel) && jeu.statut === "en_cours" ? "actif" : ""}" data-j="${pid}" aria-expanded="${ouvert}">
+    return `<div class="jr-place ${vivant && rg === 0 ? "rang1" : vivant && rg === 1 ? "rang2" : vivant && rg === 2 ? "rang3" : ""}" data-jr="${pid}" style="--c:${c}"><button class="jr ${(jeu.phase === "choix" ? !jeu.plans?.[pid] : pid === actuel) && jeu.statut === "en_cours" ? "actif" : ""}" data-j="${pid}" aria-expanded="${ouvert}">${deco}
         ${pastille(pid)}<span><span class="nom">${esc(jeu.noms[pid])}</span><br><span class="sous" aria-label="${comp.length} objectif${comp.length > 1 ? "s" : ""} complété${comp.length > 1 ? "s" : ""} sur ${OBJECTIFS_POUR_FINIR}">${Array.from({length: Math.max(OBJECTIFS_POUR_FINIR, comp.length)}, (_, i) => `<span class="lau ${i < comp.length ? "" : "vide"}">${DB.icone("laurier", 24)}</span>`).join("")}${Array.from({length: Math.min(4, jeu.relances?.[pid] || 0)}, () => jetonIco(20)).join("")}</span>${(() => { const ef = effetsActifs(pid).filter(e => e[3] !== "relance"); return ef.length ? `<span class="pe-minis">${ef.map(e => `<span class="pe-mini pe-${e[0]} ${e[4] ? "futur" : ""}" title="${esc(e[1] + (srcTexte(e[5]) ? (e[0] === "malus" ? " À cause de : " : " Grâce à : ") + srcTexte(e[5]) : ""))}">${e[4] ? DB.icone("sablier", 12) : ""}${DB.icone(e[3], 16)}<span>${esc(e[2])}</span></span>`).join("")}</span>` : ""; })()}</span>
         ${cpt("tot-" + pid, total(enResolution() ? scoresAffiches(pid) : jeu.scores[pid]))}</button>
-      ${ouvert ? `<div class="detail"><div class="objs">${OBJECTIFS.map(o => `<span class="o ${comp.includes(o.id) ? "ok" : ""}"><span class="o-ic">${DB.icone(o.id, 22)}${esc(o.court)}</span><strong>${scoresAffiches(pid)[o.id]}</strong></span>`).join("")}</div>
-        ${jeu.objets?.[pid] ? `<p class="small" style="margin:10px 0 4px">Objet</p><span class="chip" title="${esc(OBJET[jeu.objets[pid]].effet)}">${objIco(jeu.objets[pid], 18)} ${esc(OBJET[jeu.objets[pid]].nom)}${jeu.objetUtilise?.[pid] ? " (utilisé)" : ""}</span>` : ""}
-        <p class="small" style="margin:10px 0 4px">Cartes permanentes</p>${permanentes(pid)}</div>` : ""}</div>`;
+      ${ouvert ? (() => { const sc = scoresAffiches(pid), ob = jeu.objets?.[pid], cartes = (jeu.actives?.[pid] || []).map(a => CARTE[a.c]).filter(Boolean);
+        return `<div class="detail2">
+          <div class="d2-objs">${OBJECTIFS.map(o => { const v = sc[o.id] || 0, ok = comp.includes(o.id); return `<div class="d2-o ${ok ? "ok" : ""}" style="--t:var(--obj-${o.id})" title="${esc(o.court)} : ${v}">
+            <span class="d2-ic">${DB.icone(o.id, 26)}</span><span class="d2-n">${esc(o.court)}</span><span class="d2-v">${ok ? DB.icone("laurier", 18) : ""}${v}</span>
+            <span class="d2-barre"><i style="width:${Math.min(100, v / MAX_PAR_OBJECTIF * 100)}%"></i></span></div>`; }).join("")}</div>
+          ${ob || cartes.length ? `<div class="d2-bas">${ob ? `<span class="d2-chip objet" title="${esc(OBJET[ob].effet)}">${objIco(ob, 20)} ${esc(OBJET[ob].nom)}${jeu.objetUtilise?.[pid] ? " · utilisé" : ""}</span>` : ""}${cartes.map(c => `<span class="d2-chip carte" title="« ${esc(c.texte)} » ${esc(decrire(c))}">${DB.icone(OBJECTIFS.some(o => o.id === c.obj) ? c.obj : "laurier", 18)} ${esc(courtCarte(c))}</span>`).join("")}</div>` : ""}
+        </div>`; })() : ""}</div>`;
   }).join("")}</div>`;
 }
 function annoncesInutilisees() {
@@ -5852,11 +6003,11 @@ function rendrePlateau() {
   recapVue = false;
   if (jeu.statut === "en_cours" && jeu.mj) {
     const m = jeu.mj, st = document.getElementById("mj-plateau");
-    if (st && st.dataset.id === m.id && st.dataset.etat === m.etat) { if (m.etat === "en_cours") { mjDemarrerTicker(); mjMajPlateau(); } else { mjPilesAnimer(m); mjPlanifierSuite(m); } return; }
+    if (st && st.dataset.id === m.id && st.dataset.etat === m.etat) { if (m.etat === "en_cours") { mjDemarrerTicker(); mjMajPlateau(); } else mjPlanifierSuite(m); return; }
     $app.innerHTML = `${tete}<div id="mj-plateau" data-id="${m.id}" data-etat="${m.etat}">${m.etat === "en_cours" ? mjPlateauHtml(m) : mjResultatsHtml(m, false)}</div>`;
     lierSon();
     if (m.etat === "en_cours") { mjDemarrerTicker(); mjMajPlateau(); DB.son("revelation"); }
-    else { DB.son("objectif"); if (m.jeu === "pieces") mjPilesAnimer(m); else document.querySelector(".mjr")?.classList.add("revele"); mjPlanifierSuite(m); }
+    else { if (m.jeu === "pieces") mjPilesAnimer(m); else { DB.son("objectif"); document.querySelector(".mjr")?.classList.add("revele"); } mjPlanifierSuite(m); }
     return;
   }
   if (jeu.statut === "fini") {
@@ -6020,13 +6171,12 @@ function entrees(c, pid) {
   }
   if (c.e.t === "perso_ferrari") {
     const l = optionsFerrari(jeu, pid);
-    h += l.length ? `<p style="margin:10px 0 6px">Qui rattraper ?</p><div class="pick">${l.map(x => { const k = x.id + "|" + x.o; return `<button data-pa="${k}" class="${ui.paire === k ? "sel" : ""}">${esc(jeu.noms[x.id])} en ${esc(court(x.o))} : ${jeu.scores[x.id][x.o]} (toi ${jeu.scores[pid][x.o]})</button>`; }).join("")}</div>` : `<p class="muted">Personne n’a 1 à 3 points de plus que toi sur un objectif.</p>`;
+    h += l.length ? `<p style="margin:10px 0 6px">Qui rattraper ?</p><div class="pick">${l.map(x => { const k = x.id + "|" + x.o; return `<button data-pa="${k}" class="${ui.paire === k ? "sel" : ""}">${esc(jeu.noms[x.id])} en ${esc(court(x.o))} : ${jeu.scores[x.id][x.o]} (toi ${jeu.scores[pid][x.o]})</button>`; }).join("")}</div>` : "";
     pret = pret && (!l.length || !!ui.paire);
   }
   if (c.e.t === "perso_coquin") {
     const l = optionsCoquin(jeu, pid), holders = new Set(l.map(x => x.id));
-    if (holders.size < 2) h += `<p class="muted">Il faut des cartes permanentes chez au moins deux joueurs : rien à échanger.</p>`;
-    else {
+    if (holders.size >= 2) {
       const opt = (sel, autre) => l.filter(x => !autre || x.id !== autre.split("|")[0]).map(x => { const k = x.id + "|" + x.c; return `<option value="${k}" ${k === sel ? "selected" : ""}>${esc(jeu.noms[x.id])} : ${esc(CARTE[x.c].texte)}</option>`; }).join("");
       h += `<label for="c1">Première carte</label><select id="c1"><option value="">Choisir…</option>${opt(ui.c1, "")}</select>
         <label for="c2">Seconde carte (autre joueur)</label><select id="c2"><option value="">Choisir…</option>${opt(ui.c2, ui.c1)}</select>`;
@@ -6180,7 +6330,7 @@ function ecranCompletion(pid, pied) {
   const f = jeu.file[0], o = f.obj, eff = EFFETS_OBJECTIFS[o];
   if (f.taureau) {
     const adv = jeu.ordre.filter(id => id !== pid);
-    $app.innerHTML = `<h1 class="titre-ic">${objIco("taureau", 40)} Piscine !</h1><p>Tu as gagné des points en Blague : choisis un joueur à attaquer. Il perdra 1 point sur un objectif au hasard.</p>
+    $app.innerHTML = `<h1 class="titre-ic">${objIco("taureau", 40)} Taureau Piscine !</h1><p>Tu as gagné des points en Blague : choisis un joueur à attaquer. Il perdra 1 point sur un objectif au hasard.</p>
       <div class="pick">${adv.map(id => `<button data-tau="${id}" class="${ui.cible === id ? "sel" : ""}"><span style="display:inline-block;width:12px;height:12px;border-radius:50%;background:${couleur(id)};margin-right:8px"></span>${esc(jeu.noms[id])}</button>`).join("")}</div>
       <div class="row" style="margin-top:14px"><button class="primary" id="ok" ${!ui.cible || busy ? "disabled" : ""}>Charger !</button><button id="non" ${busy ? "disabled" : ""}>Ne pas attaquer</button></div>` + pied;
     $app.querySelectorAll("[data-tau]").forEach(b => b.onclick = () => { ui.cible = b.dataset.tau; rendre(); });
@@ -6289,7 +6439,7 @@ function ecranCompletion(pid, pied) {
     $app.innerHTML = h + pied;
     lierPions();
     document.getElementById("ok").onclick = () => agir(g => { poserPions(g, pid, alloc, false);
-      if (aObjet(g, pid, "perenoel") && g.des?.gain) { const r = ajouter(g, pid, "repas", g.des.gain); log(g, `Père Noël : ${fait(r, "repas")}.`); }
+      if (aObjet(g, pid, "perenoel") && g.des?.gain) { const r = ajouter(g, pid, "repas", g.des.gain); log(g, `Bonnet de Noël : ${fait(r, "repas")}.`); }
       resolu(g); });
     return;
   }
@@ -6362,7 +6512,7 @@ function rendreJoueur() {
     recapVuTel[jeu.mancheId] = recapVuTel[jeu.mancheId] || Date.now();
     const attente = 3000 - (Date.now() - recapVuTel[jeu.mancheId]);
     if (attente > 0) setTimeout(() => { if (jeu?.phase === "recap") rendre(); }, attente + 30);
-    $app.innerHTML = `<h1 class="recap-titre-tel">Récapitulatif du tour ${jeu.recapManche}</h1>
+    $app.innerHTML = `<h1 class="recap-titre-tel">Récapitulatif du tour ${jeu.recapManche}</h1><p class="recap-info-tel">Regardez le plateau pour voir le récapitulatif du tour</p>
       <div style="margin:18px 0">${pret ? `<p class="pret-ok">${coche()} Tu es prêt. En attente des autres (${jeu.ordre.filter(id => jeu.prets?.[id]).length}/${jeu.ordre.length}).</p>` : attente > 0 ? "" : `<button class="primary large" id="pret" ${busy ? "disabled" : ""}>Je suis prêt</button>`}</div>${pied}`;
     const bp = document.getElementById("pret"); if (bp) bp.onclick = () => marquerPret(me);
     fin(); return;
@@ -6409,7 +6559,7 @@ function rendreJoueur() {
   document.getElementById("ok").onclick = () => agir(g => {
     const extra = Math.max(0, g.aDistribuer - POINTS_PAR_TOUR);
     poserPions(g, me, alloc, true);
-    if (extra && aObjet(g, me, "perenoel")) { const r = ajouter(g, me, "repas", extra); log(g, `Père Noël : ${extra} pion${extra > 1 ? "s" : ""} en plus, ${fait(r, "repas")}.`); }
+    if (extra && aObjet(g, me, "perenoel")) { const r = ajouter(g, me, "repas", extra); log(g, `Bonnet de Noël : ${extra} pion${extra > 1 ? "s" : ""} en plus, ${fait(r, "repas")}.`); }
     g.actives[me].forEach(a => { const c = CARTE[a.c]; if (c.e.t === "par_tour") { const r = ajouter(g, me, c.obj, c.e.n); log(g, `Carte permanente : ${g.noms[me]} ${fait(r, c.obj)}.`); }
       if (c.e.t === "perso_asso") { const l = OBJECTIFS.filter(o => !g.completes[me].includes(o.id)); if (l.length) { const o = shuffle(l)[0].id; const r = ajouter(g, me, o, 1); log(g, `Asso des aveugles : ${g.noms[me]} ${fait(r, o)}.`); } } });
     enchainer(g, "fin");
@@ -6424,13 +6574,31 @@ function rendreAccueil() {
     <p class="muted" style="margin-top:16px">Le plateau se partage avec tout le monde (télé, ordinateur). Chaque joueur utilise son téléphone. Le mode test simule une partie sur un seul écran, sans connexion.</p>
     <p class="version">Version ${VERSION_JEU}</p>`;
 }
+/* Mode test : lancer directement un mini-jeu, avec le Joueur 1 comme déclencheur */
+function testMiniJeu(type, n) {
+  const ordre = [...Array(n)].map((_, i) => "j" + (i + 1));
+  const g = {statut: "en_cours", ordre, noms: Object.fromEntries(ordre.map((id, i) => [id, "Joueur " + (i + 1)])), journal: []};
+  g.version = VERSION_JEU; nouvelleManche(g);
+  g.objets = {}; premierTour(g);
+  g.ordre = ordre.slice();
+  g.scores.j1.jeux = 7;
+  g.ordre.forEach(id => { const o = g.ctx[id].offre[0]; o.dieu = "coleen"; o.carte = "coleen-07"; delete o.alt; delete o.cache;
+    g.plans[id] = {round: g.mancheId, rel: [], i: 0, carte: "coleen-07", relC: false, fc: false, inp: {}, alloc: id === "j1" ? {jeux: 1} : {repas: 2}}; });
+  window.MJ_FORCE = type;
+  demarrerResolution(g);
+  suivre = true; testVue = "j1"; mjLanceCle = ""; recevoir(g);
+  setTimeout(() => { window.MJ_FORCE = null; }, 3000);
+}
 function rendreTest() {
   const main = $app;
   main.className = "large";
   if (!jeu) {
     main.innerHTML = `<h1>Mode test</h1><p>Simule une partie sur cet écran : le plateau à gauche, le téléphone d’un joueur à droite. Rien n’est enregistré.</p>
       <label for="tn">Nombre de joueurs</label><select id="tn">${[1,2,3,4,5,6].map(n => `<option ${n === 3 ? "selected" : ""}>${n}</option>`).join("")}</select>
-      <div class="row" style="margin-top:14px"><button class="primary" id="tgo">Lancer le test</button><a href="#"><button>Retour</button></a></div>`;
+      <div class="row" style="margin-top:14px"><button class="primary" id="tgo">Lancer le test</button><a href="#"><button>Retour</button></a></div>
+      <h2 style="margin-top:28px">Tester un mini-jeu</h2><p class="muted">Lance directement le mini-jeu du bonus de parcours de Jeux. Tu joues avec le Joueur 1 (le déclencheur), les autres joueurs sont simulés.</p>
+      <div class="row">${Object.keys(MJ).map(k => `<button data-tmj="${k}">${esc(MJ[k].nom)}</button>`).join("")}</div>`;
+    main.querySelectorAll("[data-tmj]").forEach(b => b.onclick = () => testMiniJeu(b.dataset.tmj, Math.max(2, +document.getElementById("tn").value)));
     document.getElementById("tgo").onclick = () => {
       const n = +document.getElementById("tn").value, ordre = [...Array(n)].map((_, i) => "j" + (i + 1));
       const g = {statut:"en_cours", ordre, noms: Object.fromEntries(ordre.map((id, i) => [id, "Joueur " + (i + 1)])), journal: []};
@@ -6442,10 +6610,11 @@ function rendreTest() {
   if (suivre && jeu.statut === "en_cours") testVue = jeu.phase === "completion" ? (jeu.des && jeu.des.gain == null ? (jeu.ordre.find(id => !jeu.des.des[id]) || jeu.file[0].pid) : jeu.file[0].pid) : jeu.phase === "objets" ? (jeu.ordre.find(id => !jeu.objets?.[id]) || jeu.ordre[0]) : ["objets_vus", "recap"].includes(jeu.phase) ? (jeu.ordre.find(id => !jeu.prets?.[id]) || testVue) : jeu.phase === "choix" ? (jeu.ordre.find(id => !jeu.plans?.[id]) || testVue) : jeu.ordre[jeu.tour];
   if (!jeu.ordre.includes(testVue)) testVue = jeu.ordre[0];
   main.innerHTML = `<div class="test"><div id="tplat" class="plat"></div>
-    <div><div class="onglets">${jeu.ordre.map(id => `<button data-tv="${id}" class="${id === testVue ? "sel" : ""}">${esc(jeu.noms[id])}</button>`).join("")}</div>
+    <div><div class="onglets tmj-barre"><span class="muted small">Mini-jeux :</span>${Object.keys(MJ).map(k => `<button data-tmj="${k}" title="Recommencer le test sur ce mini-jeu">${esc(MJ[k].nom.replace(/^L[ae] /, ""))}</button>`).join("")}</div><div class="onglets">${jeu.ordre.map(id => `<button data-tv="${id}" class="${id === testVue ? "sel" : ""}">${esc(jeu.noms[id])}</button>`).join("")}</div>
       <label class="row small" style="margin:0 0 8px"><input type="checkbox" id="tsuiv" ${suivre ? "checked" : ""}> Afficher automatiquement le joueur qui doit agir</label>
       <div class="tel" id="ttel"></div></div></div>`;
   main.querySelectorAll("[data-tv]").forEach(b => b.onclick = () => { suivre = false; testVue = b.dataset.tv; resetUi(); rendre(); });
+  main.querySelectorAll("[data-tmj]").forEach(b => b.onclick = () => { mjLoc = null; testMiniJeu(b.dataset.tmj, Math.max(2, jeu.ordre.length)); });
   document.getElementById("tsuiv").onchange = e => { suivre = e.target.checked; resetUi(); rendre(); };
   const tel = document.getElementById("ttel"), haut = tel.scrollTop;
   try { $app = document.getElementById("tplat"); rendrePlateau(); $app = tel; rendreJoueur(); }
@@ -6475,7 +6644,7 @@ function animerTaureau() {
   if (!(vue() === "plateau" || test || monId() === c.par || monId() === c.cible)) return;
   const d = document.createElement("div");
   d.className = "taureau-anim"; d.setAttribute("role", "status");
-  d.innerHTML = `<span class="bete" aria-hidden="true">${objIco("taureau", 140)}</span><strong>Piscine !</strong><span>${esc(jeu.noms[c.par])} charge ${esc(jeu.noms[c.cible])}</span>`;
+  d.innerHTML = `<span class="bete" aria-hidden="true">${objIco("taureau", 140)}</span><strong>Taureau Piscine !</strong><span>${esc(jeu.noms[c.par])} charge ${esc(jeu.noms[c.cible])}</span>`;
   jouerPopup(d, () => DB.son("perte"), 2600);
 }
 let clocheVue = "";
