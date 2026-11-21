@@ -434,7 +434,8 @@ a{color:var(--egee)}
 .revele{padding:8px 0 20px}
 .plat .revele-t,.revele-t{text-align:center;font-size:2.2rem;margin:4px 0}
 .revele-grille{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px;margin-top:18px}
-.objet-carte{display:grid;justify-items:center;gap:10px;text-align:center;background:var(--surface-haute);border:2px solid var(--ligne);border-top:8px solid var(--c);border-radius:var(--r-carte);padding:16px;box-shadow:var(--relief-2);animation:carteArrive .7s cubic-bezier(.3,1.3,.5,1) both}
+.objet-carte{display:grid;justify-items:center;gap:10px;text-align:center;background:var(--surface-haute);border:2px solid var(--ligne);border-top:8px solid var(--c);border-radius:var(--r-carte);padding:16px;box-shadow:var(--relief-2)}
+.revele.premier .objet-carte{animation:carteArrive .7s cubic-bezier(.3,1.3,.5,1) both}
 .objet-carte .oc-tete{display:flex;align-items:center;gap:10px;justify-self:start}
 .objet-carte .oc-tete b{font-family:var(--font-titre);font-size:1.2rem}
 .objet-carte h3{font-family:var(--font-titre);margin:0;font-size:1.3rem}
@@ -466,6 +467,31 @@ a{color:var(--egee)}
 .annonce-anim .annonce-or .eff{color:var(--encre);font-weight:500;background:var(--surface);border-radius:12px;padding:10px 16px;margin:0}
 .annonce-anim .annonce-or .res{font-weight:700;color:var(--olivier);margin:0}
 @media (prefers-reduced-motion:reduce){.objet-carte{animation:none}}
+
+.ligne-pion button.lp-obj{display:grid;justify-items:center;gap:2px;padding:2px;min-height:0;border:none;background:none;box-shadow:none;cursor:pointer;border-radius:10px;letter-spacing:0;color:inherit}
+.ligne-pion button.lp-obj:active{transform:none}
+.ligne-pion button.lp-obj[aria-expanded="true"] .medaillon{box-shadow:0 0 0 3px var(--egee)}
+.effet-obj{margin:-2px 0 4px}
+.reprise{max-width:560px;margin:10px 0}
+.plat button.son.danger{background:var(--terre-cuite);border-color:var(--terre-cuite);color:var(--sur-terre-cuite)}
+.plat button#nouvp{font-size:15px}
+
+.depart{display:grid;justify-items:center;gap:12px;margin-top:22px;text-align:center}
+.depart p{margin:0;font-size:1.15rem}
+.minuteur{width:min(420px,80%);height:8px;border-radius:99px;background:var(--surface);border:1px solid var(--ligne);overflow:hidden}
+.minuteur span{display:block;height:100%;background:var(--or);transform-origin:left;animation:minuteur linear forwards}
+@keyframes minuteur{from{transform:scaleX(1)}to{transform:scaleX(0)}}
+.pret-ok{font-weight:700;color:var(--olivier)}
+@media (prefers-reduced-motion:reduce){.minuteur span{animation:none}}
+
+.deltas{display:flex;flex-wrap:wrap;gap:6px;justify-content:center}
+.delta{display:inline-flex;align-items:center;gap:4px;font-family:var(--font-titre);font-weight:700;padding:3px 10px;border-radius:99px;background:var(--surface);border:2px solid var(--ligne)}
+.delta.plus{color:var(--olivier);border-color:var(--olivier)}
+.delta.moins{color:var(--terre-cuite);border-color:var(--terre-cuite)}
+.recap-carte .co-eff ul{margin:4px 0 0;padding-left:18px}
+.recap-carte .co-eff li{margin:2px 0}
+.recap-tel{display:grid;gap:12px;margin-bottom:12px}
+.recap-tel .objet-carte{animation:none}
 </style>
 </head>
 <body>
@@ -1234,7 +1260,7 @@ function domaines(d, offre) {
 function decrire(c) {
   const e = c.e, o = court(c.obj);
   switch (e.t) {
-    case "gain": return `${signe(e.n)} en ${o}.`;
+    case "gain": return e.n === 2 ? `+2 en ${o}, et un adversaire de ton choix perd 1 en ${o}.` : `${signe(e.n)} en ${o}.`;
     case "multi": return e.l.map(x => `${signe(x.n)} en ${court(x.o)}`).join(", ") + ".";
     case "par_tour": return `Carte permanente : +${e.n} en ${o} à la fin de chacun de tes tours.`;
     case "pion_x2_perm": return `Carte permanente : chaque pion posé en ${o} vaut 2.`;
@@ -1274,7 +1300,8 @@ function decrire(c) {
   }
   return "";
 }
-const besoinCible = c => c.e.t === "donner" || c.e.t === "gain_donner";
+const gainPlus2 = c => c.e.t === "gain" && c.e.n === 2;
+const besoinCible = c => c.e.t === "donner" || c.e.t === "gain_donner" || gainPlus2(c);
 const besoinObjectif = c => c.e.t === "perso_agay" || c.e.t === "perso_platre";
 const besoinNombre = c => c.e.t === "descendants";
 const besoinOuiNon = c => c.e.t === "deja_gagne";
@@ -1432,7 +1459,9 @@ function appliquerCarteBrut(g, pid, cid, inp, rejeu, miroir) {
   };
   let msg = "";
   switch (e.t) {
-    case "gain": msg = `${nom} : ${fait(ajouter(g, pid, o, e.n), o)}.`; break;
+    case "gain": msg = `${nom} : ${fait(ajouter(g, pid, o, e.n), o)}.`;
+      if (e.n === 2 && !miroir && !rejeu && inp && inp.cible && autres.includes(inp.cible)) { msg += ` ${nm[inp.cible]} perd 1 en ${court(o)}.`; viser(g, pid, inp.cible, {k: "pertes", l: [o]}); }
+      break;
     case "multi": msg = `${nom} : ` + e.l.map(x => fait(ajouter(g, pid, x.o, x.n), x.o)).join(", ") + "."; break;
     case "par_tour": case "pion_x2_perm": case "jeanne_suit": case "jeanne_chute":
       g.actives[pid].push({c: cid}); msg = `${nom} garde la carte permanente « ${c.texte} ».`; break;
@@ -1687,13 +1716,13 @@ function nouvelleManche(g) {
     let k = 0;
     g.ordre.forEach(id => { const l = []; while (l.length < Math.min(OBJETS_PROPOSES, pool.length)) { const x = pool[k++ % pool.length]; if (!l.includes(x)) l.push(x); } g.objOffres[id] = l; });
     g.phase = "objets"; g.objTour = 0; g.objJeu = Math.random().toString(36).slice(2, 9);
-  }
+  } else debutManche(g);
 }
 function appliquerObjet(g, pid, id) {
   if (g.phase !== "objets" || g.objets[pid] || !(g.objOffres[pid] || []).includes(id)) return;
   g.objets[pid] = id;
   log(g, `${g.noms[pid]} prend l’objet ${OBJET[id].emoji} ${OBJET[id].nom}.`);
-  if (g.ordre.every(x => g.objets[x])) g.phase = "objets_vus";
+  if (g.ordre.every(x => g.objets[x])) { g.phase = "objets_vus"; g.revelT = Date.now(); g.prets = {}; }
 }
 /* Tout le monde choisit en même temps : chaque téléphone écrit son choix dans sa fiche joueur,
    et c’est le plateau qui les reporte dans la partie (aucun choix ne peut en écraser un autre). */
@@ -1704,13 +1733,41 @@ function choisirObjet(pid, id) {
   return ecrire(async () => { await db.doc("parties/" + code + "/joueurs/" + pid).set({nom: jeu.noms[pid], arrivee: Date.now(), objet: id, objJeu: jeu.objJeu}); });
 }
 function fusionnerObjets() {
-  if (vue() !== "plateau" || !jeu || jeu.phase !== "objets") return;
+  if (vue() !== "plateau" || !jeu) return;
+  if (["objets_vus", "recap", "choix"].includes(jeu.phase) && busy) { setTimeout(fusionnerObjets, 400); return; }
+  if (jeu.phase === "objets_vus" || jeu.phase === "recap") {
+    const tk = jetonPret(), ph = jeu.phase;
+    const p = joueursLobby.filter(j => j.pret && j.pret === tk && jeu.ordre.includes(j.id) && !jeu.prets?.[j.id]);
+    if (p.length) agir(g => { if (g.phase !== ph) return; g.prets = g.prets || {}; p.forEach(j => { g.prets[j.id] = true; }); if (g.ordre.every(x => g.prets[x])) finPrets(g); });
+    return;
+  }
+  if (jeu.phase === "choix") {
+    const nv = joueursLobby.filter(j => j.plan && j.plan.round === jeu.mancheId && jeu.ordre.includes(j.id) && JSON.stringify(j.plan) !== JSON.stringify(jeu.plans?.[j.id] || null));
+    if (nv.length) agir(g => { if (g.phase !== "choix") return; g.plans = g.plans || {}; nv.forEach(j => { if (j.plan.round === g.mancheId) g.plans[j.id] = j.plan; }); if (g.ordre.every(x => g.plans[x])) demarrerResolution(g); });
+    return;
+  }
+  if (jeu.phase !== "objets") return;
   if (busy) { setTimeout(fusionnerObjets, 400); return; }
   const nv = joueursLobby.filter(j => j.objet && j.objJeu === jeu.objJeu && jeu.ordre.includes(j.id) && !jeu.objets?.[j.id] && (jeu.objOffres?.[j.id] || []).includes(j.objet));
   if (nv.length) agir(g => nv.forEach(j => appliquerObjet(g, j.id, j.objet)));
 }
-function commencerPartie() {
-  return agir(g => { if (g.phase !== "objets_vus") return; g.phase = "dieu"; g.objOffres = {}; log(g, `Au tour de ${g.noms[g.ordre[0]]}.`); g.tourLog = []; g.histo = []; });
+/* La révélation se termine toute seule : dès que tout le monde est prêt sur son téléphone, ou après DELAI_REVELATION. */
+const DELAI_REVELATION = 45000;
+let pretEnvoi = null, departTimer = null;
+function premierTour(g) { g.objOffres = {}; g.tourLog = []; g.histo = []; debutManche(g); }
+function commencerPartie() { return agir(g => { if (g.phase === "objets_vus") premierTour(g); }); }
+const jetonPret = () => jeu.phase === "recap" ? "r" + jeu.mancheId : jeu.objJeu;
+function finPrets(g) { if (g.phase === "objets_vus") premierTour(g); else if (g.phase === "recap") finRecap(g); }
+function marquerPret(pid) {
+  if (test) return agir(g => { if (!["objets_vus", "recap"].includes(g.phase)) return; g.prets = g.prets || {}; g.prets[pid] = true; if (g.ordre.every(x => g.prets[x])) finPrets(g); });
+  pretEnvoi = jetonPret();
+  return ecrire(async () => { await db.doc("parties/" + code + "/joueurs/" + pid).set({nom: jeu.noms[pid], arrivee: Date.now(), objet: jeu.objets?.[pid] || "", objJeu: jeu.objJeu, pret: pretEnvoi}); });
+}
+function planifierDepart() {
+  const ph = jeu?.phase;
+  if (departTimer || !["objets_vus", "recap"].includes(ph)) return;
+  const t0 = ph === "recap" ? jeu.recapT : jeu.revelT, d = ph === "recap" ? DELAI_RECAP : DELAI_REVELATION;
+  departTimer = setTimeout(() => { departTimer = null; if (jeu?.phase === ph) { if (busy) planifierDepart(); else agir(g => { if (g.phase === ph) finPrets(g); }); } }, Math.max(0, d - (Date.now() - (t0 || Date.now()))));
 }
 function taureauG(g, pid, cible) {
   const objs = OBJECTIFS.filter(o => g.scores[cible][o.id] > 0);
@@ -1755,7 +1812,7 @@ function utiliserVelo(pid, cible) {
     g.objetUtilise[pid] = true;
     log(g, `🚲 Vélo cargo : ${g.noms[pid]} déplace ${n} point${n > 1 ? "s" : ""} de Lignée vers ${court(cible)}.`);
     verifier(g);
-    if (g.file.length && g.phase !== "completion") { g.suite = g.phase === "points" ? "points" : g.phase === "dieu" ? "dieu" : g.suite; g.phase = "completion"; }
+    if (g.file.length && g.phase !== "completion") { g.suite = g.phase === "choix" ? "choix" : g.phase === "points" ? "points" : g.phase === "dieu" ? "dieu" : g.suite; g.phase = "completion"; }
   });
 }
 function finTourJoueur(g) {
@@ -1831,7 +1888,262 @@ function resolu(g) {
   verifier(g);
   if (g.file.length) return;
   const s = g.suite; g.suite = null;
-  if (s === "points") g.phase = "points"; else if (s === "dieu") g.phase = "dieu"; else finTour(g);
+  if (s === "resolution") { g.phase = "resolution"; continuerResolution(g); }
+  else if (s === "choix") g.phase = "choix";
+  else if (s === "points") g.phase = "points"; else if (s === "dieu") g.phase = "dieu"; else finTour(g);
+}
+
+/* ====================== TOURS SIMULTANÉS ======================
+   1. « choix » : chaque joueur choisit son dieu, découvre sa carte et pose ses pions sur son téléphone, en même temps.
+      Les cartes sont tirées par le plateau au début du tour (offres, relances, secondes cartes), donc les choix
+      des téléphones ne touchent pas à la partie : ils sont envoyés comme un « plan ».
+   2. « résolution » : quand tout le monde a envoyé, le plateau applique les plans un par un, dans l’ordre des joueurs,
+      avec les effets interactifs habituels (complétion, taureau, Psychorigide…).
+   3. « recap » : page de récapitulatif, puis le plateau évolue et le tour suivant commence. */
+const DELAI_RECAP = 45000;
+function remettre(g, d, c) { if (!c || !g.paquets[d]) return; g.paquets[d].push(c); g.paquets[d] = shuffle(g.paquets[d]); }
+function offreApres(ctx, rel) {
+  const off = ctx.offre.map(o => ({...o}));
+  (rel || []).forEach((idx, k) => { if (ctx.spares[k] && off[idx]) off[idx] = {...ctx.spares[k]}; });
+  return off;
+}
+function debutManche(g) {
+  (g.offre || []).forEach(o => remettre(g, o.dieu, o.carte)); g.offre = [];
+  g.phase = "choix"; g.mancheId = Math.random().toString(36).slice(2, 9); g.plans = {}; g.ctx = {}; g.recapInfo = {};
+  g.tirage = null; g.dieuDuTour = null; g.file = []; g.suite = null; g.des = null;
+  g.nTour = (g.nTour || 0) + 1;
+  const res = g.reserveProchaine || null; g.reserveProchaine = null; let resUtilisee = false;
+  g.ordre.forEach((pid, idx) => {
+    g.tour = idx;
+    const bonus = (g.bonus || {})[pid] || 0, pr = (g.prochain || {})[pid] || {}, info = [];
+    let n = Math.max(0, POINTS_PAR_TOUR + bonus);
+    const jetons = (g.actives[pid] || []).filter(a => CARTE[a.c].e.t === "obj_jeton").length; n += jetons;
+    const sonne = !!g.sonne?.[pid];
+    if (sonne) { n = 0; delete g.sonne[pid]; log(g, `🔔 ${g.noms[pid]} est sonné : pas de pions ce tour-ci.`); }
+    if (bonus) delete g.bonus[pid];
+    if (g.prochain) delete g.prochain[pid];
+    const meme = pr.meme && g.derniereOffre?.[pid] ? g.derniereOffre[pid] : null;
+    const relT = (g.actives[pid] || []).filter(a => CARTE[a.c].e.t === "perso_frisbee").length ? 1 : 0;
+    if (g.proteges?.[pid]) { info.push(["bonus", "Psychorigide : tu gagnes une relance"]); delete g.proteges[pid]; g.relances = g.relances || {}; g.relances[pid] = (g.relances[pid] || 0) + 1; log(g, `Psychorigide : ${g.noms[pid]} n’a rien bloqué et gagne une relance.`); }
+    tirerOffre(g, meme, DIEUX_PROPOSES + (pr.plus || 0));
+    let offre = g.offre; g.offre = [];
+    if (res && res.pid === pid && aObjet(g, pid, "bonbon")) {
+      let j = offre.findIndex(o => o.dieu === res.dieu); if (j < 0) j = 0;
+      if (offre[j]) remettre(g, offre[j].dieu, offre[j].carte);
+      offre[j] = {dieu: res.dieu, humeur: res.humeur, carte: res.carte, visible: true}; resUtilisee = true;
+      log(g, `🍬 Bonbon collant : ${g.noms[pid]} récupère ${dieu(res.dieu).nom}, laissé par le joueur précédent, carte visible.`);
+      info.push(["bonus", `Bonbon collant : tu récupères ${dieu(res.dieu).nom}, carte visible`]);
+    }
+    const nbRel = relT + (g.relances?.[pid] || 0);
+    const libres = shuffle(DIEUX.map(d => d.id).filter(d => !offre.some(o => o.dieu === d)));
+    const spares = libres.slice(0, nbRel).map(d => { const humeur = Math.floor(Math.random() * JAUGE.length); return {dieu: d, humeur, carte: piocher(g, d, humeur)}; }).filter(o => o.carte);
+    const prepa = o => { if (pr.deux) { const a = piocher(g, o.dieu, o.humeur); if (a) o.alt = a; } if (nbRel) { const r = piocher(g, o.dieu, o.humeur ?? 1); if (r) o.rc = r; } return o; };
+    offre = offre.map(prepa); spares.forEach(prepa);
+    if (bonus > 0) info.push(["bonus", `${bonus} pion${bonus > 1 ? "s" : ""} en plus ce tour`]);
+    if (bonus < 0) info.push(["malus", `${-bonus} pion${bonus < -1 ? "s" : ""} en moins ce tour`]);
+    if (jetons) info.push(["bonus", `+${jetons} pion${jetons > 1 ? "s" : ""} grâce à tes cartes permanentes`]);
+    if (sonne) info.push(["malus", "Tu as été sonné : pas de pions ce tour"]);
+    if (meme) info.push(["info", "Même choix de dieux qu’à ton tour précédent"]);
+    if (pr.plus) info.push(["bonus", `Tu choisis parmi ${DIEUX_PROPOSES + pr.plus} dieux`]);
+    if (pr.voir) info.push(["bonus", "Tu vois la carte d’un des dieux proposés"]);
+    if (pr.deux) info.push(["info", "Tu choisiras entre deux cartes du dieu"]);
+    if (relT) info.push(["bonus", "Une relance gratuite ce tour"]);
+    g.ctx[pid] = {aDistribuer: n, offre, spares, nbRel, relT, voirUne: !!pr.voir, deux: !!pr.deux, info};
+  });
+  if (res && !resUtilisee) remettre(g, res.dieu, res.carte);
+  g.tour = 0;
+  log(g, `Tour ${g.manche} : chacun choisit son dieu et pose ses pions.`);
+  g.tourLog = [];
+}
+function demarrerResolution(g) {
+  g.phase = "resolution"; g.resIdx = 0; g.resEtape = "carte";
+  g.recapAvant = Object.fromEntries(g.ordre.map(id => [id, {...g.scores[id]}]));
+  g.tourLog = [];
+  continuerResolution(g);
+}
+function resoudreCarte(g, pid) {
+  const ctx = g.ctx[pid], p = g.plans[pid] || {}, nom = g.noms[pid];
+  g.aDistribuer = ctx.aDistribuer; g.mods = {x2: [], valeur: null}; g.relanceTour = ctx.relT || 0;
+  const rel = (p.rel || []).filter((idx, k) => k < ctx.spares.length && idx >= 0 && idx < ctx.offre.length);
+  const off = offreApres(ctx, rel);
+  let relUtil = rel.length;
+  rel.forEach((idx, k) => log(g, `${nom} utilise une relance : ${dieu(ctx.offre[idx]?.dieu || ctx.spares[k].dieu).nom} est remplacé par ${dieu(ctx.spares[k].dieu).nom}.`));
+  const i = Number.isInteger(p.i) && off[p.i] ? p.i : 0, ch = off[i];
+  let cid = ch.alt && p.carte === ch.alt ? ch.alt : ch.carte;
+  const relC = !!p.relC && !!ch.rc && relUtil < ctx.nbRel;
+  if (relC) { log(g, `${nom} relance sa carte : « ${CARTE[cid].texte} » est remplacée par « ${CARTE[ch.rc].texte} ».`); cid = ch.rc; relUtil++; }
+  for (let k = 0; k < relUtil; k++) consommerRelance(g, pid);
+  const suivant = g.ordre[(g.tour + 1) % g.ordre.length];
+  const garder = suivant !== pid && aObjet(g, suivant, "bonbon") ? off.find((o, j) => j !== i) : null;
+  if (garder) g.reserveProchaine = {pid: suivant, dieu: garder.dieu, humeur: garder.humeur, carte: garder.carte};
+  const garde = new Set([cid, garder?.carte].filter(Boolean));
+  [...ctx.offre, ...ctx.spares].forEach(o => [o.carte, o.alt, o.rc].forEach(c => { if (c && !garde.has(c)) { remettre(g, o.dieu, c); garde.add(c); } }));
+  g.dieuDuTour = ch.dieu; g.tc = g.tc || {}; g.tc[pid] = {dieu: ch.dieu, gains: {}};
+  g.derniereOffre = g.derniereOffre || {}; g.derniereOffre[pid] = off.map(o => o.dieu);
+  g.recapInfo = g.recapInfo || {}; g.recapInfo[pid] = {dieu: ch.dieu, carte: cid};
+  let l = `${nom} invoque ${dieu(ch.dieu).nom} et reçoit « ${CARTE[cid].texte} ».`;
+  const pika = g.actives[pid].filter(a => CARTE[a.c].e.t === "perso_pikachu").length;
+  if (ch.dieu === "simon" && pika) { g.aDistribuer += pika; l += ` Pikachu : +${pika} pion${pika > 1 ? "s" : ""}.`; }
+  if (ch.dieu === "jeanne") l += ` Jeanne était ${humeurCourte(ch.humeur)}.`;
+  log(g, l);
+  if (p.douche && aObjet(g, pid, "douche") && g.manche % 2 === 1 && OBJECTIFS.some(o => o.id === p.douche)) { g.douche = g.douche || {}; g.douche[pid] = {o: p.douche, manche: g.manche}; log(g, `🚿 ${nom} choisit une catégorie pour son pommeau de douche.`); }
+  if (p.crayon && aObjet(g, pid, "crayon") && !g.objetUtilise?.[pid]) {
+    const n = Math.max(0, Math.min(3, p.crayon, g.scores[pid].culture));
+    if (n) { g.scores[pid].culture -= n; g.aDistribuer += n; g.objetUtilise[pid] = true; log(g, `🖍️ Crayon de couleur : ${nom} échange ${n} point${n > 1 ? "s" : ""} de Culture contre ${n} pion${n > 1 ? "s" : ""}.`); }
+  }
+  appliquerCarte(g, pid, cid, p.inp || {}, false);
+  if (p.volb && (g.actives[pid] || []).some(a => CARTE[a.c].e.t === "obj_vol") && g.volTour?.[pid] !== g.nTour) {
+    const [c, o] = p.volb.split("|");
+    if (g.ordre.includes(c) && c !== pid && g.scores[c]?.[o] > 0) { g.volTour = g.volTour || {}; g.volTour[pid] = g.nTour; viser(g, pid, c, {k: "volpoint", o}); }
+  }
+}
+function resoudrePions(g, pid) {
+  const p = g.plans[pid] || {}, alloc = {};
+  let reste = g.aDistribuer;
+  OBJECTIFS.forEach(o => { const k = Math.max(0, Math.min(reste, parseInt(p.alloc?.[o.id], 10) || 0)); if (k) { alloc[o.id] = k; reste -= k; } });
+  const extra = Math.max(0, g.aDistribuer - POINTS_PAR_TOUR);
+  poserPions(g, pid, alloc, true);
+  if (extra && aObjet(g, pid, "perenoel")) { const r = ajouter(g, pid, "repas", extra); log(g, `🎅 Père Noël : ${extra} pion${extra > 1 ? "s" : ""} en plus, ${fait(r, "repas")}.`); }
+  g.actives[pid].forEach(a => { const c = CARTE[a.c]; if (c.e.t === "par_tour") { const r = ajouter(g, pid, c.obj, c.e.n); log(g, `Carte permanente : ${g.noms[pid]} ${fait(r, c.obj)}.`); }
+    if (c.e.t === "perso_asso") { const l = OBJECTIFS.filter(o => !g.completes[pid].includes(o.id)); if (l.length) { const o = shuffle(l)[0].id; const r = ajouter(g, pid, o, 1); log(g, `Asso des aveugles : ${g.noms[pid]} ${fait(r, o)}.`); } } });
+}
+function continuerResolution(g) {
+  for (let garde = 0; garde < 200 && g.resIdx < g.ordre.length; garde++) {
+    const pid = g.ordre[g.resIdx]; g.tour = g.resIdx;
+    if (g.resEtape === "carte") { resoudreCarte(g, pid); g.resEtape = "pions"; }
+    else if (g.resEtape === "pions") { resoudrePions(g, pid); g.resEtape = "fin"; }
+    else {
+      finTourJoueur(g);
+      g.histo = [...(g.histo || []), {pid, manche: g.manche, lignes: (g.tourLog || []).filter(l => !l.startsWith("Au tour de "))}].slice(-40);
+      g.tourLog = []; g.resIdx++; g.resEtape = "carte"; continue;
+    }
+    verifier(g);
+    if (g.file.length) { g.phase = "completion"; g.suite = "resolution"; return; }
+    g.phase = "resolution";
+  }
+  finManche(g);
+}
+function finManche(g) {
+  g.phase = "recap"; g.recapT = Date.now(); g.prets = {}; g.recapManche = g.manche; g.tour = 0;
+  g.finApresRecap = g.ordre.some(id => g.completes[id].length >= OBJECTIFS_POUR_FINIR);
+  if (g.finApresRecap) log(g, `${g.ordre.filter(id => g.completes[id].length >= OBJECTIFS_POUR_FINIR).map(id => g.noms[id]).join(" et ")} a complété ${OBJECTIFS_POUR_FINIR} objectifs : la partie se termine après ce tour.`);
+  if (g.platre) log(g, `Le plâtre a séché : on peut de nouveau gagner des points en ${court(g.platre.o)}.`);
+  g.platre = null; g.tc = {};
+}
+function finRecap(g) {
+  if (g.phase !== "recap") return;
+  if (g.finApresRecap) { g.statut = "fini"; g.phase = "fin"; log(g, "Fin de la partie."); return; }
+  g.manche++; debutManche(g);
+}
+/* --- côté téléphone : plan local, puis envoi --- */
+const plLoc = {};
+let planEnvoi = null;
+function planLocal(me) {
+  let p = plLoc[me];
+  if (!p || p.round !== jeu.mancheId) p = plLoc[me] = {round: jeu.mancheId, etape: jeu.plans?.[me] ? "envoye" : "dieu", rel: [], i: null, carte: null, relC: false, alloc: {}, crayon: 0, douche: "", volb: "", inp: {},
+    ui: {cible: "", nombre: "", oui: null, obj: "", carte: "", vol: "", parite: "", paire: "", c1: "", c2: "", velo: "", douche: "", volb: ""}};
+  return p;
+}
+function envoyerPlan(me, p) {
+  const plan = {round: p.round, rel: p.rel, i: p.i, carte: p.carte, relC: p.relC, inp: p.inp, alloc: {...p.alloc}, crayon: p.crayon || 0, douche: p.douche || "", volb: p.volb || ""};
+  if (test) return agir(g => { if (g.phase !== "choix" || plan.round !== g.mancheId) return; g.plans = g.plans || {}; g.plans[me] = plan; if (g.ordre.every(x => g.plans[x])) demarrerResolution(g); });
+  planEnvoi = plan;
+  return ecrire(async () => { await db.doc("parties/" + code + "/joueurs/" + me).set({nom: jeu.noms[me], arrivee: Date.now(), objet: jeu.objets?.[me] || "", objJeu: jeu.objJeu, plan}); });
+}
+function simulerPlan(me, p) {
+  const sim = clone(jeu), ctx = jeu.ctx[me], off = offreApres(ctx, p.rel), ch = off[p.i];
+  const cid = p.relC && ch.rc ? ch.rc : p.carte;
+  sim.tour = sim.ordre.indexOf(me); sim.aDistribuer = ctx.aDistribuer; sim.mods = {x2: [], valeur: null}; sim.tourLog = []; sim.file = []; sim.phase = "simulation";
+  const pika = sim.actives[me].filter(a => CARTE[a.c].e.t === "perso_pikachu").length;
+  if (ch.dieu === "simon" && pika) sim.aDistribuer += pika;
+  if (p.crayon && aObjet(sim, me, "crayon") && !sim.objetUtilise?.[me]) { const n = Math.max(0, Math.min(3, p.crayon, sim.scores[me].culture)); sim.scores[me].culture -= n; sim.aDistribuer += n; }
+  try { appliquerCarte(sim, me, cid, p.inp || {}, false); } catch (e) {}
+  return {sim, cid, lignes: (sim.tourLog || []).slice()};
+}
+function ecranChoix(me, pied) {
+  const ctx = jeu.ctx?.[me];
+  if (!ctx) { $app.innerHTML = `<p class="muted">Préparation du tour…</p>${pied}`; return; }
+  const p = planLocal(me); ui = p.ui; alloc = p.alloc;
+  if (jeu.plans?.[me] && p.etape !== "envoye" && !p.modif) p.etape = "envoye";
+  const off = offreApres(ctx, p.rel), relReste = ctx.nbRel - p.rel.length - (p.relC ? 1 : 0);
+  const nbFait = jeu.ordre.filter(id => jeu.plans?.[id]).length;
+  const titre = `<p class="muted small" style="margin:0">Tour ${jeu.manche} · tout le monde joue en même temps</p>`;
+  if (p.etape === "envoye") {
+    const pl = jeu.plans?.[me] || planEnvoi || {}, o = off[pl.i ?? p.i], cid = o ? (pl.relC && o.rc ? o.rc : (pl.carte || o.carte)) : null;
+    const pions = OBJECTIFS.filter(x => (pl.alloc || {})[x.id]).map(x => `${pl.alloc[x.id]} en ${esc(court(x.id))}`).join(", ");
+    $app.innerHTML = `${titre}<h1>Choix envoyés</h1>${o ? `<div class="card objet-ligne"><span class="medaillon" style="--t:var(--or);width:52px;height:52px">${DB.icone(dieu(o.dieu).transverse ? "laurier" : dieu(o.dieu).objs[0], 32)}</span><div><strong>${esc(dieu(o.dieu).nom)}</strong><div class="small muted">« ${esc(CARTE[cid]?.texte || "")} »</div><div class="small">Pions : ${pions || "aucun"}</div></div></div>` : ""}
+      <p class="pret-ok">${jeu.plans?.[me] ? "✓ Bien reçu par le plateau." : "Envoi en cours…"} ${nbFait}/${jeu.ordre.length} joueurs ont joué.</p>
+      <p class="muted">Le tour se résout dès que tout le monde a joué, puis le récap s’affiche.</p>
+      <div class="row"><button id="modif" ${busy ? "disabled" : ""}>Modifier mes choix</button></div><h2>Tes points</h2>${mesScores(me)}${pied}`;
+    document.getElementById("modif").onclick = () => { p.etape = "dieu"; p.modif = true; rendre(); };
+    return;
+  }
+  if (p.etape === "dieu") {
+    const voitTout = jeu.completes[me].includes("culture"), voit = voitTout || ctx.voirUne;
+    $app.innerHTML = `${titre}<h1>Choisis un dieu</h1>${banniere(me)}<p>Il t’accorde une carte${voitTout ? " (tu vois laquelle grâce à Culture)" : voit ? " (tu vois celle du premier dieu)" : " au hasard"}.</p>
+      <div class="defile">${off.map((o, i) => { const d = dieu(o.dieu); return `<button class="choix-dieu" data-ci="${i}" aria-label="Choisir ${esc(d.nom)}">${DB.carteDieu({nom: esc(d.nom), objs: d.transverse ? [] : d.objs, extra: d.transverse ? domaines(d, o) : "", image: d.image})}${voitTout || (voit && i === 0) || o.visible ? `<span class="carte-vue"><strong>« ${esc(CARTE[o.carte].texte)} »</strong><br><span class="muted">${esc(decrire(CARTE[o.carte]))}</span></span>` : ""}</button>`; }).join("")}</div>
+      ${relReste > 0 && p.rel.length < ctx.spares.length ? `<p class="small" style="margin:12px 0 6px;display:flex;align-items:center;gap:8px">${jetonIco(26)} Il te reste ${relReste} relance${relReste > 1 ? "s" : ""}. Remplacer un dieu :</p><div class="row">${off.map((o, i) => `<button data-crel="${i}">${jetonIco(22)} ${esc(dieu(o.dieu).nom)}</button>`).join("")}</div>` : ""}
+      <h2>Tes points</h2>${mesScores(me)}${pied}`;
+    $app.querySelectorAll("[data-ci]").forEach(b => b.onclick = () => { const i = +b.dataset.ci; p.i = i; p.carte = off[i].carte; p.relC = false; p.etape = ctx.deux && off[i].alt ? "deux" : "carte"; rendre(); });
+    $app.querySelectorAll("[data-crel]").forEach(b => b.onclick = () => { DB.son("relance"); p.rel.push(+b.dataset.crel); rendre(); });
+    return;
+  }
+  const o = off[p.i];
+  if (!o) { p.etape = "dieu"; rendre(); return; }
+  if (p.etape === "deux") {
+    $app.innerHTML = `${titre}<h1>${esc(dieu(o.dieu).nom)} te laisse choisir</h1><p>Tu ne trouves plus tes lunettes : choisis une des deux cartes.</p>
+      <div class="pick">${[o.carte, o.alt].map(id => `<button class="choix-carte" data-cc2="${id}">${carteHtml(id, "")}</button>`).join("")}</div><div class="row"><button id="retour">Changer de dieu</button></div>${pied}`;
+    $app.querySelectorAll("[data-cc2]").forEach(b => b.onclick = () => { p.carte = b.dataset.cc2; p.etape = "carte"; rendre(); });
+    document.getElementById("retour").onclick = () => { p.etape = "dieu"; rendre(); };
+    return;
+  }
+  const cid = p.relC && o.rc ? o.rc : p.carte, c = CARTE[cid];
+  if (p.etape === "carte") {
+    const en = entrees(c, me);
+    $app.innerHTML = `${titre}<h1>${esc(dieu(o.dieu).nom)} t’accorde…</h1>${carteHtml(cid, "")}${en.h}
+      <div class="row" style="margin-top:14px"><button class="primary" id="vcarte" ${!en.pret ? "disabled" : ""}>Garder cette carte</button>${relReste > 0 && o.rc && !p.relC ? `<button id="rcarte">${jetonIco(22)} Relancer la carte (${relReste})</button>` : ""}<button id="retour">Changer de dieu</button></div>${pied}`;
+    lierEntrees();
+    const rc = document.getElementById("rcarte"); if (rc) rc.onclick = () => { DB.son("relance"); p.relC = true; rendre(); };
+    document.getElementById("retour").onclick = () => { p.etape = "dieu"; p.relC = false; rendre(); };
+    document.getElementById("vcarte").onclick = () => { p.inp = inp(); p.etape = "pions"; rendre(); };
+    return;
+  }
+  const {sim, lignes} = simulerPlan(me, p), vrai = jeu;
+  let bloc = "";
+  jeu = sim; try { bloc = blocPions(me, sim.aDistribuer, true, "envoi", "Valider mes choix"); } finally { jeu = vrai; }
+  let opts = "";
+  if (aObjet(jeu, me, "crayon") && !jeu.objetUtilise?.[me] && jeu.scores[me].culture > 0) opts += `<div class="card"><strong>🖍️ Crayon de couleur</strong><p class="small">Échanger des points de Culture contre des pions :</p><div class="row">${[0, 1, 2, 3].filter(k => k <= jeu.scores[me].culture).map(k => `<button data-pcr="${k}" class="${(p.crayon || 0) === k ? "primary" : ""}">${k ? "🖍️ " + k : "Non"}</button>`).join("")}</div></div>`;
+  if (aObjet(jeu, me, "douche") && jeu.manche % 2 === 1 && !(jeu.douche?.[me]?.manche === jeu.manche)) opts += `<div class="card"><strong>🚿 Pommeau de douche</strong><label for="pdch">Tour impair : choisis ta catégorie</label><select id="pdch"><option value="">Choisir…</option>${OBJECTIFS.map(x => `<option value="${x.id}" ${p.douche === x.id ? "selected" : ""}>${esc(court(x.id))}</option>`).join("")}</select></div>`;
+  if ((jeu.actives?.[me] || []).some(a => CARTE[a.c].e.t === "obj_vol") && jeu.volTour?.[me] !== jeu.nTour) {
+    const l = []; jeu.ordre.filter(id => id !== me).forEach(id => OBJECTIFS.forEach(x => { if (jeu.scores[id][x.id] > 0) l.push({id, o: x.id}); }));
+    if (l.length) opts += `<div class="card"><strong>⛵ Bateau : vole un point</strong><label for="pvb">Joueur et objectif (facultatif)</label><select id="pvb"><option value="">Personne</option>${l.map(x => { const k = x.id + "|" + x.o; return `<option value="${k}" ${p.volb === k ? "selected" : ""}>${esc(jeu.noms[x.id])} : ${esc(court(x.o))}</option>`; }).join("")}</select></div>`;
+  }
+  $app.innerHTML = `${titre}<h1>Pose tes pions</h1>
+    <div class="card small"><strong>${esc(dieu(o.dieu).nom)} · « ${esc(c.texte)} »</strong><div class="muted">${esc(decrire(c))}</div>${lignes.length ? `<div style="margin-top:6px">Effet prévu : ${esc(lignes.join(" "))}</div>` : ""}</div>
+    ${opts}${bloc}<div class="row"><button id="retour">Revenir à la carte</button></div>${pied}`;
+  lierPions();
+  $app.querySelectorAll("[data-pcr]").forEach(b => b.onclick = () => { p.crayon = +b.dataset.pcr; for (const k in p.alloc) delete p.alloc[k]; rendre(); });
+  const pd = document.getElementById("pdch"); if (pd) pd.onchange = () => { p.douche = pd.value; };
+  const pv = document.getElementById("pvb"); if (pv) pv.onchange = () => { p.volb = pv.value; };
+  document.getElementById("retour").onclick = () => { p.etape = "carte"; rendre(); };
+  document.getElementById("envoi").onclick = () => { p.etape = "envoye"; p.modif = false; envoyerPlan(me, p); };
+}
+/* --- récap --- */
+function carteRecap(pid, i) {
+  const inf = jeu.recapInfo?.[pid] || {}, d = inf.dieu ? dieu(inf.dieu) : null, c = inf.carte ? CARTE[inf.carte] : null;
+  const e = (jeu.histo || []).filter(h => h.pid === pid && h.manche === jeu.recapManche).pop();
+  const av = jeu.recapAvant?.[pid] || {}, deltas = OBJECTIFS.map(o => [o, (jeu.scores[pid][o.id] || 0) - (av[o.id] || 0)]).filter(x => x[1]);
+  const ic = d && !d.transverse ? d.objs[0] : "laurier";
+  return `<article class="objet-carte recap-carte" style="--c:${couleur(pid)};animation-delay:${i * 140}ms">
+    <div class="oc-tete">${pastille(pid, 44)}<b>${esc(jeu.noms[pid])}</b></div>
+    <span class="medaillon" style="--t:${d && !d.transverse ? `var(--obj-${ic})` : "var(--or)"};width:84px;height:84px">${DB.icone(ic, 54)}</span>
+    <h3>${d ? esc(d.nom) : "—"}</h3>${c ? `<p class="co-cit">« ${esc(c.texte)} »</p>` : ""}
+    <div class="deltas">${deltas.length ? deltas.map(([o, n]) => `<span class="delta ${n > 0 ? "plus" : "moins"}">${DB.icone(o.id, 20)} ${n > 0 ? "+" : "−"}${Math.abs(n)}</span>`).join("") : `<span class="muted small">Aucun point gagné ce tour</span>`}</div>
+    <div class="meandre"></div>
+    <div class="co-eff"><strong>CE QUI S’EST PASSÉ</strong>${e && e.lignes.length ? `<ul>${e.lignes.map(x => `<li>${esc(x)}</li>`).join("")}</ul>` : "Rien de particulier."}</div></article>`;
+}
+function texteFile(f) {
+  return f.taureau ? "choisit qui charger avec son taureau 🐂" : f.blocage ? `décide s’il bloque l’action de ${esc(jeu.noms[f.auteur])} avec Psychorigide` : f.mi ? `atteint ${SEUIL_MI_PARCOURS} en ${esc(court(f.obj))} et applique « ${esc(EFFETS_OBJECTIFS[f.obj].nomMi)} »` : `applique l’effet de fin de ${esc(court(f.obj))}`;
 }
 
 /* ---------- connexion ---------- */
@@ -2052,7 +2364,8 @@ async function lancer() {
 async function rejouer() {
   await agir(g => { g.ordre = shuffle(g.ordre); g.statut = "en_cours"; g.journal = []; nouvelleManche(g); log(g, `Nouvelle partie. ${g.noms[g.ordre[0]]} joue en premier.`); });
 }
-const quitterPlateau = () => { if (test) { jeu = null; rendre(); return; } forget("jdd-plateau"); code = null; arreter(); rendre(); };
+let reprise = null, confirmeNouv = false;
+const quitterPlateau = () => { if (test) { jeu = null; rendre(); return; } forget("jdd-plateau"); reprise = null; confirmeNouv = false; code = null; arreter(); rendre(); };
 
 const couleur = pid => `var(--j${Math.max(0, jeu.ordre.indexOf(pid)) % COULEURS})`;
 function permanentes(pid) {
@@ -2101,16 +2414,17 @@ const jetonIco = (t = 24) => `<span class="jeton" style="width:${t}px;height:${t
 const pastille = (pid, t) => `<span class="pastille" style="--c:${couleur(pid)}${t ? `;width:${t}px;height:${t}px` : ""}"><span ${t ? `style="width:${Math.round(t * .66)}px;height:${Math.round(t * .66)}px"` : ""}>${jeu?.objets?.[pid] ? objIco(jeu.objets[pid], t ? Math.round(t * .55) : 24) : ""}</span></span>`;
 const objIco = (id, t = 26) => DB.icones["obj-" + id] ? DB.icone("obj-" + id, t) : (OBJET[id]?.emoji || "");
 function effetsActifs(pid) {
-  const l = [], fini = jeu.statut !== "en_cours" || ["objets", "objets_vus"].includes(jeu.phase);
+  const l = [], fini = jeu.statut !== "en_cours" || ["objets", "objets_vus", "recap", "resolution"].includes(jeu.phase);
   if (fini || !jeu.scores?.[pid]) return l;
-  const monTour = jeu.ordre[jeu.tour] === pid;
-  if (monTour && jeu.infoTour?.pid === pid && jeu.infoTour.n === jeu.nTour) l.push(...jeu.infoTour.l);
+  const monTour = jeu.phase === "choix" || jeu.ordre[jeu.tour] === pid;
+  if (jeu.phase === "choix" && jeu.ctx?.[pid]) l.push(...jeu.ctx[pid].info);
+  else if (monTour && jeu.infoTour?.pid === pid && jeu.infoTour.n === jeu.nTour) l.push(...jeu.infoTour.l);
   if (monTour) {
     if (jeu.mods?.valeur != null) l.push([jeu.mods.valeur > 1 ? "bonus" : "malus", `Tes pions valent ${signe(jeu.mods.valeur)} ce tour`]);
     (jeu.mods?.x2 || []).forEach(o => l.push(["bonus", `Pions doublés en ${court(o)} ce tour`]));
     if (doucheActive(jeu, pid)) l.push(["bonus", "Pommeau de douche : tes pions valent double ce tour"]);
   }
-  const r = relancesDispo(jeu, pid);
+  const r = jeu.phase === "choix" && jeu.ctx?.[pid] ? jeu.ctx[pid].nbRel : relancesDispo(jeu, pid);
   if (r) l.push(["bonus", `${r} relance${r > 1 ? "s" : ""} disponible${r > 1 ? "s" : ""}`]);
   (jeu.actives?.[pid] || []).forEach(a => { const c = CARTE[a.c]; if (c?.e?.t === "pion_x2_perm") l.push(["bonus", `Pions doublés en ${court(c.obj)} (carte permanente)`]); });
   if (jeu.completes[pid].includes("culture")) l.push(["bonus", "Tu vois les cartes des dieux proposés"]);
@@ -2141,7 +2455,8 @@ function resumeHtml() {
   const bloc = e => `<div class="res-j" style="--c:${couleur(e.pid)}">${pastille(e.pid, 36)}<div><b>${esc(jeu.noms[e.pid] || "")}</b>${e.lignes.length ? `<ul>${e.lignes.map(x => `<li>${esc(x)}</li>`).join("")}</ul>` : `<p class="muted small">Rien de particulier.</p>`}</div></div>`;
   return `<div class="panneau resume"><h2>${recap ? `Récap du tour ${der.manche}` : `Tour précédent : ${esc(jeu.noms[der.pid] || "")}`}</h2>${l.map(bloc).join("")}</div>`;
 }
-let annVues = null, annFile = [], annEnCours = false, revelVue = false;
+let annVues = null, annFile = [], annEnCours = false, revelVue = false, recapVue = false;
+function lierSon() { const b = document.getElementById("son"); if (b) b.onclick = () => { window.DB_MUET = !window.DB_MUET; store("jdd-son", window.DB_MUET ? "0" : "1"); if (!window.DB_MUET) DB.son("tour"); rendre(); }; }
 function apresRendu() {
   DB.graver(document);
   let change = false, perte = false;
@@ -2156,14 +2471,15 @@ function apresRendu() {
 function animerAnnonce() {
   const l = jeu?.annonces || [], cle = a => `${a.pid}|${a.obj}|${a.n}|${a.mi ? 1 : 0}`;
   if (annVues === null) { annVues = new Set(l.map(cle)); return; }
+  setTimeout(montrerAnnonce, 600);
   const nv = l.filter(a => !annVues.has(cle(a)));
   nv.forEach(a => annVues.add(cle(a)));
   if (!(vue() === "plateau" || test)) return;
   annFile.push(...nv.filter(a => jeu.noms?.[a.pid]));
-  montrerAnnonce();
 }
 function montrerAnnonce() {
   if (annEnCours || !annFile.length) return;
+  if (["resolution", "completion", "recap", "objets", "objets_vus"].includes(jeu?.phase) && jeu?.statut === "en_cours") return;
   const a = annFile.shift(), o = OBJECTIFS.find(x => x.id === a.obj), e = EFFETS_OBJECTIFS[a.obj];
   const res = (jeu?.annonces || []).find(x => x.pid === a.pid && x.obj === a.obj && x.n === a.n && !!x.mi === !!a.mi)?.res;
   const d = document.createElement("div");
@@ -2198,7 +2514,7 @@ function listeJoueurs() {
   const actuel = jeu.ordre[jeu.tour];
   return `<div class="joueurs">${jeu.ordre.map(pid => {
     const c = couleur(pid), ouvert = ouverts.has(pid), comp = jeu.completes[pid];
-    return `<div style="--c:${c}"><button class="jr ${pid === actuel && jeu.statut === "en_cours" ? "actif" : ""}" data-j="${pid}" aria-expanded="${ouvert}">
+    return `<div style="--c:${c}"><button class="jr ${(jeu.phase === "choix" ? !jeu.plans?.[pid] : pid === actuel) && jeu.statut === "en_cours" ? "actif" : ""}" data-j="${pid}" aria-expanded="${ouvert}">
         ${pastille(pid)}<span><span class="nom">${esc(jeu.noms[pid])}</span><br><span class="sous">${comp.map(() => laurier(22)).join("")}${Array.from({length: Math.min(4, jeu.relances?.[pid] || 0)}, () => jetonIco(20)).join("")} ${comp.length}/${OBJECTIFS_POUR_FINIR} · détail</span></span>
         ${cpt("tot-" + pid, total(jeu.scores[pid]))}</button>
       ${ouvert ? `<div class="detail"><div class="objs">${OBJECTIFS.map(o => `<span class="o ${comp.includes(o.id) ? "ok" : ""}"><span class="o-ic">${DB.icone(o.id, 22)}${esc(o.court)}</span><strong>${jeu.scores[pid][o.id]}</strong></span>`).join("")}</div>
@@ -2230,18 +2546,25 @@ function lierPlateau() {
   $app.querySelectorAll("[data-j]").forEach(b => b.onclick = () => { const id = b.dataset.j; ouverts.has(id) ? ouverts.delete(id) : ouverts.add(id); rendre(); });
 }
 
+function lierNouvelle() {
+  const b = document.getElementById("nouvp"); if (!b) return;
+  b.onclick = () => { if (confirmeNouv) { quitterPlateau(); return; } confirmeNouv = true; rendre(); setTimeout(() => { if (confirmeNouv) { confirmeNouv = false; rendre(); } }, 4000); };
+}
 function rendrePlateau() {
   if (!code && !test) {
-    $app.innerHTML = `<h1>Plateau</h1><p>Cet écran affiche la partie pour tout le monde. Les joueurs rejoignent depuis leur téléphone avec le code.</p>
-      <button class="primary" id="creer" ${busy ? "disabled" : ""}>Créer une partie</button>
+    $app.innerHTML = `<div class="entete-logo"><span class="medaillon" style="width:84px;height:84px">${DB.icone("laurier")}</span><h1 class="logo">Deus Beuscarus</h1><div class="meandre" style="width:180px"></div></div><h1>Plateau</h1><p>Cet écran affiche la partie pour tout le monde. Les joueurs rejoignent depuis leur téléphone avec le code.</p>
+      ${reprise ? `<div class="card reprise"><p style="margin:0 0 10px">Une partie est déjà en cours sur cet écran (code <strong>${esc(reprise)}</strong>).</p><div class="row"><button class="primary" id="repr" ${busy ? "disabled" : ""}>Reprendre cette partie</button><button id="creer" ${busy ? "disabled" : ""}>Nouvelle partie</button></div></div>`
+        : `<button class="primary" id="creer" ${busy ? "disabled" : ""}>Créer une partie</button>`}
       <p class="err">${esc(erreur)}</p><p><a href="#">Changer d’écran</a></p>`;
-    document.getElementById("creer").onclick = creerPartie; return;
+    document.getElementById("creer").onclick = () => { reprise = null; creerPartie(); };
+    const rp = document.getElementById("repr"); if (rp) rp.onclick = () => { const c = reprise; reprise = null; abonner(c); rendre(); };
+    return;
   }
   if (!jeu) {
     $app.innerHTML = `<h1>Plateau</h1><p class="muted">${horsLigne ? "La partie est injoignable pour l’instant." : "Chargement de la partie…"}</p><button id="nouv">Créer une nouvelle partie</button>`;
     document.getElementById("nouv").onclick = quitterPlateau; return;
   }
-  const tete = `<div class="tete"><h1 class="logo">Deus Beuscarus</h1><div class="meta">${test ? `<span class="puce">Mode test</span>` : `<span class="puce">CODE · ${esc(code)}</span>`}<button class="son" id="son" aria-pressed="${!window.DB_MUET}" title="${window.DB_MUET ? "Activer le son" : "Couper le son"}">${window.DB_MUET ? "🔇" : "🔊"}</button></div></div>`;
+  const tete = `<div class="tete"><h1 class="logo">Deus Beuscarus</h1><div class="meta">${test ? `<span class="puce">Mode test</span>` : `<span class="puce">CODE · ${esc(code)}</span>`}<button class="son" id="son" aria-pressed="${!window.DB_MUET}" title="${window.DB_MUET ? "Activer le son" : "Couper le son"}">${window.DB_MUET ? "🔇" : "🔊"}</button>${test ? "" : `<button class="son ${confirmeNouv ? "danger" : ""}" id="nouvp">${confirmeNouv ? "Confirmer : nouvelle partie" : "Nouvelle partie"}</button>`}</div></div>`;
   if (jeu.statut === "attente" || !jeu.scores) {
     $app.innerHTML = `${tete}
       <div class="panneau"><p>Sur chaque téléphone, ouvre ce même lien, choisis « Je suis joueur » et saisis le code :</p><p class="muted small" style="word-break:break-all">${esc(location.href.split("#")[0])}</p><div class="code-cases" style="max-width:360px">${[...String(code)].map(ch => `<span>${esc(ch)}</span>`).join("")}</div></div>
@@ -2252,36 +2575,64 @@ function rendrePlateau() {
       <div class="row"><button class="primary" id="go" ${busy ? "disabled" : ""}>${joueursLobby.length ? "Lancer la partie" : "Voir le plateau sans joueur"}</button><button id="nouv">Nouvelle partie</button></div>
       <p class="err">${esc(erreur)}</p>`;
     document.getElementById("go").onclick = lancer;
-    document.getElementById("nouv").onclick = quitterPlateau; return;
+    document.getElementById("nouv").onclick = quitterPlateau; lierNouvelle(); return;
   }
   const journal = `<details style="margin-top:18px"><summary>Historique de la partie</summary><ul class="log" style="margin-top:8px">${(jeu.journal || []).slice().reverse().map(l => `<li>${esc(l)}</li>`).join("")}</ul></details>`;
   const actuel = jeu.ordre[jeu.tour];
+  if (jeu.phase === "recap" && jeu.statut === "en_cours") {
+    const premier = !recapVue;
+    if (!recapVue) { recapVue = true; DB.son("revelation"); }
+    $app.innerHTML = `${tete}<div class="revele ${premier ? "premier" : ""}"><h2 class="revele-t">Récap du tour ${jeu.recapManche}</h2><p class="muted" style="text-align:center">${jeu.finApresRecap ? "C’était le dernier tour : la partie se termine après ce récap." : "Voici ce que chacun a joué. Le plateau se met à jour juste après."}</p>
+      <div class="revele-grille">${jeu.ordre.map((pid, i) => carteRecap(pid, i)).join("")}</div>
+      <div class="depart"><p>${jeu.finApresRecap ? "Les scores finaux s’affichent" : "Le tour suivant commence"} dès que tout le monde est prêt sur son téléphone, ou dans quelques instants.</p>
+        <div class="choix-etat" style="justify-content:center">${jeu.ordre.map(id => `<span class="puce">${pastille(id, 26)} ${esc(jeu.noms[id])} ${jeu.prets?.[id] ? "✓ prêt" : "…"}</span>`).join("")}</div>
+        <div class="minuteur" aria-hidden="true"><span style="animation-duration:${DELAI_RECAP}ms;animation-delay:-${Math.min(DELAI_RECAP, Date.now() - (jeu.recapT || Date.now()))}ms"></span></div></div></div>`;
+    lierNouvelle(); lierSon(); planifierDepart();
+    return;
+  }
+  recapVue = false;
+  if ((jeu.phase === "resolution" || (jeu.phase === "completion" && jeu.suite === "resolution")) && jeu.statut === "en_cours") {
+    const f = jeu.phase === "completion" ? jeu.file[0] : null;
+    $app.innerHTML = `${tete}<div class="revele"><h2 class="revele-t">Résolution du tour ${jeu.manche}</h2><p class="muted" style="text-align:center">Tout le monde a joué. Les effets s’appliquent dans l’ordre des joueurs.</p>
+      ${f ? `<div class="panneau etat a-jouer" style="--c:${couleur(f.pid)};max-width:640px;margin:20px auto"><div class="muted small">En attente</div><div class="qui">${pastille(f.pid, 36)} ${esc(jeu.noms[f.pid])}</div><div>${texteFile(f)}, sur son téléphone.</div></div>` : `<p style="text-align:center">Résolution en cours…</p>`}</div>`;
+    lierNouvelle(); lierSon();
+    return;
+  }
+  if (departTimer && jeu.phase !== "objets_vus") { clearTimeout(departTimer); departTimer = null; }
   if (jeu.phase === "objets_vus" && jeu.statut === "en_cours") {
+    const premier = !revelVue;
     if (!revelVue) { revelVue = true; DB.son("revelation"); }
-    $app.innerHTML = `${tete}<div class="revele"><h2 class="revele-t">Les objets de départ</h2><p class="muted" style="text-align:center">Chaque objet accompagne son joueur toute la partie.</p>
+    $app.innerHTML = `${tete}<div class="revele ${premier ? "premier" : ""}"><h2 class="revele-t">Les objets de départ</h2><p class="muted" style="text-align:center">Chaque objet accompagne son joueur toute la partie.</p>
       <div class="revele-grille">${jeu.ordre.map((pid, i) => { const o = OBJET[jeu.objets[pid]]; return `<article class="objet-carte" style="--c:${couleur(pid)};animation-delay:${i * 140}ms">
         <div class="oc-tete">${pastille(pid, 44)}<b>${esc(jeu.noms[pid])}</b></div>
         <span class="medaillon" style="--t:var(--bronze);width:96px;height:96px">${objIco(o.id, 62)}</span><h3>${esc(o.nom)}</h3>
         ${o.texte ? `<p class="co-cit">« ${esc(o.texte)} »</p>` : ""}<div class="meandre"></div>
         <p class="co-eff"><strong>EFFET${o.type === "une fois" ? " · UNE FOIS" : o.type === "deux fois" ? " · DEUX FOIS" : ""}</strong>${esc(o.effet)}</p></article>`; }).join("")}</div>
-      <div class="row" style="justify-content:center;margin-top:22px"><button class="primary" id="debut" ${busy ? "disabled" : ""}>Commencer la partie</button></div></div>`;
-    document.getElementById("debut").onclick = commencerPartie;
-    const bs0 = document.getElementById("son"); if (bs0) bs0.onclick = () => { window.DB_MUET = !window.DB_MUET; store("jdd-son", window.DB_MUET ? "0" : "1"); if (!window.DB_MUET) DB.son("tour"); rendre(); };
+      <div class="depart"><p>La partie commence dès que tout le monde est prêt sur son téléphone, ou dans quelques instants.</p>
+        <div class="choix-etat" style="justify-content:center">${jeu.ordre.map(id => `<span class="puce">${pastille(id, 26)} ${esc(jeu.noms[id])} ${jeu.prets?.[id] ? "✓ prêt" : "…"}</span>`).join("")}</div>
+        <div class="minuteur" aria-hidden="true"><span style="animation-duration:${DELAI_REVELATION}ms;animation-delay:-${Math.min(DELAI_REVELATION, Date.now() - (jeu.revelT || Date.now()))}ms"></span></div></div></div>`;
+    lierNouvelle(); planifierDepart();
+    lierSon();
     return;
   }
-  revelVue = false;
+  revelVue = false; if (departTimer) { clearTimeout(departTimer); departTimer = null; }
   let etat;
   if (jeu.statut === "fini") {
     const cl = jeu.ordre.slice().sort((a, b) => total(jeu.scores[b]) - total(jeu.scores[a]));
     const best = total(jeu.scores[cl[0]]), gagnants = cl.filter(id => total(jeu.scores[id]) === best);
     etat = `<div class="panneau etat" style="--c:${couleur(gagnants[0])}"><div class="muted small">Partie terminée</div>
       <div class="qui">${gagnants.length > 1 ? "Égalité : " : "Victoire de "}${esc(gagnants.map(id => jeu.noms[id]).join(" et "))}</div><p>${best} points</p>
-      <div class="row"><button class="primary" id="rej" ${busy ? "disabled" : ""}>Rejouer avec les mêmes joueurs</button><button id="nouv">Nouvelle partie</button></div></div>${resumeHtml()}`;
+      <div class="row"><button class="primary" id="rej" ${busy ? "disabled" : ""}>Rejouer avec les mêmes joueurs</button><button id="nouv">Nouvelle partie</button></div></div>`;
   } else if (!jeu.ordre.length) {
     etat = `<div class="panneau"><span class="muted">Aperçu sans joueur.</span> <button id="nouv">Nouvelle partie</button></div>`;
   } else {
     let pid = actuel, txt = "";
-    if (jeu.phase === "objets") {
+    if (jeu.phase === "choix") {
+      const n = jeu.ordre.filter(id => jeu.plans?.[id]).length;
+      etat = `<div class="panneau etat"><div class="muted small">Tour ${jeu.manche}${jeu.dernierTour ? " · dernier tour" : ""}</div><div class="qui">Tout le monde joue · ${n}/${jeu.ordre.length}</div><p>Chacun choisit son dieu et pose ses pions sur son téléphone, en même temps. Le tour se résout quand tout le monde a joué.</p>
+        <div class="choix-etat">${jeu.ordre.map(id => `<span class="puce">${pastille(id, 26)} ${esc(jeu.noms[id])} ${jeu.plans?.[id] ? "✓" : "…"}</span>`).join("")}</div>${jeu.platre ? `<div class="small" style="margin-top:8px">🧱 Plâtre : personne ne gagne de points en ${esc(court(jeu.platre.o))} ce tour.</div>` : ""}</div>`;
+    }
+    else if (jeu.phase === "objets") {
       const n = jeu.ordre.filter(id => jeu.objets?.[id]).length;
       etat = `<div class="panneau etat"><div class="muted small">Début de partie</div><div class="qui">Choix des objets · ${n}/${jeu.ordre.length}</div><p>Chacun choisit son objet sur son téléphone, en même temps.</p>
         <div class="choix-etat">${jeu.ordre.map(id => `<span class="puce">${pastille(id, 26)} ${esc(jeu.noms[id])} ${jeu.objets?.[id] ? "✓" : "…"}</span>`).join("")}</div></div>`;
@@ -2293,13 +2644,14 @@ function rendrePlateau() {
     else if (jeu.phase === "completion" && jeu.file[0].taureau) { pid = jeu.file[0].pid; txt = `a gagné des points en Blague et choisit qui charger. 🐂`; }
     else if (jeu.phase === "completion" && jeu.file[0].blocage) { const f = jeu.file[0]; pid = f.pid; txt = `décide s’il bloque l’action de ${esc(jeu.noms[f.auteur])} avec Psychorigide.`; }
     else if (jeu.phase === "completion") { const f = jeu.file[0]; pid = f.pid; txt = f.mi ? `atteint ${SEUIL_MI_PARCOURS} en ${esc(court(f.obj))}, « ${esc(EFFETS_OBJECTIFS[f.obj].nomMi)} » : ${esc(EFFETS_OBJECTIFS[f.obj].mi)}` : `applique l’effet de ${esc(court(f.obj))} : ${esc(EFFETS_OBJECTIFS[f.obj].complete)}`; }
-    if (jeu.phase !== "objets") etat = `<div class="panneau etat a-jouer" style="--c:${couleur(pid)}"><div class="muted small">${jeu.phase === "completion" ? (jeu.file[0].taureau ? "Taureau" : jeu.file[0].blocage ? "Action en attente" : jeu.file[0].mi ? "Étape de mi-parcours" : "Effet de fin d’objectif") : "En cours"}</div>${jeu.platre ? `<div class="small" style="margin-top:6px">🧱 Plâtre : personne ne gagne de points en ${esc(court(jeu.platre.o))} ce tour de table.</div>` : ""}<div class="qui">${pastille(pid, 36)} À ${esc(jeu.noms[pid])} de jouer</div><div>${txt}</div></div>${resumeHtml()}`;
+    if (!["objets", "choix"].includes(jeu.phase)) etat = `<div class="panneau etat a-jouer" style="--c:${couleur(pid)}"><div class="muted small">${jeu.phase === "completion" ? (jeu.file[0].taureau ? "Taureau" : jeu.file[0].blocage ? "Action en attente" : jeu.file[0].mi ? "Étape de mi-parcours" : "Effet de fin d’objectif") : "En cours"}</div>${jeu.platre ? `<div class="small" style="margin-top:6px">🧱 Plâtre : personne ne gagne de points en ${esc(court(jeu.platre.o))} ce tour de table.</div>` : ""}<div class="qui">${pastille(pid, 36)} À ${esc(jeu.noms[pid])} de jouer</div><div>${txt}</div></div>`;
   }
   $app.innerHTML = `${tete}<div class="grille">
       <div><div class="panneau roue-boite">${roue()}<div class="bulle" role="tooltip" hidden></div><p class="muted small" style="margin:4px 6px 0">Survole ou touche un objectif pour voir son effet.</p></div></div>
       <div>${etat}<h2>Joueurs</h2>${listeJoueurs()}${journal}</div>
     </div>`;
   lierPlateau();
+  lierNouvelle();
   const bs = document.getElementById("son"); if (bs) bs.onclick = () => { window.DB_MUET = !window.DB_MUET; store("jdd-son", window.DB_MUET ? "0" : "1"); if (!window.DB_MUET) DB.son("tour"); rendre(); };
   const rj = document.getElementById("rej"); if (rj) rj.onclick = rejouer;
   const nv = document.getElementById("nouv"); if (nv) nv.onclick = quitterPlateau;
@@ -2375,7 +2727,7 @@ function relancerDieu(i) {
 function entrees(c, pid) {
   const adv = jeu.ordre.filter(id => id !== pid);
   let h = "";
-  if (besoinCible(c) && adv.length) h += `<label for="cible">À qui donnes-tu un point ?</label><select id="cible"><option value="">Choisir…</option>${adv.map(id => `<option value="${id}" ${id === ui.cible ? "selected" : ""}>${esc(jeu.noms[id])}</option>`).join("")}</select>`;
+  if (besoinCible(c) && adv.length) h += `<label for="cible">${gainPlus2(c) ? `Qui perd 1 point en ${esc(court(c.obj))} ?` : "À qui donnes-tu un point ?"}</label><select id="cible"><option value="">Choisir…</option>${adv.map(id => `<option value="${id}" ${id === ui.cible ? "selected" : ""}>${esc(jeu.noms[id])}</option>`).join("")}</select>`;
   if (besoinNombre(c)) h += `<label for="nombre">Nombre de descendants</label><input id="nombre" type="number" min="0" inputmode="numeric" value="${esc(ui.nombre)}" style="width:120px">`;
   if (besoinOuiNon(c)) h += `<p style="margin-top:10px">As-tu déjà gagné à ce jeu ?</p><div class="row"><button data-on="1" class="${ui.oui === true ? "primary" : ""}">Oui</button><button data-on="0" class="${ui.oui === false ? "primary" : ""}">Non</button></div>`;
   let pret = (!besoinCible(c) || !adv.length || ui.cible) && (!besoinNombre(c) || /^\d+$/.test(String(ui.nombre))) && (!besoinOuiNon(c) || ui.oui !== null);
@@ -2424,19 +2776,19 @@ function objetHtml(pid) {
   const id = jeu.objets?.[pid]; if (!id) return volHtml(pid);
   const o = OBJET[id], used = jeu.objetUtilise?.[pid];
   let h = `<div class="card"><div class="muted small">Ton objet${used ? " (utilisé)" : ""}</div><div class="objet-ligne"><span class="medaillon" style="--t:var(--bronze);width:52px;height:52px">${objIco(id, 32)}</span><strong>${esc(o.nom)}</strong></div><p class="desc">${esc(o.effet)}</p>`;
-  if (id === "velo" && !used && jeu.ordre[jeu.tour] === pid && ["dieu", "points"].includes(jeu.phase) && jeu.scores[pid].lignee > 0) {
+  if (id === "velo" && !used && (jeu.phase === "choix" || (jeu.ordre[jeu.tour] === pid && ["dieu", "points"].includes(jeu.phase))) && jeu.scores[pid].lignee > 0) {
     const cibles = OBJECTIFS.filter(x => x.id !== "lignee" && !jeu.completes[pid].includes(x.id));
     h += `<label for="velo">Déplacer tes ${jeu.scores[pid].lignee} points de Lignée vers</label><select id="velo"><option value="">Choisir…</option>${cibles.map(x => `<option value="${x.id}" ${ui.velo === x.id ? "selected" : ""}>${esc(court(x.id))}</option>`).join("")}</select>
       <div class="row" style="margin-top:8px"><button id="velogo" ${!ui.velo || busy ? "disabled" : ""}>🚲 Utiliser le vélo cargo</button></div>`;
   }
-  const monTour = jeu.ordre[jeu.tour] === pid && ["dieu", "effet", "points"].includes(jeu.phase);
+  const monTour = jeu.phase === "choix" || (jeu.ordre[jeu.tour] === pid && ["dieu", "effet", "points"].includes(jeu.phase));
   if (id === "cloche" && monTour) {
     const n = jeu.clocheUses?.[pid] || 0, l = jeu.impacts?.[pid] || [];
     h += n >= 2 ? `<p class="muted small">Tu as déjà sonné deux fois.</p>` : l.length
       ? `<p class="small" style="margin:8px 0 4px">${2 - n} sonnerie${2 - n > 1 ? "s" : ""} restante${2 - n > 1 ? "s" : ""}. Ont impacté ton jeu :</p><div class="row">${l.map(x => `<button data-son="${x}" ${busy ? "disabled" : ""}>🔔 ${esc(jeu.noms[x])}</button>`).join("")}</div>`
       : `<p class="muted small">Personne n’a impacté ton jeu depuis ton dernier tour.</p>`;
   }
-  if (id === "douche" && jeu.ordre[jeu.tour] === pid && jeu.statut === "en_cours") {
+  if (id === "douche" && jeu.ordre[jeu.tour] === pid && jeu.statut === "en_cours" && jeu.phase !== "choix") {
     const d = jeu.douche?.[pid];
     if (jeu.manche % 2 === 1) {
       h += d && d.manche === jeu.manche ? `<p class="small">Catégorie choisie : <strong>${esc(court(d.o))}</strong>. Au prochain tour, si tu y es dernier, tes pions vaudront double.</p>`
@@ -2486,17 +2838,19 @@ function blocPions(pid, nb, avecTour, idBouton, libelle) {
   const places = OBJECTIFS.reduce((s, o) => s + (alloc[o.id] || 0), 0), reste = nb - places;
   return `${nb === 0 ? `<p>Tu n’as aucun pion à poser ce tour-ci.</p>` : `<div class="reserve">${Array.from({length: Math.min(nb, 10)}, (_, i) => `<span class="pion ${i < reste ? "" : "vide"}"></span>`).join("")}<span class="reserve-t">${reste} pion${reste > 1 ? "s" : ""} à poser sur ${nb}</span></div>`}
     ${aObjet(jeu, pid, "peluche") ? `<p class="muted small">🧸 Peluche Pokémon : tes points de Culture vont en Jeux.</p>` : ""}
+    <p class="muted small" style="margin:8px 0">Touche un objectif pour voir son effet.</p>
     <div class="lignes-pions">${OBJECTIFS.filter(o => !(o.id === "culture" && aObjet(jeu, pid, "peluche"))).map(o => {
       const a = alloc[o.id] || 0, v = valeurPion(jeu, pid, o.id, avecTour);
       const apres = Math.max(0, Math.min(plafond(jeu, pid, o.id), sc[o.id] + a * v));
-      return `<div class="ligne-pion ${a ? "mise" : ""}"><span class="lp-obj"><span class="medaillon" style="--t:var(--obj-${o.id})">${DB.icone(o.id)}</span><span class="lp-nom">${esc(o.court)}</span></span>
+      return `<div class="ligne-pion ${a ? "mise" : ""}"><button class="lp-obj" data-vo="${o.id}" aria-expanded="${objTel === o.id}" aria-label="Voir l’effet de ${esc(o.court)}"><span class="medaillon" style="--t:var(--obj-${o.id})">${DB.icone(o.id)}</span><span class="lp-nom">${esc(o.court)} ⓘ</span></button>
         ${cpt("bp-" + pid + "-" + o.id, apres, "s")}<span class="lp-etat">${jeu.completes[pid].includes(o.id) ? laurier() : ""}${v !== 1 ? `<span class="puce">pion ${signe(v)}</span>` : ""}</span>
         <div class="pas"><button data-m="${o.id}" aria-label="Retirer un pion en ${esc(o.court)}" ${a <= 0 ? "disabled" : ""}>−</button><output>${a}</output>
-        <button data-p="${o.id}" aria-label="Ajouter un pion en ${esc(o.court)}" ${reste <= 0 || (v < 0 && sc[o.id] + (a + 1) * v < 0) ? "disabled" : ""}>+</button></div></div>`;
+        <button data-p="${o.id}" aria-label="Ajouter un pion en ${esc(o.court)}" ${reste <= 0 || (v < 0 && sc[o.id] + (a + 1) * v < 0) ? "disabled" : ""}>+</button></div></div>${objTel === o.id ? `<div class="card small effet-obj">${effetObjectifHtml(o.id)}</div>` : ""}`;
     }).join("")}</div>
     <div class="row" style="margin-top:16px"><button class="primary large" id="${idBouton}" ${reste !== 0 || busy ? "disabled" : ""}>${libelle}</button></div>`;
 }
 function lierPions() {
+  $app.querySelectorAll("[data-vo]").forEach(b => b.onclick = () => { objTel = objTel === b.dataset.vo ? "" : b.dataset.vo; rendre(); });
   $app.querySelectorAll("[data-p]").forEach(b => b.onclick = () => { alloc[b.dataset.p] = (alloc[b.dataset.p] || 0) + 1; DB.son("pion"); rendre(); });
   $app.querySelectorAll("[data-m]").forEach(b => b.onclick = () => { alloc[b.dataset.m] = Math.max(0, (alloc[b.dataset.m] || 0) - 1); rendre(); });
 }
@@ -2606,7 +2960,7 @@ function rendreJoueur() {
   const pied = `<p class="err">${esc(erreur)}</p>${test ? "" : `<p style="margin-top:24px"><button id="q">Quitter la partie</button></p>`}`;
   const fin = () => { const q = document.getElementById("q"); if (q) q.onclick = quitter; lierScores(); lierObjet(me);
     if (jeu.scores?.[me] && jeu.ordre?.includes(me)) $app.insertAdjacentHTML("afterbegin", effetsHtml(me));
-    $app.insertAdjacentHTML("afterbegin", `<div class="bandeau-joueur">${pastille(me, 40)}<span><b>${esc(jeu.noms[me])}</b><br><span class="muted small">${jeu.manche ? `Tour ${jeu.manche}${jeu.dernierTour ? " · dernier tour" : ""}` : ""}</span></span>${relancesDispo(jeu, me) > 0 ? `<span class="puce">${jetonIco(22)} × ${relancesDispo(jeu, me)}</span>` : ""}</div>`); DB.graver($app); };
+    $app.insertAdjacentHTML("afterbegin", `<div class="bandeau-joueur">${pastille(me, 40)}<span><b>${esc(jeu.noms[me])}</b><br><span class="muted small">${jeu.manche ? `Tour ${jeu.manche}${jeu.dernierTour ? " · dernier tour" : ""}` : ""}</span></span>${(jeu.phase === "choix" && jeu.ctx?.[me] ? jeu.ctx[me].nbRel : relancesDispo(jeu, me)) > 0 ? `<span class="puce">${jetonIco(22)} × ${jeu.phase === "choix" && jeu.ctx?.[me] ? jeu.ctx[me].nbRel : relancesDispo(jeu, me)}</span>` : ""}</div>`); DB.graver($app); };
   if (jeu.statut === "attente" || !jeu.scores) { $app.innerHTML = `<h1>Partie ${esc(code)}</h1><p>C’est noté, ${esc(load("jdd-nom"))}. La partie commence dès que le plateau la lance.</p>${pied}`; fin(); return; }
   if (!jeu.ordre.includes(me)) { $app.innerHTML = `<p>Tu ne fais pas partie de cette partie.</p>${pied}`; fin(); return; }
   if (jeu.statut === "fini") {
@@ -2636,9 +2990,22 @@ function rendreJoueur() {
     $app.querySelectorAll("[data-ob]").forEach(b => b.onclick = () => choisirObjet(me, b.dataset.ob));
     fin(); return;
   }
+  if (jeu.phase === "choix") { ecranChoix(me, pied); fin(); return; }
+  if (jeu.phase === "resolution") { $app.innerHTML = `<h1>Résolution du tour</h1><p class="muted">Les effets s’appliquent…</p>${mesScores(me)}${pied}`; fin(); return; }
+  if (jeu.phase === "recap") {
+    const pret = jeu.prets?.[me] || (pretEnvoi === jetonPret() && !test);
+    $app.innerHTML = `<h1>Récap du tour ${jeu.recapManche}</h1><p class="muted">Regarde le plateau. ${jeu.finApresRecap ? "C’était le dernier tour." : "Le tour suivant commence dès que tout le monde est prêt."}</p>
+      <div style="margin:12px 0">${pret ? `<p class="pret-ok">✓ Tu es prêt. En attente des autres (${jeu.ordre.filter(id => jeu.prets?.[id]).length}/${jeu.ordre.length}).</p>` : `<button class="primary large" id="pret" ${busy ? "disabled" : ""}>Je suis prêt</button>`}</div>
+      <div class="recap-tel">${carteRecap(me, 0)}</div><h2>Les autres</h2><div class="recap-tel">${jeu.ordre.filter(id => id !== me).map((id, i) => carteRecap(id, i + 1)).join("")}</div>${pied}`;
+    const bp = document.getElementById("pret"); if (bp) bp.onclick = () => marquerPret(me);
+    fin(); return;
+  }
   if (jeu.phase === "objets_vus") {
-    $app.innerHTML = `<h1>Les objets sont révélés</h1><p class="muted">Regarde le plateau : la partie commence dès qu’on lance le premier tour.</p>${objetHtml(me)}
+    const pret = jeu.prets?.[me] || (pretEnvoi === jeu.objJeu && !test);
+    $app.innerHTML = `<h1>Les objets sont révélés</h1><p class="muted">Regarde le plateau et lis les objets de chacun. La partie commence dès que tout le monde est prêt.</p>
+      <div style="margin:12px 0">${pret ? `<p class="pret-ok">✓ Tu es prêt. En attente des autres (${jeu.ordre.filter(id => jeu.prets?.[id]).length}/${jeu.ordre.length}).</p>` : `<button class="primary large" id="pret" ${busy ? "disabled" : ""}>Je suis prêt</button>`}</div>${objetHtml(me)}
       <h2>Les objets des autres</h2><div class="lignes-objets">${jeu.ordre.filter(id => id !== me).map(id => { const o = OBJET[jeu.objets[id]]; return `<div class="card objet-autre">${pastille(id, 40)}<div><b>${esc(jeu.noms[id])} · ${esc(o.nom)}</b><div class="small muted">${esc(o.effet)}</div></div></div>`; }).join("")}</div>${pied}`;
+    const bp = document.getElementById("pret"); if (bp) bp.onclick = () => marquerPret(me);
     fin(); return;
   }
   if (actuel !== me) {
@@ -2704,7 +3071,7 @@ function rendreTest() {
     };
     return;
   }
-  if (suivre && jeu.statut === "en_cours") testVue = jeu.phase === "completion" ? jeu.file[0].pid : jeu.phase === "objets" ? (jeu.ordre.find(id => !jeu.objets?.[id]) || jeu.ordre[0]) : jeu.phase === "objets_vus" ? testVue : jeu.ordre[jeu.tour];
+  if (suivre && jeu.statut === "en_cours") testVue = jeu.phase === "completion" ? jeu.file[0].pid : jeu.phase === "objets" ? (jeu.ordre.find(id => !jeu.objets?.[id]) || jeu.ordre[0]) : ["objets_vus", "recap"].includes(jeu.phase) ? (jeu.ordre.find(id => !jeu.prets?.[id]) || testVue) : jeu.phase === "choix" ? (jeu.ordre.find(id => !jeu.plans?.[id]) || testVue) : jeu.ordre[jeu.tour];
   if (!jeu.ordre.includes(testVue)) testVue = jeu.ordre[0];
   main.innerHTML = `<div class="test"><div id="tplat" class="plat"></div>
     <div><div class="onglets">${jeu.ordre.map(id => `<button data-tv="${id}" class="${id === testVue ? "sel" : ""}">${esc(jeu.noms[id])}</button>`).join("")}</div>
@@ -2779,7 +3146,8 @@ function demarrerVue() {
   erreur = ""; resetUi(); code = null;
   const v = vue();
   test = v === "test"; jeu = null;
-  if (db) { const saved = v === "plateau" ? load("jdd-plateau") : v === "joueur" ? load("jdd-joueur") : null; if (saved) abonner(saved); }
+  reprise = v === "plateau" ? load("jdd-plateau") : null;
+  if (db) { const saved = v === "joueur" ? load("jdd-joueur") : null; if (saved) abonner(saved); }
   rendre();
 }
 rendre();
