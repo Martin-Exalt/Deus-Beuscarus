@@ -615,9 +615,9 @@ img,svg,table,pre{max-width:100%}
 .cartes-choix{align-items:stretch}
 .cc-item{width:270px;flex:none}
 .cc-item .carte-obj{margin:0!important;height:100%}
-.cc-dos{display:grid;justify-items:center;align-content:center;gap:10px;padding:0;border:none;background:none;box-shadow:none;min-height:0;font:inherit;letter-spacing:0;color:inherit}
-.cc-dos .carte-dos{width:210px}
-.cc-dos .carte-dos span{font-size:56px}
+.cc-dos{display:block;padding:0;border:none;background:none;box-shadow:none;min-height:0;font:inherit;letter-spacing:0;color:inherit;border-radius:var(--r-carte)}
+.cc-dos .carte-dos{width:100%;height:100%;aspect-ratio:auto;min-height:300px}
+.cc-dos .carte-dos span{font-size:64px}
 .cc-lib{font-family:var(--font-titre);font-weight:700;font-size:16px;text-align:center}
 .de-bouton{display:grid;justify-items:center;gap:8px;margin:16px auto;padding:16px 28px;min-height:0;background:var(--surface-haute);border:3px dashed var(--or);border-radius:var(--r-socle);font:700 17px var(--font-titre);letter-spacing:.02em;color:var(--encre);box-shadow:var(--relief-1)}
 .de-bouton:not(:disabled) .de,.de-bouton:not(:disabled) .piece-svg{animation:deAttente 1.8s ease-in-out infinite}
@@ -669,6 +669,28 @@ img,svg,table,pre{max-width:100%}
 .pluie-or i svg{width:100%;height:100%;display:block}
 @keyframes pluieOr{0%{transform:translate(0,0) rotate(0);opacity:0}8%{opacity:1}50%{transform:translate(28px,55vh) rotate(200deg)}100%{transform:translate(-14px,110vh) rotate(420deg);opacity:.9}}
 @media (prefers-reduced-motion:reduce){.pluie-or{display:none}.cl-suspense{animation:none;opacity:0}}
+.cl-tel .revele-t{font-size:1.6rem}
+.cl-tel .cl-liste{gap:8px;margin-top:12px}
+.cl-tel .cl-ligne{grid-template-columns:32px auto 1fr auto;gap:8px;padding:8px 10px;border-left-width:6px}
+.cl-tel .cl-ligne .cl-lau{display:none}
+.cl-tel .cl-rang{font-size:22px}
+.cl-tel .cl-rang svg{width:30px;height:30px}
+.cl-tel .cl-nom,.cl-tel .cl-ligne.premier .cl-nom{font-size:18px}
+.cl-tel .cl-ligne .pastille{width:36px!important;height:36px!important}
+.cl-tel .cl-ligne .compteur{--h:40px}
+.cl-tel .cl-ligne.premier{padding:12px 10px}
+.cl-tel .cl-suspense{font-size:22px}
+.cl-tel .cl-gagne{font-size:22px}
+.cl-moi{font:700 18px var(--font-titre);margin:4px 0 0}
+/* textes longs dans les boutons de choix : police de lecture, pas les capitales des titres */
+.pick button,.choix-objet,.choix-carte,.pick button span,.pick button em{font-family:var(--font-texte);letter-spacing:0;text-transform:none}
+.pick button,.choix-objet{font-weight:500}
+.pick button strong,.choix-objet strong{font-family:var(--font-titre);font-weight:700;letter-spacing:.02em}
+.pick button em,.choix-objet em{font-size:15px}
+.pick button .muted,.choix-objet .muted{font-size:15px;line-height:21px;color:var(--encre-douce)}
+.oc-dieu{margin:0;font:700 15px var(--font-titre);color:var(--encre-douce);text-align:center}
+.oc-dieu-tel{font:700 13px var(--font-titre);letter-spacing:.04em;color:var(--encre-douce)}
+.version{margin-top:24px;font-size:12px;color:var(--encre-douce);opacity:.7}
 </style>
 </head>
 <body>
@@ -4220,7 +4242,7 @@ function nouvelleManche(g) {
 function appliquerObjet(g, pid, id) {
   if (g.phase !== "objets" || g.objets[pid] || !(g.objOffres[pid] || []).includes(id)) return;
   g.objets[pid] = id;
-  log(g, `${g.noms[pid]} prend l’objet ${OBJET[id].nom}.`);
+  log(g, OBJET[id].dieu ? `${OBJET[id].dieu} confie à ${g.noms[pid]} : ${OBJET[id].nom}.` : `${g.noms[pid]} prend l’objet ${OBJET[id].nom}.`);
   if (g.ordre.every(x => g.objets[x])) { g.phase = "objets_vus"; g.revelT = Date.now(); g.prets = {}; }
 }
 /* Tout le monde choisit en même temps : chaque téléphone écrit son choix dans sa fiche joueur,
@@ -4660,7 +4682,7 @@ function ecranChoix(me, pied) {
   if (p.etape === "carte") {
     const en = entrees(c, me);
     $app.innerHTML = `${titre}<h1>${esc(dieu(o.dieu).nom)} t’accorde…</h1>
-      ${!p.fc && o.fc ? `<div class="defile cartes-choix"><div class="cc-item">${carteHtml(cid, "")}</div><button class="cc-item cc-dos" id="fcarte" aria-label="Prendre la carte face cachée à la place"><div class="carte-dos"><span>?</span></div><span class="cc-lib">Prendre la carte face cachée</span></button></div>` : carteHtml(cid, "")}${en.h}
+      ${!p.fc && o.fc ? `<div class="defile cartes-choix"><div class="cc-item">${carteHtml(cid, "")}</div><button class="cc-item cc-dos" id="fcarte" aria-label="Prendre la carte face cachée à la place"><div class="carte-dos"><span>?</span></div></button></div>` : carteHtml(cid, "")}${en.h}
       <div class="row" style="margin-top:14px"><button class="primary" id="vcarte" ${!en.pret ? "disabled" : ""}>Valider</button>${!p.fc && relReste > 0 && o.rc && !p.relC ? `<button id="rcarte">${jetonIco(22)} Relancer la carte (${relReste})</button>` : ""}</div>
 ${pied}`;
     const fcb = document.getElementById("fcarte"); if (fcb) fcb.onclick = () => { p.fc = true; for (const k in p.ui) p.ui[k] = k === "oui" ? null : ""; DB.son("panneau"); rendre(); };
@@ -4993,7 +5015,7 @@ const sauver = g => db.doc("parties/" + code).set(g);
 async function agir(fn) { await ecrire(async () => { const g = clone(jeu); fn(g); if (test) recevoir(g); else await sauver(g); }); }
 /* Version du déroulé : une partie lancée avec l’ancien déroulé (tour par tour) est convertie en tours simultanés par le plateau,
    et un téléphone resté sur une ancienne copie de la page est invité à la recharger. */
-const VERSION_JEU = "simultane-2";
+const VERSION_JEU = "simultane-3";
 let migrationFaite = false;
 function migrer() {
   if (migrationFaite || vue() !== "plateau" || test || !jeu || jeu.statut !== "en_cours" || busy) return;
@@ -5226,6 +5248,31 @@ function resumeHtml() {
   return `<div class="panneau resume"><h2>${recap ? `Récap du tour ${der.manche}` : `Tour précédent : ${esc(jeu.noms[der.pid] || "")}`}</h2>${l.map(bloc).join("")}</div>`;
 }
 let annVues = null, annFile = [], annEnCours = false, revelVue = false, recapVue = false, finVue = null;
+const finVues = [null, null];
+function classementFinal(pourTel) {
+    const cl = jeu.ordre.slice().sort((a, b) => total(jeu.scores[b]) - total(jeu.scores[a])), n = cl.length, D = 1500;
+    const best = total(jeu.scores[cl[0]]), gagnants = cl.filter(id => total(jeu.scores[id]) === best), w = gagnants.length;
+    /* dévoilement : les autres du dernier au deuxième, puis suspense (roulement de tambour), puis le vainqueur */
+    const tSusp = Math.max(0, (n - w) * D - 600), tW = (n - w) * D + 2800;
+    const delai = (pid, i) => gagnants.includes(pid) ? tW : (n - 1 - i) * D;
+    const cleFin = (jeu.finT || jeu.manche) + (pourTel ? "t" : "p"), neuf = finVues[pourTel ? 1 : 0] !== cleFin; finVues[pourTel ? 1 : 0] = cleFin;
+    const el = Math.max(0, Date.now() - (jeu.finT || Date.now()));
+    const FEUILLE_OR = `<svg viewBox="0 0 20 20"><path d="M3 17C4 9 9 4 17 3c-1 8-6 13-14 14z" fill="#e0b13a" stroke="#8a6512" stroke-width="1"/><path d="M5 15L15 5" stroke="#8a6512" stroke-opacity=".5" stroke-width="1"/><path d="M6 12c2-3 4-5 7-7" stroke="#fff3c4" stroke-opacity=".7" stroke-width="1.2" fill="none"/></svg>`;
+    const pluie = Array.from({length: pourTel ? 16 : 34}, (_, k) => { const g = (k * 37) % 100, dur = 4.5 + (k % 7) * .55, dl = tW - el + (k % 11) * 260, t = 16 + (k % 5) * 6;
+      return `<i style="left:${g}%;width:${t}px;height:${t}px;animation-duration:${dur}s;animation-delay:${dl}ms">${FEUILLE_OR}</i>`; }).join("");
+    const me = monId(), monRang = 1 + cl.filter(x => total(jeu.scores[x]) > total(jeu.scores[me] || {})).length;
+    const html = `<div class="classement anime ${pourTel ? "cl-tel" : ""}"><h2 class="revele-t">Classement final</h2>
+      <div class="cl-liste">${cl.map((pid, i) => { const rang = 1 + cl.filter(x => total(jeu.scores[x]) > total(jeu.scores[pid])).length, comp = jeu.completes[pid];
+        return `<div class="cl-ligne ${rang === 1 ? "premier" : ""}" style="--c:${couleur(pid)};animation-delay:${delai(pid, i) - el}ms">
+          <span class="cl-rang">${rang === 1 ? DB.icone("laurier", 44) : rang}</span>${pastille(pid, rang === 1 ? 60 : 48)}<span class="cl-nom">${esc(jeu.noms[pid])}</span>
+          <span class="cl-lau">${Array.from({length: Math.max(OBJECTIFS_POUR_FINIR, comp.length)}, (_, k) => `<span class="lau ${k < comp.length ? "" : "vide"}">${DB.icone("laurier", 26)}</span>`).join("")}</span>
+          ${DB.compteur(total(jeu.scores[pid]), rang === 1 ? "" : "s")}</div>`; }).join("")}</div>
+      <p class="cl-suspense" style="animation-delay:${tSusp - el}ms;--duree:${tW - tSusp}ms">${w > 1 ? "Et les vainqueurs sont…" : "Et le vainqueur est…"}</p>
+      <div class="cl-fin" style="animation-delay:${tW + 900 - el}ms"><p class="cl-gagne">${w > 1 ? "Égalité : " : "Victoire de "}${esc(gagnants.map(id => jeu.noms[id]).join(" et "))} !</p>
+        ${pourTel ? (jeu.ordre.includes(me) ? `<p class="cl-moi">Tu finis ${monRang === 1 ? "1<sup>er</sup>" : monRang + "<sup>e</sup>"} avec ${total(jeu.scores[me])} points.</p>` : "") : `<div class="row" style="justify-content:center"><button class="primary" id="rej" ${busy ? "disabled" : ""}>Rejouer avec les mêmes joueurs</button><button id="nouv">Nouvelle partie</button></div>`}</div>
+      <div class="pluie-or" aria-hidden="true">${pluie}</div></div>`;
+    return {html, cl, gagnants, delai, el, neuf, tSusp, tW};
+}
 /* roulement de tambour synthétisé, qui monte en puissance puis finit sur un coup sourd */
 let tambourCtx = null;
 function tambour(duree) {
@@ -5417,31 +5464,13 @@ function rendrePlateau() {
   recapVue = false;
   if (jeu.statut === "fini") {
     annFile = []; document.querySelectorAll(".annonce-anim, .de-anim, .taureau-anim, .cloche-anim, .piece-anim").forEach(e => e.remove());
-    const cl = jeu.ordre.slice().sort((a, b) => total(jeu.scores[b]) - total(jeu.scores[a])), n = cl.length, D = 1500;
-    const best = total(jeu.scores[cl[0]]), gagnants = cl.filter(id => total(jeu.scores[id]) === best), w = gagnants.length;
-    /* dévoilement : les autres du dernier au deuxième, puis suspense (roulement de tambour), puis le vainqueur */
-    const tSusp = Math.max(0, (n - w) * D - 600), tW = (n - w) * D + 2800;
-    const delai = (pid, i) => gagnants.includes(pid) ? tW : (n - 1 - i) * D;
-    const neuf = finVue !== (jeu.finT || jeu.manche); finVue = jeu.finT || jeu.manche;
-    const el = Math.max(0, Date.now() - (jeu.finT || Date.now()));
-    if (neuf) {
-      cl.forEach((pid, i) => { if (gagnants.includes(pid)) return; const t = delai(pid, i) + 300 - el; if (t >= 0) setTimeout(() => DB.son("panneau"), t); });
-      if (tSusp - el >= 0) setTimeout(() => tambour(tW - tSusp), tSusp - el);
-      if (tW - el >= 0) setTimeout(() => DB.son("objectif"), tW + 150 - el);
+    const C = classementFinal(false);
+    if (C.neuf) {
+      C.cl.forEach((pid, i) => { if (C.gagnants.includes(pid)) return; const t = C.delai(pid, i) + 300 - C.el; if (t >= 0) setTimeout(() => DB.son("panneau"), t); });
+      if (C.tSusp - C.el >= 0) setTimeout(() => tambour(C.tW - C.tSusp), C.tSusp - C.el);
+      if (C.tW - C.el >= 0) setTimeout(() => DB.son("objectif"), C.tW + 150 - C.el);
     }
-    const FEUILLE_OR = `<svg viewBox="0 0 20 20"><path d="M3 17C4 9 9 4 17 3c-1 8-6 13-14 14z" fill="#e0b13a" stroke="#8a6512" stroke-width="1"/><path d="M5 15L15 5" stroke="#8a6512" stroke-opacity=".5" stroke-width="1"/><path d="M6 12c2-3 4-5 7-7" stroke="#fff3c4" stroke-opacity=".7" stroke-width="1.2" fill="none"/></svg>`;
-    const pluie = Array.from({length: 34}, (_, k) => { const g = (k * 37) % 100, dur = 4.5 + (k % 7) * .55, dl = tW - el + (k % 11) * 260, t = 16 + (k % 5) * 6;
-      return `<i style="left:${g}%;width:${t}px;height:${t}px;animation-duration:${dur}s;animation-delay:${dl}ms">${FEUILLE_OR}</i>`; }).join("");
-    $app.innerHTML = `${tete}<div class="classement anime"><h2 class="revele-t">Classement final</h2>
-      <div class="cl-liste">${cl.map((pid, i) => { const rang = 1 + cl.filter(x => total(jeu.scores[x]) > total(jeu.scores[pid])).length, comp = jeu.completes[pid];
-        return `<div class="cl-ligne ${rang === 1 ? "premier" : ""}" style="--c:${couleur(pid)};animation-delay:${delai(pid, i) - el}ms">
-          <span class="cl-rang">${rang === 1 ? DB.icone("laurier", 44) : rang}</span>${pastille(pid, rang === 1 ? 60 : 48)}<span class="cl-nom">${esc(jeu.noms[pid])}</span>
-          <span class="cl-lau">${Array.from({length: Math.max(OBJECTIFS_POUR_FINIR, comp.length)}, (_, k) => `<span class="lau ${k < comp.length ? "" : "vide"}">${DB.icone("laurier", 26)}</span>`).join("")}</span>
-          ${DB.compteur(total(jeu.scores[pid]), rang === 1 ? "" : "s")}</div>`; }).join("")}</div>
-      <p class="cl-suspense" style="animation-delay:${tSusp - el}ms;--duree:${tW - tSusp}ms">${w > 1 ? "Et les vainqueurs sont…" : "Et le vainqueur est…"}</p>
-      <div class="cl-fin" style="animation-delay:${tW + 900 - el}ms"><p class="cl-gagne">${w > 1 ? "Égalité : " : "Victoire de "}${esc(gagnants.map(id => jeu.noms[id]).join(" et "))} !</p>
-        <div class="row" style="justify-content:center"><button class="primary" id="rej" ${busy ? "disabled" : ""}>Rejouer avec les mêmes joueurs</button><button id="nouv">Nouvelle partie</button></div></div>
-      <div class="pluie-or" aria-hidden="true">${pluie}</div></div>`;
+    $app.innerHTML = `${tete}${C.html}`;
     lierSon();
     const rj = document.getElementById("rej"); if (rj) rj.onclick = rejouer;
     const nv = document.getElementById("nouv"); if (nv) nv.onclick = quitterPlateau;
@@ -5454,7 +5483,7 @@ function rendrePlateau() {
     $app.innerHTML = `${tete}<div class="revele ${premier ? "premier" : ""}"><h2 class="revele-t">Les objets de départ</h2><p class="muted" style="text-align:center">Chaque objet accompagne son joueur toute la partie.</p>
       <div class="revele-grille">${jeu.ordre.map((pid, i) => { const o = OBJET[jeu.objets[pid]]; return `<article class="objet-carte" style="--c:${couleur(pid)};animation-delay:${i * 140}ms">
         <div class="oc-tete">${pastille(pid, 44)}<b>${esc(jeu.noms[pid])}</b></div>
-        <span class="medaillon" style="--t:var(--bronze);width:96px;height:96px">${objIco(o.id, 62)}</span><h3>${esc(o.nom)}</h3>
+        <p class="oc-dieu">${o.dieu ? `${esc(o.dieu)} confie à ${esc(jeu.noms[pid])} :` : `${esc(jeu.noms[pid])} reçoit :`}</p><span class="medaillon" style="--t:var(--bronze);width:96px;height:96px">${objIco(o.id, 62)}</span><h3>${esc(o.nom)}</h3>
         ${o.texte ? `<p class="co-cit">« ${esc(o.texte)} »</p>` : ""}<div class="meandre"></div>
         <p class="co-eff"><strong>EFFET${o.type === "une fois" ? " · UNE FOIS" : o.type === "deux fois" ? " · DEUX FOIS" : ""}</strong>${esc(o.effet)}</p></article>`; }).join("")}</div>
       <div class="depart"><p>La partie commence dès que tout le monde est prêt sur son téléphone, ou dans quelques instants.</p>
@@ -5633,7 +5662,7 @@ function volHtml(pid) {
 function objetHtml(pid) {
   const id = jeu.objets?.[pid]; if (!id) return volHtml(pid);
   const o = OBJET[id], used = jeu.objetUtilise?.[pid];
-  let h = `<div class="card"><div class="muted small">Ton objet${used ? " (utilisé)" : ""}</div><div class="objet-ligne"><span class="medaillon" style="--t:var(--bronze);width:52px;height:52px">${objIco(id, 32)}</span><strong>${esc(o.nom)}</strong></div><p class="desc">${esc(o.effet)}</p>`;
+  let h = `<div class="card"><div class="muted small">Ton objet${o.dieu ? `, confié par ${esc(o.dieu)}` : ""}${used ? " (utilisé)" : ""}</div><div class="objet-ligne"><span class="medaillon" style="--t:var(--bronze);width:52px;height:52px">${objIco(id, 32)}</span><strong>${esc(o.nom)}</strong></div><p class="desc">${esc(o.effet)}</p>`;
   if (id === "velo" && !used && (jeu.phase === "choix" || (jeu.ordre[jeu.tour] === pid && ["dieu", "points"].includes(jeu.phase))) && jeu.scores[pid].lignee > 0 && !jeu.completes[pid].includes("lignee")) {
     const cibles = OBJECTIFS.filter(x => x.id !== "lignee" && !jeu.completes[pid].includes(x.id));
     h += `<label for="velo">Déplacer tes ${jeu.scores[pid].lignee} points de Lignée vers</label><select id="velo"><option value="">Choisir…</option>${cibles.map(x => `<option value="${x.id}" ${ui.velo === x.id ? "selected" : ""}>${esc(court(x.id))}</option>`).join("")}</select>
@@ -5857,7 +5886,7 @@ function rendreJoueur() {
       <label for="code">Code affiché sur le plateau</label><input id="code" class="code-saisie" autocomplete="off" autocapitalize="characters" maxlength="4" value="${esc(((new URLSearchParams(location.search).get("code")) || "").toUpperCase().slice(0, 4))}">
       <label for="nom">Ton prénom</label><input id="nom" maxlength="24" value="${esc(load("jdd-nom") || "")}">
       <div class="row" style="margin-top:18px"><button class="primary large" id="join" ${busy ? "disabled" : ""}>Rejoindre la partie</button></div>
-      <p class="err">${esc(erreur)}</p><p><a href="#">Changer d’écran</a></p>`;
+      <p class="err">${esc(erreur)}</p><p><a href="#">Changer d’écran</a></p><p class="version">Version ${VERSION_JEU}</p>`;
     document.getElementById("join").onclick = rejoindre; return;
   }
   if (!jeu) { $app.innerHTML = `<p class="muted">${horsLigne ? "La partie est injoignable pour l’instant." : "Connexion à la partie…"}</p><button id="q">Quitter</button>`; document.getElementById("q").onclick = quitter; return; }
@@ -5878,7 +5907,7 @@ function rendreJoueur() {
   if (!jeu.ordre.includes(me)) { $app.innerHTML = `<p>Tu ne fais pas partie de cette partie.</p>${pied}`; fin(); return; }
   if (jeu.statut === "fini") {
     const rang = jeu.ordre.slice().sort((a, b) => total(jeu.scores[b]) - total(jeu.scores[a])).indexOf(me) + 1;
-    $app.innerHTML = `<h1>Partie terminée</h1><p>Tu finis ${rang === 1 ? "1er ou 1re" : rang + "e"} avec ${total(jeu.scores[me])} points.</p>${mesScores(me)}${pied}`; fin(); return;
+    $app.innerHTML = `${classementFinal(true).html}${pied}`; fin(); return;
   }
   const actuel = jeu.ordre[jeu.tour];
   if (jeu.phase === "completion") {
@@ -5900,7 +5929,7 @@ function rendreJoueur() {
       fin(); return;
     }
     $app.innerHTML = `<h1>Choisis ton objet</h1><p>Tout le monde choisit en même temps. Ton objet t’accompagne toute la partie.</p>
-      <div class="pick">${(jeu.objOffres[me] || []).map(id => { const o = OBJET[id]; return `<button class="choix-objet" data-ob="${id}" ${busy ? "disabled" : ""}><span class="medaillon" style="--t:var(--bronze);width:60px;height:60px">${objIco(id, 38)}</span><span><strong>${esc(o.nom)}</strong>${o.texte ? `<br><em class="small">« ${esc(o.texte)} »</em>` : ""}<br><span class="muted small">${esc(o.effet)}${o.type === "une fois" ? " (une seule fois)" : o.type === "deux fois" ? " (deux fois)" : ""}</span></span></button>`; }).join("")}</div>${pied}`;
+      <div class="pick">${(jeu.objOffres[me] || []).map(id => { const o = OBJET[id]; return `<button class="choix-objet" data-ob="${id}" ${busy ? "disabled" : ""}><span class="medaillon" style="--t:var(--bronze);width:60px;height:60px">${objIco(id, 38)}</span><span>${o.dieu ? `<span class="oc-dieu-tel">${esc(o.dieu)} te confie</span><br>` : ""}<strong>${esc(o.nom)}</strong>${o.texte ? `<br><em class="small">« ${esc(o.texte)} »</em>` : ""}<br><span class="muted small">${esc(o.effet)}${o.type === "une fois" ? " (une seule fois)" : o.type === "deux fois" ? " (deux fois)" : ""}</span></span></button>`; }).join("")}</div>${pied}`;
     $app.querySelectorAll("[data-ob]").forEach(b => b.onclick = () => choisirObjet(me, b.dataset.ob));
     fin(); return;
   }
@@ -5918,7 +5947,7 @@ function rendreJoueur() {
     const pret = jeu.prets?.[me] || (pretEnvoi === jeu.objJeu && !test);
     $app.innerHTML = `<h1>Les objets sont révélés</h1>
       <div style="margin:12px 0">${pret ? `<p class="pret-ok">${coche()} Tu es prêt. En attente des autres (${jeu.ordre.filter(id => jeu.prets?.[id]).length}/${jeu.ordre.length}).</p>` : `<button class="primary large" id="pret" ${busy ? "disabled" : ""}>Je suis prêt</button>`}</div>${objetHtml(me)}
-      <h2>Les objets des autres</h2><div class="lignes-objets">${jeu.ordre.filter(id => id !== me).map(id => { const o = OBJET[jeu.objets[id]]; return `<div class="card objet-autre">${pastille(id, 40)}<div><b>${esc(jeu.noms[id])} · ${esc(o.nom)}</b><div class="small muted">${esc(o.effet)}</div></div></div>`; }).join("")}</div>${pied}`;
+      <h2>Les objets des autres</h2><div class="lignes-objets">${jeu.ordre.filter(id => id !== me).map(id => { const o = OBJET[jeu.objets[id]]; return `<div class="card objet-autre">${pastille(id, 40)}<div><b>${o.dieu ? `${esc(o.dieu)} confie à ${esc(jeu.noms[id])} : ` : `${esc(jeu.noms[id])} · `}${esc(o.nom)}</b><div class="small muted">${esc(o.effet)}</div></div></div>`; }).join("")}</div>${pied}`;
     const bp = document.getElementById("pret"); if (bp) bp.onclick = () => marquerPret(me);
     fin(); return;
   }
@@ -5968,7 +5997,8 @@ function rendreJoueur() {
 function rendreAccueil() {
   $app.innerHTML = `<div class="entete-logo"><span class="medaillon" style="width:96px;height:96px">${DB.icone("laurier")}</span><h1 class="logo">Deus Beuscarus</h1><div class="meandre" style="width:200px"></div><p class="muted">Les dieux de la famille vous attendent.</p></div><p>Choisis le rôle de cet écran.</p>
     <div class="row"><a href="#plateau"><button class="primary">Afficher le plateau</button></a><a href="#joueur"><button>Je suis joueur</button></a><a href="#test"><button>Mode test</button></a></div>
-    <p class="muted" style="margin-top:16px">Le plateau se partage avec tout le monde (télé, ordinateur). Chaque joueur utilise son téléphone. Le mode test simule une partie sur un seul écran, sans connexion.</p>`;
+    <p class="muted" style="margin-top:16px">Le plateau se partage avec tout le monde (télé, ordinateur). Chaque joueur utilise son téléphone. Le mode test simule une partie sur un seul écran, sans connexion.</p>
+    <p class="version">Version ${VERSION_JEU}</p>`;
 }
 function rendreTest() {
   const main = $app;
