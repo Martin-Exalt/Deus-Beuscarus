@@ -256,14 +256,14 @@ main.large{max-width:1500px}
 .carte-obj{--teinte:var(--obj-vin);position:relative;width:300px;border-radius:var(--r-carte);overflow:hidden;background:var(--surface-haute);box-shadow:var(--relief-2);border:2px solid var(--ligne);color:var(--encre)}
 .carte-obj .co-fond{position:absolute;inset:0;opacity:.13;pointer-events:none}
 .carte-obj .co-fond svg{width:100%;height:100%}
-.carte-obj .co-tete{position:relative;display:flex;align-items:center;gap:12px;padding:14px 16px;background:var(--teinte);color:#fffdf7}
-.carte-obj .co-tete .medaillon{--t:#fffdf7;width:52px;height:52px}
-.carte-obj .co-tete small{display:block;font-family:var(--font-titre);font-size:12px;letter-spacing:.12em;opacity:.9}
+.carte-obj .co-tete{position:relative;display:flex;align-items:center;gap:12px;padding:14px 16px;background:color-mix(in srgb,var(--teinte) 30%,var(--surface-haute));color:var(--encre);border-bottom:5px solid var(--teinte)}
+.carte-obj .co-tete .medaillon{--t:var(--teinte);width:52px;height:52px}
+.carte-obj .co-tete small{display:block;font-family:var(--font-titre);font-size:12px;letter-spacing:.12em;color:var(--encre-douce)}
 .carte-obj .co-tete b{font-family:var(--font-titre);font-size:22px;line-height:26px}
 .carte-obj .co-unique{position:absolute;top:10px;right:-30px;transform:rotate(35deg);background:var(--or);color:#2a2118;font-family:var(--font-titre);font-weight:700;font-size:11px;letter-spacing:.1em;padding:3px 34px}
 .carte-obj .co-corps{position:relative;padding:16px 18px 18px;display:grid;gap:12px}
 .carte-obj .co-cit{font-style:italic;font-size:17px;line-height:23px;margin:0}
-.carte-obj .co-eff{margin:0;font-size:16px;line-height:22px;font-weight:500;background:#fffdf7cc;border:1px solid var(--ligne);border-radius:10px;padding:10px 12px}
+.carte-obj .co-eff{margin:0;font-size:16px;line-height:22px;font-weight:500;background:var(--surface);color:var(--encre);border:1px solid var(--ligne);border-radius:10px;padding:10px 12px}
 .carte-obj .co-eff strong{display:block;font-family:var(--font-titre);font-size:12px;letter-spacing:.1em;color:var(--encre-douce);margin-bottom:2px}
 
 /* Téléphone (cadre de maquette) */
@@ -528,6 +528,78 @@ html,body,button,input,select,a,label{touch-action:manipulation}
 .delta{white-space:nowrap}
 .jauge span svg{vertical-align:middle}
 .taureau-anim .bete svg{display:block}
+
+.de-zone{display:flex;justify-content:center;margin:12px 0}
+.lancer-de{font-size:20px;min-height:60px}
+.des{display:flex;flex-wrap:wrap;gap:14px;justify-content:center;margin:14px 0}
+.de-j{display:grid;justify-items:center;gap:6px;font-family:var(--font-titre);font-weight:700;font-size:14px}
+.de-j span{display:flex;align-items:center;gap:6px}
+.de-j .de{filter:drop-shadow(3px 4px 0 var(--ombre))}
+.de-j.bon .de rect,.de-j.bon .de path:first-child{stroke:var(--olivier);stroke-width:3.5}
+.de-j.rate .de{opacity:.55}
+.des-plateau .de-j{font-size:20px}
+.de-roule{animation:deRoule .9s cubic-bezier(.3,1.4,.5,1)}
+@keyframes deRoule{0%{transform:translateY(-40px) rotate(-200deg) scale(.6);opacity:0}60%{transform:translateY(4px) rotate(15deg) scale(1.05);opacity:1}100%{transform:none}}
+.de-anim{position:fixed;inset:0;display:grid;place-items:center;z-index:50;pointer-events:none;background:#14202b55;animation:clFond 2.8s ease forwards}
+.de-anim .boite{display:grid;justify-items:center;gap:10px;background:var(--surface-haute);border:2px solid var(--or);border-radius:var(--r-socle);padding:24px 40px;box-shadow:var(--relief-3)}
+.de-anim strong{font-family:var(--font-titre);font-size:28px}
+@media (prefers-reduced-motion:reduce){.de-roule{animation:none}}
+
+.barre-tel{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:6px 0 8px}
+.bt-objet{display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:4px 12px 4px 6px;font-family:var(--font-texte);font-weight:700;font-size:14px;letter-spacing:0;text-align:left}
+.bt-objet.on,.perm-ic.on .medaillon{box-shadow:0 0 0 3px var(--egee)}
+.perm-ics{display:flex;flex-wrap:wrap;gap:6px;justify-content:flex-end}
+.perm-ic{padding:0;min-height:0;border:none;background:none;box-shadow:none;border-radius:50%}
+.perm-ic .medaillon{width:40px;height:40px;border-width:3px}
+.pan-tel{margin:0 0 10px}
+.bandeau-obj{padding:0;min-height:0;border:none;background:none;box-shadow:none;border-radius:50%}
+.objet-carte{align-content:start}
+
+.choix-dieu .carte-dos{width:262px}
+.carte-dos.petite{width:64px;border-width:4px;outline-offset:-8px;flex:none}
+.carte-dos.petite span{font-size:28px}
+.face-cachee{display:flex;gap:14px;align-items:center;margin-top:16px;padding:12px;border-radius:var(--r-carte);border:2px dashed var(--ligne);background:var(--surface)}
+.face-cachee p{margin:2px 0 8px}
+.mystere{margin:4px 0 0;font-size:15px}
+.valider-zone{margin:32px 0 8px;padding-top:20px;border-top:1px solid var(--ligne)}
+.valider-zone button{min-height:58px;font-size:19px}
+.retour-zone{margin-top:28px}
+
+.etat-tel{margin:0 0 12px;padding:8px;border-radius:var(--r-carte);background:var(--surface);border:1px solid var(--ligne)}
+.puces-etat{display:flex;flex-wrap:wrap;gap:6px}
+.pe{display:inline-flex;align-items:center;gap:5px;min-height:34px;padding:3px 10px 3px 6px;border-radius:99px;border:2px solid var(--ligne);background:var(--surface-haute);color:var(--encre);font:700 13px/1 var(--font-texte);letter-spacing:0;box-shadow:none;position:relative}
+.pe svg{flex:none}
+.pe-objet{border-color:var(--bronze)}
+.pe-carte{border-color:var(--or);background:color-mix(in srgb,var(--or-clair) 35%,var(--surface-haute))}
+.pe-bonus{border-color:var(--olivier);color:var(--olivier)}
+.pe-malus{border-color:var(--terre-cuite);color:var(--terre-cuite)}
+.pe-info{border-color:var(--egee);color:var(--egee)}
+.pe.futur{border-style:dashed}
+.pe-f{display:inline-grid;margin-right:-2px;opacity:.8}
+.pe.on{box-shadow:0 0 0 3px var(--egee)}
+.pe-detail{margin-top:8px;padding:10px 12px;border-radius:10px;background:var(--surface-haute);border-left:5px solid var(--ligne);font-size:15px;line-height:21px}
+.pe-detail.pe-bonus{border-left-color:var(--olivier)}.pe-detail.pe-malus{border-left-color:var(--terre-cuite)}.pe-detail.pe-info{border-left-color:var(--egee)}.pe-detail.pe-carte{border-left-color:var(--or)}
+.pe-detail.pe-objet{padding:0;border:none;background:none}
+.pe-detail.pe-objet .card{margin:0}
+.pe-titre{font-family:var(--font-titre);font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--encre-douce);margin-bottom:2px}
+.etat-tel .pe-detail{color:var(--encre)}
+.pe-aide{margin:6px 2px 0;font-size:12px;color:var(--encre-douce)}
+.lau.vide{filter:grayscale(1);opacity:.28}
+
+.classement{max-width:900px;margin:0 auto;padding:10px 0 30px}
+.cl-liste{display:grid;gap:12px;margin-top:20px}
+.cl-ligne{display:grid;grid-template-columns:56px auto 1fr auto auto;align-items:center;gap:16px;padding:12px 20px;border-radius:var(--r-carte);background:var(--surface-haute);border:2px solid var(--ligne);border-left:8px solid var(--c);box-shadow:var(--relief-1)}
+.cl-ligne.premier{padding:18px 22px;border-color:var(--or);border-left-color:var(--c);box-shadow:0 0 0 4px var(--or-clair),var(--relief-2)}
+.cl-rang{font:900 34px var(--font-titre);text-align:center;color:var(--encre-douce)}
+.cl-nom{font:700 28px var(--font-titre)}
+.cl-ligne.premier .cl-nom{font-size:36px}
+.cl-lau{display:flex;gap:4px}
+.cl-fin{text-align:center;margin-top:24px}
+.cl-gagne{font:700 32px var(--font-titre);margin:0 0 14px}
+.classement.anime .cl-ligne{animation:clArrive .8s cubic-bezier(.3,1.3,.5,1) both}
+.classement.anime .cl-fin{animation:clArrive .8s ease both}
+@keyframes clArrive{0%{opacity:0;transform:translateY(24px) scale(.96)}100%{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.classement.anime .cl-ligne,.classement.anime .cl-fin{animation:none}}
 </style>
 </head>
 <body>
@@ -3652,6 +3724,11 @@ const besoinOuiNon = c => c.e.t === "deja_gagne";
 
 /* ---------- scores ---------- */
 const aObjet = (g, pid, id) => g.objets?.[pid] === id;
+/* Pions en plus ou en moins au prochain tour, avec leur raison pour l’expliquer au joueur */
+function bonusPion(g, pid, n, raison) {
+  g.bonus = g.bonus || {}; g.bonus[pid] = (g.bonus[pid] || 0) + n;
+  g.bonusRaisons = g.bonusRaisons || {}; (g.bonusRaisons[pid] = g.bonusRaisons[pid] || []).push({n, t: raison});
+}
 function plafond(g, pid, o) {
   const comp = g.completes[pid] || [];
   const max = aObjet(g, pid, "pinot") ? MAX_LAISSE_PINOT : MAX_PAR_OBJECTIF;
@@ -3677,6 +3754,7 @@ function fixer(g, pid, o, v) {
 function fixerBrut(g, pid, o, v) {
   const av = g.scores[pid][o];
   if (v > av && g.platre && g.platre.o === o) v = av;
+  if (v < av && (g.completes?.[pid] || []).includes(o)) { v = av; g.completLog = true; }
   if (v < av && o === "lignee" && g.enCarte > 0 && aObjet(g, pid, "machine")) { v = av; g.machineLog = true; }
   if (v < av && oiseauxActif(g, pid, o)) { v = av + (av - v); g.oiseauxLog = true; }
   g.scores[pid][o] = Math.max(0, Math.min(plafond(g, pid, o), v));
@@ -3753,7 +3831,7 @@ function executer(g, auteur, v, a) {
 }
 function executerBrut(g, auteur, v, a) {
   const na = g.noms[auteur], nv = g.noms[v];
-  if (a.k === "pion_moins") { g.bonus = g.bonus || {}; g.bonus[v] = (g.bonus[v] || 0) - a.n; log(g, `${nv} aura ${a.n} pion de moins à son prochain tour.`); }
+  if (a.k === "pion_moins") { bonusPion(g, v, -a.n, a.raison || `action de ${na}`); log(g, `${nv} aura ${a.n} pion de moins à son prochain tour.`); }
   else if (a.k === "vol") { const i = g.actives[v].findIndex(x => x.c === a.c); if (i >= 0) { g.actives[auteur].push(g.actives[v].splice(i, 1)[0]); log(g, `${na} vole « ${CARTE[a.c].texte} » à ${nv}.`); } }
   else if (a.k === "echange") {
     const ia = g.actives[a.a.pid].findIndex(x => x.c === a.a.c), ib = g.actives[a.b.pid].findIndex(x => x.c === a.b.c);
@@ -3798,7 +3876,8 @@ function appliquerCarteBrut(g, pid, cid, inp, rejeu, miroir) {
     if (!t) return " Personne à qui donner un point.";
     const pris = Math.min(1, g.scores[pid][o]);
     if (!pris) return ` ${nom} n’a aucun point en ${court(o)} à donner.`;
-    ajouter(g, pid, o, -1); const r = ajouter(g, t, o, 1);
+    if (!-ajouter(g, pid, o, -1)) return ` ${court(o)} est complété : ${nom} ne peut pas en donner.`;
+    const r = ajouter(g, t, o, 1);
     return ` ${nom} donne 1 point en ${court(o)} à ${nm[t]}${r ? "" : " (déjà au maximum)"}.`;
   };
   let msg = "";
@@ -3862,7 +3941,7 @@ function appliquerCarteBrut(g, pid, cid, inp, rejeu, miroir) {
       vict.forEach(id => viser(g, pid, id, {k: "reprise", pts: g.tc[id].gains}));
       break; }
     case "perso_platre": g.platre = {o: inp.obj, par: pid}; msg = `Plâtre : personne ne peut gagner de points en ${court(inp.obj)} jusqu’à la fin du tour de table.`; break;
-    case "perso_groscoquin": log(g, `${nom} : chaque autre joueur aura 1 pion de moins.`); g.ordre.filter(id => id !== pid).forEach(id => viser(g, pid, id, {k: "pion_moins", n: 1})); break;
+    case "perso_groscoquin": log(g, `${nom} : chaque autre joueur aura 1 pion de moins.`); g.ordre.filter(id => id !== pid).forEach(id => viser(g, pid, id, {k: "pion_moins", n: 1, raison: `carte « ${c.texte} » de ${nom}`})); break;
     case "perso_coquin": {
       if (!inp.c1 || !inp.c2) { msg = `Pas assez de cartes permanentes à échanger.`; break; }
       const [ia, ca] = inp.c1.split("|"), [ib, cb] = inp.c2.split("|");
@@ -3883,6 +3962,7 @@ function appliquerCarteBrut(g, pid, cid, inp, rejeu, miroir) {
   if (!rejeu && !estPermanente(c)) g.defausses[pid].push(cid);
   g.enCarte--;
   if (g.machineLog) { g.machineLog = false; msg += " La machine à laver protège la Lignée."; }
+  if (g.completLog) { g.completLog = false; msg += " Objectif complété : aucun point perdu."; }
   if (msg) log(g, (miroir ? "Écharpe d’animateur : même effet en Jeux. " : rejeu ? "Carte rejouée. " : "") + msg);
   if (!miroir && aObjet(g, pid, "echarpe") && MIROIR_ECHARPE.includes(c0.e.t) && (c0.obj === "culture" || (c0.e.t === "multi" && c0.e.l.some(x => x.o === "culture"))))
     appliquerCarte(g, pid, cid, inp, true, true);
@@ -3897,7 +3977,7 @@ function annoncer(g, pid, o, res) {
 function harpon(g, pid, palier) {
   g.ordre.filter(id => id !== pid && aObjet(g, id, "harpon")).forEach(id => {
     const pile = Math.random() < 0.5;
-    if (pile) { g.bonus = g.bonus || {}; g.bonus[id] = (g.bonus[id] || 0) + 1; }
+    if (pile) bonusPion(g, id, 1, `Fusil à harpon (${g.noms[pid]} a atteint ${palier})`);
     g.piece = {id: Math.random().toString(36).slice(2), par: id, cible: pid, pile, palier, t: Date.now()};
     log(g, `Fusil à harpon : ${g.noms[pid]} atteint ${palier}. Pièce pour ${g.noms[id]} : ${pile ? "pile, +1 jeton au prochain tour !" : "face, raté."}`);
   });
@@ -3948,7 +4028,7 @@ function completer(g, pid, o) {
   } else if (o === "vin" || o === "jeux") g.file.push({pid, obj: o});
   else if (o === "repas") {
     if (g.scores[pid].vin >= REPAS_VIN_MIN) {
-      g.bonus = g.bonus || {}; g.bonus[pid] = (g.bonus[pid] || 0) + REPAS_PIONS_BONUS;
+      bonusPion(g, pid, REPAS_PIONS_BONUS, "Repas complété avec assez de Vin");
       annoncer(g, pid, o, `${g.scores[pid].vin} en Vin : ${REPAS_PIONS_BONUS} pions supplémentaires au prochain tour.`);
       log(g, `${g.noms[pid]} aura ${REPAS_PIONS_BONUS} pions supplémentaires à son prochain tour.`);
     } else { annoncer(g, pid, o, `Seulement ${g.scores[pid].vin} en Vin (il en faut ${REPAS_VIN_MIN}) : pas de pions supplémentaires.`); log(g, `${g.noms[pid]} n’a pas assez de Vin pour les pions supplémentaires.`); }
@@ -3956,27 +4036,31 @@ function completer(g, pid, o) {
   else if (o === "culture") { annoncer(g, pid, o, "Désormais, voit les cartes des dieux proposés."); log(g, `Désormais, ${g.noms[pid]} voit les cartes des dieux proposés.`); }
   if (o === "vin") annoncer(g, pid, o, "Ne peut plus compléter Culture. Choisit où placer ses points…");
 }
+function annoncerMi(g, pid, o, t) {
+  const a = (g.annonces || []).slice().reverse().find(x => x.pid === pid && x.obj === o && x.mi);
+  if (a) a.res = t;
+}
 function atteindreMi(g, pid, o) {
   const encore = g.etapes[pid].includes(o);
-  if (encore) { g.kindleBas[pid] = g.kindleBas[pid].filter(x => x !== o); log(g, `⏰ Alarme : ${g.noms[pid]} réactive l’étape de ${court(o)}.`); }
+  if (encore) { g.kindleBas[pid] = g.kindleBas[pid].filter(x => x !== o); log(g, `Alarme : ${g.noms[pid]} réactive l’étape de ${court(o)}.`); }
   else g.etapes[pid].push(o);
   harpon(g, pid, `${SEUIL_MI_PARCOURS} en ${court(o)}`);
   g.annonces = [...(g.annonces || []), {pid, obj: o, n: g.nTour || 0, res: "", mi: true}].slice(-30);
   const nom = g.noms[pid], pr = () => { g.prochain = g.prochain || {}; return (g.prochain[pid] = g.prochain[pid] || {}); };
+  const res = t => annoncerMi(g, pid, o, t);
   log(g, `${nom} atteint ${SEUIL_MI_PARCOURS} en ${court(o)} : « ${EFFETS_OBJECTIFS[o].nomMi} » !`);
   if (o === "repas") {
     g.ordre.filter(id => id !== pid && g.etapes[id].includes("repas")).forEach(id => { const r = ajouter(g, id, "repas", 1); if (r) log(g, `« ${EFFETS_OBJECTIFS.repas.nomMi} » : ${g.noms[id]} +1 en ${court("repas")}.`); });
     log(g, `Désormais, ${nom} gagne +1 en ${court("repas")} quand un autre joueur atteint ${SEUIL_MI_PARCOURS} en Repas.`);
-  } else if (o === "jeux") {
-    const d = 1 + Math.floor(Math.random() * 4), r = ajouter(g, pid, "jeux", d);
-    log(g, `${nom} lance un dé à 4 faces : ${d} → ${fait(r, "jeux")}.`);
-  } else if (o === "lignee") { pr().meme = true; log(g, `${nom} aura le même choix de dieux à son prochain tour.`); }
-  else if (o === "humour") { if (g.ordre.length > 1) g.file.push({pid, obj: o, mi: true}); }
-  else if (o === "bonheur") { pr().plus = 1; log(g, `${nom} choisira parmi 3 dieux à son prochain tour.`); }
-  else if (o === "culture") { pr().voir = true; log(g, `${nom} verra la carte d’un des dieux à son prochain tour.`); }
+    res(`+1 en Repas chaque fois qu’un autre joueur atteint ${SEUIL_MI_PARCOURS} en Repas`);
+  } else if (o === "jeux") { g.file.push({pid, obj: "jeux", de4: true}); res("Dé à 4 faces à lancer"); }
+  else if (o === "lignee") { pr().meme = true; log(g, `${nom} aura le même choix de dieux à son prochain tour.`); res("Même choix de dieux au prochain tour"); }
+  else if (o === "humour") { if (g.ordre.length > 1) { g.file.push({pid, obj: o, mi: true}); res("Croche-pied à choisir"); } else res("Personne à faire trébucher"); }
+  else if (o === "bonheur") { pr().plus = 1; log(g, `${nom} choisira parmi 3 dieux à son prochain tour.`); res(`${DIEUX_PROPOSES + 1} dieux au choix au prochain tour`); }
+  else if (o === "culture") { pr().voir = true; log(g, `${nom} verra la carte d’un des dieux à son prochain tour.`); res("Verra la carte d’un dieu au prochain tour"); }
   else if (o === "vin") {
     g.relances = g.relances || {}; g.relances[pid] = (g.relances[pid] || 0) + 1;
-    log(g, `${nom} obtient une relance de dieu.`);
+    log(g, `${nom} obtient une relance de dieu.`); res("+1 relance");
   }
 }
 function verifier(g) {
@@ -4024,10 +4108,10 @@ function poserPions(g, pid, alloc, avecTour) {
   if (avecTour && aObjet(g, pid, "manette") && placés >= 1 && (alloc.jeux || 0) === placés) g.manetteAFaire = true;
   if (aObjet(g, pid, "crucifix")) {
     const n = OBJECTIFS.filter(o => (alloc[o.id] || 0) > 0 && g.scores[pid][o.id] === 0).length;
-    if (n) { g.bonus = g.bonus || {}; g.bonus[pid] = (g.bonus[pid] || 0) + n; log(g, `Crucifix : ${g.noms[pid]} aura ${n} pion${n > 1 ? "s" : ""} de plus au prochain tour.`); }
+    if (n) { bonusPion(g, pid, n, "Crucifix"); log(g, `Crucifix : ${g.noms[pid]} aura ${n} pion${n > 1 ? "s" : ""} de plus au prochain tour.`); }
   }
   if (avecTour && aObjet(g, pid, "chateau") && placés >= 2 && (alloc.jeux || 0) === placés) {
-    g.bonus = g.bonus || {}; g.bonus[pid] = (g.bonus[pid] || 0) + 1; log(g, `Château Harry Potter : ${g.noms[pid]} aura 1 pion de plus au prochain tour.`);
+    bonusPion(g, pid, 1, "Château Harry Potter"); log(g, `Château Harry Potter : ${g.noms[pid]} aura 1 pion de plus au prochain tour.`);
   }
   OBJECTIFS.forEach(o => { const k = alloc[o.id] || 0; if (k) { const v = valeurPion(g, pid, o.id, avecTour); const r = ajouter(g, pid, o.id, k * v);
     if (avecTour && r > 0) { g.tc = g.tc || {}; const t = (g.tc[pid] = g.tc[pid] || {dieu: g.dieuDuTour || null}); t.gains = t.gains || {}; t.gains[o.id] = (t.gains[o.id] || 0) + r; }
@@ -4035,7 +4119,7 @@ function poserPions(g, pid, alloc, avecTour) {
   delete g.mods.douche;
   if (g.manetteAFaire) {
     g.manetteAFaire = false;
-    if (g.etapes?.[pid]?.includes("jeux")) { const d = 1 + Math.floor(Math.random() * 4), r = ajouter(g, pid, "jeux", d); log(g, `Manette : ${g.noms[pid]} rejoue « ${EFFETS_OBJECTIFS.jeux.nomMi} », dé ${d} → ${fait(r, "jeux")}.`); }
+    if (g.etapes?.[pid]?.includes("jeux")) { g.file.push({pid, obj: "jeux", de4: true, manette: true}); log(g, `Manette : ${g.noms[pid]} rejoue « ${EFFETS_OBJECTIFS.jeux.nomMi} ».`); }
     if (g.completes[pid].includes("jeux")) { g.file.push({pid, obj: "jeux"}); log(g, `Manette : ${g.noms[pid]} rejoue l’effet de fin de Jeux.`); }
   }
   log(g, det.length ? `${g.noms[pid]} pose ${det.join(", ")}.` : `${g.noms[pid]} n’a aucun pion à poser.`);
@@ -4078,7 +4162,12 @@ function choisirObjet(pid, id) {
 }
 function fusionnerObjets() {
   if (vue() !== "plateau" || !jeu) return;
-  if (["objets_vus", "recap", "choix"].includes(jeu.phase) && busy) { setTimeout(fusionnerObjets, 400); return; }
+  if (["objets_vus", "recap", "choix", "completion"].includes(jeu.phase) && busy) { setTimeout(fusionnerObjets, 400); return; }
+  if (jeu.phase === "completion" && jeu.des && jeu.des.gain == null) {
+    const nv = joueursLobby.filter(j => j.lance === jeu.des.id && jeu.ordre.includes(j.id) && !jeu.des.des[j.id]);
+    if (nv.length) agir(g => nv.forEach(j => lancerDeG(g, j.id)));
+    return;
+  }
   if (jeu.phase === "objets_vus" || jeu.phase === "recap") {
     const tk = jetonPret(), ph = jeu.phase;
     const p = joueursLobby.filter(j => j.pret && j.pret === tk && jeu.ordre.includes(j.id) && !jeu.prets?.[j.id]);
@@ -4132,7 +4221,7 @@ function sonnerG(g, pid, cible) {
   {
     g.clocheUses = g.clocheUses || {}; const n = g.clocheUses[pid] || 0;
     if (!aObjet(g, pid, "cloche") || n >= 2 || !(g.impacts?.[pid] || []).includes(cible)) return;
-    g.clocheUses[pid] = n + 1; g.sonne = g.sonne || {}; g.sonne[cible] = true;
+    g.clocheUses[pid] = n + 1; g.sonne = g.sonne || {}; g.sonne[cible] = true; g.sonnePar = g.sonnePar || {}; g.sonnePar[cible] = pid;
     g.impacts[pid] = g.impacts[pid].filter(x => x !== cible);
     g.cloche = {id: Math.random().toString(36).slice(2), n: n + 1, par: pid, cible, t: Date.now()};
     log(g, `${n === 0 ? "Ding" : "Dong"} ! ${g.noms[pid]} sonne ${g.noms[cible]}, qui ne jouera pas de pions à son prochain tour.`);
@@ -4150,7 +4239,7 @@ function crayonG(g, pid, n) {
 }
 function utiliserVelo(pid, cible) {
   return agir(g => {
-    if (!aObjet(g, pid, "velo") || g.objetUtilise[pid] || g.completes[pid].includes(cible) || cible === "lignee") return;
+    if (!aObjet(g, pid, "velo") || g.objetUtilise[pid] || g.completes[pid].includes(cible) || cible === "lignee" || g.completes[pid].includes("lignee")) return;
     const dispo = g.scores[pid].lignee, place = Math.max(0, plafond(g, pid, cible) - g.scores[pid][cible]), n = Math.min(dispo, place);
     g.scores[pid].lignee -= n; ajouter(g, pid, cible, n);
     g.objetUtilise[pid] = true;
@@ -4164,7 +4253,7 @@ function finTourJoueur(g) {
   if (aObjet(g, pid, "champagne")) {
     g.gtPrec = g.gtPrec || {}; const prec = g.gtPrec[pid] || {}, cur = (g.gt || {})[pid] || {};
     const o = OBJECTIFS.find(x => (prec[x.id] || 0) + (cur[x.id] || 0) >= SEUIL_MI_PARCOURS);
-    if (o) { g.bonus = g.bonus || {}; g.bonus[pid] = (g.bonus[pid] || 0) + 2; g.gtPrec[pid] = {}; log(g, `Coupe de champagne : ${g.noms[pid]} a marqué ${SEUIL_MI_PARCOURS} points ou plus en ${court(o.id)} en deux tours, 2 jetons de plus au prochain tour.`); }
+    if (o) { bonusPion(g, pid, 2, "Coupe de champagne"); g.gtPrec[pid] = {}; log(g, `Coupe de champagne : ${g.noms[pid]} a marqué ${SEUIL_MI_PARCOURS} points ou plus en ${court(o.id)} en deux tours, 2 jetons de plus au prochain tour.`); }
     else g.gtPrec[pid] = cur;
   }
   if (g.gt) delete g.gt[pid];
@@ -4244,7 +4333,7 @@ function resolu(g) {
    2. « résolution » : quand tout le monde a envoyé, le plateau applique les plans un par un, dans l’ordre des joueurs,
       avec les effets interactifs habituels (complétion, taureau, Psychorigide…).
    3. « recap » : page de récapitulatif, puis le plateau évolue et le tour suivant commence. */
-const DELAI_RECAP = 45000;
+const DELAI_RECAP = 60000;
 function remettre(g, d, c) { if (!c || !g.paquets[d]) return; g.paquets[d].push(c); g.paquets[d] = shuffle(g.paquets[d]); }
 function offreApres(ctx, rel) {
   const off = ctx.offre.map(o => ({...o}));
@@ -4281,12 +4370,19 @@ function debutManche(g) {
     const nbRel = relT + (g.relances?.[pid] || 0);
     const libres = shuffle(DIEUX.map(d => d.id).filter(d => !offre.some(o => o.dieu === d)));
     const spares = libres.slice(0, nbRel).map(d => { const humeur = Math.floor(Math.random() * JAUGE.length); return {dieu: d, humeur, carte: piocher(g, d, humeur)}; }).filter(o => o.carte);
-    const prepa = o => { if (pr.deux) { const a = piocher(g, o.dieu, o.humeur); if (a) o.alt = a; } if (nbRel) { const r = piocher(g, o.dieu, o.humeur ?? 1); if (r) o.rc = r; } return o; };
+    /* Jeanne : jamais de choix entre deux cartes (ni seconde carte, ni carte face cachée) */
+    const prepa = o => { const jeanne = o.dieu === "jeanne"; if (pr.deux && !jeanne) { const a = piocher(g, o.dieu, o.humeur); if (a) o.alt = a; } if (nbRel) { const r = piocher(g, o.dieu, o.humeur ?? 1); if (r) o.rc = r; } if (!jeanne) { const fc = piocher(g, o.dieu, o.humeur ?? 1); if (fc) o.fc = fc; } return o; };
     offre = offre.map(prepa); spares.forEach(prepa);
-    if (bonus > 0) info.push(["bonus", `${bonus} pion${bonus > 1 ? "s" : ""} en plus ce tour`]);
-    if (bonus < 0) info.push(["malus", `${-bonus} pion${bonus < -1 ? "s" : ""} en moins ce tour`]);
+    const cachables = offre.map((o, j) => o.visible ? -1 : j).filter(j => j >= 0);
+    if (cachables.length) offre[cachables[Math.floor(Math.random() * cachables.length)]].cache = true;
+    const raisons = (g.bonusRaisons || {})[pid] || [];
+    raisons.forEach(r => info.push([r.n > 0 ? "bonus" : "malus", `${r.n > 0 ? "+" : "−"}${Math.abs(r.n)} pion${Math.abs(r.n) > 1 ? "s" : ""} ce tour : ${r.t}`]));
+    const reste = bonus - raisons.reduce((t, r) => t + r.n, 0);
+    if (reste > 0) info.push(["bonus", `${reste} pion${reste > 1 ? "s" : ""} en plus ce tour`]);
+    if (reste < 0) info.push(["malus", `${-reste} pion${reste < -1 ? "s" : ""} en moins ce tour`]);
+    if (g.bonusRaisons) delete g.bonusRaisons[pid];
     if (jetons) info.push(["bonus", `+${jetons} pion${jetons > 1 ? "s" : ""} grâce à tes cartes permanentes`]);
-    if (sonne) info.push(["malus", "Tu as été sonné : pas de pions ce tour"]);
+    if (sonne) { info.push(["malus", `Tu as été sonné${g.sonnePar?.[pid] ? " par " + g.noms[g.sonnePar[pid]] : ""} (Cloche) : pas de pions ce tour`]); if (g.sonnePar) delete g.sonnePar[pid]; }
     if (meme) info.push(["info", "Même choix de dieux qu’à ton tour précédent"]);
     if (pr.plus) info.push(["bonus", `Tu choisis parmi ${DIEUX_PROPOSES + pr.plus} dieux`]);
     if (pr.voir) info.push(["bonus", "Tu vois la carte d’un des dieux proposés"]);
@@ -4316,22 +4412,25 @@ function resoudreCarte(g, pid) {
   let cid = ch.alt && p.carte === ch.alt ? ch.alt : ch.carte;
   const relC = !!p.relC && !!ch.rc && relUtil < ctx.nbRel;
   if (relC) { log(g, `${nom} relance sa carte : « ${CARTE[cid].texte} » est remplacée par « ${CARTE[ch.rc].texte} ».`); cid = ch.rc; relUtil++; }
+  let fcLog = "";
+  if (p.fc && ch.fc) { fcLog = `${nom} laisse « ${CARTE[cid].texte} » et prend une carte face cachée.`; cid = ch.fc; }
   for (let k = 0; k < relUtil; k++) consommerRelance(g, pid);
   const suivant = g.ordre[(g.tour + 1) % g.ordre.length];
   const garder = suivant !== pid && aObjet(g, suivant, "bonbon") ? off.find((o, j) => j !== i) : null;
   if (garder) g.reserveProchaine = {pid: suivant, dieu: garder.dieu, humeur: garder.humeur, carte: garder.carte};
   const garde = new Set([cid, garder?.carte].filter(Boolean));
-  [...ctx.offre, ...ctx.spares].forEach(o => [o.carte, o.alt, o.rc].forEach(c => { if (c && !garde.has(c)) { remettre(g, o.dieu, c); garde.add(c); } }));
+  [...ctx.offre, ...ctx.spares].forEach(o => [o.carte, o.alt, o.rc, o.fc].forEach(c => { if (c && !garde.has(c)) { remettre(g, o.dieu, c); garde.add(c); } }));
   g.dieuDuTour = ch.dieu; g.tc = g.tc || {}; g.tc[pid] = {dieu: ch.dieu, gains: {}};
   g.derniereOffre = g.derniereOffre || {}; g.derniereOffre[pid] = off.map(o => o.dieu);
   g.recapInfo = g.recapInfo || {}; g.recapInfo[pid] = {dieu: ch.dieu, carte: cid};
-  let l = `${nom} invoque ${dieu(ch.dieu).nom} et reçoit « ${CARTE[cid].texte} ».`;
+  let l = `${nom} invoque ${ch.cache ? "le dieu mystère : " : ""}${dieu(ch.dieu).nom} et reçoit « ${CARTE[cid].texte} ».`;
   const pika = g.actives[pid].filter(a => CARTE[a.c].e.t === "perso_pikachu").length;
   if (ch.dieu === "simon" && pika) { g.aDistribuer += pika; l += ` Pikachu : +${pika} pion${pika > 1 ? "s" : ""}.`; }
   if (ch.dieu === "jeanne") l += ` Jeanne était ${humeurCourte(ch.humeur)}.`;
+  if (fcLog) log(g, fcLog);
   log(g, l);
   if (p.douche && aObjet(g, pid, "douche") && g.manche % 2 === 1 && OBJECTIFS.some(o => o.id === p.douche)) { g.douche = g.douche || {}; g.douche[pid] = {o: p.douche, manche: g.manche}; log(g, `${nom} choisit une catégorie pour son pommeau de douche.`); }
-  if (p.crayon && aObjet(g, pid, "crayon") && !g.objetUtilise?.[pid]) {
+  if (p.crayon && aObjet(g, pid, "crayon") && !g.objetUtilise?.[pid] && !g.completes[pid].includes("culture")) {
     const n = Math.max(0, Math.min(3, p.crayon, g.scores[pid].culture));
     if (n) { g.scores[pid].culture -= n; g.aDistribuer += n; g.objetUtilise[pid] = true; log(g, `Crayon de couleur : ${nom} échange ${n} point${n > 1 ? "s" : ""} de Culture contre ${n} pion${n > 1 ? "s" : ""}.`); }
   }
@@ -4384,37 +4483,51 @@ function continuerResolution(g) {
 function finManche(g) {
   g.phase = "recap"; g.recapT = Date.now(); g.prets = {}; g.recapManche = g.manche; g.tour = 0;
   g.finApresRecap = g.ordre.some(id => g.completes[id].length >= OBJECTIFS_POUR_FINIR);
-  if (g.finApresRecap) log(g, `${g.ordre.filter(id => g.completes[id].length >= OBJECTIFS_POUR_FINIR).map(id => g.noms[id]).join(" et ")} a complété ${OBJECTIFS_POUR_FINIR} objectifs : la partie se termine après ce tour.`);
   if (g.platre) log(g, `Le plâtre a séché : on peut de nouveau gagner des points en ${court(g.platre.o)}.`);
   g.platre = null; g.tc = {};
+  if (g.finApresRecap) {
+    log(g, `${g.ordre.filter(id => g.completes[id].length >= OBJECTIFS_POUR_FINIR).map(id => g.noms[id]).join(" et ")} a complété ${OBJECTIFS_POUR_FINIR} objectifs : fin de la partie.`);
+    g.statut = "fini"; g.phase = "fin"; g.finT = Date.now();
+  }
 }
 function finRecap(g) {
   if (g.phase !== "recap") return;
-  if (g.finApresRecap) { g.statut = "fini"; g.phase = "fin"; log(g, "Fin de la partie."); return; }
-  g.manche++; debutManche(g);
+  if (g.finApresRecap) { g.recapFinT = Date.now(); g.statut = "fini"; g.phase = "fin"; log(g, "Fin de la partie."); return; }
+  g.recapFinT = Date.now(); g.manche++; debutManche(g);
 }
 /* --- côté téléphone : plan local, puis envoi --- */
 const plLoc = {};
 let planEnvoi = null;
 function planLocal(me) {
   let p = plLoc[me];
-  if (!p || p.round !== jeu.mancheId) p = plLoc[me] = {round: jeu.mancheId, etape: jeu.plans?.[me] ? "envoye" : "dieu", rel: [], i: null, carte: null, relC: false, alloc: {}, crayon: 0, douche: "", volb: "", inp: {},
+  if (!p || p.round !== jeu.mancheId) p = plLoc[me] = {round: jeu.mancheId, etape: jeu.plans?.[me] ? "envoye" : "dieu", rel: [], i: null, carte: null, relC: false, fc: false, alloc: {}, crayon: 0, douche: "", volb: "", inp: {},
     ui: {cible: "", nombre: "", oui: null, obj: "", carte: "", vol: "", parite: "", paire: "", c1: "", c2: "", velo: "", douche: "", volb: ""}};
   return p;
 }
 function envoyerPlan(me, p) {
-  const plan = {round: p.round, rel: p.rel, i: p.i, carte: p.carte, relC: p.relC, inp: p.inp, alloc: {...p.alloc}, crayon: p.crayon || 0, douche: p.douche || "", volb: p.volb || ""};
+  const plan = {round: p.round, rel: p.rel, i: p.i, carte: p.carte, relC: p.relC, fc: !!p.fc, inp: p.inp, alloc: {...p.alloc}, crayon: p.crayon || 0, douche: p.douche || "", volb: p.volb || ""};
   if (test) return agir(g => { if (g.phase !== "choix" || plan.round !== g.mancheId) return; g.plans = g.plans || {}; g.plans[me] = plan; if (g.ordre.every(x => g.plans[x])) demarrerResolution(g); });
   planEnvoi = plan;
   return ecrire(async () => { await db.doc("parties/" + code + "/joueurs/" + me).set({nom: jeu.noms[me], arrivee: Date.now(), objet: jeu.objets?.[me] || "", objJeu: jeu.objJeu, plan}); });
 }
+function scoresPrevus(me, pl) {
+  if (!pl || pl.i == null) return mesScores(me);
+  let sim;
+  try {
+    sim = simulerPlan(me, {...pl, rel: pl.rel || []}).sim;
+    sim.plans = {[me]: pl};
+    resoudrePions(sim, me);
+  } catch (e) { return mesScores(me); }
+  const vrai = jeu; jeu = sim;
+  try { return mesScores(me); } finally { jeu = vrai; }
+}
 function simulerPlan(me, p) {
   const sim = clone(jeu), ctx = jeu.ctx[me], off = offreApres(ctx, p.rel), ch = off[p.i];
-  const cid = p.relC && ch.rc ? ch.rc : p.carte;
+  const cid = p.fc && ch.fc ? ch.fc : p.relC && ch.rc ? ch.rc : p.carte;
   sim.tour = sim.ordre.indexOf(me); sim.aDistribuer = ctx.aDistribuer; sim.mods = {x2: [], valeur: null}; sim.tourLog = []; sim.file = []; sim.phase = "simulation";
   const pika = sim.actives[me].filter(a => CARTE[a.c].e.t === "perso_pikachu").length;
   if (ch.dieu === "simon" && pika) sim.aDistribuer += pika;
-  if (p.crayon && aObjet(sim, me, "crayon") && !sim.objetUtilise?.[me]) { const n = Math.max(0, Math.min(3, p.crayon, sim.scores[me].culture)); sim.scores[me].culture -= n; sim.aDistribuer += n; }
+  if (p.crayon && aObjet(sim, me, "crayon") && !sim.objetUtilise?.[me] && !sim.completes[me].includes("culture")) { const n = Math.max(0, Math.min(3, p.crayon, sim.scores[me].culture)); sim.scores[me].culture -= n; sim.aDistribuer += n; }
   try { appliquerCarte(sim, me, cid, p.inp || {}, false); } catch (e) {}
   return {sim, cid, lignes: (sim.tourLog || []).slice()};
 }
@@ -4425,23 +4538,21 @@ function ecranChoix(me, pied) {
   if (jeu.plans?.[me]) p.etape = "envoye";
   const off = offreApres(ctx, p.rel), relReste = ctx.nbRel - p.rel.length - (p.relC ? 1 : 0);
   const nbFait = jeu.ordre.filter(id => jeu.plans?.[id]).length;
-  const titre = `<p class="muted small" style="margin:0">Tour ${jeu.manche} · tout le monde joue en même temps</p>`;
+  const titre = "";
   if (p.etape === "envoye") {
-    const pl = jeu.plans?.[me] || planEnvoi || {}, o = off[pl.i ?? p.i], cid = o ? (pl.relC && o.rc ? o.rc : (pl.carte || o.carte)) : null;
+    const pl = jeu.plans?.[me] || planEnvoi || {}, o = off[pl.i ?? p.i], cid = o ? (pl.fc && o.fc ? o.fc : pl.relC && o.rc ? o.rc : (pl.carte || o.carte)) : null;
     const pions = OBJECTIFS.filter(x => (pl.alloc || {})[x.id]).map(x => `${pl.alloc[x.id]} en ${esc(court(x.id))}`).join(", ");
     $app.innerHTML = `${titre}<h1>Choix envoyés</h1>${o ? `<div class="card objet-ligne"><span class="medaillon" style="--t:var(--or);width:52px;height:52px">${DB.icone(dieu(o.dieu).transverse ? "laurier" : dieu(o.dieu).objs[0], 32)}</span><div><strong>${esc(dieu(o.dieu).nom)}</strong><div class="small muted">« ${esc(CARTE[cid]?.texte || "")} »</div><div class="small">Pions : ${pions || "aucun"}</div></div></div>` : ""}
       <p class="pret-ok">${jeu.plans?.[me] ? `${coche()} Bien reçu par le plateau.` : "Envoi en cours…"} ${nbFait}/${jeu.ordre.length} joueurs ont joué.</p>
-      <p class="muted">Tes choix sont définitifs. Le tour se résout dès que tout le monde a joué, puis le récap s’affiche.</p>
-      <h2>Tes points</h2>${mesScores(me)}${pied}`;
+      <h2>Tes points après ton tour</h2>${scoresPrevus(me, pl)}${pied}`;
     return;
   }
   if (p.etape === "dieu") {
     const voitTout = jeu.completes[me].includes("culture"), voit = voitTout || ctx.voirUne;
-    $app.innerHTML = `${titre}<h1>Choisis un dieu</h1>${banniere(me)}<p>Il t’accorde une carte${voitTout ? " (tu vois laquelle grâce à Culture)" : voit ? " (tu vois celle du premier dieu)" : " au hasard"}.</p>
-      <div class="defile">${off.map((o, i) => { const d = dieu(o.dieu); return `<button class="choix-dieu" data-ci="${i}" aria-label="Choisir ${esc(d.nom)}">${DB.carteDieu({nom: esc(d.nom), objs: d.transverse ? [] : d.objs, extra: d.transverse ? domaines(d, o) : "", image: d.image})}${voitTout || (voit && i === 0) || o.visible ? `<span class="carte-vue"><strong>« ${esc(CARTE[o.carte].texte)} »</strong><br><span class="muted">${esc(decrire(CARTE[o.carte]))}</span></span>` : ""}</button>`; }).join("")}</div>
-      ${relReste > 0 && p.rel.length < ctx.spares.length ? `<p class="small" style="margin:12px 0 6px;display:flex;align-items:center;gap:8px">${jetonIco(26)} Il te reste ${relReste} relance${relReste > 1 ? "s" : ""}. Remplacer un dieu :</p><div class="row">${off.map((o, i) => `<button data-crel="${i}">${jetonIco(22)} ${esc(dieu(o.dieu).nom)}</button>`).join("")}</div>` : ""}
+    $app.innerHTML = `${titre}<h1>Choisis un dieu</h1>${banniere(me)}<div class="defile">${off.map((o, i) => { const d = dieu(o.dieu); if (o.cache) return `<button class="choix-dieu" data-ci="${i}" aria-label="Choisir le dieu mystère"><div class="carte-dos"><span>Dieu<br>mystère</span></div><span class="carte-vue">Tu ne sauras qui c’est qu’après l’avoir choisi.</span></button>`; return `<button class="choix-dieu" data-ci="${i}" aria-label="Choisir ${esc(d.nom)}">${DB.carteDieu({nom: esc(d.nom), objs: d.transverse ? [] : d.objs, extra: d.transverse ? domaines(d, o) : "", image: d.image})}${voitTout || (voit && i === 0) || o.visible ? `<span class="carte-vue"><strong>« ${esc(CARTE[o.carte].texte)} »</strong><br><span class="muted">${esc(decrire(CARTE[o.carte]))}</span></span>` : ""}</button>`; }).join("")}</div>
+      ${relReste > 0 && p.rel.length < ctx.spares.length ? `<p class="small" style="margin:12px 0 6px;display:flex;align-items:center;gap:8px">${jetonIco(26)} Il te reste ${relReste} relance${relReste > 1 ? "s" : ""}. Remplacer un dieu :</p><div class="row">${off.map((o, i) => `<button data-crel="${i}">${jetonIco(22)} ${o.cache ? "Dieu mystère" : esc(dieu(o.dieu).nom)}</button>`).join("")}</div>` : ""}
       <h2>Tes points</h2>${mesScores(me)}${pied}`;
-    $app.querySelectorAll("[data-ci]").forEach(b => b.onclick = () => { if (p.i != null) return; const i = +b.dataset.ci; p.i = i; p.carte = off[i].carte; p.relC = false; p.etape = ctx.deux && off[i].alt ? "deux" : "carte"; rendre(); });
+    $app.querySelectorAll("[data-ci]").forEach(b => b.onclick = () => { if (p.i != null) return; const i = +b.dataset.ci; p.i = i; p.carte = off[i].carte; p.relC = false; p.fc = false; p.etape = ctx.deux && off[i].alt ? "deux" : "carte"; rendre(); });
     $app.querySelectorAll("[data-crel]").forEach(b => b.onclick = () => { DB.son("relance"); p.rel.push(+b.dataset.crel); rendre(); });
     return;
   }
@@ -4453,11 +4564,14 @@ function ecranChoix(me, pied) {
     $app.querySelectorAll("[data-cc2]").forEach(b => b.onclick = () => { p.carte = b.dataset.cc2; p.etape = "carte"; rendre(); });
     return;
   }
-  const cid = p.relC && o.rc ? o.rc : p.carte, c = CARTE[cid];
+  const cid = p.fc && o.fc ? o.fc : p.relC && o.rc ? o.rc : p.carte, c = CARTE[cid];
   if (p.etape === "carte") {
     const en = entrees(c, me);
-    $app.innerHTML = `${titre}<h1>${esc(dieu(o.dieu).nom)} t’accorde…</h1>${carteHtml(cid, "")}${en.h}
-      <div class="row" style="margin-top:14px"><button class="primary" id="vcarte" ${!en.pret ? "disabled" : ""}>Garder cette carte</button>${relReste > 0 && o.rc && !p.relC ? `<button id="rcarte">${jetonIco(22)} Relancer la carte (${relReste})</button>` : ""}</div>${pied}`;
+    $app.innerHTML = `${titre}${o.cache ? `<p class="mystere">Le dieu mystère était <strong>${esc(dieu(o.dieu).nom)}</strong>.</p>` : ""}<h1>${esc(dieu(o.dieu).nom)} t’accorde…</h1>
+      ${p.fc ? `<p class="muted small" style="margin:0 0 6px">Ta carte face cachée :</p>` : ""}${carteHtml(cid, "")}${en.h}
+      <div class="row" style="margin-top:14px"><button class="primary" id="vcarte" ${!en.pret ? "disabled" : ""}>Valider</button>${!p.fc && relReste > 0 && o.rc && !p.relC ? `<button id="rcarte">${jetonIco(22)} Relancer la carte (${relReste})</button>` : ""}</div>
+      ${!p.fc && o.fc ? `<div class="face-cachee"><div class="carte-dos petite"><span>?</span></div><div><strong>Ou prends une carte face cachée</strong><p class="muted small">Une autre carte de ${esc(dieu(o.dieu).nom)}, au hasard. Une fois prise, plus de retour en arrière.</p><button id="fcarte">Prendre la carte face cachée</button></div></div>` : ""}${pied}`;
+    const fcb = document.getElementById("fcarte"); if (fcb) fcb.onclick = () => { p.fc = true; for (const k in p.ui) p.ui[k] = k === "oui" ? null : ""; DB.son("panneau"); rendre(); };
     lierEntrees();
     const rc = document.getElementById("rcarte"); if (rc) rc.onclick = () => { DB.son("relance"); p.relC = true; rendre(); };
     document.getElementById("vcarte").onclick = () => { p.inp = inp(); p.etape = "pions"; rendre(); };
@@ -4467,7 +4581,7 @@ function ecranChoix(me, pied) {
   let bloc = "";
   jeu = sim; try { bloc = blocPions(me, sim.aDistribuer, true, "envoi", "Valider mes choix"); } finally { jeu = vrai; }
   let opts = "";
-  if (aObjet(jeu, me, "crayon") && !jeu.objetUtilise?.[me] && jeu.scores[me].culture > 0) opts += `<div class="card"><strong>${objIco("crayon", 22)} Crayon de couleur</strong><p class="small">Échanger des points de Culture contre des pions :</p><div class="row">${[0, 1, 2, 3].filter(k => k <= jeu.scores[me].culture).map(k => `<button data-pcr="${k}" class="${(p.crayon || 0) === k ? "primary" : ""}">${k ? k : "Non"}</button>`).join("")}</div></div>`;
+  if (aObjet(jeu, me, "crayon") && !jeu.objetUtilise?.[me] && jeu.scores[me].culture > 0 && !jeu.completes[me].includes("culture")) opts += `<div class="card"><strong>${objIco("crayon", 22)} Crayon de couleur</strong><p class="small">Échanger des points de Culture contre des pions :</p><div class="row">${[0, 1, 2, 3].filter(k => k <= jeu.scores[me].culture).map(k => `<button data-pcr="${k}" class="${(p.crayon || 0) === k ? "primary" : ""}">${k ? k : "Non"}</button>`).join("")}</div></div>`;
   if (aObjet(jeu, me, "douche") && jeu.manche % 2 === 1 && !(jeu.douche?.[me]?.manche === jeu.manche)) opts += `<div class="card"><strong>${objIco("douche", 22)} Pommeau de douche</strong><label for="pdch">Tour impair : choisis ta catégorie</label><select id="pdch"><option value="">Choisir…</option>${OBJECTIFS.map(x => `<option value="${x.id}" ${p.douche === x.id ? "selected" : ""}>${esc(court(x.id))}</option>`).join("")}</select></div>`;
   if ((jeu.actives?.[me] || []).some(a => CARTE[a.c].e.t === "obj_vol") && jeu.volTour?.[me] !== jeu.nTour) {
     const l = []; jeu.ordre.filter(id => id !== me).forEach(id => OBJECTIFS.forEach(x => { if (jeu.scores[id][x.id] > 0) l.push({id, o: x.id}); }));
@@ -4475,7 +4589,7 @@ function ecranChoix(me, pied) {
   }
   $app.innerHTML = `${titre}<h1>Pose tes pions</h1>
     <div class="card small"><strong>${esc(dieu(o.dieu).nom)} · « ${esc(c.texte)} »</strong><div class="muted">${esc(decrire(c))}</div>${lignes.length ? `<div style="margin-top:6px">Effet prévu : ${esc(lignes.join(" "))}</div>` : ""}</div>
-    ${opts}${bloc}<div class="row"><button id="retour">Revenir à la carte</button></div>${pied}`;
+    ${opts}${bloc}<div class="row retour-zone"><button id="retour">Revenir à la carte</button></div>${pied}`;
   lierPions();
   $app.querySelectorAll("[data-pcr]").forEach(b => b.onclick = () => { p.crayon = +b.dataset.pcr; for (const k in p.alloc) delete p.alloc[k]; rendre(); });
   const pd = document.getElementById("pdch"); if (pd) pd.onchange = () => { p.douche = pd.value; };
@@ -4498,10 +4612,65 @@ function carteRecap(pid, i) {
     ${c ? `<div class="rc-bloc"><strong>CARTE</strong><p class="co-cit">« ${esc(c.texte)} »</p><p class="rc-eff">${esc(decrire(c))}</p>
       ${app ? `<p class="rc-app ${app.ok ? "oui" : "non"}">${app.ok ? "Appliquée" : "Sans effet"}</p>` : ""}
       ${app && app.details.length ? `<ul class="rc-det">${app.details.map(x => `<li>${x.pid ? `${pastille(x.pid, 22)} <b>${esc(jeu.noms[x.pid])}</b> ` : ""}${x.d ? x.d.map(([o, n]) => chip(o, n, 18)).join(" ") : esc(x.t)}</li>`).join("")}</ul>` : ""}</div>` : ""}
-    ${pal.length ? `<div class="rc-bloc"><strong>BONUS DE PARCOURS</strong>${pal.map(a => { const e = EFFETS_OBJECTIFS[a.obj]; return `<p class="rc-pal">${DB.icone(a.mi ? "mi-parcours" : "laurier", 24)}${DB.icone(a.obj, 24)} <span>${a.mi ? `« ${esc(e.nomMi)} »` : `Complété${a.res && !/^En attente/.test(a.res) ? ` : ${esc(a.res)}` : ""}`}</span></p>`; }).join("")}</div>` : ""}
+    ${pal.length ? `<div class="rc-bloc"><strong>BONUS DE PARCOURS</strong>${pal.map(a => { const e = EFFETS_OBJECTIFS[a.obj]; return `<p class="rc-pal">${DB.icone(a.mi ? "mi-parcours" : "laurier", 24)}${DB.icone(a.obj, 24)} <span>${a.mi ? `« ${esc(e.nomMi)} »${a.res ? ` : ${esc(a.res)}` : ""}` : `« ${esc(e.detail)} »${a.res && !/^En attente/.test(a.res) ? ` : ${esc(a.res)}` : ""}`}</span></p>`; }).join("")}</div>` : ""}
   </article>`;
 }
+/* ---------- Dés ---------- */
+const desVus = new Set();
+const PIPS = {1: [[24, 24]], 2: [[14, 14], [34, 34]], 3: [[14, 14], [24, 24], [34, 34]], 4: [[14, 14], [34, 14], [14, 34], [34, 34]], 5: [[14, 14], [34, 14], [24, 24], [14, 34], [34, 34]], 6: [[14, 13], [34, 13], [14, 24], [34, 24], [14, 35], [34, 35]]};
+function deSvg(v, faces, t, roule) {
+  const ink = "#2a2118";
+  const corps = faces === 4
+    ? `<path d="M24 4L44 40H4z" fill="#fffdf7" stroke="${ink}" stroke-width="2.5" stroke-linejoin="round"/><path d="M24 4L24 40" stroke="${ink}" stroke-opacity=".15" stroke-width="2"/>${v ? `<text x="24" y="35" text-anchor="middle" font-family="Cinzel, serif" font-weight="700" font-size="16" fill="${ink}">${v}</text>` : `<text x="24" y="35" text-anchor="middle" font-family="Cinzel, serif" font-weight="700" font-size="15" fill="${ink}" opacity=".5">?</text>`}`
+    : `<rect x="5" y="5" width="38" height="38" rx="8" fill="#fffdf7" stroke="${ink}" stroke-width="2.5"/><path d="M10 10h20" stroke="#fff" stroke-width="3" stroke-linecap="round" opacity=".9"/>${v ? PIPS[v].map(([x, y]) => `<circle cx="${x}" cy="${y}" r="4" fill="${ink}"/>`).join("") : `<text x="24" y="31" text-anchor="middle" font-family="Cinzel, serif" font-weight="700" font-size="20" fill="${ink}" opacity=".45">?</text>`}`;
+  return `<svg class="de ${roule ? "de-roule" : ""}" viewBox="0 0 48 48" width="${t}" height="${t}" role="img" aria-label="${v ? "dé : " + v : "dé pas encore lancé"}">${corps}</svg>`;
+}
+function desHtml(t) {
+  return `<div class="des">${jeu.ordre.map(id => { const v = jeu.des.des[id], k = jeu.des.id + "|" + id, neuf = v && !desVus.has(k); if (v) desVus.add(k);
+    const bon = v && ((v % 2 === 0) === (jeu.des.choix === "pair"));
+    return `<div class="de-j ${v ? (bon ? "bon" : "rate") : ""}">${deSvg(v, 6, t, neuf)}<span>${pastille(id, 24)} ${esc(jeu.noms[id])}</span></div>`; }).join("")}</div>`;
+}
+let deEnvoi = null;
+function ecranDes(me) {
+  const d = jeu.des, fait = !!d.des[me], envoye = !test && deEnvoi === d.id && !fait;
+  return `<h1>Lancer de dés</h1><p><strong>${esc(jeu.noms[d.pid])}</strong> parie <strong>${esc(d.choix)}</strong> : chaque joueur lance son dé. Chaque dé ${esc(d.choix)} lui rapporte 2 pions.</p>
+    ${desHtml(64)}
+    ${fait ? `<p class="pret-ok">${coche()} Ton dé est lancé. En attente des autres.</p>` : `<button class="primary large lancer-de" id="lancede" ${busy || envoye ? "disabled" : ""}>${envoye ? "Lancer en cours…" : "Lancer mon dé"}</button>`}`;
+}
+function lierDes(me) {
+  const b = document.getElementById("lancede"); if (!b) return;
+  b.onclick = () => {
+    DB.son("pion");
+    if (test) return agir(g => lancerDeG(g, me));
+    deEnvoi = jeu.des.id;
+    ecrire(async () => { await db.doc("parties/" + code + "/joueurs/" + me).set({nom: jeu.noms[me], arrivee: Date.now(), objet: jeu.objets?.[me] || "", objJeu: jeu.objJeu, lance: jeu.des.id}); });
+  };
+}
+function lancerDeG(g, pid) {
+  const d = g.des;
+  if (!d || d.gain != null || !g.ordre.includes(pid) || d.des[pid]) return;
+  d.des[pid] = 1 + Math.floor(Math.random() * 6);
+  if (!g.ordre.every(id => d.des[id])) return;
+  const vals = g.ordre.map(id => d.des[id]), k = vals.filter(v => (v % 2 === 0) === (d.choix === "pair")).length;
+  log(g, `${g.noms[d.pid]} parie ${d.choix} : dés ${vals.join(", ")}, ${k * 2} pions.`);
+  annoncer(g, d.pid, "jeux", `Parie ${d.choix} : dés ${vals.join(", ")}, ${k * 2} pion${k ? "s" : ""} à poser.`);
+  if (!k) resolu(g); else d.gain = k * 2;
+}
+let deAnimVu = "";
+function animerDe() {
+  const c = jeu?.deAnim;
+  if (!c || c.id === deAnimVu) return;
+  deAnimVu = c.id;
+  if (Date.now() - (c.t || 0) > 15000) return;
+  if (!(vue() === "plateau" || test || monId() === c.pid)) return;
+  const d = document.createElement("div");
+  d.className = "de-anim"; d.setAttribute("role", "status");
+  d.innerHTML = `<div class="boite">${deSvg(c.val, c.faces, 150, true)}<strong>${esc(jeu.noms[c.pid] || "")} : ${c.val}</strong></div>`;
+  jouerPopup(d, null, 2800);
+}
 function texteFile(f) {
+  if (f.de4) return "lance le dé à 4 faces";
+  if (f.obj === "jeux" && !f.mi && jeu.des && jeu.des.pid === f.pid && jeu.des.gain == null) return `a parié ${esc(jeu.des.choix)} : chaque joueur lance son dé`;
   return f.taureau ? "choisit qui charger avec son taureau " : f.blocage ? `décide s’il bloque l’action de ${esc(jeu.noms[f.auteur])} avec Psychorigide` : f.mi ? `atteint ${SEUIL_MI_PARCOURS} en ${esc(court(f.obj))} et applique « ${esc(EFFETS_OBJECTIFS[f.obj].nomMi)} »` : `applique l’effet de fin de ${esc(court(f.obj))}`;
 }
 
@@ -4716,6 +4885,7 @@ function migrer() {
 function recevoir(j) {
   jeu = j;
   setTimeout(migrer, 50);
+  if (vue() === "plateau") setTimeout(fusionnerObjets, 80);
   const cle = jeu ? [jeu.tour, jeu.manche, jeu.phase, (jeu.file || []).length, jeu.des ? 1 : 0, jeu.statut].join("|") : "";
   if (cle !== vuDernier) { vuDernier = cle; resetUi(); }
   rendre();
@@ -4780,7 +4950,7 @@ function carteHtml(cid, titre, cacherEffet) {
 }
 function effetObjectifHtml(o) {
   const e = EFFETS_OBJECTIFS[o];
-  return `<em>${esc(e.detail)}</em><br><strong>À ${SEUIL_MI_PARCOURS} points, « ${esc(e.nomMi)} » :</strong> ${esc(e.mi)}<br>${e.complete ? `<strong>Quand on le complète :</strong> ${esc(e.complete)}<br>` : ""}${e.passif ? `<strong>Ensuite, en permanence :</strong> ${esc(e.passif)}` : ""}`;
+  return `<strong>À ${SEUIL_MI_PARCOURS} points, « ${esc(e.nomMi)} » :</strong> ${esc(e.mi)}<br><strong>À ${MAX_PAR_OBJECTIF} points, « ${esc(e.detail)} » :</strong> ${esc(e.complete || e.passif)}${e.complete && e.passif ? `<br><strong>Ensuite, en permanence :</strong> ${esc(e.passif)}` : ""}<br><span class="muted small">Une fois complété, on ne peut plus y perdre de points.</span>`;
 }
 
 /* La roue : chaque joueur part du centre, sa couleur monte vers chaque objectif */
@@ -4788,8 +4958,37 @@ function roue() {
   const echelle = jeu.ordre.some(id => aObjet(jeu, id, "pinot")) ? MAX_LAISSE_PINOT : MAX_PAR_OBJECTIF;
   return DB.plateau({tour: jeu.manche, dernier: jeu.dernierTour, max: echelle, fin: MAX_PAR_OBJECTIF, mi: SEUIL_MI_PARCOURS, sel: objSel,
     objectifs: OBJECTIFS.map(o => ({id: o.id, nom: o.court, aria: esc(o.nom) + " : voir l’effet"})),
-    joueurs: jeu.ordre.map(pid => ({nom: esc(jeu.noms[pid]), c: couleur(pid), scores: jeu.scores[pid], completes: jeu.completes[pid]}))
+    joueurs: jeu.ordre.map(pid => ({nom: esc(jeu.noms[pid]), c: couleur(pid), scores: scoresAffiches(pid), completes: jeu.completes[pid]}))
   }).replace('class="db-plateau"', 'class="roue db-plateau"');
+}
+/* Après le récap, les pions avancent point par point jusqu’à leur nouvelle position */
+let animP = null, animPFaite = "";
+const enResolution = () => jeu?.statut === "en_cours" && (jeu.phase === "resolution" || (jeu.phase === "completion" && jeu.suite === "resolution"));
+function scoresAffiches(pid) {
+  if (enResolution() && jeu.recapAvant?.[pid]) return jeu.recapAvant[pid];
+  if (!animP || !animP.from[pid]) return jeu.scores[pid];
+  const a = animP.from[pid], b = jeu.scores[pid];
+  return Object.fromEntries(OBJECTIFS.map(o => { const x = a[o.id] ?? b[o.id], d = b[o.id] - x; return [o.id, x + Math.sign(d) * Math.min(Math.abs(d), animP.step)]; }));
+}
+function majRoue() { const s = $app.querySelector(".roue-boite svg.roue"); if (s) s.outerHTML = roue(); }
+function animerPions() {
+  if (!jeu?.recapAvant || !jeu.recapFinT || animP) return;
+  const cle = jeu.recapManche + "|" + jeu.recapFinT;
+  if (animPFaite === cle) return;
+  animPFaite = cle;
+  if (Date.now() - jeu.recapFinT > 20000) return;
+  let max = 0;
+  jeu.ordre.forEach(pid => OBJECTIFS.forEach(o => { max = Math.max(max, Math.abs((jeu.scores[pid]?.[o.id] || 0) - (jeu.recapAvant[pid]?.[o.id] ?? 0))); }));
+  if (!max) return;
+  animP = {from: jeu.recapAvant, step: 0, max};
+  majRoue();
+  const tic = () => {
+    if (!animP) return;
+    animP.step++; majRoue(); DB.son("pion");
+    if (animP.step >= animP.max) { animP = null; rendre(); setTimeout(montrerAnnonce, 300); }
+    else setTimeout(tic, 420);
+  };
+  setTimeout(tic, 700);
 }
 /* Compteurs en planches : on garde la dernière valeur affichée pour faire basculer les planches qui changent */
 const cptPrec = {};
@@ -4802,39 +5001,83 @@ const jetonIco = (t = 24) => `<span class="jeton" style="width:${t}px;height:${t
 const pastille = (pid, t) => `<span class="pastille" style="--c:${couleur(pid)}${t ? `;width:${t}px;height:${t}px` : ""}"><span ${t ? `style="width:${Math.round(t * .66)}px;height:${Math.round(t * .66)}px"` : ""}>${jeu?.objets?.[pid] ? objIco(jeu.objets[pid], t ? Math.round(t * .55) : 24) : ""}</span></span>`;
 const coche = (t = 16) => `<svg viewBox="0 0 24 24" width="${t}" height="${t}" aria-label="ok" style="vertical-align:-3px"><path d="M4 12.5l5 5L20 6" fill="none" stroke="var(--olivier)" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
 const objIco = (id, t = 26) => DB.icones["obj-" + id] ? DB.icone("obj-" + id, t) : (OBJET[id]?.emoji || "");
+/* ---------- État du joueur : objet, cartes permanentes, bonus et malus, en une seule rangée de puces ---------- */
+function courtInfo(e) {
+  const [t, x] = e;
+  let m;
+  if ((m = x.match(/^([+−])(\d+) pions?/))) return [`${m[1]}${m[2]} pion${m[2] > 1 ? "s" : ""}`, m[1] === "+" ? "gain" : "perte"];
+  if ((m = x.match(/^(\d+) pions? en plus/))) return [`+${m[1]} pion${m[1] > 1 ? "s" : ""}`, "gain"];
+  if ((m = x.match(/^(\d+) pions? en moins/))) return [`−${m[1]} pion${m[1] > 1 ? "s" : ""}`, "perte"];
+  if (/sonné/.test(x)) return ["Sonné", "obj-cloche"];
+  if (/Même choix/.test(x)) return ["Mêmes dieux", "lignee"];
+  if (/parmi \d+ dieux/.test(x)) return ["+1 dieu", "bonheur"];
+  if (/carte d’un des dieux/.test(x)) return ["Carte visible", "oeil"];
+  if (/deux cartes/.test(x)) return ["2 cartes", "oeil"];
+  if (/Bonbon/.test(x)) return ["Bonbon", "obj-bonbon"];
+  if (/relance/i.test(x)) return ["Relance", "relance"];
+  return [x.length > 18 ? x.slice(0, 16) + "…" : x, t === "malus" ? "perte" : t === "bonus" ? "gain" : "oeil"];
+}
 function effetsActifs(pid) {
   const l = [], fini = jeu.statut !== "en_cours" || ["objets", "objets_vus", "recap", "resolution"].includes(jeu.phase);
   if (fini || !jeu.scores?.[pid]) return l;
   const monTour = jeu.phase === "choix" || jeu.ordre[jeu.tour] === pid;
-  if (jeu.phase === "choix" && jeu.ctx?.[pid]) l.push(...jeu.ctx[pid].info);
-  else if (monTour && jeu.infoTour?.pid === pid && jeu.infoTour.n === jeu.nTour) l.push(...jeu.infoTour.l);
+  const src = jeu.phase === "choix" && jeu.ctx?.[pid] ? jeu.ctx[pid].info : (monTour && jeu.infoTour?.pid === pid && jeu.infoTour.n === jeu.nTour ? jeu.infoTour.l : []);
+  src.forEach(e => { const [c, ic] = courtInfo(e); if (ic !== "relance") l.push([e[0], e[1], c, ic]); });
   if (monTour) {
-    if (jeu.mods?.valeur != null) l.push([jeu.mods.valeur > 1 ? "bonus" : "malus", `Tes pions valent ${signe(jeu.mods.valeur)} ce tour`]);
-    (jeu.mods?.x2 || []).forEach(o => l.push(["bonus", `Pions doublés en ${court(o)} ce tour`]));
-    if (doucheActive(jeu, pid)) l.push(["bonus", "Pommeau de douche : tes pions valent double ce tour"]);
+    if (jeu.mods?.valeur != null) l.push([jeu.mods.valeur > 1 ? "bonus" : "malus", `Ce tour-ci, chacun de tes pions vaut ${signe(jeu.mods.valeur)}.`, `Pions ${signe(jeu.mods.valeur)}`, "pion-bois"]);
+    (jeu.mods?.x2 || []).forEach(o => l.push(["bonus", `Ce tour-ci, tes pions posés en ${court(o)} valent double.`, "×2", o]));
+    if (doucheActive(jeu, pid)) l.push(["bonus", "Pommeau de douche : tu es dernier dans ta catégorie, tes pions valent double ce tour.", "×2", "obj-douche"]);
   }
   const r = jeu.phase === "choix" && jeu.ctx?.[pid] ? jeu.ctx[pid].nbRel : relancesDispo(jeu, pid);
-  if (r) l.push(["bonus", `${r} relance${r > 1 ? "s" : ""} disponible${r > 1 ? "s" : ""}`]);
-  (jeu.actives?.[pid] || []).forEach(a => { const c = CARTE[a.c]; if (c?.e?.t === "pion_x2_perm") l.push(["bonus", `Pions doublés en ${court(c.obj)} (carte permanente)`]); });
-  if (jeu.completes[pid].includes("culture")) l.push(["bonus", "Tu vois les cartes des dieux proposés"]);
-  if (jeu.completes[pid].includes("vin") && !jeu.completes[pid].includes("culture")) l.push(["malus", "Tu ne peux plus compléter Culture"]);
-  if (jeu.platre) l.push(["malus", `Plâtre : personne ne gagne de points en ${court(jeu.platre.o)} ce tour de table`]);
-  if (!monTour) {
-    const b = jeu.bonus?.[pid] || 0, pr = jeu.prochain?.[pid] || {};
-    if (b > 0) l.push(["bonus", `À ton prochain tour : ${b} pion${b > 1 ? "s" : ""} en plus`]);
-    if (b < 0) l.push(["malus", `À ton prochain tour : ${-b} pion${b < -1 ? "s" : ""} en moins`]);
-    if (jeu.sonne?.[pid]) l.push(["malus", "À ton prochain tour : tu es sonné, pas de pions"]);
-    if (pr.plus) l.push(["bonus", "À ton prochain tour : un dieu de plus à choisir"]);
-    if (pr.voir) l.push(["bonus", "À ton prochain tour : tu verras la carte d’un dieu"]);
-    if (pr.meme) l.push(["info", "À ton prochain tour : même choix de dieux"]);
+  if (r) l.push(["bonus", `Tu as ${r} relance${r > 1 ? "s" : ""} : tu peux remplacer un dieu proposé, ou ta carte.`, `${r} relance${r > 1 ? "s" : ""}`, "relance"]);
+  if (jeu.completes[pid].includes("culture")) l.push(["bonus", "Culture complétée : tu vois les cartes des dieux proposés (sauf le dieu mystère).", "Voit les cartes", "oeil"]);
+  if (jeu.completes[pid].includes("vin") && !jeu.completes[pid].includes("culture")) l.push(["malus", "Vin complété : tu ne peux plus compléter Culture (bloqué à 14).", "Culture bloquée", "cadenas"]);
+  if (jeu.platre) l.push(["malus", `Plâtre : personne ne gagne de points en ${court(jeu.platre.o)} pendant ce tour.`, "Plâtre", jeu.platre.o]);
+  if (!monTour || jeu.phase === "choix") {
+    const b = jeu.bonus?.[pid] || 0, pr = jeu.prochain?.[pid] || {}, rs = jeu.bonusRaisons?.[pid] || [];
+    const pn = n => `${n > 0 ? "+" : "−"}${Math.abs(n)} pion${Math.abs(n) > 1 ? "s" : ""}`;
+    if (rs.length) rs.forEach(x => l.push([x.n > 0 ? "bonus" : "malus", `${pn(x.n)} à ton prochain tour : ${x.t}.`, pn(x.n), x.n > 0 ? "gain" : "perte", true]));
+    else if (b) l.push([b > 0 ? "bonus" : "malus", `${pn(b)} à ton prochain tour.`, pn(b), b > 0 ? "gain" : "perte", true]);
+    if (jeu.sonne?.[pid]) l.push(["malus", `Tu es sonné${jeu.sonnePar?.[pid] ? " par " + jeu.noms[jeu.sonnePar[pid]] : ""} : pas de pions à ton prochain tour.`, "Sonné", "obj-cloche", true]);
+    if (pr.plus) l.push(["bonus", "À ton prochain tour, un dieu de plus à choisir.", "+1 dieu", "bonheur", true]);
+    if (pr.voir) l.push(["bonus", "À ton prochain tour, tu verras la carte d’un des dieux.", "Carte visible", "oeil", true]);
+    if (pr.meme) l.push(["info", "À ton prochain tour, même choix de dieux.", "Mêmes dieux", "lignee", true]);
   }
   return l;
 }
+function courtCarte(c) {
+  const e = c.e, o = c.obj;
+  switch (e.t) {
+    case "par_tour": return `+${e.n} chaque tour`;
+    case "pion_x2_perm": return "Pions ×2";
+    case "obj_jeton": return "+1 pion par tour";
+    case "obj_vol": return "Vol d’1 point";
+    case "perso_frisbee": return "Relance par tour";
+    case "jeanne_suit": return "Suit Jeanne";
+    case "jeanne_chute": return "Chute avec Jeanne";
+    case "perso_pikachu": return "Pions avec Simon";
+    case "perso_asso": return "+1 au hasard";
+    case "perso_oiseaux": return "Oiseaux";
+  }
+  return "Permanente";
+}
+function etatItems(pid) {
+  const it = [], id = jeu.objets?.[pid];
+  if (id) it.push({k: "objet", type: "objet", ic: objIco(id, 20), court: "Mon objet"});
+  (jeu.actives?.[pid] || []).forEach((a, i) => { const c = CARTE[a.c]; if (!c) return; const o = OBJECTIFS.some(x => x.id === c.obj) ? c.obj : "laurier";
+    it.push({k: "c" + i, type: "carte", ic: DB.icone(o, 20), court: courtCarte(c), titre: "Carte permanente", long: `<strong>« ${esc(c.texte)} »</strong><br>${esc(decrire(c))}`}); });
+  effetsActifs(pid).forEach((e, i) => it.push({k: "e" + i, type: e[0], futur: !!e[4], ic: DB.icone(e[3], 20), court: e[2], long: esc(e[1]),
+    titre: e[4] ? "Au prochain tour" : e[0] === "malus" ? "Malus" : e[0] === "bonus" ? "Bonus" : "À savoir"}));
+  return it;
+}
 function effetsHtml(pid) {
-  const l = effetsActifs(pid);
-  if (!l.length) return "";
-  const ic = {bonus: ["gain", "--olivier"], malus: ["perte", "--terre-cuite"], info: ["oeil", "--egee"]};
-  return `<div class="effets" role="status"><div class="effets-t">Tes bonus et malus</div>${l.map(([t, x]) => `<div class="effet ${t}"><span class="medaillon" style="--t:var(${ic[t][1]})">${DB.icone(ic[t][0], 22)}</span><span>${esc(x)}</span></div>`).join("")}</div>`;
+  if (["objets", "objets_vus"].includes(jeu.phase) || jeu.statut !== "en_cours") return "";
+  const it = etatItems(pid);
+  if (!it.length) return "";
+  if (panneauTel && !it.some(x => x.k === panneauTel)) panneauTel = "";
+  const sel = it.find(x => x.k === panneauTel);
+  return `<div class="etat-tel"><div class="puces-etat">${it.map(x => `<button class="pe pe-${x.type} ${x.futur ? "futur" : ""} ${panneauTel === x.k ? "on" : ""}" data-pan="${x.k}" aria-expanded="${panneauTel === x.k}" title="${esc(x.titre || x.court)}">${x.futur ? `<span class="pe-f">${DB.icone("sablier", 13)}</span>` : ""}${x.ic}<span>${esc(x.court)}</span></button>`).join("")}</div>
+    ${sel ? `<div class="pe-detail pe-${sel.type}">${sel.type === "objet" ? objetHtml(pid) : `<div class="pe-titre">${sel.titre}</div><div>${sel.long}</div>`}</div>` : ""}</div>`;
 }
 function resumeHtml() {
   const h = jeu.histo || [];
@@ -4844,7 +5087,7 @@ function resumeHtml() {
   const bloc = e => `<div class="res-j" style="--c:${couleur(e.pid)}">${pastille(e.pid, 36)}<div><b>${esc(jeu.noms[e.pid] || "")}</b>${e.lignes.length ? `<ul>${e.lignes.map(x => `<li>${esc(x)}</li>`).join("")}</ul>` : `<p class="muted small">Rien de particulier.</p>`}</div></div>`;
   return `<div class="panneau resume"><h2>${recap ? `Récap du tour ${der.manche}` : `Tour précédent : ${esc(jeu.noms[der.pid] || "")}`}</h2>${l.map(bloc).join("")}</div>`;
 }
-let annVues = null, annFile = [], annEnCours = false, revelVue = false, recapVue = false;
+let annVues = null, annFile = [], annEnCours = false, revelVue = false, recapVue = false, finVue = null;
 function lierSon() { const b = document.getElementById("son"); if (b) b.onclick = () => { window.DB_MUET = !window.DB_MUET; store("jdd-son", window.DB_MUET ? "0" : "1"); if (!window.DB_MUET) DB.son("tour"); rendre(); }; }
 function apresRendu() {
   DB.graver(document);
@@ -4855,7 +5098,7 @@ function apresRendu() {
     cptPrec[k] = v;
   });
   if (change && (vue() === "plateau" || test)) DB.son(perte ? "perte" : "panneau");
-  animerAnnonce();
+  animerAnnonce(); montrerAnnonce();
 }
 function animerAnnonce() {
   const l = jeu?.annonces || [], cle = a => `${a.pid}|${a.obj}|${a.n}|${a.mi ? 1 : 0}`;
@@ -4866,15 +5109,24 @@ function animerAnnonce() {
   if (!(vue() === "plateau" || test)) return;
   annFile.push(...nv.filter(a => jeu.noms?.[a.pid]));
 }
+/* Sur le plateau, les pop-ups des événements (paliers, taureau, cloche, pièce, dés) attendent le récap de fin de tour
+   et passent l’un après l’autre ; sur le téléphone du joueur concerné, ils s’affichent tout de suite. */
+function jouerPopup(d, apres, duree) {
+  const montrer = () => { document.body.appendChild(d); if (apres) apres(); setTimeout(() => d.remove(), duree); };
+  if (vue() === "plateau" || test) { annFile.push({fn: montrer, duree}); montrerAnnonce(); } else montrer();
+}
 function montrerAnnonce() {
   if (annEnCours || !annFile.length) return;
-  if (["resolution", "completion", "recap", "objets", "objets_vus"].includes(jeu?.phase) && jeu?.statut === "en_cours") return;
+  if (jeu?.statut === "fini") { annFile = []; return; }
+  if (["resolution", "completion", "objets", "objets_vus"].includes(jeu?.phase) && jeu?.statut === "en_cours") return;
+  if (animP) return;
+  if (annFile[0].fn) { const it = annFile.shift(); annEnCours = true; it.fn(); setTimeout(() => { annEnCours = false; montrerAnnonce(); }, it.duree + 200); return; }
   const a = annFile.shift(), o = OBJECTIFS.find(x => x.id === a.obj), e = EFFETS_OBJECTIFS[a.obj];
   const res = (jeu?.annonces || []).find(x => x.pid === a.pid && x.obj === a.obj && x.n === a.n && !!x.mi === !!a.mi)?.res;
   const d = document.createElement("div");
   d.className = "annonce-anim"; d.setAttribute("role", "status");
   d.innerHTML = a.mi
-    ? `<div class="annonce-or"><span class="medaillon" style="width:110px;height:110px">${DB.icone("mi-parcours")}</span><small>${esc(jeu.noms[a.pid])} atteint ${SEUIL_MI_PARCOURS} en ${esc(o.court)}</small><b>« ${esc(e.nomMi)} »</b><p class="eff">${esc(e.mi)}</p></div>`
+    ? `<div class="annonce-or"><span class="medaillon" style="width:110px;height:110px">${DB.icone("mi-parcours")}</span><small>${esc(jeu.noms[a.pid])} atteint ${SEUIL_MI_PARCOURS} en ${esc(o.court)}</small><b>« ${esc(e.nomMi)} »</b><p class="eff">${esc(e.mi)}</p>${res ? `<p class="res">${esc(res)}</p>` : ""}</div>`
     : `<div class="annonce-or"><span class="rayons"></span><span class="medaillon" style="width:130px;height:130px;--t:var(--obj-${o.id})">${DB.icone(o.id)}</span><b>${esc(jeu.noms[a.pid])} complète ${esc(o.court)}</b><p><i>« ${esc(e.detail)} »</i></p><p class="eff">${esc(e.complete || e.passif)}</p>${e.complete && e.passif ? `<p class="eff">${esc(e.passif)}</p>` : ""}${res && !/^En attente/.test(res) ? `<p class="res">${esc(res)}</p>` : ""}</div>`;
   document.body.appendChild(d);
   DB.son(a.mi ? "gain" : "objectif");
@@ -4901,12 +5153,12 @@ function montrerBulle(id) {
 }
 function listeJoueurs() {
   const actuel = jeu.ordre[jeu.tour];
-  return `<div class="joueurs">${jeu.ordre.map(pid => {
+  return `<div class="joueurs">${jeu.ordre.slice().sort((a, b) => total(scoresAffiches(b)) - total(scoresAffiches(a))).map(pid => {
     const c = couleur(pid), ouvert = ouverts.has(pid), comp = jeu.completes[pid];
     return `<div style="--c:${c}"><button class="jr ${(jeu.phase === "choix" ? !jeu.plans?.[pid] : pid === actuel) && jeu.statut === "en_cours" ? "actif" : ""}" data-j="${pid}" aria-expanded="${ouvert}">
-        ${pastille(pid)}<span><span class="nom">${esc(jeu.noms[pid])}</span><br><span class="sous">${comp.map(() => laurier(22)).join("")}${Array.from({length: Math.min(4, jeu.relances?.[pid] || 0)}, () => jetonIco(20)).join("")} ${comp.length}/${OBJECTIFS_POUR_FINIR} · détail</span></span>
-        ${cpt("tot-" + pid, total(jeu.scores[pid]))}</button>
-      ${ouvert ? `<div class="detail"><div class="objs">${OBJECTIFS.map(o => `<span class="o ${comp.includes(o.id) ? "ok" : ""}"><span class="o-ic">${DB.icone(o.id, 22)}${esc(o.court)}</span><strong>${jeu.scores[pid][o.id]}</strong></span>`).join("")}</div>
+        ${pastille(pid)}<span><span class="nom">${esc(jeu.noms[pid])}</span><br><span class="sous" aria-label="${comp.length} objectif${comp.length > 1 ? "s" : ""} complété${comp.length > 1 ? "s" : ""} sur ${OBJECTIFS_POUR_FINIR}">${Array.from({length: Math.max(OBJECTIFS_POUR_FINIR, comp.length)}, (_, i) => `<span class="lau ${i < comp.length ? "" : "vide"}">${DB.icone("laurier", 24)}</span>`).join("")}${Array.from({length: Math.min(4, jeu.relances?.[pid] || 0)}, () => jetonIco(20)).join("")}</span></span>
+        ${cpt("tot-" + pid, total(enResolution() ? scoresAffiches(pid) : jeu.scores[pid]))}</button>
+      ${ouvert ? `<div class="detail"><div class="objs">${OBJECTIFS.map(o => `<span class="o ${comp.includes(o.id) ? "ok" : ""}"><span class="o-ic">${DB.icone(o.id, 22)}${esc(o.court)}</span><strong>${scoresAffiches(pid)[o.id]}</strong></span>`).join("")}</div>
         ${jeu.objets?.[pid] ? `<p class="small" style="margin:10px 0 4px">Objet</p><span class="chip" title="${esc(OBJET[jeu.objets[pid]].effet)}">${objIco(jeu.objets[pid], 18)} ${esc(OBJET[jeu.objets[pid]].nom)}${jeu.objetUtilise?.[pid] ? " (utilisé)" : ""}</span>` : ""}
         <p class="small" style="margin:10px 0 4px">Cartes permanentes</p>${permanentes(pid)}</div>` : ""}</div>`;
   }).join("")}</div>`;
@@ -4980,11 +5232,24 @@ function rendrePlateau() {
     return;
   }
   recapVue = false;
-  if ((jeu.phase === "resolution" || (jeu.phase === "completion" && jeu.suite === "resolution")) && jeu.statut === "en_cours") {
-    const f = jeu.phase === "completion" ? jeu.file[0] : null;
-    $app.innerHTML = `${tete}<div class="revele"><h2 class="revele-t">Résolution du tour ${jeu.manche}</h2><p class="muted" style="text-align:center">Tout le monde a joué. Les effets s’appliquent dans l’ordre des joueurs.</p>
-      ${f ? `<div class="panneau etat a-jouer" style="--c:${couleur(f.pid)};max-width:640px;margin:20px auto"><div class="muted small">En attente</div><div class="qui">${pastille(f.pid, 36)} ${esc(jeu.noms[f.pid])}</div><div>${texteFile(f)}, sur son téléphone.</div></div>` : `<p style="text-align:center">Résolution en cours…</p>`}</div>`;
-    lierNouvelle(); lierSon();
+  if (jeu.statut === "fini") {
+    annFile = []; document.querySelectorAll(".annonce-anim, .de-anim, .taureau-anim, .cloche-anim, .piece-anim").forEach(e => e.remove());
+    const cl = jeu.ordre.slice().sort((a, b) => total(jeu.scores[b]) - total(jeu.scores[a])), n = cl.length, D = 1500;
+    const neuf = finVue !== (jeu.finT || jeu.manche); finVue = jeu.finT || jeu.manche;
+    const el = Math.max(0, Date.now() - (jeu.finT || Date.now()));
+    if (neuf) { cl.forEach((pid, i) => { const t = (n - 1 - i) * D + 300 - el; if (t >= 0) setTimeout(() => DB.son(i === 0 ? "objectif" : "panneau"), t); }); }
+    const best = total(jeu.scores[cl[0]]), gagnants = cl.filter(id => total(jeu.scores[id]) === best);
+    $app.innerHTML = `${tete}<div class="classement anime"><h2 class="revele-t">Classement final</h2>
+      <div class="cl-liste">${cl.map((pid, i) => { const rang = 1 + cl.filter(x => total(jeu.scores[x]) > total(jeu.scores[pid])).length, comp = jeu.completes[pid];
+        return `<div class="cl-ligne ${rang === 1 ? "premier" : ""}" style="--c:${couleur(pid)};animation-delay:${(n - 1 - i) * D - el}ms">
+          <span class="cl-rang">${rang === 1 ? DB.icone("laurier", 44) : rang}</span>${pastille(pid, rang === 1 ? 60 : 48)}<span class="cl-nom">${esc(jeu.noms[pid])}</span>
+          <span class="cl-lau">${Array.from({length: Math.max(OBJECTIFS_POUR_FINIR, comp.length)}, (_, k) => `<span class="lau ${k < comp.length ? "" : "vide"}">${DB.icone("laurier", 26)}</span>`).join("")}</span>
+          ${DB.compteur(total(jeu.scores[pid]), rang === 1 ? "" : "s")}</div>`; }).join("")}</div>
+      <div class="cl-fin" style="animation-delay:${n * D - el}ms"><p class="cl-gagne">${gagnants.length > 1 ? "Égalité : " : "Victoire de "}${esc(gagnants.map(id => jeu.noms[id]).join(" et "))} !</p>
+        <div class="row" style="justify-content:center"><button class="primary" id="rej" ${busy ? "disabled" : ""}>Rejouer avec les mêmes joueurs</button><button id="nouv">Nouvelle partie</button></div></div></div>`;
+    lierSon();
+    const rj = document.getElementById("rej"); if (rj) rj.onclick = rejouer;
+    const nv = document.getElementById("nouv"); if (nv) nv.onclick = quitterPlateau;
     return;
   }
   if (departTimer && jeu.phase !== "objets_vus") { clearTimeout(departTimer); departTimer = null; }
@@ -5016,7 +5281,12 @@ function rendrePlateau() {
     etat = `<div class="panneau"><span class="muted">Aperçu sans joueur.</span> <button id="nouv">Nouvelle partie</button></div>`;
   } else {
     let pid = actuel, txt = "";
-    if (jeu.phase === "choix") {
+    if (enResolution()) {
+      const f = jeu.phase === "completion" ? jeu.file[0] : null;
+      etat = f ? `<div class="panneau etat a-jouer" style="--c:${couleur(f.pid)}"><div class="muted small">Résolution du tour ${jeu.manche} · en attente</div><div class="qui">${pastille(f.pid, 36)} ${esc(jeu.noms[f.pid])}</div><div>${texteFile(f)}, sur son téléphone.</div>${jeu.des && jeu.des.pid === f.pid ? desHtml(64) : ""}</div>`
+        : `<div class="panneau etat"><div class="muted small">Résolution du tour ${jeu.manche}</div><div class="qui">Les effets s’appliquent…</div></div>`;
+    }
+    else if (jeu.phase === "choix") {
       const n = jeu.ordre.filter(id => jeu.plans?.[id]).length;
       etat = `<div class="panneau etat"><div class="muted small">Tour ${jeu.manche}${jeu.dernierTour ? " · dernier tour" : ""}</div><div class="qui">Tout le monde joue · ${n}/${jeu.ordre.length}</div><p>Chacun choisit son dieu et pose ses pions sur son téléphone, en même temps. Le tour se résout quand tout le monde a joué.</p>
         <div class="choix-etat">${jeu.ordre.map(id => `<span class="puce">${pastille(id, 26)} ${esc(jeu.noms[id])} ${jeu.plans?.[id] ? coche() : "…"}</span>`).join("")}</div>${jeu.platre ? `<div class="small" style="margin-top:8px">Plâtre : personne ne gagne de points en ${esc(court(jeu.platre.o))} ce tour.</div>` : ""}</div>`;
@@ -5033,7 +5303,7 @@ function rendrePlateau() {
     else if (jeu.phase === "completion" && jeu.file[0].taureau) { pid = jeu.file[0].pid; txt = `a gagné des points en Blague et choisit qui charger. `; }
     else if (jeu.phase === "completion" && jeu.file[0].blocage) { const f = jeu.file[0]; pid = f.pid; txt = `décide s’il bloque l’action de ${esc(jeu.noms[f.auteur])} avec Psychorigide.`; }
     else if (jeu.phase === "completion") { const f = jeu.file[0]; pid = f.pid; txt = f.mi ? `atteint ${SEUIL_MI_PARCOURS} en ${esc(court(f.obj))}, « ${esc(EFFETS_OBJECTIFS[f.obj].nomMi)} » : ${esc(EFFETS_OBJECTIFS[f.obj].mi)}` : `applique l’effet de ${esc(court(f.obj))} : ${esc(EFFETS_OBJECTIFS[f.obj].complete)}`; }
-    if (!["objets", "choix"].includes(jeu.phase)) etat = `<div class="panneau etat a-jouer" style="--c:${couleur(pid)}"><div class="muted small">${jeu.phase === "completion" ? (jeu.file[0].taureau ? "Taureau" : jeu.file[0].blocage ? "Action en attente" : jeu.file[0].mi ? "Étape de mi-parcours" : "Effet de fin d’objectif") : "En cours"}</div>${jeu.platre ? `<div class="small" style="margin-top:6px">Plâtre : personne ne gagne de points en ${esc(court(jeu.platre.o))} ce tour de table.</div>` : ""}<div class="qui">${pastille(pid, 36)} À ${esc(jeu.noms[pid])} de jouer</div><div>${txt}</div></div>`;
+    if (!["objets", "choix"].includes(jeu.phase) && !enResolution()) etat = `<div class="panneau etat a-jouer" style="--c:${couleur(pid)}"><div class="muted small">${jeu.phase === "completion" ? (jeu.file[0].taureau ? "Taureau" : jeu.file[0].blocage ? "Action en attente" : jeu.file[0].mi ? "Étape de mi-parcours" : "Effet de fin d’objectif") : "En cours"}</div>${jeu.platre ? `<div class="small" style="margin-top:6px">Plâtre : personne ne gagne de points en ${esc(court(jeu.platre.o))} ce tour de table.</div>` : ""}<div class="qui">${pastille(pid, 36)} À ${esc(jeu.noms[pid])} de jouer</div><div>${txt}</div></div>`;
   }
   $app.innerHTML = `${tete}<div class="grille">
       <div><div class="panneau roue-boite">${roue()}<div class="bulle" role="tooltip" hidden></div><p class="muted small" style="margin:4px 6px 0">Survole ou touche un objectif pour voir son effet.</p></div></div>
@@ -5041,6 +5311,7 @@ function rendrePlateau() {
     </div>`;
   lierPlateau();
   lierNouvelle();
+  if (jeu.phase === "choix" || jeu.statut === "fini") animerPions();
   const bs = document.getElementById("son"); if (bs) bs.onclick = () => { window.DB_MUET = !window.DB_MUET; store("jdd-son", window.DB_MUET ? "0" : "1"); if (!window.DB_MUET) DB.son("tour"); rendre(); };
   const rj = document.getElementById("rej"); if (rj) rj.onclick = rejouer;
   const nv = document.getElementById("nouv"); if (nv) nv.onclick = quitterPlateau;
@@ -5165,7 +5436,7 @@ function objetHtml(pid) {
   const id = jeu.objets?.[pid]; if (!id) return volHtml(pid);
   const o = OBJET[id], used = jeu.objetUtilise?.[pid];
   let h = `<div class="card"><div class="muted small">Ton objet${used ? " (utilisé)" : ""}</div><div class="objet-ligne"><span class="medaillon" style="--t:var(--bronze);width:52px;height:52px">${objIco(id, 32)}</span><strong>${esc(o.nom)}</strong></div><p class="desc">${esc(o.effet)}</p>`;
-  if (id === "velo" && !used && (jeu.phase === "choix" || (jeu.ordre[jeu.tour] === pid && ["dieu", "points"].includes(jeu.phase))) && jeu.scores[pid].lignee > 0) {
+  if (id === "velo" && !used && (jeu.phase === "choix" || (jeu.ordre[jeu.tour] === pid && ["dieu", "points"].includes(jeu.phase))) && jeu.scores[pid].lignee > 0 && !jeu.completes[pid].includes("lignee")) {
     const cibles = OBJECTIFS.filter(x => x.id !== "lignee" && !jeu.completes[pid].includes(x.id));
     h += `<label for="velo">Déplacer tes ${jeu.scores[pid].lignee} points de Lignée vers</label><select id="velo"><option value="">Choisir…</option>${cibles.map(x => `<option value="${x.id}" ${ui.velo === x.id ? "selected" : ""}>${esc(court(x.id))}</option>`).join("")}</select>
       <div class="row" style="margin-top:8px"><button id="velogo" ${!ui.velo || busy ? "disabled" : ""}>${objIco("velo", 20)} Utiliser le vélo cargo</button></div>`;
@@ -5200,21 +5471,33 @@ function lierObjet(pid) {
   const v = document.getElementById("velo"); if (v) v.onchange = () => { ui.velo = v.value; rendre(); };
   const b = document.getElementById("velogo"); if (b) b.onclick = () => utiliserVelo(pid, ui.velo);
 }
+let panneauTel = "";
+function barreTel(me) {
+  const id = jeu.objets?.[me], cartes = jeu.actives?.[me] || [];
+  if (!id && !cartes.length) return "";
+  if (panneauTel.startsWith("c") && !cartes[+panneauTel.slice(1)]) panneauTel = "";
+  const ca = panneauTel.startsWith("c") ? CARTE[cartes[+panneauTel.slice(1)].c] : null;
+  return `<div class="barre-tel">${id ? `<button class="bt-objet ${panneauTel === "objet" ? "on" : ""}" data-pan="objet" aria-expanded="${panneauTel === "objet"}">${objIco(id, 26)}<span>Voir l’effet de mon objet</span></button>` : "<span></span>"}
+    <div class="perm-ics">${cartes.map((a, i) => { const c = CARTE[a.c], ic = OBJECTIFS.some(o => o.id === c?.obj) ? c.obj : "laurier";
+      return `<button class="perm-ic ${panneauTel === "c" + i ? "on" : ""}" data-pan="c${i}" aria-expanded="${panneauTel === "c" + i}" aria-label="Carte permanente : ${esc(c?.texte || "")}"><span class="medaillon" style="--t:var(--or)">${DB.icone(ic, 22)}</span></button>`; }).join("")}</div></div>
+    ${panneauTel === "objet" && id ? `<div class="pan-tel">${objetHtml(me)}</div>` : ""}
+    ${ca ? `<div class="pan-tel card"><div class="muted small">Carte permanente</div><strong>« ${esc(ca.texte)} »</strong><p class="desc" style="margin:4px 0 0">${esc(decrire(ca))}</p></div>` : ""}`;
+}
+function lierBarre() { $app.querySelectorAll("[data-pan]").forEach(b => b.onclick = () => { panneauTel = panneauTel === b.dataset.pan ? "" : b.dataset.pan; rendre(); }); }
 function mesScores(pid) {
   const sc = jeu.scores[pid], comp = jeu.completes[pid];
-  return `<p class="muted small">Touche un objectif pour voir son effet.</p><div class="lignes-pions">${OBJECTIFS.map(o => `<div class="ligne-pion score ${objTel === o.id ? "mise" : ""}" data-to="${o.id}" role="button" tabindex="0" aria-expanded="${objTel === o.id}">
+  return `<div class="lignes-pions">${OBJECTIFS.map(o => `<div class="ligne-pion score ${objTel === o.id ? "mise" : ""}" data-to="${o.id}" role="button" tabindex="0" aria-expanded="${objTel === o.id}">
       <span class="lp-obj"><span class="medaillon" style="--t:var(--obj-${o.id})">${DB.icone(o.id)}</span><span class="lp-nom">${esc(o.court)}</span></span>
       ${cpt("ms-" + pid + "-" + o.id, sc[o.id], "s")}<span class="lp-etat">${comp.includes(o.id) ? laurier() : ""}</span><span class="muted small">sur ${MAX_PAR_OBJECTIF}</span></div>
       ${objTel === o.id ? `<div class="card small">${effetObjectifHtml(o.id)}</div>` : ""}`).join("")}
-    <div class="total-ligne"><strong>Total</strong>${cpt("mt-" + pid, total(sc))}</div></div>
-    <h2>Tes cartes permanentes</h2>${permanentes(pid)}`;
+    <div class="total-ligne"><strong>Total</strong>${cpt("mt-" + pid, total(sc))}</div></div>`;
 }
 function lierScores() { $app.querySelectorAll("[data-to]").forEach(r => { r.onclick = () => { objTel = objTel === r.dataset.to ? "" : r.dataset.to; rendre(); }; r.onkeydown = e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); r.onclick(); } }; }); }
 function banniere(pid) {
-  const l = (jeu.annonces || []).filter(a => a.n >= (jeu.nTour || 0) - 1 && jeu.noms?.[a.pid]);
+  const l = (jeu.annonces || []).filter(a => a.n === (jeu.nTour || 0) && jeu.phase !== "choix" && jeu.noms?.[a.pid]);
   return l.map(a => {
     const e = EFFETS_OBJECTIFS[a.obj], moi = a.pid === pid, qui = moi ? "Tu" : esc(jeu.noms[a.pid]);
-    const titre = a.mi ? `${qui} ${moi ? "atteins" : "atteint"} ${SEUIL_MI_PARCOURS} en ${esc(court(a.obj))} : « ${esc(e.nomMi)} »` : `${qui} ${moi ? "complètes" : "complète"} ${esc(court(a.obj))} !`;
+    const titre = a.mi ? `${qui} ${moi ? "atteins" : "atteint"} ${SEUIL_MI_PARCOURS} en ${esc(court(a.obj))} : « ${esc(e.nomMi)} »` : `${qui} ${moi ? "complètes" : "complète"} ${esc(court(a.obj))} : « ${esc(e.detail)} »`;
     const eff = a.mi ? e.mi : (e.complete || e.passif);
     return `<div class="card annonce-carte ${moi ? "moi" : ""}" style="--teinte:var(--obj-${a.obj})"><span class="medaillon" style="--t:var(--obj-${a.obj});width:44px;height:44px">${DB.icone(a.mi ? "mi-parcours" : a.obj)}</span><div><strong>${titre}</strong><div class="small">${esc(eff)}</div>${!a.mi && a.res && !/^En attente/.test(a.res) ? `<div class="small muted">${esc(a.res)}</div>` : ""}</div></div>`;
   }).join("");
@@ -5227,16 +5510,15 @@ function blocPions(pid, nb, avecTour, idBouton, libelle) {
   const places = OBJECTIFS.reduce((s, o) => s + (alloc[o.id] || 0), 0), reste = nb - places;
   return `${nb === 0 ? `<p>Tu n’as aucun pion à poser ce tour-ci.</p>` : `<div class="reserve">${Array.from({length: Math.min(nb, 10)}, (_, i) => `<span class="pion ${i < reste ? "" : "vide"}"></span>`).join("")}<span class="reserve-t">${reste} pion${reste > 1 ? "s" : ""} à poser sur ${nb}</span></div>`}
     ${aObjet(jeu, pid, "peluche") ? `<p class="muted small">${objIco("peluche", 18)} Peluche Pokémon : tes points de Culture vont en Jeux.</p>` : ""}
-    <p class="muted small" style="margin:8px 0">Touche un objectif pour voir son effet.</p>
     <div class="lignes-pions">${OBJECTIFS.filter(o => !(o.id === "culture" && aObjet(jeu, pid, "peluche"))).map(o => {
       const a = alloc[o.id] || 0, v = valeurPion(jeu, pid, o.id, avecTour);
       const apres = Math.max(0, Math.min(plafond(jeu, pid, o.id), sc[o.id] + a * v));
       return `<div class="ligne-pion ${a ? "mise" : ""}"><button class="lp-obj" data-vo="${o.id}" aria-expanded="${objTel === o.id}" aria-label="Voir l’effet de ${esc(o.court)}"><span class="medaillon" style="--t:var(--obj-${o.id})">${DB.icone(o.id)}</span><span class="lp-nom">${esc(o.court)}</span></button>
-        ${cpt("bp-" + pid + "-" + o.id, apres, "s")}<span class="lp-etat">${jeu.completes[pid].includes(o.id) ? laurier() : ""}${v !== 1 ? `<span class="puce">pion ${signe(v)}</span>` : ""}</span>
+        ${cpt("bp-" + pid + "-" + o.id, apres, "s")}<span class="lp-etat">${jeu.completes[pid].includes(o.id) ? laurier() : ""}${v !== 1 ? `<span class="puce">${signe(v)}</span>` : ""}</span>
         <div class="pas"><button data-m="${o.id}" aria-label="Retirer un pion en ${esc(o.court)}" ${a <= 0 ? "disabled" : ""}>−</button><output>${a}</output>
         <button data-p="${o.id}" aria-label="Ajouter un pion en ${esc(o.court)}" ${reste <= 0 || (v < 0 && sc[o.id] + (a + 1) * v < 0) ? "disabled" : ""}>+</button></div></div>${objTel === o.id ? `<div class="card small effet-obj">${effetObjectifHtml(o.id)}</div>` : ""}`;
     }).join("")}</div>
-    <div class="row" style="margin-top:16px"><button class="primary large" id="${idBouton}" ${reste !== 0 || busy ? "disabled" : ""}>${libelle}</button></div>`;
+    <div class="row valider-zone"><button class="primary large" id="${idBouton}" ${reste !== 0 || busy ? "disabled" : ""}>${libelle}</button></div>`;
 }
 function lierPions() {
   $app.querySelectorAll("[data-vo]").forEach(b => b.onclick = () => { objTel = objTel === b.dataset.vo ? "" : b.dataset.vo; rendre(); });
@@ -5269,16 +5551,23 @@ function ecranCompletion(pid, pied) {
     });
     return;
   }
+  if (f.de4) {
+    $app.innerHTML = `<h1>« ${esc(eff.nomMi)} »</h1><p>${f.manette ? "Manette : tu rejoues l’effet. " : ""}Lance le dé à 4 faces : tu gagnes autant de points en Jeux.</p>
+      <div class="de-zone">${deSvg(null, 4, 96)}</div><button class="primary large lancer-de" id="lance4" ${busy ? "disabled" : ""}>Lancer le dé</button>` + pied;
+    document.getElementById("lance4").onclick = () => { DB.son("pion"); agir(g => { if (g.file[0]?.pid !== pid || !g.file[0]?.de4) return; const d = 1 + Math.floor(Math.random() * 4), r = ajouter(g, pid, "jeux", d);
+      log(g, `${g.noms[pid]} lance le dé à 4 faces : ${d}, ${fait(r, "jeux")}.`); if (!g.file[0].manette) annoncerMi(g, pid, "jeux", `Dé : ${d}, ${fait(r, "jeux")}`); g.deAnim = {id: Math.random().toString(36).slice(2), pid, faces: 4, val: d, t: Date.now()}; resolu(g); }); };
+    return;
+  }
   if (f.mi) {
     const adv = jeu.ordre.filter(id => id !== pid);
     $app.innerHTML = `<h1>« ${esc(eff.nomMi)} »</h1><p>${SEUIL_MI_PARCOURS} en ${esc(court(o))} : ${esc(eff.mi)}</p>
       <div class="pick">${adv.map(id => `<button data-cib="${id}" class="${ui.cible === id ? "sel" : ""}"><span style="display:inline-block;width:12px;height:12px;border-radius:50%;background:${couleur(id)};margin-right:8px"></span>${esc(jeu.noms[id])}</button>`).join("")}</div>
       <div class="row" style="margin-top:14px"><button class="primary" id="ok" ${!ui.cible || busy ? "disabled" : ""}>Lui enlever un pion</button></div>` + pied;
     $app.querySelectorAll("[data-cib]").forEach(b => b.onclick = () => { ui.cible = b.dataset.cib; rendre(); });
-    document.getElementById("ok").onclick = () => agir(g => { const t = ui.cible; log(g, `${g.noms[pid]} fait un croche-pied à ${g.noms[t]}.`); viser(g, pid, t, {k: "pion_moins", n: 1}); resolu(g); });
+    document.getElementById("ok").onclick = () => agir(g => { const t = ui.cible; log(g, `${g.noms[pid]} fait un croche-pied à ${g.noms[t]}.`); annoncerMi(g, pid, "humour", `${g.noms[t]} : 1 pion de moins au prochain tour`); viser(g, pid, t, {k: "pion_moins", n: 1, raison: `croche-pied de ${g.noms[pid]} (8 en Blague)`}); resolu(g); });
     return;
   }
-  let h = `<h1>${esc(court(o))} complété !</h1><p><em>${esc(eff.detail)}</em></p><p>${esc(eff.complete)}</p>`;
+  let h = `<h1>${esc(court(o))} complété !</h1><p><strong>« ${esc(eff.detail)} »</strong> : ${esc(eff.complete)}</p>`;
   if (o === "vin") {
     h += `<label for="vobj">Objectif qui reçoit +${jeu.manche}</label><select id="vobj"><option value="">Choisir…</option>${OBJECTIFS.map(x => `<option value="${x.id}" ${x.id === ui.obj ? "selected" : ""}>${esc(court(x.id))}</option>`).join("")}</select>
       <div class="row" style="margin-top:14px"><button class="primary" id="ok" ${!ui.obj || busy ? "disabled" : ""}>Valider</button></div>`;
@@ -5316,15 +5605,14 @@ function ecranCompletion(pid, pied) {
       h += `<div class="row"><button data-par="pair" ${busy ? "disabled" : ""}>Pair</button><button data-par="impair" ${busy ? "disabled" : ""}>Impair</button></div>`;
       $app.innerHTML = h + pied;
       $app.querySelectorAll("[data-par]").forEach(b => b.onclick = () => agir(g => {
-        const choix = b.dataset.par, des = g.ordre.map(() => 1 + Math.floor(Math.random() * 6));
-        const k = des.filter(d => (d % 2 === 0) === (choix === "pair")).length;
-        log(g, `${g.noms[pid]} parie ${choix} : dés ${des.join(", ")} → ${k * 2} pions.`);
-        annoncer(g, pid, "jeux", `Parie ${choix} : dés ${des.join(", ")} → ${k * 2} pion${k ? "s" : ""} à poser.`);
-        if (!k) resolu(g); else g.des = {pid, choix, des, gain: k * 2};
+        if (g.des) return;
+        g.des = {id: Math.random().toString(36).slice(2, 9), pid, choix: b.dataset.par, des: {}, gain: null};
+        log(g, `${g.noms[pid]} parie ${b.dataset.par} : chaque joueur lance son dé.`);
       }));
       return;
     }
-    h += `<p>Dés : ${jeu.des.des.join(", ")} (pari : ${jeu.des.choix}). Tu gagnes <strong>${jeu.des.gain}</strong> pions.</p>` + blocPions(pid, jeu.des.gain, false, "ok", "Poser ces pions");
+    if (jeu.des.gain == null) { $app.innerHTML = ecranDes(pid) + pied; lierDes(pid); return; }
+    h += `${desHtml(48)}<p>Pari : ${jeu.des.choix}. Tu gagnes <strong>${jeu.des.gain}</strong> pions.</p>` + blocPions(pid, jeu.des.gain, false, "ok", "Poser ces pions");
     $app.innerHTML = h + pied;
     lierPions();
     document.getElementById("ok").onclick = () => agir(g => { poserPions(g, pid, alloc, false);
@@ -5353,10 +5641,9 @@ function rendreJoueur() {
   }
   const pied = `<p class="err">${esc(erreur)}</p>${test ? "" : `<p style="margin-top:24px"><button id="q">Quitter la partie</button></p>`}`;
   const fin = () => { const q = document.getElementById("q"); if (q) q.onclick = quitter; lierScores();
-    if (jeu.objets?.[me] && jeu.statut === "en_cours" && !["objets", "objets_vus"].includes(jeu.phase)) $app.insertAdjacentHTML("afterbegin", `<div class="objet-haut">${objetHtml(me)}</div>`);
     if (jeu.scores?.[me] && jeu.ordre?.includes(me)) $app.insertAdjacentHTML("afterbegin", effetsHtml(me));
-    lierObjet(me);
-    $app.insertAdjacentHTML("afterbegin", `<div class="bandeau-joueur">${pastille(me, 40)}<span><b>${esc(jeu.noms[me])}</b><br><span class="muted small">${jeu.manche ? `Tour ${jeu.manche}${jeu.dernierTour ? " · dernier tour" : ""}` : ""}</span></span>${(jeu.phase === "choix" && jeu.ctx?.[me] ? jeu.ctx[me].nbRel : relancesDispo(jeu, me)) > 0 ? `<span class="puce">${jetonIco(22)} × ${jeu.phase === "choix" && jeu.ctx?.[me] ? jeu.ctx[me].nbRel : relancesDispo(jeu, me)}</span>` : ""}</div>`); DB.graver($app); };
+    lierObjet(me); lierBarre();
+    $app.insertAdjacentHTML("afterbegin", `<div class="bandeau-joueur">${jeu.objets?.[me] ? `<button class="bandeau-obj" data-pan="objet" aria-label="Voir l’effet de mon objet">${pastille(me, 40)}</button>` : pastille(me, 40)}<span><b>${esc(jeu.noms[me])}</b><br><span class="muted small">${jeu.manche ? `Tour ${jeu.manche}${jeu.dernierTour ? " · dernier tour" : ""}` : ""}</span></span>${(jeu.phase === "choix" && jeu.ctx?.[me] ? jeu.ctx[me].nbRel : relancesDispo(jeu, me)) > 0 ? `<span class="puce">${jetonIco(22)} × ${jeu.phase === "choix" && jeu.ctx?.[me] ? jeu.ctx[me].nbRel : relancesDispo(jeu, me)}</span>` : ""}</div>`); DB.graver($app); lierBarre(); };
   if (jeu.statut === "attente" || !jeu.scores) { $app.innerHTML = `<h1>Partie ${esc(code)}</h1><p>C’est noté, ${esc(load("jdd-nom"))}. La partie commence dès que le plateau la lance.</p>${pied}`; fin(); return; }
   if (!jeu.ordre.includes(me)) { $app.innerHTML = `<p>Tu ne fais pas partie de cette partie.</p>${pied}`; fin(); return; }
   if (jeu.statut === "fini") {
@@ -5367,6 +5654,7 @@ function rendreJoueur() {
   if (jeu.phase === "completion") {
     const f = jeu.file[0];
     if (f.pid === me) { ecranCompletion(me, pied); fin(); return; }
+    if (jeu.des && jeu.des.gain == null && jeu.des.pid === f.pid) { $app.innerHTML = ecranDes(me) + pied; lierDes(me); fin(); return; }
     $app.innerHTML = `<h1>${esc(jeu.noms[me])}</h1><p><strong>${esc(jeu.noms[f.pid])}</strong> ${f.taureau ? "choisit qui charger avec son taureau" : f.blocage ? "décide s’il bloque une action" : f.mi ? `a atteint ${SEUIL_MI_PARCOURS} en ${esc(court(f.obj))}` : `a complété ${esc(court(f.obj))}`} et applique son effet.</p>${mesScores(me)}${pied}`; fin(); return;
   }
   if (jeu.phase === "objets") {
@@ -5390,7 +5678,7 @@ function rendreJoueur() {
   if (jeu.phase === "resolution") { $app.innerHTML = `<h1>Résolution du tour</h1><p class="muted">Les effets s’appliquent…</p>${mesScores(me)}${pied}`; fin(); return; }
   if (jeu.phase === "recap") {
     const pret = jeu.prets?.[me] || (pretEnvoi === jetonPret() && !test);
-    $app.innerHTML = `<h1>Récap du tour ${jeu.recapManche}</h1><p class="muted">Regarde le plateau. ${jeu.finApresRecap ? "C’était le dernier tour." : "Le tour suivant commence dès que tout le monde est prêt."}</p>
+    $app.innerHTML = `<h1>Récap du tour ${jeu.recapManche}</h1>${jeu.finApresRecap ? `<p class="muted">C’était le dernier tour.</p>` : ""}
       <div style="margin:12px 0">${pret ? `<p class="pret-ok">${coche()} Tu es prêt. En attente des autres (${jeu.ordre.filter(id => jeu.prets?.[id]).length}/${jeu.ordre.length}).</p>` : `<button class="primary large" id="pret" ${busy ? "disabled" : ""}>Je suis prêt</button>`}</div>
       <div class="recap-tel">${carteRecap(me, 0)}</div><h2>Les autres</h2><div class="recap-tel">${jeu.ordre.filter(id => id !== me).map((id, i) => carteRecap(id, i + 1)).join("")}</div>${pied}`;
     const bp = document.getElementById("pret"); if (bp) bp.onclick = () => marquerPret(me);
@@ -5398,7 +5686,7 @@ function rendreJoueur() {
   }
   if (jeu.phase === "objets_vus") {
     const pret = jeu.prets?.[me] || (pretEnvoi === jeu.objJeu && !test);
-    $app.innerHTML = `<h1>Les objets sont révélés</h1><p class="muted">Regarde le plateau et lis les objets de chacun. La partie commence dès que tout le monde est prêt.</p>
+    $app.innerHTML = `<h1>Les objets sont révélés</h1>
       <div style="margin:12px 0">${pret ? `<p class="pret-ok">${coche()} Tu es prêt. En attente des autres (${jeu.ordre.filter(id => jeu.prets?.[id]).length}/${jeu.ordre.length}).</p>` : `<button class="primary large" id="pret" ${busy ? "disabled" : ""}>Je suis prêt</button>`}</div>${objetHtml(me)}
       <h2>Les objets des autres</h2><div class="lignes-objets">${jeu.ordre.filter(id => id !== me).map(id => { const o = OBJET[jeu.objets[id]]; return `<div class="card objet-autre">${pastille(id, 40)}<div><b>${esc(jeu.noms[id])} · ${esc(o.nom)}</b><div class="small muted">${esc(o.effet)}</div></div></div>`; }).join("")}</div>${pied}`;
     const bp = document.getElementById("pret"); if (bp) bp.onclick = () => marquerPret(me);
@@ -5467,7 +5755,7 @@ function rendreTest() {
     };
     return;
   }
-  if (suivre && jeu.statut === "en_cours") testVue = jeu.phase === "completion" ? jeu.file[0].pid : jeu.phase === "objets" ? (jeu.ordre.find(id => !jeu.objets?.[id]) || jeu.ordre[0]) : ["objets_vus", "recap"].includes(jeu.phase) ? (jeu.ordre.find(id => !jeu.prets?.[id]) || testVue) : jeu.phase === "choix" ? (jeu.ordre.find(id => !jeu.plans?.[id]) || testVue) : jeu.ordre[jeu.tour];
+  if (suivre && jeu.statut === "en_cours") testVue = jeu.phase === "completion" ? (jeu.des && jeu.des.gain == null ? (jeu.ordre.find(id => !jeu.des.des[id]) || jeu.file[0].pid) : jeu.file[0].pid) : jeu.phase === "objets" ? (jeu.ordre.find(id => !jeu.objets?.[id]) || jeu.ordre[0]) : ["objets_vus", "recap"].includes(jeu.phase) ? (jeu.ordre.find(id => !jeu.prets?.[id]) || testVue) : jeu.phase === "choix" ? (jeu.ordre.find(id => !jeu.plans?.[id]) || testVue) : jeu.ordre[jeu.tour];
   if (!jeu.ordre.includes(testVue)) testVue = jeu.ordre[0];
   main.innerHTML = `<div class="test"><div id="tplat" class="plat"></div>
     <div><div class="onglets">${jeu.ordre.map(id => `<button data-tv="${id}" class="${id === testVue ? "sel" : ""}">${esc(jeu.noms[id])}</button>`).join("")}</div>
@@ -5492,9 +5780,7 @@ function animerPiece() {
   d.innerHTML = `<div class="boite"><div class="piece ${c.pile ? "pile" : "face"}"><span class="f1">PILE</span><span class="f2">FACE</span></div>
     <strong>${c.pile ? "Pile : belle prise !" : "Face : raté…"}</strong><span>${objIco("harpon", 20)} ${esc(jeu.noms[c.par])} · ${esc(jeu.noms[c.cible])} atteint ${esc(c.palier)}</span>
     <span class="small">${c.pile ? "+1 jeton au prochain tour" : "Pas de jeton cette fois"}</span></div>`;
-  document.body.appendChild(d);
-  DB.son("relance");
-  setTimeout(() => d.remove(), 3400);
+  jouerPopup(d, () => DB.son("relance"), 3400);
 }
 let taureauVu = "";
 function animerTaureau() {
@@ -5506,9 +5792,7 @@ function animerTaureau() {
   const d = document.createElement("div");
   d.className = "taureau-anim"; d.setAttribute("role", "status");
   d.innerHTML = `<span class="bete" aria-hidden="true">${objIco("taureau", 140)}</span><strong>Piscine !</strong><span>${esc(jeu.noms[c.par])} charge ${esc(jeu.noms[c.cible])}</span>`;
-  document.body.appendChild(d);
-  DB.son("perte");
-  setTimeout(() => d.remove(), 2600);
+  jouerPopup(d, () => DB.son("perte"), 2600);
 }
 let clocheVue = "";
 function animerCloche() {
@@ -5521,14 +5805,12 @@ function animerCloche() {
   const d = document.createElement("div");
   d.className = "cloche-anim"; d.setAttribute("role", "status");
   d.innerHTML = `<div><span class="cl" style="width:110px;height:110px">${DB.icone("cloche", 110)}</span><strong>${c.n === 1 ? "DING !" : "DONG !"}</strong><span>${esc(jeu.noms[c.par])} sonne ${esc(jeu.noms[c.cible])}</span></div>`;
-  document.body.appendChild(d);
-  DB.son("cloche");
-  setTimeout(() => d.remove(), 2400);
+  jouerPopup(d, () => DB.son("cloche"), 2400);
 }
 window.DB_MUET = load("jdd-son") === "0";
 function rendre() {
   setTimeout(apresRendu, 20);
-  setTimeout(animerCloche, 0); setTimeout(animerTaureau, 0); setTimeout(animerPiece, 0);
+  setTimeout(animerCloche, 0); setTimeout(animerDe, 0); setTimeout(animerTaureau, 0); setTimeout(animerPiece, 0);
   const v0 = vue();
   $app.className = v0 === "plateau" ? "plat large" : "";
   if (v0 === "test") { rendreTest(); return; }
