@@ -82,8 +82,9 @@ ul.log li{margin:2px 0}
 .roue .anneau.mi{stroke:var(--accent);stroke-dasharray:none;opacity:.5;stroke-width:1.5}
 .roue .graduation{fill:var(--muted);font-size:13px}
 .roue .noeud{cursor:pointer}
-.roue .noeud rect{fill:var(--surface);stroke:var(--line);stroke-width:1.5}
-.roue .noeud.sel rect,.roue .noeud:focus-visible rect{stroke:var(--accent);stroke-width:3}
+/* seulement l’étiquette du nœud, pas les dessins des icônes (le parchemin de Culture) */
+.roue .noeud > rect{fill:var(--surface);stroke:var(--line);stroke-width:1.5}
+.roue .noeud.sel > rect,.roue .noeud:focus-visible > rect{stroke:var(--accent);stroke-width:3}
 .roue .noeud:focus{outline:none}
 .roue .noeud text{fill:var(--text);font-size:19px;font-weight:600;text-anchor:middle;dominant-baseline:central}
 .roue .centre{fill:var(--surface);stroke:var(--line)}
@@ -825,6 +826,308 @@ img,svg,table,pre{max-width:100%}
 .pion-dieu .row button.selection{border-color:var(--egee);box-shadow:0 0 0 3px var(--egee)}
 .pion-dieu strong{display:flex;align-items:center;gap:8px}
 .pion-dieu .pion{width:18px;height:18px}
+
+/* ---------- Récap : carte permanente mise en avant ---------- */
+.rc-bloc.rc-perm{position:relative;background:color-mix(in srgb,var(--or-clair) 30%,var(--surface-haute));border:3px solid var(--or);box-shadow:0 0 0 4px color-mix(in srgb,var(--or) 22%,transparent),var(--relief-1);padding:14px 14px 12px;margin-top:10px;gap:6px}
+.rc-perm-ruban{justify-self:center;display:inline-flex;align-items:center;gap:6px;margin-top:-28px;padding:4px 14px;border-radius:999px;background:var(--or);color:#2a2118;font:800 13px var(--font-titre);letter-spacing:.05em;white-space:nowrap;box-shadow:var(--relief-1)}
+.rc-perm-sous{text-align:center;font-size:14px;color:var(--encre-douce);font-style:italic}
+.rc-perm .co-cit{font-size:1.08em}
+.rc-perm .rc-eff{font-weight:700;color:var(--encre)}
+.recap-carte.a-perm{outline:3px solid var(--or);outline-offset:3px}
+/* ---------- BD des dieux (récap) ---------- */
+.bd-scene{position:fixed;inset:0;z-index:60;display:grid;place-items:center;padding:24px;background:var(--fond);background-image:radial-gradient(color-mix(in srgb,var(--encre) 14%,transparent) 1.6px,transparent 1.8px);background-size:14px 14px;animation:bdEntre .4s ease}
+.bd-scene.sort{animation:bdSort .6s ease forwards}
+@keyframes bdEntre{from{opacity:0}}@keyframes bdSort{to{opacity:0}}
+.bd-planche{width:min(1100px,96vw)}
+.bd-case{position:relative;display:grid;grid-template-columns:minmax(200px,30%) 1fr;gap:28px;align-items:center;padding:28px 34px;background:var(--surface-haute);border:5px solid var(--encre);border-radius:10px;box-shadow:10px 10px 0 var(--encre);animation:bdCase .45s cubic-bezier(.3,1.4,.5,1)}
+.bd-case.inverse{grid-template-columns:1fr minmax(200px,30%)}
+.bd-case.inverse .bd-dieu{order:2}
+@keyframes bdCase{from{transform:scale(.85) rotate(-1.5deg);opacity:0}}
+.bd-num{position:absolute;top:-18px;left:24px;background:var(--or-clair);color:#2a2118;border:3px solid var(--encre);border-radius:6px;padding:2px 12px;font:700 18px var(--font-titre)}
+.bd-dieu{display:grid;justify-items:center;gap:10px}
+.bd-portrait{width:100%;aspect-ratio:5/6.5;border:4px solid var(--encre);border-radius:var(--r-arche) var(--r-arche) 8px 8px;overflow:hidden;background:color-mix(in srgb,var(--t) 22%,#fbf7ee);box-shadow:inset 0 0 0 4px var(--t)}
+.bd-portrait img,.bd-portrait svg{width:100%;height:100%;object-fit:cover;display:block}
+.bd-nom{font:900 clamp(24px,3vw,38px)/1 var(--font-titre);letter-spacing:.04em;color:var(--encre)}
+.bd-droite{display:grid;gap:22px}
+.bd-bulle{position:relative;background:#fffdf7;color:#2a2118;border:4px solid var(--encre);border-radius:46% 54% 50% 50% / 52% 48% 52% 48%;padding:clamp(28px,4vw,54px) clamp(30px,4.5vw,64px);min-height:180px;display:grid;place-items:center}
+.bd-bulle::before,.bd-bulle::after{content:"";position:absolute;top:58%;width:0;height:0;border-style:solid}
+.bd-case:not(.inverse) .bd-bulle::before{left:-34px;border-width:16px 40px 16px 0;border-color:transparent var(--encre) transparent transparent}
+.bd-case:not(.inverse) .bd-bulle::after{left:-24px;border-width:11px 30px 11px 0;border-color:transparent #fffdf7 transparent transparent;margin-top:5px}
+.bd-case.inverse .bd-bulle::before{right:-34px;border-width:16px 0 16px 40px;border-color:transparent transparent transparent var(--encre)}
+.bd-case.inverse .bd-bulle::after{right:-24px;border-width:11px 0 11px 30px;border-color:transparent transparent transparent #fffdf7;margin-top:5px}
+.bd-bulle p{margin:0;font:600 clamp(20px,2.3vw,32px)/1.35 var(--font-texte);text-align:center}
+.bd-curseur{display:inline-block;width:.5em;height:1em;margin-left:2px;vertical-align:-.12em;background:currentColor;animation:bdClig .7s steps(1) infinite}
+@keyframes bdClig{50%{opacity:0}}
+.bd-cible{display:flex;align-items:center;gap:12px;justify-self:center;font:600 clamp(18px,2vw,26px) var(--font-texte);background:color-mix(in srgb,var(--c) 14%,var(--surface-haute));border:3px solid var(--c);border-radius:999px;padding:6px 20px 6px 8px}
+@media (max-width:700px){.bd-case,.bd-case.inverse{grid-template-columns:1fr}.bd-case.inverse .bd-dieu{order:0}.bd-portrait{width:150px}.bd-bulle::before,.bd-bulle::after{display:none}}
+@media (prefers-reduced-motion:reduce){.bd-scene,.bd-case,.bd-curseur{animation:none}}
+/* ---------- Règles des mini-jeux avant le 3-2-1 ---------- */
+.mj-regles{display:grid;gap:12px;align-self:start;align-content:start;height:max-content;min-height:0;box-sizing:border-box;max-width:760px;margin:0 auto;padding:26px 32px;background:var(--surface-haute);color:var(--encre);border:3px solid var(--or);border-radius:var(--r-socle);box-shadow:var(--relief-2);text-align:left;font:500 26px/1.4 var(--font-texte);text-shadow:none}
+.mj-regles strong{font:900 30px var(--font-titre);color:var(--or-fonce,#9a6a14);text-align:center}
+.mj-regles ol{margin:0;padding-left:1.3em;display:grid;gap:8px;align-content:start}
+.mj-regles p{margin:0;font-size:20px;color:var(--encre-douce)}
+.mj-regles.tel{font-size:19px;padding:18px 20px;margin-top:10px}
+.mj-regles.tel strong{font-size:24px}
+.mj-regles-barre{display:block;height:8px;border-radius:99px;background:var(--surface);overflow:hidden}
+.mj-regles-barre span{display:block;height:100%;background:var(--or);transform-origin:left;animation:mjBarre linear forwards}
+@keyframes mjBarre{from{transform:scaleX(1)}to{transform:scaleX(0)}}
+.mjp-dec.regles{background:#fdf8eeee;padding:24px}
+.mjp-chiffre{font:900 220px/1 var(--font-titre)}
+.ligne-pion.touchable{cursor:pointer;-webkit-tap-highlight-color:transparent}
+.ligne-pion.touchable:active{transform:scale(.99)}
+.ligne-pion.ouverte{border-color:var(--or)}
+
+/* ---------- Cartes volées / tirées de la défausse : sans texte d'ambiance ---------- */
+.cs{position:relative;display:grid;gap:8px;padding:14px 16px 12px;border-radius:var(--r-carte);background:var(--surface-haute);border:3px solid var(--t);box-shadow:var(--relief-1);text-align:left;font-family:var(--font-texte)}
+.cs-tete{display:flex;align-items:center;gap:10px}
+.cs-tete .medaillon{--t:inherit;width:42px;height:42px;border-width:3px;flex:none}
+.cs-tete small{display:block;font:700 11px var(--font-titre);letter-spacing:.08em;text-transform:uppercase;color:var(--encre-douce)}
+.cs-tete b{font:700 20px var(--font-titre)}
+.cs-eff{margin:0 0 0;padding-right:92px;font-weight:600;font-size:16px;line-height:1.35;color:var(--encre)}
+.cs-de{display:flex;align-items:center;gap:8px;font-size:15px;color:var(--encre-douce)}
+.cs-tampon{position:absolute;bottom:10px;right:10px;padding:2px 10px;border:3px solid currentColor;border-radius:6px;font:900 15px var(--font-titre);letter-spacing:.12em;text-transform:uppercase;transform:rotate(9deg);opacity:.9;background:var(--surface-haute)}
+/* vol : carte arrachée, tampon terre cuite, bord hachuré */
+.cs-vol{transform:rotate(-1.5deg);background:repeating-linear-gradient(135deg,transparent 0 14px,color-mix(in srgb,var(--terre-cuite) 6%,transparent) 14px 28px),var(--surface-haute);border-style:dashed;border-color:var(--terre-cuite)}
+.cs-vol .cs-tampon{color:var(--terre-cuite)}
+/* défausse : carte usée, sépia, posée sur une pile */
+.cs-defausse{background:color-mix(in srgb,var(--sable) 55%,var(--surface-haute));filter:sepia(.35);border-color:var(--bronze);box-shadow:5px 5px 0 -1px var(--surface),5px 5px 0 1px var(--ligne),10px 10px 0 -1px var(--surface),10px 10px 0 1px var(--ligne),var(--relief-1);margin:0 10px 10px 0}
+.cs-defausse .cs-tampon{color:var(--bronze)}
+.cs.petit{padding:10px 12px;gap:4px;margin-top:6px}
+.cs.petit .cs-tete .medaillon{width:30px;height:30px}
+.cs.petit .cs-tete b{font-size:15px}
+.cs.petit .cs-eff,.cs.petit .cs-de{font-size:13px}
+.cs.petit .cs-eff{padding-right:70px}
+.cs.petit .cs-tampon{font-size:11px;padding:1px 6px;border-width:2px}
+.cs.petit.cs-defausse{margin:4px 8px 8px 0}
+.cs-consigne{display:flex;align-items:center;gap:8px;font-weight:600;margin:10px 0}
+.cs-pick button{background:none!important;border:none!important;padding:4px!important;box-shadow:none!important}
+.cs-pick button.sel .cs{outline:4px solid var(--egee);outline-offset:3px}
+/* animation plateau */
+.cs-anim{position:fixed;inset:0;display:grid;place-content:center;justify-items:center;gap:18px;z-index:50;pointer-events:none;animation:clFond 3.8s ease forwards}
+.cs-anim>strong{font:900 clamp(40px,6vw,72px)/1 var(--font-titre);color:#fffdf7;text-shadow:0 4px 0 #2a2118;animation:clPop 3.8s ease forwards}
+.cs-anim-vol>strong{color:#f6c9bb}
+.cs-anim .cs-leg{font:600 clamp(18px,2.2vw,28px) var(--font-texte);color:#fffdf7;text-shadow:0 2px 6px #000a;animation:clPop 3.8s ease forwards}
+.cs-scene{display:flex;align-items:center;gap:40px;animation:clPop 3.8s ease forwards}
+.cs-scene .cs{width:min(380px,70vw)}
+.cs-qui{display:grid;justify-items:center;gap:6px;color:#fffdf7;font:700 20px var(--font-titre);text-shadow:0 2px 6px #000a}
+.cs-vole{animation:csVol 3.8s cubic-bezier(.6,0,.3,1) forwards}
+@keyframes csVol{0%,15%{transform:translateX(-170px) rotate(-8deg)}55%,100%{transform:translateX(170px) rotate(6deg)}}
+.cs-pile{position:relative;width:150px;height:190px}
+.cs-pile span{position:absolute;inset:0;border-radius:var(--r-carte);background:color-mix(in srgb,var(--sable) 60%,#fffdf7);border:3px solid var(--bronze);filter:sepia(.4)}
+.cs-pile span:nth-child(1){transform:rotate(-8deg)}.cs-pile span:nth-child(2){transform:rotate(5deg) translate(6px,4px)}.cs-pile span:nth-child(3){transform:rotate(-2deg) translate(-4px,8px)}
+.cs-sort{animation:csSort 3.8s cubic-bezier(.3,1.3,.5,1) forwards}
+@keyframes csSort{0%,12%{transform:translate(-190px,40px) scale(.45) rotate(-8deg);opacity:0}45%,100%{transform:none;opacity:1}}
+@media (max-width:700px){.cs-scene{flex-direction:column;gap:14px}.cs-pile{display:none}@keyframes csVol{0%,100%{transform:none}}}
+@media (prefers-reduced-motion:reduce){.cs-vole,.cs-sort{animation:none}}
+
+/* ---------- Étapes de résolution (après la BD) ---------- */
+.etape{border-top:6px solid var(--c);display:grid;gap:10px}
+.etape .qui{display:flex;align-items:center;gap:10px}
+.etape .rc-dieu{display:flex;align-items:center;gap:10px;font:700 20px var(--font-titre)}
+.et-ligne{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin:2px 0}
+.etape-file{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.etape-file .puce{opacity:.55}
+.etape-file .puce.fait{opacity:.85}
+.etape-file .puce.encours{opacity:1;outline:3px solid var(--or);font-weight:700}
+
+/* ---------- Échange de cartes ---------- */
+.cs-echange{border-color:var(--egee);border-style:double;border-width:5px;background:repeating-linear-gradient(90deg,transparent 0 18px,color-mix(in srgb,var(--egee) 7%,transparent) 18px 20px),var(--surface-haute)}
+.cs-echange .cs-tampon{color:var(--egee)}
+.cs-fleches{display:inline-grid;place-items:center;width:28px;height:28px;border-radius:50%;background:var(--egee);color:var(--sur-egee);font-weight:900}
+.cs-pick button:disabled{opacity:.4;filter:grayscale(.8)}
+.cs-anim-echange>strong{color:#cfe3f6}
+.cs-croise{position:relative;display:grid;width:min(400px,70vw)}
+.cs-croise>div{grid-area:1/1}
+.cs-ea{animation:csEa 3.8s cubic-bezier(.6,0,.3,1) forwards}
+.cs-eb{animation:csEb 3.8s cubic-bezier(.6,0,.3,1) forwards}
+@keyframes csEa{0%,15%{transform:translate(-150px,-50px) rotate(-6deg)}55%,100%{transform:translate(150px,50px) rotate(5deg)}}
+@keyframes csEb{0%,15%{transform:translate(150px,50px) rotate(6deg)}55%,100%{transform:translate(-150px,-50px) rotate(-5deg)}}
+@media (max-width:700px){@keyframes csEa{0%,100%{transform:translateY(-40px)}}@keyframes csEb{0%,100%{transform:translateY(40px)}}}
+@media (prefers-reduced-motion:reduce){.cs-ea,.cs-eb{animation:none}}
+/* ---------- Pion de dieu dans la pose des pions ---------- */
+.mini-dieu{display:inline-grid;place-items:center;border-radius:50%;background:color-mix(in srgb,var(--t) 30%,#fffdf7);border:2px solid var(--t);color:#2a2118;font:800 11px var(--font-titre);object-fit:cover;flex:none}
+.pion.pion-d{display:inline-grid;place-items:center}
+.pion.pion-d .mini-dieu{position:relative;z-index:1}
+.pd-btn{display:inline-flex;align-items:center;gap:3px;min-width:0;padding:4px 8px!important;border-radius:999px!important;font-weight:800}
+.pd-btn.on{background:var(--or-clair)!important;border-color:var(--or)!important;color:#2a2118}
+.pd-btn:disabled{opacity:.3;filter:grayscale(1)}
+.ligne-pion .pas{display:flex;align-items:center;gap:6px}
+/* ---------- Barque : vent ---------- */
+.mj-vent{position:absolute;inset:0;pointer-events:none;overflow:hidden;z-index:3}
+.mj-vent-t{position:absolute;top:6px;left:50%;transform:translateX(-50%);white-space:nowrap;padding:4px 14px;border-radius:999px;font:800 16px var(--font-titre);box-shadow:var(--relief-1);animation:mjVentT .4s ease}
+.mj-vent.arriere .mj-vent-t{background:var(--olivier);color:#fffdf7}
+.mj-vent.face .mj-vent-t{background:var(--terre-cuite);color:#fffdf7}
+.mj-vent i{position:absolute;left:0;height:3px;width:70px;border-radius:3px;background:linear-gradient(90deg,transparent,color-mix(in srgb,var(--encre) 45%,transparent),transparent);opacity:0}
+.mj-vent i:nth-of-type(1){top:16%;animation-delay:0s}.mj-vent i:nth-of-type(2){top:27%;animation-delay:.25s}.mj-vent i:nth-of-type(3){top:38%;animation-delay:.5s}
+.mj-vent i:nth-of-type(4){top:47%;animation-delay:.12s}.mj-vent i:nth-of-type(5){top:56%;animation-delay:.38s}.mj-vent i:nth-of-type(6){top:65%;animation-delay:.62s}
+.mj-vent i:nth-of-type(7){top:74%;animation-delay:.2s}.mj-vent i:nth-of-type(8){top:83%;animation-delay:.45s}.mj-vent i:nth-of-type(9){top:91%;animation-delay:.7s}
+.mj-vent.arriere i{animation:ventArr .8s linear infinite}
+.mj-vent.face i{animation:ventFace .8s linear infinite}
+@keyframes ventArr{0%{transform:translateX(-80px);opacity:0}20%{opacity:.9}100%{transform:translateX(110vw);opacity:0}}
+@keyframes ventFace{0%{transform:translateX(110vw);opacity:0}20%{opacity:.9}100%{transform:translateX(-80px);opacity:0}}
+@keyframes mjVentT{from{transform:translateX(-50%) scale(.6);opacity:0}}
+@media (prefers-reduced-motion:reduce){.mj-vent i{animation:none!important;opacity:.5}}
+
+.card.objet-actif{border:3px solid var(--or);background:color-mix(in srgb,var(--or-clair) 22%,var(--surface-haute));box-shadow:0 0 0 4px color-mix(in srgb,var(--or) 18%,transparent),var(--relief-1)}
+.card.objet-actif .oa-t{display:flex;align-items:center;gap:8px;font-family:var(--font-titre);margin-bottom:6px}
+.card.objet-actif>.card{margin:0;box-shadow:none;border:none;background:transparent;padding:0}
+.pe.a-activer{border-color:var(--or)!important;background:var(--or-clair)!important;color:#2a2118;animation:peActif 1.6s ease-in-out infinite}
+@keyframes peActif{50%{box-shadow:0 0 0 5px color-mix(in srgb,var(--or) 30%,transparent)}}
+@media (prefers-reduced-motion:reduce){.pe.a-activer{animation:none}}
+
+/* ---------- Objectif complété ---------- */
+.annonce-anim.fo-anim{animation:foFond var(--duree,4600ms) ease forwards!important;overflow:hidden}
+@keyframes foFond{0%{background:rgba(20,14,6,0)}8%,88%{background:rgba(20,14,6,.55)}100%{background:rgba(20,14,6,0)}}
+.fo{position:relative;display:grid;justify-items:center;gap:8px;text-align:center;padding:30px 54px 28px;max-width:min(760px,92vw);border-radius:var(--r-socle);background:var(--surface-haute);border:4px solid var(--or);box-shadow:0 0 0 8px color-mix(in srgb,var(--or) 25%,transparent),var(--relief-3);animation:foBoite var(--duree,4600ms) ease forwards}
+@keyframes foBoite{0%{transform:scale(.3) rotate(-4deg);opacity:0}9%{transform:scale(1.06) rotate(1deg);opacity:1}14%{transform:scale(1)}88%{opacity:1;transform:scale(1)}100%{opacity:0;transform:scale(.94) translateY(10px)}}
+.fo-rayons{position:absolute;top:120px;left:50%;width:720px;height:720px;margin:-360px 0 0 -360px;border-radius:50%;background:repeating-conic-gradient(#f2d27a66 0 7deg,transparent 7deg 20deg);animation:tourneLent 14s linear infinite;z-index:-1;-webkit-mask:radial-gradient(circle,#000 30%,transparent 70%);mask:radial-gradient(circle,#000 30%,transparent 70%)}
+.fo-centre{position:relative;width:240px;height:240px;display:grid;place-items:center;margin:-6px 0 -4px}
+.fo-laurier{position:absolute;inset:0;width:100%;height:100%}
+.fo-tige{stroke-dasharray:260;stroke-dashoffset:260;animation:foTige 1s .35s ease forwards}
+@keyframes foTige{to{stroke-dashoffset:0}}
+.fo-f{transform-box:fill-box;transform-origin:center;transform:scale(0);animation:foFeuille .35s calc(.5s + var(--k) * .09s) cubic-bezier(.3,1.6,.5,1) forwards}
+@keyframes foFeuille{to{transform:scale(1)}}
+.fo-noeud{opacity:0;animation:foApp .3s 1.4s ease forwards}
+.fo-med{width:150px;height:150px;border-width:7px;--t:inherit;animation:foMed .7s cubic-bezier(.3,1.5,.5,1) both;box-shadow:0 0 0 6px #fff6,0 0 40px #f2d27a}
+.fo-med svg{width:96px;height:96px}
+@keyframes foMed{0%{transform:scale(2.4) rotate(-20deg);opacity:0}60%{transform:scale(.92)}100%{transform:none;opacity:1}}
+.fo-joueur{display:flex;align-items:center;gap:10px;padding:4px 16px 4px 6px;border-radius:999px;background:color-mix(in srgb,var(--c) 16%,var(--surface-haute));border:3px solid var(--c);font:700 22px var(--font-titre);opacity:0;animation:foMonte .5s 1.1s ease forwards}
+.fo-sur{font:700 15px var(--font-titre);letter-spacing:.18em;text-transform:uppercase;color:var(--or-fonce,#9a6a14);opacity:0;animation:foMonte .5s 1.25s ease forwards}
+.fo-titre{font:900 clamp(34px,5vw,58px)/1.05 var(--font-titre);color:var(--encre);opacity:0;animation:foMonte .5s 1.35s ease forwards;background:linear-gradient(90deg,var(--encre) 0 40%,var(--or) 50%,var(--encre) 60% 100%) 100% 0/250% 100% text;-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.fo-titre{animation:foMonte .5s 1.35s ease forwards,foBrille 1.4s 1.9s ease forwards}
+@keyframes foBrille{to{background-position:0 0}}
+.fo-cit{margin:0;font:italic 500 clamp(18px,2.2vw,26px)/1.35 var(--font-texte);color:var(--encre-douce);opacity:0;animation:foMonte .5s 1.55s ease forwards}
+.fo-eff{margin:4px 0 0;padding:8px 16px;border-radius:12px;background:var(--surface);font:600 clamp(15px,1.8vw,20px)/1.35 var(--font-texte);color:var(--encre);opacity:0;animation:foMonte .5s 1.75s ease forwards}
+@keyframes foMonte{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+@keyframes foApp{to{opacity:1}}
+.fo-pluie{position:fixed;inset:0;pointer-events:none;z-index:-1}
+.fo-pluie i{position:absolute;top:-40px;left:var(--x);width:22px;height:22px;opacity:0;animation:foTombe 2.8s calc(.6s + var(--k) * .13s) linear forwards}
+.fo-pluie i:nth-child(3n){width:16px;height:16px}.fo-pluie i:nth-child(4n){width:28px;height:28px}
+@keyframes foTombe{0%{opacity:0;transform:translateY(0) rotate(0)}10%{opacity:1}100%{opacity:0;transform:translateY(105vh) rotate(540deg) translateX(40px)}}
+@media (prefers-reduced-motion:reduce){.fo,.fo-med,.fo-f,.fo-tige,.fo-pluie i,.fo-rayons{animation:none!important;transform:none!important;stroke-dashoffset:0}.fo-joueur,.fo-sur,.fo-titre,.fo-cit,.fo-eff,.fo-noeud{animation:none!important;opacity:1}}
+@media (max-width:600px){.fo{padding:22px 20px}.fo-centre{width:190px;height:190px}.fo-med{width:118px;height:118px}.fo-med svg{width:76px;height:76px}}
+/* ---------- Vue plateau du téléphone ---------- */
+.vue-plateau-barre{position:sticky;bottom:0;z-index:20;display:flex;justify-content:center;padding:12px 0 calc(10px + env(safe-area-inset-bottom,0px));margin-top:16px;background:linear-gradient(transparent,var(--fond) 40%)}
+.vue-plateau-barre button{display:inline-flex;align-items:center;gap:8px;min-height:52px;padding:0 24px;border-radius:999px!important;font:700 18px var(--font-titre);box-shadow:var(--relief-2);background:var(--surface-haute);border:3px solid var(--egee)}
+.vue-plateau-barre button.on{background:var(--egee);color:var(--sur-egee)}
+.roue-tel{padding:6px}
+.roue-tel svg.roue{width:100%;height:auto}
+
+/* ---------- Dé lancé sur le téléphone ---------- */
+.de-lancer{position:fixed;inset:0;z-index:70;display:grid;place-items:center;background:#14202b88;animation:bdEntre .25s ease}
+.de-lancer.sort{animation:bdSort .4s ease forwards}
+.de-lancer .boite{display:grid;justify-items:center;gap:6px;padding:26px 40px 22px;border-radius:var(--r-socle);background:var(--surface-haute);border:3px solid var(--or);box-shadow:var(--relief-3);min-width:240px}
+.dl-de{height:160px;display:grid;place-items:center}
+.de-lancer:not(.arret) .dl-de svg{animation:dlTourne .32s linear infinite}
+@keyframes dlTourne{0%{transform:translateY(0) rotate(0) scale(1)}25%{transform:translateY(-22px) rotate(90deg) scale(.92)}50%{transform:translateY(-30px) rotate(180deg) scale(.88)}75%{transform:translateY(-14px) rotate(270deg) scale(.95)}100%{transform:translateY(0) rotate(360deg) scale(1)}}
+.de-lancer.arret .dl-de svg{animation:dlStop .7s cubic-bezier(.3,1.6,.5,1)}
+@keyframes dlStop{0%{transform:translateY(-26px) rotate(-30deg) scale(1.15)}55%{transform:translateY(4px) rotate(6deg) scale(.96)}100%{transform:none}}
+.dl-ombre{width:110px;height:14px;border-radius:50%;background:radial-gradient(#2a211855,transparent 70%);margin-top:-8px}
+.de-lancer:not(.arret) .dl-ombre{animation:dlOmbre .32s linear infinite}
+@keyframes dlOmbre{50%{transform:scaleX(.6);opacity:.5}}
+.dl-t{font:700 22px var(--font-titre);color:var(--encre)}
+.dl-t b{font-size:30px}
+.de-lancer.bon .boite{border-color:var(--olivier);box-shadow:0 0 0 6px color-mix(in srgb,var(--olivier) 25%,transparent),var(--relief-3)}
+.de-lancer.bon .dl-t{color:var(--olivier)}
+@media (prefers-reduced-motion:reduce){.de-lancer .dl-de svg,.dl-ombre{animation:none!important}}
+
+/* ---------- Colère des dieux ---------- */
+.vote-colere{display:grid;justify-items:center;gap:14px;padding:8px 0 20px}
+.vc-raison{max-width:780px;text-align:center;font-size:20px;margin:0}
+.vc-cartes{display:grid;grid-template-columns:repeat(3,minmax(0,300px));gap:22px;justify-content:center;width:100%}
+.vc-col{display:grid;gap:12px;grid-template-rows:1fr auto;transition:transform .5s,opacity .5s,filter .5s}
+.vc-col.perdue{opacity:.35;filter:grayscale(.8);transform:scale(.94)}
+.vc-col.elue{transform:scale(1.06)}
+.vc-col.elue .cc-carte{box-shadow:0 0 0 6px var(--terre-cuite),0 0 50px color-mix(in srgb,var(--terre-cuite) 60%,transparent);animation:ccElue 1s ease}
+@keyframes ccElue{30%{transform:rotate(-2deg) scale(1.04)}60%{transform:rotate(2deg)}}
+.cc-carte{display:grid;justify-items:center;gap:6px;padding:20px 18px;border-radius:var(--r-carte);background:linear-gradient(180deg,#3a2f3f,#20263a);color:#f4ecdd;border:3px solid #6e5a7a;box-shadow:var(--relief-2);text-align:center}
+.cc-ic{width:86px;height:86px;--t:#c9b7d6;background:radial-gradient(circle at 35% 30%,#fffdf7,#e7dfee)}
+.cc-nom{font:900 22px var(--font-titre);letter-spacing:.03em}
+.cc-duree{font:700 13px var(--font-titre);letter-spacing:.1em;text-transform:uppercase;color:#f2d27a}
+.cc-eff{margin:0;font-size:15px;line-height:1.4;color:#e8ddcc}
+.cc-mien{font-weight:800;color:#bfe39a}
+.batons{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;min-height:64px;padding:10px;border-radius:14px;border:3px dashed var(--ligne);transition:background .15s,box-shadow .15s,border-color .15s}
+.baton{width:12px;height:46px;border-radius:6px;background:linear-gradient(90deg,#8a5e38,#d2a877 45%,#8a5e38);border:2px solid #3b2716;box-shadow:inset 0 -6px 0 var(--c);animation:batonArrive .45s cubic-bezier(.3,1.6,.5,1)}
+@keyframes batonArrive{from{transform:translateY(-30px) rotate(-25deg);opacity:0}}
+.batons.lumiere{border-color:var(--or);background:color-mix(in srgb,var(--or-clair) 70%,transparent);box-shadow:0 0 30px var(--or),0 0 0 4px var(--or)}
+.batons.lumiere .baton{filter:brightness(1.3)}
+.vc-res{min-height:40px;font:600 24px var(--font-titre);text-align:center}
+.vc-pick button{background:none!important;border:none!important;padding:4px!important;box-shadow:none!important}
+.vc-pick button.sel .cc-carte{box-shadow:0 0 0 5px var(--egee),var(--relief-2)}
+@media (max-width:800px){.vc-cartes{grid-template-columns:1fr}}
+.colere-anim{position:fixed;inset:0;display:grid;place-items:center;z-index:55;pointer-events:none;animation:clFond 5.2s ease forwards}
+.colere-anim .boite{display:grid;justify-items:center;gap:8px;max-width:min(680px,92vw);padding:30px 44px;border-radius:var(--r-socle);background:linear-gradient(180deg,#3a2f3f,#1b2233);color:#f4ecdd;border:4px solid #f2c14e;text-align:center;box-shadow:var(--relief-3);animation:clPop 5.2s ease forwards}
+.colere-anim .medaillon{width:110px;height:110px;--t:#f2c14e;background:radial-gradient(circle at 35% 30%,#fffdf7,#e7dfee)}
+.colere-anim small{font:700 15px var(--font-titre);letter-spacing:.16em;text-transform:uppercase;color:#f2d27a}
+.colere-anim b{font:900 clamp(30px,4.6vw,52px)/1.1 var(--font-titre)}
+.colere-anim p{margin:0;font-size:clamp(17px,2vw,24px);color:#e8ddcc}
+.colere-anim .ca-menace{font-weight:800;color:#f6a98f}
+.ca-eclair{animation:eclair 1.1s steps(1) 3}
+@keyframes eclair{0%,100%{filter:none}10%{filter:brightness(2.2) drop-shadow(0 0 20px #fff6b8)}20%{filter:none}30%{filter:brightness(1.8)}}
+.cata-bandeau{display:flex;gap:10px;align-items:flex-start;border:3px solid #6e5a7a;background:color-mix(in srgb,#3a2f3f 12%,var(--surface-haute))}
+.cata-bandeau>svg{flex:none;width:34px;height:34px}
+.peste-bloc{border:3px solid #8fae3a;background:color-mix(in srgb,#8fae3a 10%,var(--surface-haute))}
+.peste-bloc .ligne-pion.grise{opacity:.45}
+.pp-v{font:800 18px var(--font-titre)}
+.roue-boite{position:relative}
+.cata-bandeau-p{position:absolute;top:10px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:8px;padding:6px 16px 6px 8px;border-radius:999px;background:#20263aee;color:#f4ecdd;font-size:15px;z-index:4;white-space:nowrap;box-shadow:var(--relief-2)}
+.cata-ov{position:absolute;inset:0;pointer-events:none;z-index:3;border-radius:inherit;overflow:hidden}
+.cata-ov i{position:absolute;display:block}
+.cata-ov-pluie{background:#3b5a7a22}
+.cata-ov-pluie i{left:var(--x);top:-10%;width:2px;height:28px;background:linear-gradient(transparent,#3b7bbfcc);transform:rotate(12deg);animation:pluieTombe .7s linear infinite;animation-delay:calc(var(--k) * -.07s)}
+@keyframes pluieTombe{to{transform:translate(-60px,120%) rotate(12deg);top:110%}}
+.cata-ov-bourrasques i{top:calc(8% + var(--k) * 10%);left:-20%;width:120px;height:3px;border-radius:3px;background:linear-gradient(90deg,transparent,#ffffffcc,transparent);animation:ventArr 1.3s linear infinite;animation-delay:calc(var(--k) * -.17s)}
+.cata-ov-tempete{background:#1b223355;animation:flashFoudre 5s steps(1) infinite}
+@keyframes flashFoudre{0%,100%{background:#1b223355}62%{background:#fff8d8aa}64%{background:#1b223355}67%{background:#fff8d888}69%{background:#1b223355}}
+.cata-ov-eruption{background:radial-gradient(ellipse at 50% 110%,#e0662a88,transparent 60%);animation:laveRespire 2.4s ease-in-out infinite}
+@keyframes laveRespire{50%{opacity:.55}}
+.cata-ov-raz{background:linear-gradient(transparent 55%,#3b7bbf66 70%,#3b7bbf99);animation:vague 3s ease-in-out infinite}
+@keyframes vague{50%{transform:translateY(-6%)}}
+.cata-ov-seisme{animation:none}
+.roue-boite:has(.cata-ov-seisme) svg.roue{animation:secousse 2.6s ease-in-out infinite}
+@keyframes secousse{0%,70%,100%{transform:none}74%{transform:translate(-5px,2px) rotate(-.6deg)}78%{transform:translate(5px,-2px) rotate(.6deg)}82%{transform:translate(-4px,1px)}86%{transform:translate(3px,0)}}
+.cata-ov-criquets i{left:var(--x);top:var(--y);width:9px;height:5px;border-radius:50%;background:#4f6a1e;animation:criquet 1.8s ease-in-out infinite;animation-delay:calc(var(--k) * -.23s)}
+@keyframes criquet{50%{transform:translate(20px,-14px) rotate(25deg)}}
+.cata-ov-blizzard{background:#e8f4fb44}
+.cata-ov-blizzard i{left:var(--x);top:-5%;width:6px;height:6px;border-radius:50%;background:#fff;box-shadow:0 0 4px #fff;animation:neige 3.2s linear infinite;animation-delay:calc(var(--k) * -.17s)}
+@keyframes neige{to{top:105%;transform:translateX(40px)}}
+.cata-ov-peste{background:#8fae3a22}
+.cata-ov-peste i{left:var(--x);bottom:-5%;width:14px;height:14px;border-radius:50%;border:2px solid #8fae3a99;animation:bulle 4s ease-in infinite;animation-delay:calc(var(--k) * -.33s)}
+@keyframes bulle{to{transform:translateY(-110%);bottom:100%;opacity:0}}
+@media (prefers-reduced-motion:reduce){.cata-ov i,.cata-ov,.roue-boite svg.roue{animation:none!important}}
+
+.cata-ov-eclipse{background:radial-gradient(circle at 50% 50%,transparent 25%,#0b0f1acc 75%);animation:eclipseRespire 6s ease-in-out infinite}
+@keyframes eclipseRespire{50%{opacity:.75}}
+.cs-recup{border-color:var(--olivier);background:repeating-linear-gradient(45deg,transparent 0 16px,color-mix(in srgb,var(--olivier) 7%,transparent) 16px 18px),var(--surface-haute)}
+.cs-recup .cs-tampon{color:var(--olivier)}
+.cs-anim-recup>strong{color:#d4ecb8}
+.test-cata{display:flex;flex-wrap:wrap;gap:8px}
+.test-cata button{display:inline-flex;align-items:center;gap:6px}
+/* BD sur une seule page qui défile */
+.bd-scene{display:block;overflow-y:auto;overscroll-behavior:contain;padding:0 24px}
+.bd-planche{margin:0 auto;padding:6vh 0 40vh;display:grid;gap:clamp(36px,6vh,70px)}
+.bd-titre{text-align:center;font:900 clamp(28px,3.4vw,44px) var(--font-titre);margin:0}
+.bd-planche .bd-case{width:min(900px,86%);grid-template-columns:minmax(150px,24%) 1fr;justify-self:start}
+.bd-planche .bd-case.inverse{grid-template-columns:1fr minmax(150px,24%);justify-self:end}
+.bd-planche .bd-bulle{min-height:140px}
+/* épuré : seulement le portrait du dieu et sa bulle */
+.bd-planche .bd-case{background:none;border:none;box-shadow:none;padding:0;gap:46px;align-items:center}
+.bd-planche .bd-portrait{border:none;border-radius:var(--r-arche) var(--r-arche) 18px 18px;box-shadow:none;background:none}
+.bd-planche .bd-bulle{border-radius:34px;padding:26px 34px;min-height:0;box-shadow:5px 5px 0 rgba(42,33,24,.18)}
+.bd-planche .bd-bulle::before,.bd-planche .bd-bulle::after{display:none}
+.bd-queue{position:absolute;top:32%;left:-40px;width:44px;height:34px;overflow:visible}
+.bd-case.inverse .bd-queue{left:auto;right:-40px;transform:scaleX(-1)}
+.bd-planche .bd-bulle p{text-align:left}
+.bd-planche .bd-bulle{display:grid;gap:12px;place-items:stretch}
+.bd-qui{display:block;font:900 clamp(20px,2vw,28px) var(--font-titre);letter-spacing:.03em;margin-bottom:6px;color:#2a2118}
+.bd-icones{justify-content:flex-start;margin:0}
+.bd-icones .delta{opacity:0;transform:scale(.3)}
+.bd-icones.montre .delta{animation:bdPopIc .5s cubic-bezier(.3,1.7,.5,1) both;animation-delay:calc(var(--i,0) * 120ms)}
+@keyframes bdPopIc{0%{opacity:0;transform:scale(.3)}60%{opacity:1;transform:scale(1.18)}100%{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.bd-icones .delta{opacity:1;transform:none}.bd-icones.montre .delta{animation:none}}
+.bd-icones .delta{color:#2a2118}
+.bd-icones .pion{width:16px;height:16px;margin-left:2px}
+@media (max-width:700px){.bd-planche .bd-case,.bd-planche .bd-case.inverse{width:100%;grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -3548,7 +3851,7 @@ const OBJECTIFS = [
 /* Effets quand on complète un objectif (onglet Objectifs de l’Excel) */
 const EFFETS_OBJECTIFS = {
   vin:     {detail:"Il faut boire avec modération", nomMi:"On remet ça !", mi:"Tu obtiens une relance : quand tu choisis un dieu, tu peux remplacer un des dieux proposés par un autre (une seule fois).", complete:"Tu gagnes la moitié du numéro du tour en points (arrondi au supérieur), sur l’objectif de ton choix.", passif:""},
-  lignee:  {detail:"L’aîné est toujours le préféré", nomMi:"Tradition familiale", mi:"À ton prochain tour, tu as le même choix de dieux qu’à ton tour précédent.", complete:"Rejoue une carte de ta défausse au choix.", passif:""},
+  lignee:  {detail:"L’aîné est toujours le préféré", nomMi:"Tradition familiale", mi:"Récupère une des cartes jouées au dernier tour par tes adversaires : elle est jouée pour toi.", complete:"Rejoue une carte de ta défausse au choix.", passif:""},
   repas:   {detail:"Accord mets-vin", nomMi:"Le plus mal poli est le mieux servi", mi:"Tu gagnes +1 en Repas chaque fois qu’un autre joueur atteint 8 ou plus en Repas.", complete:"Si tu as au moins 10 en Vin, tu obtiens 4 pions supplémentaires à ton prochain tour.", passif:""},
   culture: {detail:"Le savoir est une arme", nomMi:"Coup d’œil", mi:"À ton prochain tour, tu vois la carte d’un des dieux proposés.", complete:"", passif:"Les cartes et dieux face cachée t’apparaissent face visible."},
   humour:  {detail:"Ton humour est une excellente distraction", nomMi:"Croche-pied", mi:"Enlève 1 pion au joueur de ton choix pour son prochain tour.", complete:"Vole une carte permanente à un adversaire.", passif:""},
@@ -3701,7 +4004,7 @@ const CARTES = [
 {"id": "christophe-11", "dieu": "christophe", "num": 1, "obj": "repas", "texte": "Tu prépares un plat végétarien pour Jeanne, mais tu cuis le tout dans un bouillon de viande", "type": "immediat", "nb": 2, "e": {"t": "multi", "l": [{"o": "repas", "n": 1}, {"o": "culture", "n": -1}]}, "src": ["Christophe", 1, "Repas", "Tu prépares un plat végétarien pour Jeanne, mais tu cuis le tout dans un bouillon de viande", "+1 obj n°1, mais -1 obj n°3", "immédiat", 2]},
 {"id": "christophe-12", "dieu": "christophe", "num": 2, "obj": "vin", "texte": "Tu remplis les verres de tout le monde sans leur demander leur avis", "type": "fin_de_tour", "nb": 2, "e": {"t": "pion_x2_tour"}, "src": ["Christophe", 2, "Vin", "Tu remplis les verres de tout le monde sans leur demander leur avis", "pendant ce tour, tous les points que tu mets en objectif n°2 valent 2", "Fin de tour", 2]},
 {"id": "christophe-13", "dieu": "christophe", "num": 2, "obj": "vin", "texte": "Tu as mis de côté un petit Auxey Duresses", "type": "immediat", "nb": 2, "e": {"t": "gain", "n": 3}, "src": ["Christophe", 2, "Vin", "Tu as mis de côté un petit Auxey Duresses", "+3", "immédiat", 2]},
-{"id": "christophe-14", "dieu": "christophe", "num": 2, "obj": "vin", "texte": "Corinne ptite goutte", "type": "immediat", "nb": 2, "e": {"t": "ptite_goutte", "n": 1}, "src": ["Christophe", 2, "Vin", "Corinne ptite goutte", "+1 (Gagnez également +1 pour chaque carte \"ptite goutte\")", "immédiat", 2]},
+{"id": "christophe-14", "dieu": "christophe", "num": 2, "obj": "vin", "texte": "Corinne ptite goutte", "type": "immediat", "nb": 2, "e": {"t": "ptite_goutte", "n": 2, "par": 2}, "src": ["Christophe", 2, "Vin", "Corinne ptite goutte", "+1 (Gagnez également +1 pour chaque carte \"ptite goutte\")", "immédiat", 2]},
 {"id": "christophe-15", "dieu": "christophe", "num": 2, "obj": "vin", "texte": "Dégustation de vin aux davids", "type": "immediat", "nb": 2, "e": {"t": "gain", "n": 2}, "src": ["Christophe", 2, "Vin", "Dégustation de vin aux davids", "+2", "immédiat", 2]},
 {"id": "christophe-16", "dieu": "christophe", "num": 2, "obj": "vin", "texte": "Fin de chasse", "type": "immediat", "nb": 0, "e": {"t": "gain", "n": 1}, "src": ["Christophe", 2, "Vin", "Fin de chasse", "+1", "immédiat", 0]},
 {"id": "christophe-17", "dieu": "christophe", "num": 2, "obj": "vin", "texte": "\"Marié.e dans l'année\" tu vides ta dernière boutille dans le verre de ton.a voisin.ne", "type": "immediat", "nb": 2, "e": {"t": "donner", "n": 1}, "src": ["Christophe", 2, "Vin", "\"Marié.e dans l'année\" tu vides ta dernière boutille dans le verre de ton.a voisin.ne", "donne un point à la personne de ton choix", "immédiat", 2]},
@@ -3729,7 +4032,7 @@ const CARTES = [
 {"id": "nicole-11", "dieu": "nicole", "num": 1, "obj": "humour", "texte": "Sujet de vanne identifié : Christophe ne vient jamais te voir", "type": "immediat", "nb": 2, "e": {"t": "multi", "l": [{"o": "humour", "n": 1}, {"o": "lignee", "n": -1}]}, "src": ["Nicole", 1, "Blague", "Sujet de vanne identifié : Christophe ne vient jamais te voir", "+1 obj n°1, mais -1 obj n°3", "immédiat", 2]},
 {"id": "nicole-12", "dieu": "nicole", "num": 2, "obj": "vin", "texte": "Tu as acheté \"quelques bouteilles\" pour les vacances", "type": "fin_de_tour", "nb": 2, "e": {"t": "pion_x2_tour"}, "src": ["Nicole", 2, "Vin", "Tu as acheté \"quelques bouteilles\" pour les vacances", "pendant ce tour, tous les pions que tu mets en objectif n°2 valent 2", "Fin de tour", 2]},
 {"id": "nicole-13", "dieu": "nicole", "num": 2, "obj": "vin", "texte": "C'est l'heure de l'apéro (il est 11h)", "type": "immediat", "nb": 2, "e": {"t": "gain", "n": 3}, "src": ["Nicole", 2, "Vin", "C'est l'heure de l'apéro (il est 11h)", "+3", "immédiat", 2]},
-{"id": "nicole-14", "dieu": "nicole", "num": 2, "obj": "vin", "texte": "Justine ptite goutte", "type": "immediat", "nb": 2, "e": {"t": "ptite_goutte", "n": 1}, "src": ["Nicole", 2, "Vin", "Justine ptite goutte", "+1 (Gagnez également +1 pour chaque carte \"ptite goutte\")", "immédiat", 2]},
+{"id": "nicole-14", "dieu": "nicole", "num": 2, "obj": "vin", "texte": "Justine ptite goutte", "type": "immediat", "nb": 2, "e": {"t": "ptite_goutte", "n": 2, "par": 2}, "src": ["Nicole", 2, "Vin", "Justine ptite goutte", "+1 (Gagnez également +1 pour chaque carte \"ptite goutte\")", "immédiat", 2]},
 {"id": "nicole-15", "dieu": "nicole", "num": 2, "obj": "vin", "texte": "Rosé piscine, 2 glaçons", "type": "immediat", "nb": 2, "e": {"t": "gain", "n": 2}, "src": ["Nicole", 2, "Vin", "Rosé piscine, 2 glaçons", "+2", "immédiat", 2]},
 {"id": "nicole-16", "dieu": "nicole", "num": 2, "obj": "vin", "texte": "Tu trouves une occasion de boire du champagne", "type": "immediat", "nb": 0, "e": {"t": "gain", "n": 1}, "src": ["Nicole", 2, "Vin", "Tu trouves une occasion de boire du champagne", "+1", "immédiat", 0]},
 {"id": "nicole-17", "dieu": "nicole", "num": 2, "obj": "vin", "texte": "\"Je savais qu'il y avait Martin, j'ai pris de la bière\"", "type": "immediat", "nb": 2, "e": {"t": "donner", "n": 1}, "src": ["Nicole", 2, "Vin", "\"Je savais qu'il y avait Martin, j'ai pris de la bière\"", "donne un point à la personne de ton choix", "immédiat", 2]},
@@ -3892,7 +4195,29 @@ let $app = document.getElementById("app");
 const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const court = id => { const o = OBJECTIFS.find(x => x.id === id); return o ? o.court : id; };
 const dieu = id => DIEUX.find(d => d.id === id);
-const citer = c => c?.texte ? `« ${c.texte} »` : (c?.nom || "");
+const JOURS = ["lundi", "mardi", "mercredi", "jeudi", "vendredi", "samedi", "dimanche"];
+/* « [Insérer un jour de la semaine aléatoire] » : un jour tiré au hasard, le même sur tous les écrans pendant la partie */
+function texteCarte(c) {
+  const t = c?.texte || "";
+  if (!/\[ins[ée]rer un jour/i.test(t)) return t;
+  const graine = (typeof code === "string" && code ? code : "") + "|" + (jeu?.ordre || []).join(",") + "|" + c.id;
+  let h = 0; for (const ch of graine) h = (h * 31 + ch.charCodeAt(0)) >>> 0;
+  return t.replace(/\[ins[ée]rer un jour[^\]]*\]/gi, JOURS[h % 7]);
+}
+const citer = c => c?.texte ? `« ${texteCarte(c)} »` : (c?.nom || "");
+/* Vols et reprises de défausse : on ne reprend jamais le texte de la carte, on la nomme par son dieu et son objectif */
+const nomCarte = c => !c ? "carte" : `carte de ${dieu(c.dieu)?.nom || "l’objet"}${OBJECTIFS.some(o => o.id === c.obj) ? ` (${court(c.obj)})` : ""}`;
+function carteSpeciale(cid, mode, o = {}) {
+  const c = CARTE[cid]; if (!c) return "";
+  const d = dieu(c.dieu), ic = OBJECTIFS.some(x => x.id === c.obj) ? c.obj : "laurier";
+  const t = OBJECTIFS.some(x => x.id === c.obj) ? `var(--obj-${c.obj})` : "var(--or)";
+  return `<div class="cs cs-${mode} ${o.petit ? "petit" : ""}" style="--t:${t}">
+    <span class="cs-tampon">${o.tampon || (mode === "vol" ? "Volée" : mode === "echange" ? "Échangée" : mode === "recup" ? "Récupérée" : "Défausse")}</span>
+    <div class="cs-tete"><span class="medaillon">${DB.icone(ic, o.petit ? 18 : 26)}</span><span><small>${mode === "defausse" ? "Depuis la défausse" : mode === "recup" ? "Carte d’un adversaire" : "Carte permanente"}</small><b>${esc(d?.nom || "Objet")}</b></span></div>
+    <p class="cs-eff">${esc(decrire(c))}</p>
+    ${o.de ? `<div class="cs-de">${pastille(o.de, o.petit ? 20 : 26)} <span>${mode === "vol" ? "prise à" : mode === "echange" ? "chez" : mode === "recup" ? "jouée par" : ""} <b>${esc(jeu.noms[o.de])}</b></span></div>` : ""}
+  </div>`;
+}
 DIEUX.filter(d => !d.transverse).forEach(d => CARTES.push({id: d.id + "-pd", dieu: d.id, num: 1, obj: d.objs[0], texte: "", nom: "Pion de " + d.nom, type: "longue_duree", nb: 1, e: {t: "pion_dieu", objs: d.objs.slice()}, src: null}));
 const CARTE = Object.fromEntries(CARTES.map(c => [c.id, c]));
 const shuffle = a => { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
@@ -3921,14 +4246,14 @@ function decrire(c) {
     case "gain": return e.n === 2 ? `+2 en ${o}, et un adversaire de ton choix perd 1 en ${o}.` : e.n === 1 ? `Pendant ce tour, chaque pion posé en ${o} te rapporte 1 pion au prochain tour.` : `${signe(e.n)} en ${o}.`;
     case "multi": return e.l.map(x => `${signe(x.n)} en ${court(x.o)}`).join(", ") + ".";
     case "par_tour": return `Carte permanente : +${e.n} en ${o} à la fin de chacun de tes tours.`;
-    case "pion_x2_perm": return `Carte permanente : chaque pion posé en ${o} vaut 2.`;
-    case "pion_x2_tour": return `Ce tour-ci, chaque pion posé en ${o} vaut 2.`;
+    case "pion_x2_perm": return `Carte permanente : tes pions valent double s’ils sont placés en ${o}.`;
+    case "pion_x2_tour": return `Ce tour-ci, tes pions valent double s’ils sont placés en ${o}.`;
     case "sauf_deja": return `+${e.n} en ${o}, sauf si tu as déjà eu cette carte.`;
     case "donner": return `Donne 1 de tes points en ${o} au joueur de ton choix.`;
     case "pion_dieu": return `Chaque tour : +1 pion à poser en ${e.objs.map(court).join(", ").replace(/, ([^,]*)$/, " ou $1")}, posé en dernier.`;
     case "gain_donner": return `+${e.n} en ${o}, puis choisis un joueur qui gagne ${e.d || 1} point en ${o}.`;
     case "fou_rire": return `+${e.n} en ${o} pour toi et +${e.autres} en ${o} pour chaque autre joueur.`;
-    case "ptite_goutte": return `+${e.n} en ${o}, plus 1 par carte « ptite goutte » déjà dans ta défausse.`;
+    case "ptite_goutte": return `+${e.n} en ${o}, plus ${e.par || 1} par carte « ptite goutte » déjà dans ta défausse.`;
     case "descendants": return `+1 en ${o} par descendant.`;
     case "deja_gagne": return `As-tu déjà gagné à ce jeu ? Oui : +${e.oui} en ${o}. Non : ${signe(e.non)} en ${o}.`;
     case "confiture": return `Plus de ${e.seuil} points en ${o} : ${signe(e.si)}. Sinon : ${signe(e.sinon)}.`;
@@ -4010,6 +4335,7 @@ function verifierPull(g, id) {
 }
 function fixerBrut(g, pid, o, v) {
   const av = g.scores[pid][o];
+  if (v > av && filtreBlizzard(g, pid, o)) { g.blizzardPerdu = g.blizzardPerdu || {}; const pr = (g.blizzardPerdu[pid] = g.blizzardPerdu[pid] || {}); pr[o] = (pr[o] || 0) + Math.min(v, plafond(g, pid, o)) - av; v = av; }
   if (v > av && ((g.platre && g.platre.o === o) || (g.blocages || []).some(x => x.o === o))) {
     const bl = Math.min(v, plafond(g, pid, o)) - av;
     if (bl > 0) { g.platreBloque = g.platreBloque || {}; g.platreBloque[pid] = (g.platreBloque[pid] || 0) + bl; }
@@ -4077,8 +4403,8 @@ function tirerOffre(g, ids, nb) {
 function decrireAction(g, a) {
   switch (a.k) {
     case "pion_moins": return `t’enlever ${a.n} pion à ton prochain tour`;
-    case "vol": return `te voler ${citer(CARTE[a.c])}`;
-    case "echange": return `échanger ${citer(CARTE[a.a.c])} (${g.noms[a.a.pid]}) et ${citer(CARTE[a.b.c])} (${g.noms[a.b.pid]})`;
+    case "vol": return `te voler ta ${nomCarte(CARTE[a.c])}`;
+    case "echange": return `échanger la ${nomCarte(CARTE[a.a.c])} de ${g.noms[a.a.pid]} et la ${nomCarte(CARTE[a.b.c])} de ${g.noms[a.b.pid]}`;
     case "reprise": return `te reprendre ${Object.entries(a.pts).map(([o, n]) => `${n} en ${court(o)}`).join(", ")}`;
     case "pertes": return `te faire perdre 1 point en ${a.l.map(court).join(", ")}`;
     case "volpoint": return `te voler 1 point en ${court(a.o)}`;
@@ -4094,11 +4420,12 @@ function executer(g, auteur, v, a) {
 function executerBrut(g, auteur, v, a) {
   const na = g.noms[auteur], nv = g.noms[v];
   if (a.k === "pion_moins") { bonusPion(g, v, -a.n, a.raison || `action de ${na}`, a.src || (a.cid ? {carte: a.cid, par: auteur} : null)); log(g, `${nv} aura ${a.n} pion de moins à son prochain tour.`); }
-  else if (a.k === "vol") { const i = g.actives[v].findIndex(x => x.c === a.c); if (i >= 0) { g.actives[auteur].push(g.actives[v].splice(i, 1)[0]); log(g, `${na} vole ${citer(CARTE[a.c])} à ${nv}.`); } }
+  else if (a.k === "vol") { const i = g.actives[v].findIndex(x => x.c === a.c); if (i >= 0) { g.actives[auteur].push(g.actives[v].splice(i, 1)[0]); log(g, `${na} vole la ${nomCarte(CARTE[a.c])} de ${nv}.`); g.carteAnim = {id: Math.random().toString(36).slice(2), mode: "vol", par: auteur, de: v, c: a.c, t: Date.now()}; } }
   else if (a.k === "echange") {
     const ia = g.actives[a.a.pid].findIndex(x => x.c === a.a.c), ib = g.actives[a.b.pid].findIndex(x => x.c === a.b.c);
     if (ia >= 0 && ib >= 0) { const ca = g.actives[a.a.pid][ia], cb = g.actives[a.b.pid][ib]; g.actives[a.a.pid][ia] = cb; g.actives[a.b.pid][ib] = ca;
-      log(g, `${na} échange ${citer(CARTE[a.a.c])} (${g.noms[a.a.pid]}) et ${citer(CARTE[a.b.c])} (${g.noms[a.b.pid]}).`); }
+      log(g, `${na} échange la ${nomCarte(CARTE[a.a.c])} de ${g.noms[a.a.pid]} et la ${nomCarte(CARTE[a.b.c])} de ${g.noms[a.b.pid]}.`);
+      g.carteAnim = {id: Math.random().toString(36).slice(2), mode: "echange", par: auteur, de: a.a.pid, a: a.a, b: a.b, t: Date.now()}; }
   }
   else if (a.k === "reprise") { const det = []; Object.entries(a.pts).forEach(([o, n]) => { const r = -ajouter(g, v, o, -n); if (r > 0) { ajouter(g, auteur, o, r); det.push(`${r} en ${court(o)}`); } });
     log(g, det.length ? `${na} reprend à ${nv} : ${det.join(", ")}.` : `${na} ne reprend rien à ${nv}.`); }
@@ -4163,7 +4490,8 @@ function appliquerCarteBrut(g, pid, cid, inp, rejeu, miroir) {
       msg = `${nom} : +${e.n} en ${court(o)}, et +${e.autres} pour chaque autre joueur.`; break;
     case "ptite_goutte": {
       const n = g.defausses[pid].filter(id => /ptite goutte/i.test(CARTE[id].texte)).length - (miroir ? 1 : 0);
-      msg = `${nom} : ${fait(ajouter(g, pid, o, e.n + n), o)}${n ? ` (dont ${n} grâce aux autres « ptite goutte »)` : ""}.`; break; }
+      const par = e.par || 1;
+      msg = `${nom} : ${fait(ajouter(g, pid, o, e.n + n * par), o)}${n ? ` (dont ${n * par} grâce aux autres « ptite goutte »)` : ""}.`; break; }
     case "descendants": msg = `${nom} déclare ${inp.nombre} descendant${inp.nombre > 1 ? "s" : ""} : ${fait(ajouter(g, pid, o, inp.nombre), o)}.`; break;
     case "deja_gagne": msg = `${nom} ${inp.oui ? "a" : "n’a jamais"} gagné à ce jeu : ${fait(ajouter(g, pid, o, inp.oui ? e.oui : e.non), o)}.`; break;
     case "confiture": msg = `${nom} : ${fait(ajouter(g, pid, o, g.scores[pid][o] > e.seuil ? e.si : e.sinon), o)}.`; break;
@@ -4234,9 +4562,9 @@ function appliquerCarteBrut(g, pid, cid, inp, rejeu, miroir) {
 }
 
 /* ---------- complétion des objectifs ---------- */
-function annoncer(g, pid, o, res) {
+function annoncer(g, pid, o, res, carte) {
   const a = (g.annonces || []).slice().reverse().find(x => x.pid === pid && x.obj === o);
-  if (a) a.res = res;
+  if (a) { a.res = res; if (carte) a.carte = carte; }
 }
 function harpon(g, pid, palier) {
   g.ordre.filter(id => id !== pid && aObjet(g, id, "harpon")).forEach(id => {
@@ -4301,6 +4629,8 @@ function annoncerMi(g, pid, o, t) {
   const a = (g.annonces || []).slice().reverse().find(x => x.pid === pid && x.obj === o && x.mi);
   if (a) a.res = t;
 }
+/* cartes jouées au tour précédent par les adversaires (sans les cartes qui n’ont de sens qu’à la pose) */
+const recupOptions = (g, pid) => Object.entries(g.cartesPrec || {}).filter(([id, c]) => id !== pid && CARTE[c] && CARTE[c].e.t !== "perso_vrac").map(([id, c]) => ({id, c}));
 function atteindreMi(g, pid, o) {
   const encore = g.etapes[pid].includes(o);
   if (encore) { g.kindleBas[pid] = g.kindleBas[pid].filter(x => x !== o); log(g, `Alarme : ${g.noms[pid]} réactive l’étape de ${court(o)}.`); }
@@ -4315,7 +4645,7 @@ function atteindreMi(g, pid, o) {
     log(g, `Désormais, ${nom} gagne +1 en ${court("repas")} quand un autre joueur atteint ${SEUIL_MI_PARCOURS} en Repas.`);
     res(`+1 en Repas chaque fois qu’un autre joueur atteint ${SEUIL_MI_PARCOURS} en Repas`);
   } else if (o === "jeux") { g.file.push({pid, obj: "jeux", mi: true, minijeu: true}); res("Mini-jeu pour tout le monde"); }
-  else if (o === "lignee") { pr().meme = true; log(g, `${nom} aura le même choix de dieux à son prochain tour.`); res("Même choix de dieux au prochain tour"); }
+  else if (o === "lignee") { if (recupOptions(g, pid).length) { g.file.push({pid, obj: "lignee", mi: true, recup: true}); res("Carte d’un adversaire à récupérer"); } else { log(g, `${nom} n’a aucune carte d’adversaire à récupérer.`); res("Aucune carte à récupérer"); } }
   else if (o === "humour") { if (g.ordre.length > 1) { g.file.push({pid, obj: o, mi: true}); res("Croche-pied à choisir"); } else res("Personne à faire trébucher"); }
   else if (o === "bonheur") { g.file.push({pid, obj: "bonheur", mi: true, bloque: true}); res("Objectif à bloquer pour tous"); }
   else if (o === "culture") { pr().voir = true; log(g, `${nom} verra la carte d’un des dieux à son prochain tour.`); res("Verra la carte d’un dieu au prochain tour"); }
@@ -4423,6 +4753,11 @@ function choisirObjet(pid, id) {
 function fusionnerObjets() {
   if (vue() !== "plateau" || !jeu) return;
   if (["objets_vus", "recap", "choix", "completion"].includes(jeu.phase) && busy) { setTimeout(fusionnerObjets, 400); return; }
+  if (jeu.phase === "colere" && jeu.colere?.vote && !jeu.colere.vote.fin) {
+    const v = jeu.colere.vote, nv = joueursLobby.filter(j => j.vote && j.vote.id === v.id && jeu.ordre.includes(j.id) && v.votes[j.id] !== j.vote.c);
+    if (nv.length) agir(g => nv.forEach(j => voterColere(g, j.id, j.vote.c)));
+    return;
+  }
   if (jeu.phase === "completion" && jeu.des && jeu.des.gain == null) {
     const nv = joueursLobby.filter(j => j.lance === jeu.des.id && jeu.ordre.includes(j.id) && !jeu.des.des[j.id]);
     if (nv.length) agir(g => nv.forEach(j => lancerDeG(g, j.id)));
@@ -4448,15 +4783,358 @@ function fusionnerObjets() {
 /* La révélation se termine toute seule : dès que tout le monde est prêt sur son téléphone, ou après DELAI_REVELATION. */
 const DELAI_REVELATION = 45000;
 let pretEnvoi = null, departTimer = null;
+
+/* ====================== COLÈRE DES DIEUX ======================
+   Un tour tiré entre 7 et 9. Au début du tour d’avant, un pop-up annonce que les dieux se chamaillent.
+   À la fin de ce tour (après le récap), les joueurs votent entre trois catastrophes ; égalité = le bâton lumineux tranche.
+   La catastrophe s’applique dès le tour suivant, pendant sa durée. */
+const COLERE_TOURS = [7, 9], VOTE_COLERE = 45000;
+const RAISONS_COLERE = ["pour le dernier morceau du plateau de fromage", "pour des histoires de chiens en vacances", "pour la meilleure chambre du nouveau palais", "pour la quantité de vin bue au dernier banquet", "à cause des avions qui passent au-dessus de l’Olympe"];
+const CATAS = {
+  bourrasques: {nom: "Bourrasques", duree: [3, 4], effet: "Au début de chaque tour, chaque joueur perd 1 point sur son objectif le plus haut (sur tous ceux à égalité)."},
+  pluie:       {nom: "Pluie torrentielle", duree: [2, 4], effet: "Impossible de mettre plus d’un pion dans le même objectif."},
+  tempete:     {nom: "Tempête", duree: [2, 3], effet: "Au début de chaque tour, la foudre frappe un objectif au hasard : personne n’y gagne de points pendant le tour."},
+  eruption:    {nom: "Éruption volcanique", duree: [1, 1], effet: "Chaque joueur perd la moitié de ses cartes permanentes (il en garde la moitié arrondie au-dessus : 3 → 2, 1 → 1)."},
+  raz:         {nom: "Raz-de-marée", duree: [1, 1], effet: "Les scores entre 8 et 14 retombent à 8."},
+  seisme:      {nom: "Séisme", duree: [2, 4], effet: "Les pions posés sur un objectif glissent vers un autre objectif, au hasard."},
+  criquets:    {nom: "Tempête de criquets", duree: [1, 1], effet: "La jauge de Repas de tous les joueurs se remplit : les effets de parcours s’appliquent."},
+  blizzard:    {nom: "Blizzard", duree: [1, 2], effet: "Chaque joueur choisit un autre joueur à suivre : il ne gagne des points (pions, cartes, cartes permanentes) que sur les objectifs où ce joueur pose aussi des pions. Le reste est perdu."},
+  peste:       {nom: "Peste", duree: [2, 4], effet: "Au-delà de deux, tes pions font perdre 1 point. Ces pions négatifs ne vont pas sur un objectif à 0 ou complété."},
+  eclipse:     {nom: "Éclipse divine", duree: [2, 4], effet: "Les effets des cartes sont cachés au moment de choisir : on ne découvre que leur texte."}
+};
+/* onglet « Catastrophes » de l’Excel Cartes : Catastrophe | Durée min | Durée max | Effet. Même contenu que CATAS ci-dessus. */
+const eclipseActive = () => cataActive() === "eclipse" && jeu?.phase === "choix";
+/* la colère revient 2 à 4 tours après la dernière catastrophe */
+const COLERE_RETOUR = [2, 4];
+function majColere(g, tour) {
+  const c = g.colere; if (!c?.cat || tour < c.debut + c.duree) return;
+  const fin = c.debut + c.duree - 1, ecart = COLERE_RETOUR[0] + Math.floor(Math.random() * (COLERE_RETOUR[1] - COLERE_RETOUR[0] + 1));
+  g.colere = {tour: fin + ecart, raison: RAISONS_COLERE[Math.floor(Math.random() * RAISONS_COLERE.length)], passees: [...(c.passees || []), c.cat]};
+}
+const cataActive = (g = jeu) => { const c = g?.colere; return c?.cat && g.manche >= c.debut && g.manche < c.debut + c.duree ? c.cat : null; };
+const cataTour = (g = jeu) => (g?.manche || 0) - (g?.colere?.debut || 0) + 1;
+function initColere(g) {
+  if (g.colere) return;
+  g.colere = {tour: COLERE_TOURS[0] + Math.floor(Math.random() * (COLERE_TOURS[1] - COLERE_TOURS[0] + 1)), raison: RAISONS_COLERE[Math.floor(Math.random() * RAISONS_COLERE.length)]};
+}
+function lancerVoteColere(g) {
+  g.phase = "colere";
+  g.colere.vote = {id: Math.random().toString(36).slice(2, 9), props: shuffle(Object.keys(CATAS)).slice(0, 3), votes: {}, t: Date.now(), fin: null};
+  log(g, `La colère des dieux gronde : vote pour choisir la catastrophe.`);
+}
+function voterColere(g, pid, cat) {
+  const v = g.colere?.vote;
+  if (g.phase !== "colere" || !v || v.fin || !v.props.includes(cat) || !g.ordre.includes(pid)) return;
+  v.votes[pid] = cat;
+  if (g.ordre.every(id => v.votes[id])) terminerVoteColere(g);
+}
+function terminerVoteColere(g) {
+  const v = g.colere?.vote; if (!v || v.fin) return;
+  const n = c => Object.values(v.votes).filter(x => x === c).length, max = Math.max(...v.props.map(n));
+  const egal = v.props.filter(c => n(c) === max), cat = egal[Math.floor(Math.random() * egal.length)];
+  const [a, b] = CATAS[cat].duree, duree = a + Math.floor(Math.random() * (b - a + 1));
+  v.fin = {cat, egal, duree, t: Date.now()};
+  log(g, `Vote terminé${egal.length > 1 ? " (égalité, le hasard tranche)" : ""} : ${CATAS[cat].nom} pendant ${duree} tour${duree > 1 ? "s" : ""}.`);
+}
+/* durée de l’animation du vote sur le plateau (bâton lumineux en cas d’égalité, puis révélation) */
+function pasEgalite(fin) { const n = fin.egal.length * 3 + fin.egal.indexOf(fin.cat); return Array.from({length: n + 1}, (_, i) => Math.round(70 + (i / Math.max(1, n)) ** 2 * 620)); }
+const dureeAnimVote = fin => (fin.egal.length > 1 ? pasEgalite(fin).reduce((t, x) => t + x, 0) : 600) + 4200;
+function finColere(g) {
+  const v = g.colere?.vote; if (g.phase !== "colere" || !v?.fin) return;
+  Object.assign(g.colere, {cat: v.fin.cat, duree: v.fin.duree, debut: g.manche + 1});
+  g.manche++; debutManche(g);
+}
+/* effets de début de tour (appelé par debutManche avant de préparer les offres) */
+function appliquerColereDebut(g) {
+  initColere(g); majColere(g, g.manche);
+  const c = g.colere;
+  if (!c.cat && g.manche === c.tour - 1) g.colereAnim = {id: Math.random().toString(36).slice(2), type: "annonce", raison: c.raison, t: Date.now()};
+  const cat = cataActive(g); if (!cat) return;
+  const k = cataTour(g), nm = id => g.noms[id];
+  if (k === 1) g.colereAnim = {id: Math.random().toString(36).slice(2), type: "debut", cat, duree: c.duree, t: Date.now()};
+  if (cat === "bourrasques") g.ordre.forEach(id => {
+    const ouverts = OBJECTIFS.filter(o => !g.completes[id].includes(o.id) && g.scores[id][o.id] > 0);
+    if (!ouverts.length) return;
+    const m = Math.max(...ouverts.map(o => g.scores[id][o.id])), l = ouverts.filter(o => g.scores[id][o.id] === m);
+    l.forEach(o => ajouter(g, id, o.id, -1));
+    log(g, `Bourrasques : ${nm(id)} perd 1 point en ${l.map(o => court(o.id)).join(", ")}.`);
+  });
+  if (cat === "tempete") {
+    const o = OBJECTIFS[Math.floor(Math.random() * OBJECTIFS.length)].id;
+    g.blocages = [...(g.blocages || []), {o, foudre: true}]; g.foudre = {o, manche: g.manche};
+    log(g, `Tempête : la foudre frappe ${court(o)}, personne n’y gagne de points ce tour.`);
+  }
+  if (cat === "eruption" && k === 1) g.ordre.forEach(id => {
+    const l = g.actives[id] || [], perdre = Math.floor(l.length / 2);
+    if (!perdre) return;
+    const sort = shuffle(l.map((a, i) => i)).slice(0, perdre);
+    const perdues = sort.map(i => l[i]); g.actives[id] = l.filter((a, i) => !sort.includes(i));
+    log(g, `Éruption : ${nm(id)} perd ${perdre} carte${perdre > 1 ? "s" : ""} permanente${perdre > 1 ? "s" : ""} (${perdues.map(a => nomCarte(CARTE[a.c])).join(", ")}).`);
+  });
+  if (cat === "raz" && k === 1) g.ordre.forEach(id => {
+    const l = OBJECTIFS.filter(o => g.scores[id][o.id] >= 8 && g.scores[id][o.id] <= 14);
+    l.forEach(o => fixer(g, id, o.id, 8));
+    if (l.length) log(g, `Raz-de-marée : ${nm(id)} retombe à 8 en ${l.map(o => court(o.id)).join(", ")}.`);
+  });
+  if (cat === "criquets" && k === 1) g.ordre.forEach(id => { if (!g.completes[id].includes("repas")) { fixer(g, id, "repas", MAX_PAR_OBJECTIF); log(g, `Criquets : la jauge de Repas de ${nm(id)} est pleine.`); } });
+}
+/* Blizzard : chaque joueur a choisi qui suivre (sans choix, un autre joueur au hasard), gardé pour toute la résolution */
+function guideBlizzard(g, pid) {
+  g.blizzardGuides = g.blizzardGuides || {};
+  if (g.blizzardGuides[pid]) return g.blizzardGuides[pid];
+  const autres = g.ordre.filter(id => id !== pid), choisi = g.plans?.[pid]?.guide;
+  return (g.blizzardGuides[pid] = autres.includes(choisi) ? choisi : autres[Math.floor(Math.random() * autres.length)]);
+}
+/* pendant l’étape d’un joueur, tout gain (pions, cartes, cartes permanentes, effets) hors des objectifs de son guide est perdu */
+function filtreBlizzard(g, pid, o) {
+  if (cataActive(g) !== "blizzard" || g.ordre.length < 2) return false;
+  if (!(g.phase === "resolution" || (g.phase === "completion" && g.suite === "resolution")) || g.ordre[g.resIdx] !== pid) return false;
+  const ga = g.plans?.[guideBlizzard(g, pid)]?.alloc || {};
+  return !(parseInt(ga[o], 10) > 0);
+}
+/* règles de pose pendant la catastrophe (résolution) */
+function pionsColere(g, pid, alloc) {
+  const cat = cataActive(g), sim = g.phase === "simulation", nm = g.noms[pid];
+  if (cat === "pluie") OBJECTIFS.forEach(o => { if (alloc[o.id] > 1) { if (!sim) log(g, `Pluie torrentielle : ${nm} ne garde qu’un pion en ${court(o.id)}.`); alloc[o.id] = 1; } });
+  if (cat === "peste") { let pos = Math.min(2, g.aDistribuer); OBJECTIFS.forEach(o => { const k = Math.min(alloc[o.id] || 0, pos); pos -= k; if (k) alloc[o.id] = k; else delete alloc[o.id]; }); }
+  if (cat === "seisme" && !sim) {
+    const dep = [];
+    Object.keys(alloc).forEach(o => { const n = alloc[o]; if (!n) return; const l = OBJECTIFS.filter(x => x.id !== o && !g.completes[pid].includes(x.id)); if (!l.length) return; const d = l[Math.floor(Math.random() * l.length)].id; delete alloc[o]; alloc["__" + d] = (alloc["__" + d] || 0) + n; dep.push(`${court(o)} → ${court(d)}`); });
+    Object.keys(alloc).filter(k => k.startsWith("__")).forEach(k => { const d = k.slice(2); alloc[d] = (alloc[d] || 0) + alloc[k]; delete alloc[k]; });
+    if (dep.length) log(g, `Séisme : les pions de ${nm} glissent (${dep.join(", ")}).`);
+  }
+  if (cat === "blizzard" && !sim && g.ordre.length > 1) {
+    const guide = guideBlizzard(g, pid), ga = g.plans?.[guide]?.alloc || {}, perdus = [];
+    Object.keys(alloc).forEach(o => { if (!(parseInt(ga[o], 10) > 0)) { perdus.push(`${alloc[o]} en ${court(o)}`); delete alloc[o]; } });
+    log(g, perdus.length ? `Blizzard : ${nm} suivait ${g.noms[guide]}, qui n’a pas avancé partout : pions perdus (${perdus.join(", ")}).` : `Blizzard : ${nm} suivait ${g.noms[guide]} et garde tous ses pions.`);
+  }
+  return alloc;
+}
+function pesteNegatifs(g, pid) {
+  if (cataActive(g) !== "peste") return;
+  const p = g.plans?.[pid] || {}, ap = p.allocP || {}, l = [];
+  let reste = Math.max(0, g.aDistribuer - 2);
+  OBJECTIFS.forEach(o => { const k = Math.min(reste, parseInt(ap[o.id], 10) || 0); if (!k || g.completes[pid].includes(o.id) || g.scores[pid][o.id] <= 0) return; reste -= k; const r = -ajouter(g, pid, o.id, -k); if (r) l.push(`−${r} en ${court(o.id)}`); });
+  if (l.length && g.phase !== "simulation") log(g, `Peste : ${g.noms[pid]} ${l.join(", ")}.`);
+}
+
+/* ---------- Colère des dieux : affichage ---------- */
+const carteCata = (cat, extra = "") => `<div class="cc-carte cata-${cat}" data-cc="${cat}"><span class="medaillon cc-ic">${DB.icone("cata-" + cat, 52)}</span><b class="cc-nom">${esc(CATAS[cat].nom)}</b><span class="cc-duree">${CATAS[cat].duree[0] === CATAS[cat].duree[1] ? `${CATAS[cat].duree[0]} tour` : `${CATAS[cat].duree[0]} à ${CATAS[cat].duree[1]} tours`}</span><p class="cc-eff">${esc(CATAS[cat].effet)}</p>${extra}</div>`;
+let voteAnimVu = "", voteFinLance = "", voteTimer = null, voteEtat = {};
+/* l’état de l’animation est gardé à part et réappliqué après chaque rendu (l’écran peut être redessiné pendant l’animation) */
+function appliquerVoteEtat() {
+  const sc = document.getElementById("vote-colere"); if (!sc || voteEtat.id !== sc.dataset.id) return;
+  sc.querySelectorAll(".batons").forEach(b => b.classList.toggle("lumiere", b.dataset.bat === voteEtat.allume));
+  sc.querySelectorAll(".vc-col").forEach(c => { const cat = c.querySelector("[data-cc]").dataset.cc; c.classList.toggle("elue", !!voteEtat.revele && cat === voteEtat.allume); c.classList.toggle("perdue", !!voteEtat.revele && cat !== voteEtat.allume); });
+  const r = document.getElementById("vc-res"); if (r) r.innerHTML = voteEtat.texte || "";
+}
+function rendreVoteColere(tete) {
+  const v = jeu.colere.vote, fin = v.fin;
+  const batons = cat => jeu.ordre.filter(id => v.votes[id] === cat).map(id => `<i class="baton" style="--c:${couleur(id)}" title="${esc(jeu.noms[id])}"></i>`).join("");
+  const st = document.getElementById("vote-colere");
+  /* mise à jour en direct sans tout redessiner (garde l’animation du bâton lumineux) */
+  if (st && st.dataset.id === v.id && !!st.dataset.fin === !!fin) {
+    v.props.forEach(cat => { const b = st.querySelector(`[data-bat="${cat}"]`); if (b && b.dataset.n !== String(batons(cat).length)) { b.innerHTML = batons(cat); b.dataset.n = batons(cat).length; DB.son("pion"); } });
+    st.querySelector(".vc-compte").textContent = `${Object.keys(v.votes).length}/${jeu.ordre.length} votes`;
+    return;
+  }
+  $app.innerHTML = `${tete}<div id="vote-colere" class="vote-colere" data-id="${v.id}" ${fin ? 'data-fin="1"' : ""}>
+    <h2 class="revele-t">La colère des dieux</h2>
+    <p class="vc-raison">Les dieux se chamaillent ${esc(jeu.colere.raison)}. Votez pour la catastrophe qui s’abattra sur la famille !</p>
+    <div class="vc-cartes">${v.props.map(cat => `<div class="vc-col">${carteCata(cat)}<div class="batons" data-bat="${cat}" data-n="${Object.values(v.votes).filter(x => x === cat).length}">${batons(cat)}</div></div>`).join("")}</div>
+    <p class="vc-compte muted">${Object.keys(v.votes).length}/${jeu.ordre.length} votes</p>
+    <div class="vc-res" id="vc-res"></div>
+    ${fin ? "" : `<div class="minuteur" aria-hidden="true"><span style="animation-duration:${VOTE_COLERE}ms;animation-delay:-${Math.min(VOTE_COLERE, Date.now() - v.t)}ms"></span></div>`}</div>`;
+  lierNouvelle(); lierSon(); appliquerVoteEtat();
+  if (!fin) {
+    if (!voteTimer) voteTimer = setTimeout(() => { voteTimer = null; if (jeu?.phase === "colere" && !jeu.colere.vote.fin) agir(g => { if (g.phase === "colere") terminerVoteColere(g); }); }, Math.max(0, VOTE_COLERE - (Date.now() - v.t)) + 100);
+    return;
+  }
+  clearTimeout(voteTimer); voteTimer = null;
+  if (voteAnimVu === v.id) return appliquerVoteEtat();
+  voteAnimVu = v.id;
+  const total = dureeAnimVote(fin), passe = Date.now() - fin.t;
+  const conclure = () => { if (voteFinLance === v.id) return; voteFinLance = v.id; agir(g => { if (g.phase === "colere" && g.colere.vote?.id === v.id) finColere(g); }); };
+  if (passe > total) return conclure();
+  voteEtat = {id: v.id, allume: null, revele: false, texte: ""};
+  const allume = cat => { voteEtat.allume = cat; appliquerVoteEtat(); };
+  const reveler = () => {
+    voteEtat.revele = true; voteEtat.texte = `<b>${esc(CATAS[fin.cat].nom)}</b> s’abat sur la famille pendant <b>${fin.duree} tour${fin.duree > 1 ? "s" : ""}</b> !`;
+    allume(fin.cat); DB.son("revelation");
+    setTimeout(conclure, 4200);
+  };
+  if (fin.egal.length < 2) return setTimeout(reveler, 600);
+  const pas = pasEgalite(fin); let i = 0;
+  const pas1 = () => { if (i >= pas.length) return reveler(); allume(fin.egal[i % fin.egal.length]); DB.son("pion"); setTimeout(pas1, pas[i++]); };
+  voteEtat.texte = "Égalité ! Le bâton lumineux va trancher…"; appliquerVoteEtat();
+  setTimeout(pas1, 900);
+}
+let voteEnvoi = null;
+function ecranVoteTel(me, pied) {
+  const v = jeu.colere.vote, mien = v.votes[me] || (voteEnvoi?.id === v.id ? voteEnvoi.c : null);
+  if (v.fin) { $app.innerHTML = `<h1>La colère des dieux</h1><p>Le vote est terminé. Regarde le plateau : les dieux choisissent leur catastrophe…</p>${pied}`; return; }
+  $app.innerHTML = `<h1>La colère des dieux</h1><p>Les dieux se chamaillent ${esc(jeu.colere.raison)}. Vote pour la catastrophe qui s’abattra sur la famille (tu peux changer d’avis jusqu’à la fin du vote).</p>
+    <div class="pick vc-pick">${v.props.map(cat => `<button data-vote="${cat}" class="${mien === cat ? "sel" : ""}" aria-pressed="${mien === cat}">${carteCata(cat, mien === cat ? `<span class="cc-mien">${coche()} Ton vote</span>` : "")}</button>`).join("")}</div>
+    <p class="muted small">${Object.keys(v.votes).length}/${jeu.ordre.length} joueurs ont voté.</p>${pied}`;
+  $app.querySelectorAll("[data-vote]").forEach(b => b.onclick = () => {
+    const c = b.dataset.vote; DB.son("panneau");
+    if (test) return agir(g => voterColere(g, me, c));
+    voteEnvoi = {id: v.id, c}; rendre();
+    ecrire(async () => { await db.doc("parties/" + code + "/joueurs/" + me).set({nom: jeu.noms[me], arrivee: Date.now(), objet: jeu.objets?.[me] || "", objJeu: jeu.objJeu, vote: {id: v.id, c}}); });
+  });
+}
+/* effet visuel de la catastrophe sur le plateau + bandeau */
+function cataOverlay() {
+  const cat = cataActive(); if (!cat || !jeu || jeu.statut !== "en_cours") return "";
+  const n = {pluie: 40, bourrasques: 9, blizzard: 45, criquets: 26, peste: 12}[cat] || 0;
+  return `<div class="cata-ov cata-ov-${cat}" aria-hidden="true">${Array.from({length: n}, (_, k) => `<i style="--k:${k};--x:${(k * 37) % 100}%;--y:${(k * 53) % 100}%"></i>`).join("")}</div>
+    <div class="cata-bandeau-p">${DB.icone("cata-" + cat, 26)}<span><b>${esc(CATAS[cat].nom)}</b> · tour ${cataTour()}/${jeu.colere.duree}${cat === "tempete" && jeu.foudre?.manche === jeu.manche ? ` · foudre sur ${esc(court(jeu.foudre.o))}` : ""}</span></div>`;
+}
+let colereAnimVu = "";
+function animerColere() {
+  const c = jeu?.colereAnim;
+  if (!c || c.id === colereAnimVu) return;
+  colereAnimVu = c.id;
+  if (Date.now() - (c.t || 0) > 20000 || !(vue() === "plateau" || test)) return;
+  const d = document.createElement("div");
+  d.className = "colere-anim"; d.setAttribute("role", "status");
+  d.innerHTML = c.type === "annonce"
+    ? `<div class="boite"><span class="medaillon ca-eclair">${DB.icone("cata-tempete", 70)}</span><small>Sur l’Olympe…</small><b>Les dieux se chamaillent</b><p>${esc(c.raison)}.</p><p class="ca-menace">Leur colère s’abattra à la fin de ce tour.</p></div>`
+    : `<div class="boite cata-${c.cat}"><span class="medaillon">${DB.icone("cata-" + c.cat, 70)}</span><small>La colère des dieux s’abat</small><b>${esc(CATAS[c.cat].nom)}</b><p>${esc(CATAS[c.cat].effet)}</p><p class="ca-menace">Pendant ${c.duree} tour${c.duree > 1 ? "s" : ""}</p></div>`;
+  jouerPopup(d, () => DB.son("revelation"), 5200);
+}
+/* icônes des catastrophes (même trait que les autres icônes) */
+(function () {
+  const K = 'stroke="#2a2118" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"', I = DB.icones;
+  const nuage = (f) => `<path d="M12 28a8 8 0 0 1 1-16a10 10 0 0 1 19-2a8 8 0 0 1 5 18z" fill="${f}" ${K}/>`;
+  I["cata-bourrasques"] = `<path d="M5 16h22a5 5 0 1 0-5-5M5 25h32a5 5 0 1 1-5 5M5 34h16a4 4 0 1 1-4 4" fill="none" ${K}/><path d="M5 16h22M5 25h32" stroke="#bfe0ee" stroke-width="1.2" fill="none"/>`;
+  I["cata-pluie"] = nuage("#cfd8df") + `<path d="M15 33l-2 6M24 33l-2 6M33 33l-2 6" stroke="#3b7bbf" stroke-width="3" stroke-linecap="round"/>`;
+  I["cata-tempete"] = nuage("#7d8790") + `<path d="M25 26l-6 10h6l-4 9 11-13h-6l4-6z" fill="#f2c14e" ${K}/>`;
+  I["cata-eruption"] = `<path d="M5 43l12-22h14l12 22z" fill="#8a5e38" ${K}/><path d="M17 21c3 3 4 6 3 9M31 21c-2 4-2 8 0 11" fill="none" stroke="#e0662a" stroke-width="3" stroke-linecap="round"/><path d="M19 15c-2-5 2-9 5-8c2-4 8-2 7 3c4 0 5 5 1 6z" fill="#e0662a" ${K}/>`;
+  I["cata-raz"] = `<path d="M4 40c6-3 8-24 24-26c10-1 14 7 10 12c-3 4-9 2-9-2c-6 4-4 15 4 16z" fill="#3b7bbf" ${K}/><path d="M4 44h40" ${K}/><path d="M28 18c4 0 7 2 7 5" stroke="#fff" stroke-width="2" fill="none" opacity=".7"/>`;
+  I["cata-seisme"] = `<path d="M4 22h40v20H4z" fill="#a87a4f" ${K}/><path d="M22 22l4 6-5 4 5 5-3 5" fill="none" stroke="#2a2118" stroke-width="3" stroke-linejoin="round"/><path d="M8 14l3-4 3 4 3-4M31 14l3-4 3 4 3-4" fill="none" ${K}/>`;
+  I["cata-criquets"] = `<ellipse cx="26" cy="24" rx="14" ry="7" fill="#7a9a3c" ${K}/><circle cx="12" cy="21" r="5" fill="#7a9a3c" ${K}/><path d="M20 30l-5 10M30 30l4 10M34 22l8-10 4 18M10 17l-5-8M13 16l1-9" fill="none" ${K}/><circle cx="11" cy="20" r="1.4" fill="#2a2118"/>`;
+  I["cata-blizzard"] = `<path d="M24 4v40M7 14l34 20M41 14L7 34" stroke="#2a2118" stroke-width="5" stroke-linecap="round"/><path d="M24 4v40M7 14l34 20M41 14L7 34" stroke="#cfe6f3" stroke-width="2.5" stroke-linecap="round"/><path d="M19 8l5 4 5-4M19 40l5-4 5 4" fill="none" stroke="#2a2118" stroke-width="2.2" stroke-linecap="round"/>`;
+  I["cata-eclipse"] = `<circle cx="24" cy="24" r="15" fill="#f2c14e" ${K}/><path d="M24 3v4M24 41v4M3 24h4M41 24h4M9 9l3 3M36 36l3 3M39 9l-3 3M12 36l-3 3" ${K}/><circle cx="29" cy="21" r="13" fill="#20263a" ${K}/>`;
+  I["cata-peste"] = `<path d="M19 5h10v9l9 16a8 8 0 0 1-7 12H17a8 8 0 0 1-7-12l9-16z" fill="#e9f0d6" ${K}/><path d="M12 30h24l2 4a6 6 0 0 1-6 7H16a6 6 0 0 1-6-7z" fill="#8fae3a"/><circle cx="20" cy="34" r="2" fill="#e9f0d6"/><circle cx="27" cy="31" r="1.5" fill="#e9f0d6"/><path d="M17 5h14" ${K}/>`;
+})();
 function premierTour(g) { g.objOffres = {}; g.tourLog = []; g.histo = []; debutManche(g); }
 function commencerPartie() { return agir(g => { if (g.phase === "objets_vus") premierTour(g); }); }
 const jetonPret = () => jeu.phase === "recap" ? "r" + jeu.mancheId : jeu.objJeu;
 function finPrets(g) { if (g.phase === "objets_vus") premierTour(g); }
 let finRecapLance = "";
+/* ---------- BD : au début du récap, chaque dieu invoqué dit à son tour le texte de sa carte ---------- */
+const BD_VITESSE = 32;   // lettres par seconde
+const bdListe = () => (jeu?.ordre || []).filter(id => jeu.recapInfo?.[id]?.carte && CARTE[jeu.recapInfo[id].carte]);
+const bdTexte = pid => { const c = CARTE[jeu.recapInfo[pid].carte]; return texteCarte(c) || c.nom || ""; };
+const bdDureeCase = pid => Math.max(4500, Math.round(bdTexte(pid).length / BD_VITESSE * 1000) + 3200);
+const bdDuree = () => bdListe().reduce((t, id) => t + bdDureeCase(id), 0) + (bdListe().length ? 900 : 0);
+let bdVue = "", bdEnCours = false;
+function lancerBD() {
+  if (!(vue() === "plateau" || test) || jeu?.phase !== "recap" || bdVue === jeu.mancheId) return;
+  bdVue = jeu.mancheId;
+  const l = bdListe();
+  if (!l.length || Date.now() - (jeu.recapT || 0) > bdDuree()) return;
+  bdEnCours = true;
+  const sc = document.createElement("div");
+  sc.className = "bd-scene"; sc.setAttribute("role", "status");
+  document.body.appendChild(sc);
+  let k = 0, frappe = null;
+  const finir = () => { clearInterval(frappe); sc.classList.add("sort"); setTimeout(() => { sc.remove(); bdEnCours = false; recapVue = false; rendre(); }, 600); };
+  const suivant = () => {
+    clearInterval(frappe);
+    if (k >= l.length || jeu?.phase !== "recap") return finir();
+    const pid = l[k], inf = jeu.recapInfo[pid], d = dieu(inf.dieu), txt = bdTexte(pid);
+    const t = d.transverse ? "var(--or)" : `var(--obj-${d.objs[0]})`, gauche = k % 2 === 0;
+    /* une seule planche qui défile : chaque case s’ajoute sous la précédente, en alternant gauche et droite */
+    let planche = sc.querySelector(".bd-planche");
+    if (!planche) { sc.innerHTML = `<div class="bd-planche"><h2 class="bd-titre">Le tour ${jeu.recapManche}</h2></div>`; planche = sc.querySelector(".bd-planche"); }
+    planche.querySelectorAll(".bd-curseur").forEach(e => e.remove());
+    planche.insertAdjacentHTML("beforeend", `<div class="bd-case ${gauche ? "" : "inverse"}" style="--c:${couleur(pid)};--t:${t}" aria-label="${esc(d.nom)}, pour ${esc(jeu.noms[pid])}">
+      <div class="bd-dieu"><div class="bd-portrait">${d.image ? `<img alt="${esc(d.nom)}" src="${d.image}">` : DB.portrait(t, d.nom)}</div></div>
+      <div class="bd-droite"><div class="bd-bulle"><svg class="bd-queue" viewBox="0 0 44 34" aria-hidden="true"><path d="M44 4L3 28L44 22z" fill="#fffdf7"/><path d="M42 5L3 28L42 21" fill="none" stroke="#2a2118" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/></svg><p aria-label="${esc(txt)}"><b class="bd-qui">${esc(d.nom)}</b><span class="bd-txt"></span><span class="bd-curseur"></span></p>${bdIcones(CARTE[inf.carte])}</div></div>
+    </div>`);
+    const cas = planche.lastElementChild;
+    requestAnimationFrame(() => sc.scrollTo({top: Math.max(0, cas.offsetTop - (sc.clientHeight - cas.offsetHeight) / 2), behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth"}));
+    bdPop();
+    const voix = bdVoix(inf.dieu);
+    const zone = cas.querySelector(".bd-txt"), lent = matchMedia("(prefers-reduced-motion: reduce)").matches;
+    let n = 0;
+    const montrerEffet = () => { const ic = cas.querySelector(".bd-icones"); if (!ic || ic.classList.contains("montre")) return; ic.querySelectorAll(".delta").forEach((x, i) => { x.style.setProperty("--i", i); setTimeout(bdPop, i * 120); }); ic.classList.add("montre"); };
+    if (lent) { zone.textContent = txt; montrerEffet(); }
+    else frappe = setInterval(() => { n += 1; zone.textContent = txt.slice(0, n); if (n % 2 === 1) bdSyllabe(txt[n - 1], voix); if (n >= txt.length) { clearInterval(frappe); cas.querySelector(".bd-curseur")?.remove(); setTimeout(montrerEffet, 250); } }, 1000 / BD_VITESSE);
+    const duree = bdDureeCase(pid);
+    k++; setTimeout(suivant, duree);
+  };
+  setTimeout(suivant, 300);
+}
+/* ---------- Après la BD : chaque joueur, l’un après l’autre, applique ses effets au plateau ---------- */
+const ETAPE_AVANT = 1800, ETAPE_APRES = 1400, RECAP_MIN = 8000;
+let etapeEtat = null, etapeAff = null, etapesFaites = null, recapDebutLocal = {};
+const etapesPossibles = () => !!jeu?.recapAvant && jeu.ordre.length > 0 && jeu.ordre.every(id => jeu.recapEtapes?.[id]);
+function etapeDe(k) { const l = jeu.ordre; return {from: k === 0 ? jeu.recapAvant : jeu.recapEtapes[l[k - 1]], to: jeu.recapEtapes[l[k]]}; }
+function ecartMax(from, to) { let m = 0; jeu.ordre.forEach(id => OBJECTIFS.forEach(o => { m = Math.max(m, Math.abs((to[id]?.[o.id] || 0) - (from[id]?.[o.id] || 0))); })); return m; }
+function etapesDuree() {
+  if (!etapesPossibles()) return 0;
+  const comp = (jeu.annonces || []).filter(a => !a.mi && a.n === jeu.nTour).length;
+  return jeu.ordre.reduce((t, id, k) => { const e = etapeDe(k); return t + ETAPE_AVANT + ecartMax(e.from, e.to) * PAS_PIONS + ETAPE_APRES; }, 0) + comp * 4600;
+}
+const recapDebut = () => recapDebutLocal[jeu.mancheId] || ((jeu.recapT || 0) + bdDuree() + etapesDuree());
+function lancerEtapes() {
+  if (!(vue() === "plateau" || test) || jeu?.phase !== "recap" || etapeEtat || etapesFaites === jeu.recapManche) return;
+  if (!etapesPossibles() || Date.now() - (jeu.recapT || 0) > bdDuree() + etapesDuree()) { etapesFaites = "sautees-" + jeu.recapManche; return; }
+  etapesFaites = jeu.recapManche;
+  const manche = jeu.mancheId;
+  etapeEtat = {k: 0};
+  const terminer = () => {
+    etapeEtat = null; etapeAff = null; recapDebutLocal[manche] = Date.now(); recapVue = false;
+    complAttente.forEach(a => annFile.push({fn: () => popupComplete(a), duree: 4200})); complAttente = [];
+    rendre(); setTimeout(verifierFinRecap, RECAP_MIN + 300);
+  };
+  const jouer = () => {
+    if (jeu?.phase !== "recap" || jeu.mancheId !== manche || etapeEtat.k >= jeu.ordre.length) return terminer();
+    const {from, to} = etapeDe(etapeEtat.k), max = ecartMax(from, to);
+    etapeAff = {from, to, step: 0};
+    const arr = complAttente.filter(a => (from[a.pid]?.[a.obj] ?? 0) < MAX_PAR_OBJECTIF && (to[a.pid]?.[a.obj] ?? 0) >= MAX_PAR_OBJECTIF)
+      .map(a => ({a, step: Math.max(1, Math.min(max, MAX_PAR_OBJECTIF - (from[a.pid]?.[a.obj] ?? 0)))}));
+    complAttente = complAttente.filter(a => !arr.some(x => x.a === a));
+    rendre(); DB.son("tour");
+    const tic = () => {
+      if (!etapeEtat) return;
+      if (etapeAff.step >= max) { setTimeout(() => { if (!etapeEtat) return; etapeEtat.k++; jouer(); }, ETAPE_APRES); return; }
+      etapeAff.step++; majRoue(); DB.son("pion");
+      const ici = arr.filter(x => x.step === etapeAff.step);
+      if (!ici.length) return setTimeout(tic, PAS_PIONS);
+      let i = 0; const pr = () => { if (i >= ici.length) return setTimeout(tic, PAS_PIONS); popupComplete(ici[i++].a, pr); };
+      setTimeout(pr, 300);
+    };
+    setTimeout(tic, ETAPE_AVANT);
+  };
+  jouer();
+}
+const chipDelta = (o, n, t) => `<span class="delta ${n > 0 ? "plus" : "moins"}" aria-label="${esc(court(o))} ${n > 0 ? "+" : "−"}${Math.abs(n)}">${DB.icone(o, t)}<b>${n > 0 ? "+" : "−"}${Math.abs(n)}</b></span>`;
+function etapeHtml() {
+  const k = etapeEtat.k, pid = jeu.ordre[k], {from, to} = etapeDe(k), inf = jeu.recapInfo?.[pid] || {};
+  const d = inf.dieu ? dieu(inf.dieu) : null, c = inf.carte ? CARTE[inf.carte] : null, ic = d && !d.transverse ? d.objs[0] : "laurier";
+  const perm = !!c && (["longue_duree", "permanent"].includes(c.type) || (jeu.actives?.[pid] || []).some(a => a.c === c.id));
+  const touches = jeu.ordre.map(id => [id, OBJECTIFS.map(o => [o.id, (to[id]?.[o.id] || 0) - (from[id]?.[o.id] || 0)]).filter(x => x[1])]).filter(x => x[1].length);
+  touches.sort((a, b) => (a[0] === pid ? -1 : 0) - (b[0] === pid ? -1 : 0));
+  const pal = (jeu.annonces || []).filter(a => a.pid === pid && a.n === jeu.nTour);
+  return `<div class="panneau etape" style="--c:${couleur(pid)}">
+    <div class="muted small">Résolution du tour ${jeu.recapManche} · ${k + 1} / ${jeu.ordre.length}</div>
+    <div class="qui">${pastille(pid, 44)} ${esc(jeu.noms[pid])}</div>
+    ${d ? `<div class="rc-dieu"><span class="medaillon" style="--t:${!d.transverse ? `var(--obj-${ic})` : "var(--or)"};width:44px;height:44px;border-width:3px">${DB.icone(ic, 28)}</span>invoque ${esc(d.nom)}</div>` : ""}
+    ${c ? `<div class="rc-bloc ${perm ? "rc-perm" : ""}">${perm ? `<span class="rc-perm-ruban">${DB.icone("laurier", 22)} CARTE PERMANENTE</span>` : `<strong>CARTE</strong>`}<p class="co-cit">${esc(citer(c))}</p><p class="rc-eff">${esc(decrire(c))}</p></div>` : ""}
+    <div class="rc-bloc"><strong>SUR LE PLATEAU</strong>${touches.length ? touches.map(([id, l]) => `<p class="et-ligne">${pastille(id, 26)} <b>${esc(jeu.noms[id])}</b> ${l.map(([o, n]) => chipDelta(o, n, 22)).join(" ")}</p>`).join("") : `<p class="muted">Aucun point ne bouge.</p>`}</div>
+    ${pal.length ? `<div class="rc-bloc"><strong>BONUS DE PARCOURS</strong>${pal.map(a => { const e = EFFETS_OBJECTIFS[a.obj]; return `<p class="rc-pal">${DB.icone(a.mi ? "mi-parcours" : "laurier", 24)}${DB.icone(a.obj, 24)} <span>${a.mi ? `« ${esc(e.nomMi)} »` : `« ${esc(e.detail)} »`}${a.res && !/^En attente/.test(a.res) ? ` : ${esc(a.res)}` : ""}</span></p>${a.carte ? carteSpeciale(a.carte.c, a.carte.mode, {de: a.carte.de, petit: true}) : ""}`; }).join("")}</div>` : ""}
+  </div>
+  <div class="etape-file">${jeu.ordre.map((id, i) => `<span class="puce ${i < k ? "fait" : i === k ? "encours" : ""}">${pastille(id, 24)} ${esc(jeu.noms[id])} ${i < k ? coche() : ""}</span>`).join("")}</div>`;
+}
 function verifierFinRecap() {
   if (!(vue() === "plateau" || test) || jeu?.phase !== "recap" || jeu.statut !== "en_cours" || busy) return;
-  if (annEnCours || annFile.length) return;
-  const tous = jeu.ordre.every(id => jeu.prets?.[id]), delai = Date.now() - (jeu.recapT || 0) >= DELAI_RECAP;
+  if (annEnCours || annFile.length || bdEnCours || etapeEtat) return;
+  const vu = Date.now() - recapDebut();
+  const tous = jeu.ordre.every(id => jeu.prets?.[id]) && vu >= RECAP_MIN, delai = vu >= DELAI_RECAP;
   if (!tous && !delai) return;
   if (finRecapLance === jeu.mancheId) return;
   finRecapLance = jeu.mancheId;
@@ -4470,7 +5148,7 @@ function marquerPret(pid) {
 function planifierDepart() {
   const ph = jeu?.phase;
   if (departTimer || !["objets_vus", "recap"].includes(ph)) return;
-  const t0 = ph === "recap" ? jeu.recapT : jeu.revelT, d = ph === "recap" ? DELAI_RECAP : DELAI_REVELATION;
+  const t0 = ph === "recap" ? recapDebut() : jeu.revelT, d = ph === "recap" ? DELAI_RECAP : DELAI_REVELATION;
   departTimer = setTimeout(() => { departTimer = null; if (jeu?.phase === ph) { if (ph === "recap") verifierFinRecap(); else if (busy) planifierDepart(); else agir(g => { if (g.phase === ph) finPrets(g); }); } }, Math.max(0, d - (Date.now() - (t0 || Date.now()))));
 }
 function taureauG(g, pid, cible) {
@@ -4605,6 +5283,8 @@ function resolu(g) {
       avec les effets interactifs habituels (complétion, taureau, Psychorigide…).
    3. « recap » : page de récapitulatif, puis le plateau évolue et le tour suivant commence. */
 const DELAI_RECAP = 60000;
+/* avancée des pions sur le plateau après le récap : un cran toutes les PAS_PIONS ms */
+const PAS_PIONS = 1000, ANIM_PIONS_MAX = 60000;
 function remettre(g, d, c) { if (!c || !g.paquets[d]) return; g.paquets[d].push(c); g.paquets[d] = shuffle(g.paquets[d]); }
 function offreApres(ctx, rel) {
   const off = ctx.offre.map(o => ({...o}));
@@ -4613,11 +5293,12 @@ function offreApres(ctx, rel) {
 }
 function debutManche(g) {
   (g.offre || []).forEach(o => remettre(g, o.dieu, o.carte)); g.offre = [];
-  g.phase = "choix"; g.mancheId = Math.random().toString(36).slice(2, 9); g.plans = {}; g.ctx = {}; g.recapInfo = {};
+  g.phase = "choix"; g.mancheId = Math.random().toString(36).slice(2, 9); g.plans = {}; g.ctx = {}; g.cartesPrec = Object.fromEntries(Object.entries(g.recapInfo || {}).filter(([, x]) => x?.carte).map(([id, x]) => [id, x.carte])); g.recapInfo = {};
   g.tirage = null; g.dieuDuTour = null; g.file = []; g.suite = null; g.des = null;
   g.nTour = (g.nTour || 0) + 1;
   const res = g.reserveProchaine || null; g.reserveProchaine = null; let resUtilisee = false;
   g.ordre.forEach(id => verifierPull(g, id));
+  appliquerColereDebut(g);
   g.ordre.forEach((pid, idx) => {
     g.tour = idx;
     const bonus = (g.bonus || {})[pid] || 0, pr = (g.prochain || {})[pid] || {}, info = [];
@@ -4673,10 +5354,13 @@ function debutManche(g) {
   g.tour = 0;
   log(g, `Tour ${g.manche} : chacun choisit son dieu et pose ses pions.`);
   g.tourLog = [];
+  /* criquets : les effets de parcours (Repas) passent avant le choix des dieux */
+  if (cataActive(g) === "criquets" && cataTour(g) === 1) { verifier(g); if (g.file.length) { g.phase = "completion"; g.suite = "choix"; } }
 }
 function demarrerResolution(g) {
   g.phase = "resolution"; g.resIdx = 0; g.resEtape = "carte"; g.platreBloque = {}; g.platreRecap = null;
   g.recapAvant = Object.fromEntries(g.ordre.map(id => [id, {...g.scores[id]}]));
+  g.recapEtapes = {}; g.blizzardGuides = {}; g.blizzardPerdu = {};
   /* le plateau reste figé jusqu’au dénouement : objectifs complétés, cartes et relances du début du tour */
   g.recapAvantComp = Object.fromEntries(g.ordre.map(id => [id, (g.completes[id] || []).slice()]));
   g.recapAvantAct = Object.fromEntries(g.ordre.map(id => [id, (g.actives?.[id] || []).slice()]));
@@ -4742,7 +5426,9 @@ function resoudrePions(g, pid) {
   let reste = g.aDistribuer;
   OBJECTIFS.forEach(o => { const k = Math.max(0, Math.min(reste, parseInt(p.alloc?.[o.id], 10) || 0)); if (k) { alloc[o.id] = k; reste -= k; } });
   const extra = Math.max(0, g.aDistribuer - POINTS_PAR_TOUR);
+  pionsColere(g, pid, alloc);
   poserPions(g, pid, alloc, true);
+  pesteNegatifs(g, pid);
   const rp = g.reportPions?.[pid];
   if (rp) {
     const n = alloc[rp.o] || 0;
@@ -4751,7 +5437,7 @@ function resoudrePions(g, pid) {
   }
   (g.actives[pid] || []).forEach(a => {
     const c = CARTE[a.c]; if (c?.e.t !== "pion_dieu") return;
-    const x = c.e.objs.includes(p.pdieu?.[c.id]) ? p.pdieu[c.id] : c.e.objs[0];
+    const x = c.e.objs.includes(p.pdieu?.[c.id]) ? p.pdieu[c.id] : (c.e.objs.find(o => !g.completes[pid].includes(o)) || c.e.objs[0]);
     poserPions(g, pid, {[x]: 1}, false);
     log(g, `${c.nom} : ${g.noms[pid]} pose son pion dédié en ${court(x)}.`);
   });
@@ -4765,7 +5451,11 @@ function continuerResolution(g) {
     if (g.resEtape === "carte") { resoudreCarte(g, pid); g.resEtape = "pions"; }
     else if (g.resEtape === "pions") { resoudrePions(g, pid); g.resEtape = "fin"; }
     else {
+      const bp = g.blizzardPerdu?.[pid];
+      if (bp && Object.keys(bp).length) log(g, `Blizzard : ${g.noms[pid]} suivait ${g.noms[guideBlizzard(g, pid)]} et perd ${Object.entries(bp).map(([o, n]) => `${n} point${n > 1 ? "s" : ""} en ${court(o)}`).join(", ")} (cartes et effets).`);
       finTourJoueur(g);
+      /* état du plateau après les effets de ce joueur : rejoué pas à pas sur le plateau après la BD */
+      g.recapEtapes = g.recapEtapes || {}; g.recapEtapes[pid] = Object.fromEntries(g.ordre.map(id => [id, {...g.scores[id]}]));
       g.histo = [...(g.histo || []), {pid, manche: g.manche, lignes: (g.tourLog || []).filter(l => !l.startsWith("Au tour de "))}].slice(-40);
       g.tourLog = []; g.resIdx++; g.resEtape = "carte"; continue;
     }
@@ -4782,15 +5472,16 @@ function finManche(g) {
   g.platreRecap = g.platre ? {...g.platre} : null;
   g.blocRecap = (g.blocages || []).slice(); g.blocages = []; g.reportPions = {};
   g.platre = null; g.tc = {};
-  if (g.finApresRecap) {
-    log(g, `${g.ordre.filter(id => g.completes[id].length >= OBJECTIFS_POUR_FINIR).map(id => g.noms[id]).join(" et ")} a complété ${OBJECTIFS_POUR_FINIR} objectifs : fin de la partie.`);
-    g.statut = "fini"; g.phase = "fin"; g.finT = Date.now();
-  }
+  /* dernière manche : on passe quand même par le récap, les scores finaux viennent après (finRecap) */
+  if (g.finApresRecap) log(g, `${g.ordre.filter(id => g.completes[id].length >= OBJECTIFS_POUR_FINIR).map(id => g.noms[id]).join(" et ")} a complété ${OBJECTIFS_POUR_FINIR} objectifs : récap, puis fin de la partie.`);
 }
 function finRecap(g) {
   if (g.phase !== "recap") return;
-  if (g.finApresRecap) { g.recapFinT = Date.now(); g.statut = "fini"; g.phase = "fin"; log(g, "Fin de la partie."); return; }
-  g.recapFinT = Date.now(); g.manche++; debutManche(g);
+  if (g.finApresRecap) { g.recapFinT = Date.now(); g.statut = "fini"; g.phase = "fin"; g.finT = Date.now(); log(g, "Fin de la partie."); return; }
+  g.recapFinT = Date.now();
+  initColere(g); majColere(g, g.manche + 1);
+  if (!g.colere.cat && g.manche + 1 === g.colere.tour) { lancerVoteColere(g); return; }
+  g.manche++; debutManche(g);
 }
 /* --- côté téléphone : plan local, puis envoi --- */
 const plLoc = {}, recapVuTel = {};
@@ -4802,7 +5493,7 @@ function planLocal(me) {
   return p;
 }
 function envoyerPlan(me, p) {
-  const plan = {round: p.round, rel: p.rel, i: p.i, carte: p.carte, relC: p.relC, fc: !!p.fc, inp: p.inp, alloc: {...p.alloc}, crayon: p.crayon || 0, douche: p.douche || "", volb: p.volb || "", pdieu: {...(p.pdieu || {})}};
+  const plan = {round: p.round, rel: p.rel, i: p.i, carte: p.carte, relC: p.relC, fc: !!p.fc, inp: p.inp, alloc: {...p.alloc}, allocP: {...(p.allocP || {})}, guide: p.guide || "", crayon: p.crayon || 0, douche: p.douche || "", volb: p.volb || "", pdieu: {...(p.pdieu || {})}};
   if (test) return agir(g => { if (g.phase !== "choix" || plan.round !== g.mancheId) return; g.plans = g.plans || {}; g.plans[me] = plan; if (g.ordre.every(x => g.plans[x])) demarrerResolution(g); });
   planEnvoi = plan;
   return ecrire(async () => { await db.doc("parties/" + code + "/joueurs/" + me).set({nom: jeu.noms[me], arrivee: Date.now(), objet: jeu.objets?.[me] || "", objJeu: jeu.objJeu, plan}); });
@@ -4811,7 +5502,7 @@ function scoresPrevus(me, pl) {
   if (!pl || pl.i == null) return mesScores(me);
   let sim;
   try {
-    const pp = {...pl, rel: pl.rel || []}, s1 = simulerPlan(me, pp).sim;
+    const pp = {...pl, rel: pl.rel || []}, s1 = simulerPlan(me, pp, eclipseActive()).sim;
     /* carte à effet aléatoire : on ne compte que les pions, le résultat réel viendra à la résolution */
     const alea = [0, 1, 2, 3].some(() => JSON.stringify(simulerPlan(me, pp).sim.scores) !== JSON.stringify(s1.scores));
     sim = alea ? simulerPlan(me, pp, true).sim : s1;
@@ -4842,14 +5533,14 @@ function ecranChoix(me, pied) {
   if (p.etape === "envoye") {
     const pl = jeu.plans?.[me] || planEnvoi || {}, o = off[pl.i ?? p.i], cid = o ? (pl.fc && o.fc ? o.fc : pl.relC && o.rc ? o.rc : (pl.carte || o.carte)) : null;
     const pions = OBJECTIFS.filter(x => (pl.alloc || {})[x.id]).map(x => `${pl.alloc[x.id]} en ${esc(court(x.id))}`).join(", ");
-    $app.innerHTML = `${titre}<h1>Choix envoyés</h1>${o ? `<div class="card objet-ligne"><span class="medaillon" style="--t:var(--or);width:52px;height:52px">${DB.icone(dieu(o.dieu).transverse ? "laurier" : dieu(o.dieu).objs[0], 32)}</span><div><strong>${esc(dieu(o.dieu).nom)}</strong><div class="small muted">${esc(citer(CARTE[cid]))}</div>${CARTE[cid] ? `<div class="small">${esc(decrire(CARTE[cid]))}</div>` : ""}</div></div>` : ""}
+    $app.innerHTML = `${titre}<h1>Choix envoyés</h1>${o ? `<div class="card objet-ligne"><span class="medaillon" style="--t:var(--or);width:52px;height:52px">${DB.icone(dieu(o.dieu).transverse ? "laurier" : dieu(o.dieu).objs[0], 32)}</span><div><strong>${esc(dieu(o.dieu).nom)}</strong><div class="small muted">${esc(citer(CARTE[cid]))}</div>${CARTE[cid] && !eclipseActive() ? `<div class="small">${esc(decrire(CARTE[cid]))}</div>` : ""}</div></div>` : ""}
       <p class="pret-ok">${jeu.plans?.[me] ? `${coche()} Bien reçu par le plateau.` : "Envoi en cours…"} ${nbFait}/${jeu.ordre.length} joueurs ont joué.</p>
       <h2>Tes points après ton tour</h2>${scoresPrevus(me, pl)}${pied}`;
     return;
   }
   if (p.etape === "dieu") {
     const voitTout = jeu.completes[me].includes("culture"), voit = voitTout || ctx.voirUne;
-    $app.innerHTML = `${titre}<h1>Choisis un dieu</h1>${banniere(me)}<div class="defile">${off.map((o, i) => { const d = dieu(o.dieu); if (o.cache && !voitTout) return `<button class="choix-dieu ${p.sel === i ? "selection" : ""}" data-ci="${i}" aria-pressed="${p.sel === i}" aria-label="Sélectionner le dieu mystère"><div class="carte-dos"><span>Dieu<br>mystère</span></div></button>`; return `<button class="choix-dieu ${p.sel === i ? "selection" : ""}" data-ci="${i}" aria-pressed="${p.sel === i}" aria-label="Sélectionner ${esc(d.nom)}">${DB.carteDieu({nom: esc(d.nom), objs: d.transverse ? [] : d.objs, extra: d.transverse ? domaines(d, o) : "", image: d.image})}${voitTout || (voit && i === 0) || o.visible ? `<span class="carte-vue"><strong>${esc(citer(CARTE[o.carte]))}</strong><br><span class="muted">${esc(decrire(CARTE[o.carte]))}</span></span>` : ""}</button>`; }).join("")}</div>
+    $app.innerHTML = `${titre}<h1>Choisis un dieu</h1>${banniere(me)}<div class="defile">${off.map((o, i) => { const d = dieu(o.dieu); if (o.cache && !voitTout) return `<button class="choix-dieu ${p.sel === i ? "selection" : ""}" data-ci="${i}" aria-pressed="${p.sel === i}" aria-label="Sélectionner le dieu mystère"><div class="carte-dos"><span>Dieu<br>mystère</span></div></button>`; return `<button class="choix-dieu ${p.sel === i ? "selection" : ""}" data-ci="${i}" aria-pressed="${p.sel === i}" aria-label="Sélectionner ${esc(d.nom)}">${DB.carteDieu({nom: esc(d.nom), objs: d.transverse ? [] : d.objs, extra: d.transverse ? domaines(d, o) : "", image: d.image})}${voitTout || (voit && i === 0) || o.visible ? `<span class="carte-vue"><strong>${esc(citer(CARTE[o.carte]))}</strong><br><span class="muted">${eclipseActive() ? "Effet caché par l’éclipse" : esc(decrire(CARTE[o.carte]))}</span></span>` : ""}</button>`; }).join("")}</div>
       ${relReste > 0 && p.rel.length < ctx.spares.length ? `<p class="small" style="margin:12px 0 6px;display:flex;align-items:center;gap:8px">${jetonIco(26)} Il te reste ${relReste} relance${relReste > 1 ? "s" : ""}. Remplacer un dieu :</p><div class="row">${off.map((o, i) => `<button data-crel="${i}">${jetonIco(22)} ${o.cache ? "Dieu mystère" : esc(dieu(o.dieu).nom)}</button>`).join("")}</div>` : ""}
       <div class="valider-zone"><button class="primary large" id="vdieu" ${p.sel == null || !off[p.sel] ? "disabled" : ""}>${p.sel == null || !off[p.sel] ? "Touche un dieu pour le choisir" : off[p.sel].cache && !voitTout ? "Valider le dieu mystère" : `Valider ${esc(dieu(off[p.sel].dieu).nom)}`}</button></div>
       <h2>Tes points</h2>${mesScores(me)}${pied}`;
@@ -4872,8 +5563,9 @@ function ecranChoix(me, pied) {
   }
   if (p.etape === "deux") {
     $app.innerHTML = `${titre}<h1>${esc(dieu(o.dieu).nom)} te laisse choisir</h1><p>Tu ne trouves plus tes lunettes : choisis une des deux cartes.</p>
-      <div class="pick">${[o.carte, o.alt].map(id => `<button class="choix-carte ${p.selc === id ? "selection" : ""}" data-cc2="${id}" aria-pressed="${p.selc === id}">${carteHtml(id, "")}</button>`).join("")}</div>
-      <div class="valider-zone"><button class="primary large" id="vdeux" ${!p.selc ? "disabled" : ""}>${p.selc ? "Valider cette carte" : "Touche une carte pour la choisir"}</button></div>${pied}`;
+      <div class="pick">${[o.carte, o.alt].map(id => `<button class="choix-carte ${p.selc === id ? "selection" : ""}" data-cc2="${id}" aria-pressed="${p.selc === id}">${carteHtml(id, "", eclipseActive())}</button>`).join("")}</div>
+      <div class="valider-zone"><button class="primary large" id="vdeux" ${!p.selc ? "disabled" : ""}>${p.selc ? "Valider cette carte" : "Touche une carte pour la choisir"}</button></div>
+      <h2>Tes points</h2>${mesScores(me)}${pied}`;
     $app.querySelectorAll("[data-cc2]").forEach(b => b.onclick = () => { p.selc = b.dataset.cc2; rendre(); });
     const v2 = document.getElementById("vdeux"); if (v2) v2.onclick = () => { if (!p.selc) return; p.carte = p.selc; p.etape = "carte"; rendre(); };
     return;
@@ -4882,9 +5574,9 @@ function ecranChoix(me, pied) {
   if (p.etape === "carte") {
     const en = entrees(c, me);
     $app.innerHTML = `${titre}<h1>${esc(dieu(o.dieu).nom)} t’accorde…</h1>
-      ${!p.fc && o.fc ? `<div class="defile cartes-choix"><button class="cc-item cc-carte ${!p.selFc ? "selection" : ""}" data-csel="0" aria-pressed="${!p.selFc}">${carteHtml(cid, "")}</button>${jeu.completes[me].includes("culture") ? `<button class="cc-item cc-carte ${p.selFc ? "selection" : ""}" data-csel="1" aria-pressed="${!!p.selFc}" aria-label="Sélectionner l’autre carte">${carteHtml(o.fc, "")}</button>` : `<button class="cc-item cc-dos ${p.selFc ? "selection" : ""}" data-csel="1" aria-pressed="${!!p.selFc}" aria-label="Sélectionner la carte face cachée"><div class="carte-dos"><span>?</span></div></button>`}</div>` : carteHtml(cid, "")}${!p.selFc ? en.h : ""}
+      ${!p.fc && o.fc ? `<div class="defile cartes-choix"><button class="cc-item cc-carte ${!p.selFc ? "selection" : ""}" data-csel="0" aria-pressed="${!p.selFc}">${carteHtml(cid, "", eclipseActive())}</button>${jeu.completes[me].includes("culture") ? `<button class="cc-item cc-carte ${p.selFc ? "selection" : ""}" data-csel="1" aria-pressed="${!!p.selFc}" aria-label="Sélectionner l’autre carte">${carteHtml(o.fc, "", eclipseActive())}</button>` : `<button class="cc-item cc-dos ${p.selFc ? "selection" : ""}" data-csel="1" aria-pressed="${!!p.selFc}" aria-label="Sélectionner la carte face cachée"><div class="carte-dos"><span>?</span></div></button>`}</div>` : carteHtml(cid, "", eclipseActive())}${!p.selFc ? en.h : ""}
       <div class="row" style="margin-top:14px"><button class="primary" id="vcarte" ${!p.selFc && !en.pret ? "disabled" : ""}>${p.selFc ? (jeu.completes[me].includes("culture") ? "Valider cette carte" : "Valider la carte face cachée") : "Valider"}</button>${!p.fc && relReste > 0 && o.rc && !p.relC ? `<button id="rcarte">${jetonIco(22)} Relancer la carte (${relReste})</button>` : ""}</div>
-${pied}`;
+      <h2>Tes points</h2><p class="muted small" style="margin-top:-6px">Touche un objectif pour voir son effet.</p>${mesScores(me)}${pied}`;
     $app.querySelectorAll("[data-csel]").forEach(b => b.onclick = () => { p.selFc = b.dataset.csel === "1"; rendre(); });
     lierEntrees();
     const rc = document.getElementById("rcarte"); if (rc) rc.onclick = () => { DB.son("relance"); p.relC = true; rendre(); };
@@ -4899,28 +5591,41 @@ ${pied}`;
   p.alea = p.alea || {};
   if (!(cleAlea in p.alea)) { const ref = JSON.stringify([lignes, sim.scores]); p.alea[cleAlea] = [0, 1, 2, 3, 4].some(() => { const r = simulerPlan(me, p); return JSON.stringify([r.lignes, r.sim.scores]) !== ref; }); }
   let bloc = "";
-  jeu = sim; try { bloc = blocPions(me, sim.aDistribuer, true, "envoi", "Valider mes choix"); } finally { jeu = vrai; }
+  /* pions de dieu : y compris celui reçu ce tour-ci (il compte dès ce tour) */
+  const pds = (sim.actives?.[me] || []).map(a => CARTE[a.c]).filter(c => c?.e.t === "pion_dieu").filter((c, k, l) => l.findIndex(x => x.id === c.id) === k);
+  p.pdieu = p.pdieu || {};
+  pds.forEach(c => { if (p.pdieu[c.id] && (!c.e.objs.includes(p.pdieu[c.id]) || sim.completes[me].includes(p.pdieu[c.id]))) delete p.pdieu[c.id]; });
+  const pdOuverts = c => c.e.objs.filter(x => !sim.completes[me].includes(x));
+  const catP = cataActive(), nbPos = catP === "peste" ? Math.min(2, sim.aDistribuer) : sim.aDistribuer, nbNeg = sim.aDistribuer - nbPos;
+  p.allocP = p.allocP || {};
+  let peste = "", pesteOk = true;
+  const blizzard = catP === "blizzard" && jeu.ordre.length > 1;
+  if (blizzard) peste += `<div class="card cata-bandeau cata-blizzard" style="display:block"><strong>${DB.icone("cata-blizzard", 22)} Blizzard : qui suis-tu ?</strong><p class="small muted" style="margin:4px 0 8px">Tu ne gagneras des points (pions, cartes, cartes permanentes) que sur les objectifs où ce joueur pose aussi des pions.</p><div class="row">${jeu.ordre.filter(id => id !== me).map(id => `<button data-guide="${id}" class="${p.guide === id ? "selection" : ""}" aria-pressed="${p.guide === id}">${pastille(id, 24)} ${esc(jeu.noms[id])}</button>`).join("")}</div></div>`;
+  /* éclipse : les scores affichés ne montrent pas l’effet de la carte */
+  const simAff = eclipseActive() ? Object.assign(simulerPlan(me, p, true).sim, {aDistribuer: sim.aDistribuer}) : sim;
+  jeu = simAff; pdCtx = {pds, choix: p.pdieu}; try { bloc = blocPions(me, nbPos, true, "envoi", "Valider mes choix"); if (nbNeg > 0) { const r = blocPeste(me, nbNeg, p.allocP); peste = r.h; pesteOk = r.ok; } } finally { jeu = vrai; pdCtx = null; }
   let opts = "";
+  if (objetActivable(me)) opts += `<div class="card objet-actif"><strong class="oa-t">${objIco(jeu.objets[me], 24)} Ton objet peut s’activer maintenant</strong>${objetHtml(me)}</div>`;
   if (aObjet(jeu, me, "crayon") && !jeu.objetUtilise?.[me] && jeu.scores[me].culture > 0 && !jeu.completes[me].includes("culture")) opts += `<div class="card"><strong>${objIco("crayon", 22)} Crayon de couleur</strong><p class="small">Échanger des points de Culture contre des pions :</p><div class="row">${[0, 1, 2, 3].filter(k => k <= jeu.scores[me].culture).map(k => `<button data-pcr="${k}" class="${(p.crayon || 0) === k ? "primary" : ""}">${k ? k : "Non"}</button>`).join("")}</div></div>`;
   if (aObjet(jeu, me, "douche") && jeu.manche % 2 === 1 && !(jeu.douche?.[me]?.manche === jeu.manche)) opts += `<div class="card"><strong>${objIco("douche", 22)} Pommeau de douche</strong><label for="pdch">Tour impair : choisis ta catégorie</label><select id="pdch"><option value="">Choisir…</option>${OBJECTIFS.map(x => `<option value="${x.id}" ${p.douche === x.id ? "selected" : ""}>${esc(court(x.id))}</option>`).join("")}</select></div>`;
   if ((jeu.actives?.[me] || []).some(a => CARTE[a.c].e.t === "obj_vol") && jeu.volTour?.[me] !== jeu.nTour) {
     const l = []; jeu.ordre.filter(id => id !== me).forEach(id => OBJECTIFS.forEach(x => { if (jeu.scores[id][x.id] > 0) l.push({id, o: x.id}); }));
     if (l.length) opts += `<div class="card"><strong>${objIco("bateau", 22)} Bateau : vole un point</strong><label for="pvb">Joueur et objectif (facultatif)</label><select id="pvb"><option value="">Personne</option>${l.map(x => { const k = x.id + "|" + x.o; return `<option value="${k}" ${p.volb === k ? "selected" : ""}>${esc(jeu.noms[x.id])} : ${esc(court(x.o))}</option>`; }).join("")}</select></div>`;
   }
-  const pds = (jeu.actives?.[me] || []).map(a => CARTE[a.c]).filter(c => c?.e.t === "pion_dieu");
-  p.pdieu = p.pdieu || {};
-  pds.forEach(c => { opts += `<div class="card pion-dieu"><strong><span class="pion"></span> ${esc(c.nom)} · posé en dernier</strong><div class="row">${c.e.objs.map(x => `<button class="${p.pdieu[c.id] === x ? "selection" : ""}" data-pd="${c.id}|${x}" aria-pressed="${p.pdieu[c.id] === x}">${DB.icone(x, 22)} ${esc(court(x))}</button>`).join("")}</div></div>`; });
   $app.innerHTML = `${titre}<h1>Pose tes pions</h1>
-    <div class="card small"><strong>${esc(dieu(o.dieu).nom)} · ${esc(citer(c))}</strong><div class="muted">${esc(decrire(c))}</div></div>
-    ${opts}${bloc}<div class="row retour-zone"><button id="retour">Revenir à la carte</button></div>${pied}`;
+    <div class="card small"><strong>${esc(dieu(o.dieu).nom)} · ${esc(citer(c))}</strong><div class="muted">${eclipseActive() ? "Effet caché par l’éclipse divine." : esc(decrire(c))}</div></div>
+    ${cataBandeauTel(me)}${opts}${peste}${bloc}<div class="row retour-zone"><button id="retour">Revenir à la carte</button></div>${pied}`;
   lierPions();
   $app.querySelectorAll("[data-pcr]").forEach(b => b.onclick = () => { p.crayon = +b.dataset.pcr; for (const k in p.alloc) delete p.alloc[k]; rendre(); });
   const pd = document.getElementById("pdch"); if (pd) pd.onchange = () => { p.douche = pd.value; };
   const pv = document.getElementById("pvb"); if (pv) pv.onchange = () => { p.volb = pv.value; };
   document.getElementById("retour").onclick = () => { p.etape = "carte"; rendre(); };
-  $app.querySelectorAll("[data-pd]").forEach(b => b.onclick = () => { const [cid, x] = b.dataset.pd.split("|"); p.pdieu[cid] = x; DB.son("pion"); rendre(); });
+  $app.querySelectorAll("[data-pd]").forEach(b => b.onclick = () => { const [cid, x] = b.dataset.pd.split("|"); p.pdieu[cid] = p.pdieu[cid] === x ? "" : x; DB.son("pion"); rendre(); });
   const env = document.getElementById("envoi");
-  if (pds.some(c => !p.pdieu[c.id])) env.disabled = true;
+  if (pds.some(c => !p.pdieu[c.id] && pdOuverts(c).length) || !pesteOk || (blizzard && !p.guide)) env.disabled = true;
+  $app.querySelectorAll("[data-guide]").forEach(b => b.onclick = () => { p.guide = b.dataset.guide; DB.son("panneau"); rendre(); });
+  $app.querySelectorAll("[data-ppl]").forEach(b => b.onclick = () => { p.allocP[b.dataset.ppl] = (p.allocP[b.dataset.ppl] || 0) + 1; DB.son("perte"); rendre(); });
+  $app.querySelectorAll("[data-pmo]").forEach(b => b.onclick = () => { p.allocP[b.dataset.pmo] = Math.max(0, (p.allocP[b.dataset.pmo] || 0) - 1); rendre(); });
   env.onclick = () => { p.etape = "envoye"; envoyerPlan(me, p); };
 }
 /* --- récap --- */
@@ -4931,15 +5636,17 @@ function carteRecap(pid, i) {
   const pal = (jeu.annonces || []).filter(a => a.pid === pid && a.n === jeu.nTour);
   const chip = (o, n, t) => `<span class="delta ${n > 0 ? "plus" : "moins"}" aria-label="${esc(court(o))} ${n > 0 ? "+" : "−"}${Math.abs(n)}">${DB.icone(o, t)}<b>${n > 0 ? "+" : "−"}${Math.abs(n)}</b></span>`;
   const app = inf.app;
-  return `<article class="objet-carte recap-carte" style="--c:${couleur(pid)};animation-delay:${i * 140}ms">
+  /* carte permanente : elle reste en jeu, on la met en avant */
+  const perm = !!c && (["longue_duree", "permanent"].includes(c.type) || (jeu.actives?.[pid] || []).some(a => a.c === c.id));
+  return `<article class="objet-carte recap-carte ${perm ? "a-perm" : ""}" style="--c:${couleur(pid)};animation-delay:${i * 140}ms">
     <div class="oc-tete">${pastille(pid, 40)}<b>${esc(jeu.noms[pid])}</b></div>
     ${d ? `<div class="rc-dieu"><span class="medaillon" style="--t:${!d.transverse ? `var(--obj-${ic})` : "var(--or)"};width:44px;height:44px;border-width:3px">${DB.icone(ic, 28)}</span>${esc(d.nom)}</div>` : ""}
     <div class="deltas grand">${deltas.length ? deltas.map(([o, n]) => chip(o.id, n, 30)).join("") : `<span class="delta nul">0</span>`}</div>
-    ${c ? `<div class="rc-bloc"><strong>CARTE</strong><p class="co-cit">${esc(citer(c))}</p><p class="rc-eff">${esc(decrire(c))}</p>
+    ${c ? `<div class="rc-bloc ${perm ? "rc-perm" : ""}">${perm ? `<span class="rc-perm-ruban">${DB.icone("laurier", 22)} CARTE PERMANENTE</span><p class="rc-perm-sous">Reste en jeu pour ${esc(jeu.noms[pid])} jusqu’à la fin de la partie</p>` : `<strong>CARTE</strong>`}<p class="co-cit">${esc(citer(c))}</p><p class="rc-eff">${esc(decrire(c))}</p>
       ${app ? `<p class="rc-app ${app.ok ? "oui" : "non"}">${app.ok ? "Appliquée" : "Sans effet"}</p>` : ""}
       ${app && app.details.length ? `<ul class="rc-det">${app.details.map(x => `<li>${x.pid ? `${pastille(x.pid, 22)} <b>${esc(jeu.noms[x.pid])}</b> ` : ""}${x.d ? x.d.map(([o, n]) => chip(o, n, 18)).join(" ") : esc(x.t)}</li>`).join("")}</ul>` : ""}</div>` : ""}
     ${(() => { const n = jeu.platreBloque?.[pid] || 0, src = [...(jeu.platreRecap ? [jeu.platreRecap] : []), ...(jeu.blocRecap || [])]; if (!n || !src.length) return "";
-      return `<div class="rc-bloc rc-platre"><strong>POINTS BLOQUÉS</strong><p class="rc-pal">${DB.icone("cadenas", 24)}${src.map(x => DB.icone(x.o, 24)).join("")} <span>${n} point${n > 1 ? "s" : ""} bloqué${n > 1 ? "s" : ""} (${src.map(x => x.cid ? `carte de ${esc(jeu.noms[x.par] || "")}` : `bonheur de ${esc(jeu.noms[x.par] || "")}`).join(", ")})</span></p></div>`; })()}
+      return `<div class="rc-bloc rc-platre"><strong>POINTS BLOQUÉS</strong><p class="rc-pal">${DB.icone("cadenas", 24)}${src.map(x => DB.icone(x.o, 24)).join("")} <span>${n} point${n > 1 ? "s" : ""} bloqué${n > 1 ? "s" : ""} (${src.map(x => x.foudre ? "foudre de la Tempête" : x.cid ? `carte de ${esc(jeu.noms[x.par] || "")}` : `bonheur de ${esc(jeu.noms[x.par] || "")}`).join(", ")})</span></p></div>`; })()}
     ${(() => { const pn = n => `${n > 0 ? "+" : "−"}${Math.abs(n)} pion${Math.abs(n) > 1 ? "s" : ""}`, l = [];
       (jeu.bonusRaisons?.[pid] || []).forEach(x => l.push([x.n > 0 ? "plus" : "moins", x.n > 0 ? "gain" : "perte", `${pn(x.n)} : ${x.t}`]));
       if (jeu.sonne?.[pid]) l.push(["moins", "obj-cloche", `Sonné${jeu.sonnePar?.[pid] ? " par " + jeu.noms[jeu.sonnePar[pid]] : ""} : pas de pions`]);
@@ -4950,16 +5657,21 @@ function carteRecap(pid, i) {
       if (pr.deux) l.push(["info", "oeil", "Choisira entre deux cartes"]);
       if (jeu.pullT?.[pid] === jeu.nTour) l.push(["plus", "obj-pull", "Pull troué devenu carte permanente : +1 pion à chaque tour"]);
       return l.length ? `<div class="rc-bloc rc-prochain"><strong>AU PROCHAIN TOUR</strong>${l.map(([t, ic, x]) => `<p class="rc-pal rc-${t}">${DB.icone(ic, 22)} <span>${esc(x)}</span></p>`).join("")}</div>` : ""; })()}
-    ${pal.length ? `<div class="rc-bloc"><strong>BONUS DE PARCOURS</strong>${pal.map(a => { const e = EFFETS_OBJECTIFS[a.obj]; return `<p class="rc-pal">${DB.icone(a.mi ? "mi-parcours" : "laurier", 24)}${DB.icone(a.obj, 24)} <span>${a.mi ? `« ${esc(e.nomMi)} »${a.res ? ` : ${esc(a.res)}` : ""}` : `« ${esc(e.detail)} »${a.res && !/^En attente/.test(a.res) ? ` : ${esc(a.res)}` : ""}`}</span></p>`; }).join("")}</div>` : ""}
+    ${pal.length ? `<div class="rc-bloc"><strong>BONUS DE PARCOURS</strong>${pal.map(a => { const e = EFFETS_OBJECTIFS[a.obj]; return `<p class="rc-pal">${DB.icone(a.mi ? "mi-parcours" : "laurier", 24)}${DB.icone(a.obj, 24)} <span>${a.mi ? `« ${esc(e.nomMi)} »${a.res ? ` : ${esc(a.res)}` : ""}` : `« ${esc(e.detail)} »${a.res && !/^En attente/.test(a.res) ? ` : ${esc(a.res)}` : ""}`}</span></p>${a.carte ? carteSpeciale(a.carte.c, a.carte.mode, {de: a.carte.de, petit: true}) : ""}`; }).join("")}</div>` : ""}
   </article>`;
 }
 /* ---------- Mini-jeux du bonus de parcours de Jeux (à 8) ---------- */
 const MJ = {
-  vase:   {nom: "Le vase romain", consigne: "Tape sur ton vase : le premier à le casser gagne !", max: 25000},
-  pieces: {nom: "La pluie de drachmes", consigne: "Attrape le plus de pièces possible en 20 secondes !", duree: 20000, max: 21500},
-  barque: {nom: "La course de barques", consigne: "Appuie à gauche puis à droite au rythme indiqué : le premier arrivé gagne !", max: 40000}
+  vase:   {nom: "Le vase romain", consigne: "Tape sur ton vase : le premier à le casser gagne !", max: 25000,
+    regles: ["Un vase romain apparaît sur ton téléphone.", "Tape dessus le plus vite possible : il se fissure petit à petit.", "Le premier à le casser gagne."]},
+  pieces: {nom: "La pluie de drachmes", consigne: "Attrape le plus de pièces possible en 20 secondes !", duree: 20000, max: 21500,
+    regles: ["Des drachmes tombent sur ton téléphone pendant 20 secondes.", "Touche chaque pièce avant qu’elle ne disparaisse.", "Celui qui en attrape le plus gagne."]},
+  barque: {nom: "La course de barques", consigne: "Appuie à gauche puis à droite au rythme indiqué : le premier arrivé gagne !", max: 40000,
+    regles: ["Rame en appuyant à gauche, puis à droite, puis à gauche…", "Appuie au moment où l’anneau se referme : plus tu es dans le rythme, plus ta barque avance.", "Le mauvais côté te fait reculer. Le premier arrivé gagne."]}
 };
-const MJ_DECOMPTE = 3000, MJ_COUPS = 50;
+/* règles affichées MJ_REGLES ms, puis 3-2-1 : le jeu démarre après MJ_DECOMPTE */
+const MJ_REGLES = 8000, MJ_DECOMPTE = MJ_REGLES + 3000, MJ_COUPS = 50;
+const mjReglesHtml = (m, tel) => `<div class="mj-regles ${tel ? "tel" : ""}"><strong>Règles</strong><ol>${MJ[m.jeu].regles.map(r => `<li>${esc(r)}</li>`).join("")}</ol>${tel ? "" : `<p>Lancé par <b>${esc(jeu.noms[m.par])}</b> : s’il gagne, +4 en Jeux ; si un autre gagne, il prend +1 en Jeux.</p>`}<span class="mj-regles-barre"><span></span></span></div>`;
 const etatVase = (v, fin) => fin ? 5 : Math.min(4, Math.floor((v || 0) / 10));
 let mjAttenteT = null, mjLoc = null, mjProg = {}, mjTicker = null, mjSnapT = 0, mjFinLance = "", mjLanceCle = "", mjResolLance = "", mjPilesVu = "";
 
@@ -5010,7 +5722,7 @@ function mjVerifierLancement() {
   const f = jeu.file?.[0];
   if (!f?.minijeu || jeu.mj) return;
   /* pas de mini-jeu tant qu’un autre événement ou pop-up est en cours, ici ou sur un téléphone */
-  const POPUPS = ".annonce-anim, .de-anim, .taureau-anim, .cloche-anim, .piece-anim";
+  const POPUPS = ".annonce-anim, .de-anim, .taureau-anim, .cloche-anim, .piece-anim, .cs-anim";
   const dernier = Math.max(0, ...[jeu.taureauAnim, jeu.cloche, jeu.piece, jeu.deAnim].map(x => x?.t || 0));
   const attente = 3600 - (Date.now() - dernier);
   if (document.querySelector(POPUPS) || annEnCours || animP || attente > 0) { clearTimeout(mjAttenteT); mjAttenteT = setTimeout(mjVerifierLancement, Math.max(400, Math.min(attente, 1500))); return; }
@@ -5032,7 +5744,7 @@ function mjBot(id, el) {
   if (el < 0 || p.fin) return;
   const j = jeu.mj.jeu;
   if (j === "vase") { p.v = Math.min(MJ_COUPS, Math.floor(el / 1000 * 5.5 * p.vit)); if (p.v >= MJ_COUPS) { p.fin = true; p.t = el; } }
-  else if (j === "pieces") { p.v = Math.floor(Math.min(el, 20000) / 1000 * 1.3 * p.vit); if (el >= 20000) p.fin = true; }
+  else if (j === "pieces") { p.v = Math.floor(Math.min(el, 20000) / 1000 * 1.55 * p.vit); if (el >= 20000) p.fin = true; }
   else { p.v = Math.min(100, el / 1000 * 5.2 * p.vit); if (p.v >= 100) { p.fin = true; p.t = el; } }
 }
 function mjTick() {
@@ -5065,7 +5777,16 @@ function mjMajPlateau() {
   const m = jeu?.mj, st = document.getElementById("mj-plateau");
   if (!m || !st || m.etat !== "en_cours") return;
   const el = Date.now() - (mjProg._t0 || Date.now()) - MJ_DECOMPTE, dec = document.getElementById("mjp-dec");
-  if (dec) { dec.textContent = el < 0 ? Math.ceil(-el / 1000) : ""; dec.classList.toggle("on", el < 0); }
+  if (dec) {
+    const regles = el < -3000, etat = el >= 0 ? "" : regles ? "regles" : String(Math.ceil(-el / 1000));
+    if (dec.dataset.e !== etat) {
+      dec.dataset.e = etat;
+      dec.innerHTML = regles ? mjReglesHtml(m, false) : etat ? `<span class="mjp-chiffre">${etat}</span>` : "";
+      if (regles) { const b = dec.querySelector(".mj-regles-barre span"); if (b) { b.style.animationDuration = MJ_REGLES + "ms"; b.style.animationDelay = `-${Math.max(0, MJ_REGLES - (-el - 3000))}ms`; } }
+      else if (etat) DB.son("tour");
+    }
+    dec.classList.toggle("on", el < 0); dec.classList.toggle("regles", regles);
+  }
   const tps = document.getElementById("mjp-temps");
   if (tps && m.jeu === "pieces") tps.textContent = el < 0 ? "" : `${Math.max(0, Math.ceil((20000 - el) / 1000))} s`;
   jeu.ordre.forEach(id => {
@@ -5147,7 +5868,7 @@ function ecranMiniJeu(me, pied) {
     return false;
   }
   if (sc && sc.dataset.id === m.id && sc.dataset.etat === "en_cours") { mjMajBateaux(me); return true; }
-  if (!mjLoc || mjLoc.id !== m.id) { mjLoc = {id: m.id, jeu: m.jeu, recu: Date.now(), v: 0, fin: false, t: 0}; document.querySelectorAll(".annonce-anim, .de-anim, .taureau-anim, .cloche-anim, .piece-anim").forEach(e => e.remove()); }
+  if (!mjLoc || mjLoc.id !== m.id) { mjLoc = {id: m.id, jeu: m.jeu, recu: Date.now(), v: 0, fin: false, t: 0}; document.querySelectorAll(".annonce-anim, .de-anim, .taureau-anim, .cloche-anim, .piece-anim, .cs-anim").forEach(e => e.remove()); }
   $app.innerHTML = `<div id="mj-scene" data-id="${m.id}" data-etat="en_cours"><h1 class="mj-titre">${esc(MJ[m.jeu].nom)}</h1><p class="mj-consigne">${esc(MJ[m.jeu].consigne)}</p><div class="mj-zone" id="mj-zone"></div></div>${pied}`;
   setTimeout(() => mjLancerTel(me), 0);
   return false;
@@ -5158,6 +5879,7 @@ function mjLancerTel(me) {
     const z = document.getElementById("mj-zone");
     if (mjLoc !== L || !z) return;
     const r = debut - Date.now();
+    if (r > 3000) { if (z.dataset.n !== "regles") { z.dataset.n = "regles"; z.innerHTML = mjReglesHtml(jeu.mj || {jeu: L.jeu}, true); const b = z.querySelector(".mj-regles-barre span"); if (b) { b.style.animationDuration = MJ_REGLES + "ms"; b.style.animationDelay = `-${Math.max(0, MJ_REGLES - (r - 3000))}ms`; } } setTimeout(dec, 100); return; }
     if (r > 0) { const n = Math.ceil(r / 1000); if (z.dataset.n !== String(n)) { z.dataset.n = n; z.innerHTML = `<div class="mj-decompte">${n}</div>`; DB.son("tour"); } setTimeout(dec, 100); return; }
     L.debut = debut; z.dataset.n = ""; MJ_TEL[L.jeu](me, z, L);
   };
@@ -5166,6 +5888,25 @@ function mjLancerTel(me) {
 function mjMajBateaux(me) {
   const L = mjLoc;
   document.querySelectorAll("#mj-scene [data-mjb]").forEach(e => { const id = e.dataset.mjb, v = id === me ? L?.v || 0 : mjAutre(id).v || 0; e.querySelector(".mj-bateau").style.left = `calc(${Math.min(100, v)}% * .82)`; });
+}
+/* tirage pseudo-aléatoire reproductible : chaque téléphone obtient la même suite à partir du même identifiant */
+function rngGraine(txt) {
+  let h = 1779033703 ^ txt.length;
+  for (const ch of txt) { h = Math.imul(h ^ ch.charCodeAt(0), 3432918353); h = h << 13 | h >>> 19; }
+  let a = h >>> 0;
+  return () => { a |= 0; a = a + 0x6D2B79F5 | 0; let t = Math.imul(a ^ a >>> 15, 1 | a); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; };
+}
+const PIECE_VIE = 900;
+function planPieces(id) { const r = rngGraine("pieces|" + id), l = []; for (let t = 0; t < MJ.pieces.duree - 400; t += 300 + r() * 230) l.push({t: Math.round(t), x: 4 + r() * 72, y: 4 + r() * 72}); return l; }
+/* barque : le rythme change régulièrement ; chaque changement tombe quand la bille touche un bord (sur un temps) */
+function planBarque(id) {
+  const r = rngGraine("barque|" + id), choix = [420, 470, 520, 600, 680, 760], b = [0], segs = [{k: 0, P: 560}];
+  let P = 560, k = 0, t = 0, fin = 8;
+  while (t < MJ.barque.max + 3000) {
+    if (k === fin) { let n; do { n = choix[Math.floor(r() * choix.length)]; } while (Math.abs(n - P) < 70); segs.push({k, P: n, avant: P}); P = n; fin = k + 6 + Math.floor(r() * 5); }
+    t += P; k++; b.push(t);
+  }
+  return {b, segs};
 }
 const MJ_TEL = {
   vase(me, z, L) {
@@ -5186,44 +5927,60 @@ const MJ_TEL = {
   },
   pieces(me, z, L) {
     z.innerHTML = `<div class="mj-temps" id="mjt"></div><div class="mj-aire" id="mja"></div><div class="mj-compteur" id="mjc">${L.v} pièce${L.v > 1 ? "s" : ""}</div>`;
-    const fin = L.debut + MJ.pieces.duree;
-    const spawn = () => {
+    /* même pluie pour tout le monde : mêmes pièces, aux mêmes instants et aux mêmes endroits (tirage à partir de l’identifiant du mini-jeu) */
+    const plan = L.plan = L.plan || planPieces(L.id), fin = L.debut + MJ.pieces.duree, montres = {};
+    L.pris = L.pris || {};
+    const tick = () => {
       const aire = document.getElementById("mja");
       if (mjLoc !== L || !aire) return;
-      const r = fin - Date.now();
+      const now = Date.now(), t = now - L.debut, r = fin - now;
       document.getElementById("mjt").textContent = r > 0 ? `${Math.ceil(r / 1000)} s` : "Terminé";
       if (r <= 0) { if (!L.fin) { L.fin = true; mjEnvoyer(me, L, true); } aire.innerHTML = `<p class="mj-fini">Terminé !</p>`; return; }
-      const c = document.createElement("button");
-      c.className = "mj-piece"; c.style.left = (4 + Math.random() * 72) + "%"; c.style.top = (4 + Math.random() * 72) + "%"; c.innerHTML = pieceOrSvg(56); c.setAttribute("aria-label", "pièce");
-      c.onpointerdown = e => { e.preventDefault(); if (c.dataset.pris) return; c.dataset.pris = "1"; L.v++; c.classList.add("pris"); DB.son("pion");
-        document.getElementById("mjc").textContent = `${L.v} pièce${L.v > 1 ? "s" : ""}`; mjEnvoyer(me, L); setTimeout(() => c.remove(), 260); };
-      aire.appendChild(c);
-      setTimeout(() => { if (!c.dataset.pris) c.remove(); }, 900);
-      setTimeout(spawn, 360 + Math.random() * 280);
+      plan.forEach((q, i) => {
+        if (montres[i] || L.pris[i] || t < q.t || t >= q.t + PIECE_VIE) return;
+        montres[i] = true;
+        const c = document.createElement("button");
+        c.className = "mj-piece"; c.style.left = q.x + "%"; c.style.top = q.y + "%"; c.innerHTML = pieceOrSvg(56); c.setAttribute("aria-label", "pièce");
+        c.onpointerdown = e => { e.preventDefault(); if (c.dataset.pris) return; c.dataset.pris = "1"; L.pris[i] = 1; L.v++; c.classList.add("pris"); DB.son("pion");
+          document.getElementById("mjc").textContent = `${L.v} pièce${L.v > 1 ? "s" : ""}`; mjEnvoyer(me, L); setTimeout(() => c.remove(), 260); };
+        aire.appendChild(c);
+        setTimeout(() => { if (!c.dataset.pris) c.remove(); }, PIECE_VIE - (t - q.t));
+      });
+      setTimeout(tick, 40);
     };
-    spawn();
+    tick();
   },
   barque(me, z, L) {
-    /* rythme imposé : un temps toutes les 560 ms, à gauche puis à droite ; la bille et la lueur indiquent quand appuyer */
-    const P = 560, cote = k => k % 2 === 0 ? "g" : "d";
+    /* rythme imposé, à gauche puis à droite ; il change régulièrement (vent arrière : plus vite, vent de face : plus lent) */
+    const plan = L.planB = L.planB || planBarque(L.id), B = plan.b, cote = k => k % 2 === 0 ? "g" : "d";
+    const avant = t => { let lo = 0, hi = B.length - 2; if (t <= 0) return 0; while (lo < hi) { const m = (lo + hi + 1) >> 1; if (B[m] <= t) lo = m; else hi = m - 1; } return lo; };
+    const proche = t => { const j = avant(t), P = B[j + 1] - B[j]; return t - B[j] <= B[j + 1] - t ? {k: j, ecart: Math.abs(t - B[j]), P} : {k: j + 1, ecart: B[j + 1] - t, P}; };
+    const segDe = j => { let s = plan.segs[0]; plan.segs.forEach(x => { if (x.k <= j) s = x; }); return s; };
     z.innerHTML = `<div class="mj-riviere">${jeu.ordre.map(id => `<div class="mj-ligne ${id === me ? "moi" : ""}" data-mjb="${id}" style="--c:${couleur(id)}"><span class="mj-nom">${esc(jeu.noms[id])}</span><span class="mj-bateau">${bateauSvg(couleur(id), 54)}</span></div>`).join("")}<span class="mj-arrivee"></span></div>
       <div class="mj-metro"><span class="mj-bille" id="mjbille"></span><span class="mj-cible g"></span><span class="mj-cible d"></span></div>
       <div class="mj-retour" id="mjf">${L.fin ? "Arrivé !" : "Suis le rythme !"}</div>
-      <div class="mj-rames"><button class="mj-rame" data-cote="g"><span class="mj-anneau"></span>Gauche</button><button class="mj-rame" data-cote="d"><span class="mj-anneau"></span>Droite</button></div>`;
+      <div class="mj-rames"><button class="mj-rame" data-cote="g"><span class="mj-anneau"></span>Gauche</button><button class="mj-rame" data-cote="d"><span class="mj-anneau"></span>Droite</button></div>
+      <div class="mj-vent" id="mjvent" hidden aria-live="polite"><span class="mj-vent-t"></span>${"<i></i>".repeat(9)}</div>`;
     mjMajBateaux(me);
+    const vent = document.getElementById("mjvent");
     L.faits = L.faits || {};
     const bille = document.getElementById("mjbille"), btn = {g: z.querySelector("[data-cote='g']"), d: z.querySelector("[data-cote='d']")};
     const boucle = () => {
       if (mjLoc !== L || !document.getElementById("mjf")) return;
-      const t = Date.now() - L.debut, ph = ((t % (2 * P)) + 2 * P) % (2 * P) / (2 * P);
-      /* la bille va de gauche (temps pair) à droite (temps impair) et revient */
-      const x = ph < .5 ? ph * 2 : 2 - ph * 2;
+      const t = Math.max(0, Date.now() - L.debut), j = avant(t), Pj = B[j + 1] - B[j], frac = Math.min(1, (t - B[j]) / Pj);
+      /* la bille va de gauche (temps pair) à droite (temps impair) et revient ; chaque bord est un temps */
+      const x = cote(j) === "g" ? frac : 1 - frac;
       bille.style.left = `calc(${(x * 100).toFixed(1)}% * .9 + 2%)`;
-      const k = Math.round(t / P), dist = Math.abs(t - k * P) / P;
+      const pr = proche(t), k = pr.k, dist = pr.ecart / pr.P;
+      const sg = segDe(j), etat = sg.avant && j - sg.k < 4 && !L.fin ? (sg.P < sg.avant ? "arriere" : "face") : "";
+      if (vent.dataset.e !== etat) {
+        vent.dataset.e = etat; vent.hidden = !etat; vent.className = "mj-vent " + etat;
+        if (etat) { vent.querySelector(".mj-vent-t").textContent = etat === "arriere" ? "Vent arrière : plus vite !" : "Vent de face : plus lent !"; DB.son(etat === "arriere" ? "relance" : "perte"); }
+      }
       ["g", "d"].forEach(c => {
         const actif = cote(k) === c && !L.fin;
         btn[c].classList.toggle("attendu", actif && dist < .22);
-        const an = btn[c].querySelector(".mj-anneau"), kp = Math.ceil(t / P), reste = Math.max(0, (kp * P - t) / P);
+        const an = btn[c].querySelector(".mj-anneau"), kp = j + 1, reste = Math.max(0, (B[kp] - t) / Pj);
         const montre = !L.fin && cote(kp) === c;
         an.style.transform = `scale(${(1 + reste * .22).toFixed(3)})`; an.style.opacity = montre ? (1 - reste * .7).toFixed(2) : 0;
       });
@@ -5234,7 +5991,7 @@ const MJ_TEL = {
     z.querySelectorAll("[data-cote]").forEach(b => b.onpointerdown = e => {
       e.preventDefault();
       if (L.fin || Date.now() - L.debut > MJ.barque.max) return;
-      const now = Date.now(), t = now - L.debut, k = Math.round(t / P), ecart = Math.abs(t - k * P), c = b.dataset.cote, f = document.getElementById("mjf");
+      const now = Date.now(), t = now - L.debut, pr = t < 0 ? {k: -1, ecart: 0, P: 560} : proche(t), k = pr.k, ecart = pr.ecart, P = pr.P, c = b.dataset.cote, f = document.getElementById("mjf");
       b.classList.remove("coup"); void b.offsetWidth; b.classList.add("coup");
       if (k < 0) return;
       if (cote(k) !== c) { L.v = Math.max(0, L.v - 1.5); f.textContent = "Mauvais côté !"; f.className = "mj-retour mal"; }
@@ -5293,10 +6050,42 @@ function ecranDes(me) {
     ${desHtml(64)}
     ${fait ? `<p class="pret-ok">${coche()} Ton dé est lancé. En attente des autres.</p>` : `<button class="de-bouton" id="lancede" ${busy || envoye ? "disabled" : ""} aria-label="Lancer mon dé">${deSvg(null, 6, 120)}<span>${envoye ? "Lancer en cours…" : "Touche ton dé pour le lancer"}</span></button>`}`;
 }
+/* Lancer de dé : le dé tourne sur le téléphone, puis s’arrête sur la valeur tirée par la partie */
+const DE_MIN = 1400;
+let deRoule = null;
+function valeurDe(id, me) { return jeu?.des?.id === id ? jeu.des.des[me] : jeu?.desDernier?.id === id ? jeu.desDernier.des[me] : null; }
+function lancerAnimDe(me) {
+  const d = jeu.des; if (!d || deRoule?.id === d.id) return;
+  const r = deRoule = {id: d.id, choix: d.choix, debut: Date.now(), face: 1 + Math.floor(Math.random() * 6)};
+  const ov = document.createElement("div");
+  ov.className = "de-lancer"; ov.setAttribute("role", "status");
+  ov.innerHTML = `<div class="boite"><div class="dl-de">${deSvg(r.face, 6, 150)}</div><span class="dl-ombre"></span><strong class="dl-t">Le dé roule…</strong></div>`;
+  document.body.appendChild(ov);
+  let n = 0;
+  const tick = () => {
+    if (deRoule !== r) return ov.remove();
+    const ecoule = Date.now() - r.debut, v = valeurDe(r.id, me);
+    if (v && ecoule >= DE_MIN) {
+      const bon = (v % 2 === 0) === (r.choix === "pair");
+      ov.querySelector(".dl-de").innerHTML = deSvg(v, 6, 150);
+      ov.classList.add("arret", bon ? "bon" : "rate");
+      ov.querySelector(".dl-t").innerHTML = `Tu as fait <b>${v}</b> · ${v % 2 === 0 ? "pair" : "impair"}${bon ? " ✓" : ""}`;
+      DB.son(bon ? "gain" : "panneau");
+      setTimeout(() => { ov.classList.add("sort"); setTimeout(() => ov.remove(), 400); }, 1900);
+      return;
+    }
+    if (ecoule > 12000) return ov.remove();
+    let f; do { f = 1 + Math.floor(Math.random() * 6); } while (f === r.face);
+    r.face = f; ov.querySelector(".dl-de").innerHTML = deSvg(f, 6, 150);
+    if (n++ % 2 === 0) DB.son("pion");
+    setTimeout(tick, 60 + Math.min(1, ecoule / DE_MIN) ** 2 * 170);
+  };
+  setTimeout(tick, 60);
+}
 function lierDes(me) {
   const b = document.getElementById("lancede"); if (!b) return;
   b.onclick = () => {
-    DB.son("pion");
+    lancerAnimDe(me);
     if (test) return agir(g => lancerDeG(g, me));
     deEnvoi = jeu.des.id;
     ecrire(async () => { await db.doc("parties/" + code + "/joueurs/" + me).set({nom: jeu.noms[me], arrivee: Date.now(), objet: jeu.objets?.[me] || "", objJeu: jeu.objJeu, lance: jeu.des.id}); });
@@ -5317,6 +6106,7 @@ function lancerDeG(g, pid) {
     if (aObjet(g, d.pid, "perenoel")) { const r = ajouter(g, d.pid, "repas", n * 2); log(g, `Bonnet de Noël : ${fait(r, "repas")}.`); }
   }
   d.gain = n; d.fini = true;
+  g.desDernier = {id: d.id, des: {...d.des}};
   resolu(g);
 }
 let deAnimVu = "";
@@ -5501,6 +6291,9 @@ let test = false, testVue = null, suivre = true;
 let jeu = null, joueursLobby = [], code = null, unsubs = [], loadTimer = null, horsLigne = false;
 let alloc = {}, ui = {}, busy = false, erreur = "", vuDernier = "";
 let objSel = "", objTel = "", ouverts = new Set();
+/* vue plateau du téléphone : null, ou l’état de la partie au moment où on l’a ouverte (elle se referme dès que la partie avance) */
+let vueTel = null;
+const cleProgTel = () => jeu ? [jeu.statut, jeu.phase, jeu.mancheId, jeu.manche, jeu.file?.length || 0, jeu.file?.[0]?.pid || "", jeu.resIdx ?? "", jeu.resEtape || "", jeu.mj?.id || "", jeu.des ? 1 : 0].join("|") : "";
 const resetUi = () => { ui = {cible: "", nombre: "", oui: null, obj: "", carte: "", vol: "", parite: "", paire: "", c1: "", c2: "", velo: "", douche: "", volb: ""}; alloc = {}; };
 resetUi();
 
@@ -5533,7 +6326,7 @@ const sauver = g => db.doc("parties/" + code).set(g);
 async function agir(fn) { await ecrire(async () => { const g = clone(jeu); fn(g); if (test) recevoir(g); else await sauver(g); }); }
 /* Version du déroulé : une partie lancée avec l’ancien déroulé (tour par tour) est convertie en tours simultanés par le plateau,
    et un téléphone resté sur une ancienne copie de la page est invité à la recharger. */
-const VERSION_JEU = "simultane-4";
+const VERSION_JEU = "simultane-6";
 let migrationFaite = false;
 function migrer() {
   if (migrationFaite || vue() !== "plateau" || test || !jeu || jeu.statut !== "en_cours" || busy) return;
@@ -5632,9 +6425,10 @@ function roue() {
 let animP = null, animPFaite = "";
 const enResolution = () => jeu?.statut === "en_cours" && (jeu.phase === "resolution" || (jeu.phase === "completion" && jeu.suite === "resolution"));
 /* juste après le récap, tant que l’avancée des pions n’a pas commencé, on garde aussi l’état d’avant */
-const animEnAttente = () => jeu?.phase === "choix" && jeu.recapAvant && jeu.recapFinT && Date.now() - jeu.recapFinT < 20000 && animPFaite !== jeu.recapManche + "|" + jeu.recapFinT && (vue() === "plateau" || test);
+const animEnAttente = () => jeu?.phase === "choix" && jeu.recapAvant && jeu.recapFinT && Date.now() - jeu.recapFinT < ANIM_PIONS_MAX && animPFaite !== jeu.recapManche + "|" + jeu.recapFinT && etapesFaites !== jeu.recapManche && (vue() === "plateau" || test);
 const figeAvant = () => jeu?.statut === "en_cours" && (enResolution() || jeu.phase === "recap" || animEnAttente());
 function completesAffiches(pid) {
+  if (etapeAff && jeu.phase === "recap" && jeu.recapAvantComp?.[pid]) { const sc = scoresAffiches(pid); return (jeu.completes[pid] || []).filter(o => jeu.recapAvantComp[pid].includes(o) || (sc[o] || 0) >= MAX_PAR_OBJECTIF); }
   if (figeAvant() && jeu.recapAvantComp?.[pid]) return jeu.recapAvantComp[pid];
   const l = jeu.completes[pid] || [];
   if (animP && jeu.recapAvantComp?.[pid]) { const sc = scoresAffiches(pid); return l.filter(o => jeu.recapAvantComp[pid].includes(o) || (sc[o] || 0) >= MAX_PAR_OBJECTIF); }
@@ -5643,6 +6437,7 @@ function completesAffiches(pid) {
 const activesAffiches = pid => (figeAvant() && jeu.recapAvantAct?.[pid]) ? jeu.recapAvantAct[pid] : (jeu.actives?.[pid] || []);
 const relancesAffichees = pid => (figeAvant() && jeu.recapAvantRel) ? (jeu.recapAvantRel[pid] || 0) : (jeu.relances?.[pid] || 0);
 function scoresAffiches(pid) {
+  if (etapeAff && jeu.phase === "recap") { const a = etapeAff.from[pid] || {}, b = etapeAff.to[pid] || {}; return Object.fromEntries(OBJECTIFS.map(o => { const x = a[o.id] ?? 0, d = (b[o.id] ?? 0) - x; return [o.id, x + Math.sign(d) * Math.min(Math.abs(d), etapeAff.step)]; })); }
   if ((enResolution() || animEnAttente()) && jeu.recapAvant?.[pid]) return jeu.recapAvant[pid];
   if (!animP || !animP.from[pid]) return jeu.scores[pid];
   const a = animP.from[pid], b = jeu.scores[pid];
@@ -5654,8 +6449,9 @@ function animerPions() {
   const cle = jeu.recapManche + "|" + jeu.recapFinT;
   if (animPFaite === cle) return;
   animPFaite = cle;
+  if (etapesFaites === jeu.recapManche) { complAttente.forEach(a => annFile.push({fn: () => popupComplete(a), duree: 4200})); complAttente = []; setTimeout(montrerAnnonce, 300); return; }
   const vider = () => { complAttente.forEach(a => annFile.push({fn: () => popupComplete(a), duree: 4200})); complAttente = []; setTimeout(montrerAnnonce, 300); };
-  if (Date.now() - jeu.recapFinT > 20000) { vider(); setTimeout(rendre, 0); return; }
+  if (Date.now() - jeu.recapFinT > ANIM_PIONS_MAX) { vider(); setTimeout(rendre, 0); return; }
   let max = 0;
   jeu.ordre.forEach(pid => OBJECTIFS.forEach(o => { max = Math.max(max, Math.abs((jeu.scores[pid]?.[o.id] || 0) - (jeu.recapAvant[pid]?.[o.id] ?? 0))); }));
   if (!max) { vider(); setTimeout(rendre, 0); return; }
@@ -5664,7 +6460,7 @@ function animerPions() {
   complAttente = complAttente.filter(a => !arrivees.some(x => x.a === a));
   animP = {from, step: 0, max};
   majRoue();
-  const suite = () => { if (animP.step >= animP.max) { animP = null; rendre(); vider(); } else setTimeout(tic, 420); };
+  const suite = () => { if (animP.step >= animP.max) { animP = null; rendre(); vider(); } else setTimeout(tic, PAS_PIONS); };
   const tic = () => {
     if (!animP) return;
     animP.step++; majRoue(); DB.son("pion");
@@ -5672,9 +6468,9 @@ function animerPions() {
     if (!ici.length) return suite();
     let k = 0;
     const prochain = () => { if (k >= ici.length) return suite(); popupComplete(ici[k++].a, prochain); };
-    setTimeout(prochain, 300);
+    setTimeout(prochain, 500);
   };
-  setTimeout(tic, 700);
+  setTimeout(tic, 1400);
 }
 /* Compteurs en planches : on garde la dernière valeur affichée pour faire basculer les planches qui changent */
 const cptPrec = {};
@@ -5706,6 +6502,8 @@ function courtInfo(e) {
 function effetsActifs(pid) {
   const l = [], fini = jeu.statut !== "en_cours" || ["objets", "objets_vus", "recap", "resolution"].includes(jeu.phase);
   if (fini || !jeu.scores?.[pid]) return l;
+  const ca = cataActive();
+  if (ca) l.push(["malus", `Colère des dieux · ${CATAS[ca].nom} (tour ${cataTour()}/${jeu.colere.duree}) : ${CATAS[ca].effet}`, CATAS[ca].nom, "cata-" + ca]);
   const monTour = jeu.phase === "choix" || jeu.ordre[jeu.tour] === pid;
   const src = jeu.phase === "choix" && jeu.ctx?.[pid] ? jeu.ctx[pid].info : (monTour && jeu.infoTour?.pid === pid && jeu.infoTour.n === jeu.nTour ? jeu.infoTour.l : []);
   src.forEach(e => { const [c, ic] = courtInfo(e); if (ic !== "relance") l.push([e[0], e[1], c, ic, false, e[2] || null]); });
@@ -5718,7 +6516,7 @@ function effetsActifs(pid) {
   if (r) { const rs = (jeu.relancesSrc?.[pid] || []).filter(Boolean); const fc = (jeu.actives?.[pid] || []).find(a => CARTE[a.c].e.t === "perso_frisbee");
     l.push(["bonus", `Tu as ${r} relance${r > 1 ? "s" : ""} : tu peux remplacer un dieu proposé, ou ta carte.`, `${r} relance${r > 1 ? "s" : ""}`, "relance", false, rs.length ? rs : fc ? {carte: fc.c} : null]); }
   if (jeu.completes[pid].includes("culture")) l.push(["bonus", "Culture complétée : les cartes et les dieux face cachée t’apparaissent face visible.", "Voit tout", "oeil", false, {fin: "culture"}]);
-  (jeu.blocages || []).forEach(x => l.push(["malus", `Personne ne gagne de points en ${court(x.o)} pendant ce tour.`, "Bloqué", x.o, false, {mi: "bonheur", par: x.par}]));
+  (jeu.blocages || []).forEach(x => l.push(["malus", x.foudre ? `La foudre de la Tempête a frappé ${court(x.o)} : personne n’y gagne de points pendant ce tour.` : `Personne ne gagne de points en ${court(x.o)} pendant ce tour.`, x.foudre ? "Foudre" : "Bloqué", x.o, false, x.foudre ? null : {mi: "bonheur", par: x.par}]));
   if (jeu.platre) l.push(["malus", `Plâtre : personne ne gagne de points en ${court(jeu.platre.o)} pendant ce tour.`, "Plâtre", jeu.platre.o, false, jeu.platre.cid ? {carte: jeu.platre.cid, par: jeu.platre.par} : null]);
   if (!monTour || jeu.phase === "choix") {
     const b = jeu.bonus?.[pid] || 0, pr = jeu.prochain?.[pid] || {}, rs = jeu.bonusRaisons?.[pid] || [];
@@ -5748,13 +6546,13 @@ function courtCarte(c) {
   const e = c.e, o = c.obj;
   switch (e.t) {
     case "par_tour": return `+${e.n} chaque tour`;
-    case "pion_x2_perm": return "Pions ×2";
+    case "pion_x2_perm": return `Pions ×2 en ${court(o)}`;
     case "obj_jeton": return c.id === "objet-pull" ? "Pull : +1 pion" : "+1 pion par tour";
     case "pion_dieu": return "+1 pion dédié";
     case "obj_vol": return "Vol d’1 point";
     case "perso_frisbee": return "Relance par tour";
-    case "jeanne_suit": return "Suit Jeanne";
-    case "jeanne_chute": return "Chute avec Jeanne";
+    case "jeanne_suit": return "Suit " + DIEUX.filter(d => d.objs[0] === o).map(d => d.nom).join(" et ");
+    case "jeanne_chute": return "Chute avec " + DIEUX.filter(d => d.objs.slice(1).includes(o)).map(d => d.nom).join(" et ");
     case "perso_pikachu": return "Pions avec Simon";
     case "perso_asso": return "+1 au hasard";
     case "perso_oiseaux": return "Oiseaux";
@@ -5763,7 +6561,7 @@ function courtCarte(c) {
 }
 function etatItems(pid) {
   const it = [], id = jeu.objets?.[pid];
-  if (id && !(id === "pull" && jeu.objetUtilise?.[pid])) it.push({k: "objet", type: "objet", ic: objIco(id, 20), court: "Mon objet"});
+  if (id && !(id === "pull" && jeu.objetUtilise?.[pid])) it.push({k: "objet", type: "objet", ic: objIco(id, 20), court: objetActivable(pid) ? "Objet à activer" : "Mon objet", actif: objetActivable(pid)});
   (jeu.actives?.[pid] || []).forEach((a, i) => { const c = CARTE[a.c]; if (!c) return; const o = OBJECTIFS.some(x => x.id === c.obj) ? c.obj : "laurier";
     const d = dieu(c.dieu); it.push({k: "c" + i, type: "carte", ic: DB.icone(o, 20), court: courtCarte(c), titre: "Carte permanente", long: `<strong>${esc(citer(c))}</strong><br>${esc(decrire(c))}${d ? `<div class="pe-src"><strong>Grâce à :</strong> ${esc(d.nom)}</div>` : ""}`}); });
   effetsActifs(pid).forEach((e, i) => { const so = srcTexte(e[5]); it.push({k: "e" + i, type: e[0], futur: !!e[4], ic: DB.icone(e[3], 20), court: e[2], long: esc(e[1]) + (so ? `<div class="pe-src"><strong>${e[0] === "malus" ? "À cause de" : "Grâce à"} :</strong> ${esc(so)}</div>` : ""),
@@ -5776,7 +6574,7 @@ function effetsHtml(pid) {
   if (!it.length) return "";
   if (panneauTel && !it.some(x => x.k === panneauTel)) panneauTel = "";
   const sel = it.find(x => x.k === panneauTel);
-  return `<div class="etat-tel"><div class="puces-etat">${it.map(x => `<button class="pe pe-${x.type} ${x.futur ? "futur" : ""} ${panneauTel === x.k ? "on" : ""}" data-pan="${x.k}" aria-expanded="${panneauTel === x.k}" title="${esc(x.titre || x.court)}">${x.futur ? `<span class="pe-f">${DB.icone("sablier", 13)}</span>` : ""}${x.ic}<span>${esc(x.court)}</span></button>`).join("")}</div>
+  return `<div class="etat-tel"><div class="puces-etat">${it.map(x => `<button class="pe pe-${x.type} ${x.futur ? "futur" : ""} ${x.actif ? "a-activer" : ""} ${panneauTel === x.k ? "on" : ""}" data-pan="${x.k}" aria-expanded="${panneauTel === x.k}" title="${esc(x.titre || x.court)}">${x.futur ? `<span class="pe-f">${DB.icone("sablier", 13)}</span>` : ""}${x.ic}<span>${esc(x.court)}</span></button>`).join("")}</div>
     ${sel ? `<div class="pe-detail pe-${sel.type}">${sel.type === "objet" ? objetHtml(pid) : `<div class="pe-titre">${sel.titre}</div><div>${sel.long}</div>`}</div>` : ""}</div>`;
 }
 function resumeHtml() {
@@ -5933,13 +6731,36 @@ function animerAnnonce() {
   complAttente.push(...nv.filter(a => !a.mi && jeu.noms?.[a.pid]));
 }
 let complAttente = [];
-function popupComplete(a, fin) {
+/* Objectif complété : la couronne de laurier se forme autour du médaillon, des feuilles d’or tombent */
+function couronneSvg() {
+  let h = "";
+  [-1, 1].forEach(sd => { for (let i = 0; i < 9; i++) {
+    const ang = (90 + sd * (28 + i * 17)) * Math.PI / 180, r = 104, x = 120 + Math.cos(ang) * r, y = 120 + Math.sin(ang) * r;
+    const rot = (ang * 180 / Math.PI) + 90 + sd * 35, k = i;
+    h += `<g class="fo-f" style="--k:${k}"><ellipse cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" rx="15" ry="6.5" transform="rotate(${rot.toFixed(1)} ${x.toFixed(1)} ${y.toFixed(1)})" fill="${i % 2 ? "#e0b13a" : "#c8961e"}" stroke="#7a5510" stroke-width="1.6"/></g>`;
+  } });
+  return `<svg class="fo-laurier" viewBox="0 0 240 240" aria-hidden="true"><path d="M70 205C30 175 18 120 40 75M170 205c40-30 52-85 30-130" fill="none" stroke="#7a5510" stroke-width="3" stroke-linecap="round" class="fo-tige"/>${h}<path d="M104 214l16-8 16 8" fill="none" stroke="#b5462a" stroke-width="5" stroke-linecap="round" class="fo-noeud"/></svg>`;
+}
+function completeAnimHtml(a, duree) {
   const o = OBJECTIFS.find(x => x.id === a.obj), e = EFFETS_OBJECTIFS[a.obj];
+  const FEU = `<svg viewBox="0 0 20 20"><path d="M3 17C4 9 9 4 17 3c-1 8-6 13-14 14z" fill="#e0b13a" stroke="#8a6512" stroke-width="1"/><path d="M5 15L15 5" stroke="#8a6512" stroke-opacity=".5" stroke-width="1"/></svg>`;
+  return `<div class="fo" style="--t:var(--obj-${o.id});--c:${couleur(a.pid)};--duree:${duree}ms">
+    <span class="fo-rayons"></span>
+    <div class="fo-centre">${couronneSvg()}<span class="medaillon fo-med">${DB.icone(o.id)}</span></div>
+    <div class="fo-joueur">${pastille(a.pid, 46)}<b>${esc(jeu.noms[a.pid])}</b></div>
+    <small class="fo-sur">Objectif complété</small>
+    <b class="fo-titre">${esc(o.nom || o.court)}</b>
+    <p class="fo-cit">« ${esc(e.detail)} »</p>
+    ${e.complete || e.passif ? `<p class="fo-eff">${esc(e.complete || e.passif)}</p>` : ""}
+    <span class="fo-pluie" aria-hidden="true">${Array.from({length: 16}, (_, k) => `<i style="--k:${k};--x:${(k * 61) % 100}%">${FEU}</i>`).join("")}</span>
+  </div>`;
+}
+function popupComplete(a, fin) {
   const d = document.createElement("div");
-  d.className = "annonce-anim"; d.setAttribute("role", "status");
-  d.innerHTML = `<div class="annonce-or"><span class="rayons"></span><span class="medaillon" style="width:130px;height:130px;--t:var(--obj-${o.id})">${DB.icone(o.id)}</span><b>${esc(jeu.noms[a.pid])} complète ${esc(o.court)}</b><p><i>« ${esc(e.detail)} »</i></p></div>`;
+  d.className = "annonce-anim fo-anim"; d.setAttribute("role", "status"); d.style.setProperty("--duree", "4600ms");
+  d.innerHTML = completeAnimHtml(a, 4600);
   document.body.appendChild(d); DB.son("objectif");
-  setTimeout(() => { d.remove(); fin && fin(); }, 4200);
+  setTimeout(() => { d.remove(); fin && fin(); }, 4600);
 }
 /* Sur le plateau, les pop-ups des événements (paliers, taureau, cloche, pièce, dés) attendent le récap de fin de tour
    et passent l’un après l’autre ; sur le téléphone du joueur concerné, ils s’affichent tout de suite. */
@@ -5951,15 +6772,16 @@ function montrerAnnonce() {
   if (annEnCours || !annFile.length) return;
   if (jeu?.statut === "fini") { annFile = []; return; }
   if (["resolution", "completion", "objets", "objets_vus"].includes(jeu?.phase) && jeu?.statut === "en_cours") return;
-  if (animP) return;
+  if (animP || bdEnCours || etapeEtat) return;
   if (annFile[0].fn) { const it = annFile.shift(); annEnCours = true; it.fn(); setTimeout(() => { annEnCours = false; montrerAnnonce(); verifierFinRecap(); }, it.duree + 200); return; }
   const a = annFile.shift(), o = OBJECTIFS.find(x => x.id === a.obj), e = EFFETS_OBJECTIFS[a.obj];
   const res = (jeu?.annonces || []).find(x => x.pid === a.pid && x.obj === a.obj && x.n === a.n && !!x.mi === !!a.mi)?.res;
   const d = document.createElement("div");
-  d.className = "annonce-anim"; d.setAttribute("role", "status");
+  d.className = a.mi ? "annonce-anim" : "annonce-anim fo-anim"; d.setAttribute("role", "status");
+  if (!a.mi) d.style.setProperty("--duree", "5600ms");
   d.innerHTML = a.mi
     ? `<div class="annonce-or"><span class="medaillon" style="width:110px;height:110px">${DB.icone("mi-parcours")}</span><small>${esc(jeu.noms[a.pid])} atteint ${SEUIL_MI_PARCOURS} en ${esc(o.court)}</small><b>« ${esc(e.nomMi)} »</b><p class="eff">${esc(e.mi)}</p>${res ? `<p class="res">${esc(res)}</p>` : ""}</div>`
-    : `<div class="annonce-or"><span class="rayons"></span><span class="medaillon" style="width:130px;height:130px;--t:var(--obj-${o.id})">${DB.icone(o.id)}</span><b>${esc(jeu.noms[a.pid])} complète ${esc(o.court)}</b><p><i>« ${esc(e.detail)} »</i></p></div>`;
+    : completeAnimHtml(a, 5600);
   document.body.appendChild(d);
   DB.son(a.mi ? "gain" : "objectif");
   annEnCours = true;
@@ -6006,7 +6828,7 @@ function animerClassement(avant) {
 let sbVue = "effets", sbMinuteur = null;
 function demarrerAlternance() {
   if (sbMinuteur) return;
-  sbMinuteur = setInterval(() => { sbVue = sbVue === "effets" ? "scores" : "effets"; document.querySelectorAll(".joueurs").forEach(e => { e.dataset.vue = sbVue; }); }, 10000);
+  sbMinuteur = setInterval(() => { sbVue = sbVue === "effets" ? "scores" : "effets"; document.querySelectorAll(".joueurs").forEach(e => { e.dataset.vue = sbVue; }); }, 4500);
 }
 function listeJoueurs() {
   const actuel = jeu.ordre[jeu.tour];
@@ -6092,17 +6914,24 @@ function rendrePlateau() {
   const journal = `<details style="margin-top:18px"><summary>Historique de la partie</summary><ul class="log" style="margin-top:8px">${(jeu.journal || []).slice().reverse().map(l => `<li>${esc(l)}</li>`).join("")}</ul></details>`;
   const actuel = jeu.ordre[jeu.tour];
   if (jeu.phase === "recap" && jeu.statut === "en_cours") {
+    lancerBD();
+    if (!bdEnCours) lancerEtapes();
+    if (etapeEtat && !bdEnCours) {
+      $app.innerHTML = `${tete}<div class="grille"><div><div class="panneau roue-boite">${roue()}${cataOverlay()}<div class="bulle" role="tooltip" hidden></div></div></div><div>${etapeHtml()}</div></div>`;
+      lierNouvelle(); lierSon(); return;
+    }
     const premier = !recapVue;
-    if (!recapVue) { recapVue = true; DB.son("revelation"); }
+    if (!recapVue && !bdEnCours) { recapVue = true; DB.son("revelation"); }
     $app.innerHTML = `${tete}<div class="revele ${premier ? "premier" : ""}"><h2 class="revele-t">Récap du tour ${jeu.recapManche}</h2>
       <div class="revele-grille">${jeu.ordre.map((pid, i) => carteRecap(pid, i)).join("")}</div>
       <div class="depart"><p>${jeu.finApresRecap ? "Les scores finaux s’affichent" : "Le tour suivant commence"} dès que tout le monde est prêt sur son téléphone, ou dans quelques instants.</p>
         <div class="choix-etat" style="justify-content:center">${jeu.ordre.map(id => `<span class="puce">${pastille(id, 26)} ${esc(jeu.noms[id])} ${jeu.prets?.[id] ? `${coche()} prêt` : "…"}</span>`).join("")}</div>
-        <div class="minuteur" aria-hidden="true"><span style="animation-duration:${DELAI_RECAP}ms;animation-delay:-${Math.min(DELAI_RECAP, Date.now() - (jeu.recapT || Date.now()))}ms"></span></div></div></div>`;
+        <div class="minuteur" aria-hidden="true"><span style="animation-duration:${DELAI_RECAP}ms;animation-delay:${-Math.min(DELAI_RECAP, Date.now() - recapDebut())}ms"></span></div></div></div>`;
     lierNouvelle(); lierSon(); planifierDepart();
     return;
   }
   recapVue = false;
+  if (jeu.phase === "colere" && jeu.statut === "en_cours" && jeu.colere?.vote) { rendreVoteColere(tete); return; }
   if (jeu.statut === "en_cours" && jeu.mj) {
     const m = jeu.mj, st = document.getElementById("mj-plateau");
     if (st && st.dataset.id === m.id && st.dataset.etat === m.etat) { if (m.etat === "en_cours") { mjDemarrerTicker(); mjMajPlateau(); } else mjPlanifierSuite(m); return; }
@@ -6113,7 +6942,7 @@ function rendrePlateau() {
     return;
   }
   if (jeu.statut === "fini") {
-    annFile = []; complAttente = []; document.querySelectorAll(".annonce-anim, .de-anim, .taureau-anim, .cloche-anim, .piece-anim").forEach(e => e.remove());
+    annFile = []; complAttente = []; document.querySelectorAll(".annonce-anim, .de-anim, .taureau-anim, .cloche-anim, .piece-anim, .cs-anim").forEach(e => e.remove());
     const C = classementFinal(false);
     if (C.neuf) {
       C.cl.forEach((pid, i) => { if (C.gagnants.includes(pid)) return; const t = C.delai(pid, i) + 300 - C.el; if (t >= 0) setTimeout(() => DB.son("panneau"), t); });
@@ -6181,7 +7010,7 @@ function rendrePlateau() {
   }
   const avantJ = positionsJoueurs();
   $app.innerHTML = `${tete}<div class="grille">
-      <div><div class="panneau roue-boite">${roue()}<div class="bulle" role="tooltip" hidden></div></div></div>
+      <div><div class="panneau roue-boite">${roue()}${cataOverlay()}<div class="bulle" role="tooltip" hidden></div></div></div>
       <div>${etat}<h2>Joueurs</h2>${listeJoueurs()}${journal}</div>
     </div>`;
   lierPlateau();
@@ -6279,9 +7108,11 @@ function entrees(c, pid) {
   if (c.e.t === "perso_coquin") {
     const l = optionsCoquin(jeu, pid), holders = new Set(l.map(x => x.id));
     if (holders.size >= 2) {
-      const opt = (sel, autre) => l.filter(x => !autre || x.id !== autre.split("|")[0]).map(x => { const k = x.id + "|" + x.c; return `<option value="${k}" ${k === sel ? "selected" : ""}>${esc(jeu.noms[x.id])} : ${esc(CARTE[x.c].texte)}</option>`; }).join("");
-      h += `<label for="c1">Première carte</label><select id="c1"><option value="">Choisir…</option>${opt(ui.c1, "")}</select>
-        <label for="c2">Seconde carte (autre joueur)</label><select id="c2"><option value="">Choisir…</option>${opt(ui.c2, ui.c1)}</select>`;
+      /* échange : on montre les effets des cartes, jamais leur texte */
+      const h1 = ui.c1 ? ui.c1.split("|")[0] : "";
+      h += `<p class="cs-consigne"><span class="cs-fleches" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18"><path d="M4 8h14l-4-4M20 16H6l4 4" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span> Choisis deux cartes permanentes, chez deux joueurs différents :</p>
+        <div class="pick cs-pick">${l.map(x => { const k = x.id + "|" + x.c, s1 = ui.c1 === k, s2 = ui.c2 === k, bloque = !s1 && !s2 && !ui.c2 && h1 && x.id === h1;
+          return `<button data-ech="${k}" class="${s1 || s2 ? "sel" : ""}" ${bloque ? "disabled" : ""} aria-label="${esc(nomCarte(CARTE[x.c]))} de ${esc(jeu.noms[x.id])}">${carteSpeciale(x.c, "echange", {de: x.id, tampon: s1 ? "1re carte" : s2 ? "2e carte" : "À échanger"})}</button>`; }).join("")}</div>`;
       pret = pret && ui.c1 && ui.c2 && ui.c1.split("|")[0] !== ui.c2.split("|")[0];
     }
   }
@@ -6296,6 +7127,15 @@ function lierEntrees() {
   $app.querySelectorAll("[data-pa]").forEach(b => b.onclick = () => { ui.paire = b.dataset.pa; rendre(); });
   const c1 = document.getElementById("c1"); if (c1) c1.onchange = () => { ui.c1 = c1.value; ui.c2 = ""; rendre(); };
   const c2 = document.getElementById("c2"); if (c2) c2.onchange = () => { ui.c2 = c2.value; rendre(); };
+  $app.querySelectorAll("[data-ech]").forEach(b => b.onclick = () => {
+    const k = b.dataset.ech, qui = k.split("|")[0];
+    if (k === ui.c1) { ui.c1 = ui.c2; ui.c2 = ""; }
+    else if (k === ui.c2) ui.c2 = "";
+    else if (!ui.c1) ui.c1 = k;
+    else if (qui !== ui.c1.split("|")[0]) ui.c2 = k;
+    else { ui.c1 = k; ui.c2 = ""; }
+    rendre();
+  });
 }
 const inp = () => ({cible: ui.cible, nombre: parseInt(ui.nombre, 10) || 0, oui: ui.oui, obj: ui.obj, paire: ui.paire, c1: ui.c1, c2: ui.c2});
 
@@ -6307,6 +7147,14 @@ function volHtml(pid) {
   return `<div class="card"><strong>${objIco("bateau", 22)} Bateau : vole un point</strong>
     <label for="volb">Joueur et objectif</label><select id="volb"><option value="">Choisir…</option>${opts.map(x => { const k = x.id + "|" + x.o; return `<option value="${k}" ${ui.volb === k ? "selected" : ""}>${esc(jeu.noms[x.id])} : ${esc(court(x.o))} (${jeu.scores[x.id][x.o]})</option>`; }).join("")}</select>
     <div class="row" style="margin-top:8px"><button id="volbgo" ${!ui.volb || busy ? "disabled" : ""}>${objIco("bateau", 20)} Voler 1 point</button></div></div>`;
+}
+/* l’objet a-t-il une action que le joueur déclenche lui-même, maintenant ? */
+function objetActivable(pid) {
+  const id = jeu.objets?.[pid], used = jeu.objetUtilise?.[pid];
+  if (!id || jeu.phase !== "choix" || jeu.plans?.[pid]) return false;
+  if (id === "velo") return !used && jeu.scores[pid].lignee > 0 && !jeu.completes[pid].includes("lignee");
+  if (id === "cloche") return (jeu.clocheUses?.[pid] || 0) < 2 && (jeu.impacts?.[pid] || []).length > 0;
+  return false;
 }
 function objetHtml(pid) {
   const id = jeu.objets?.[pid]; if (!id) return volHtml(pid);
@@ -6356,7 +7204,7 @@ function barreTel(me) {
   const ca = panneauTel.startsWith("c") ? CARTE[cartes[+panneauTel.slice(1)].c] : null;
   return `<div class="barre-tel">${id ? `<button class="bt-objet ${panneauTel === "objet" ? "on" : ""}" data-pan="objet" aria-expanded="${panneauTel === "objet"}">${objIco(id, 26)}<span>Voir l’effet de mon objet</span></button>` : "<span></span>"}
     <div class="perm-ics">${cartes.map((a, i) => { const c = CARTE[a.c], ic = OBJECTIFS.some(o => o.id === c?.obj) ? c.obj : "laurier";
-      return `<button class="perm-ic ${panneauTel === "c" + i ? "on" : ""}" data-pan="c${i}" aria-expanded="${panneauTel === "c" + i}" aria-label="Carte permanente : ${esc(c?.texte || "")}"><span class="medaillon" style="--t:var(--or)">${DB.icone(ic, 22)}</span></button>`; }).join("")}</div></div>
+      return `<button class="perm-ic ${panneauTel === "c" + i ? "on" : ""}" data-pan="c${i}" aria-expanded="${panneauTel === "c" + i}" aria-label="Carte permanente : ${esc(texteCarte(c))}"><span class="medaillon" style="--t:var(--or)">${DB.icone(ic, 22)}</span></button>`; }).join("")}</div></div>
     ${panneauTel === "objet" && id ? `<div class="pan-tel">${objetHtml(me)}</div>` : ""}
     ${ca ? `<div class="pan-tel card"><div class="muted small">Carte permanente</div><strong>${esc(citer(ca))}</strong><p class="desc" style="margin:4px 0 0">${esc(decrire(ca))}</p></div>` : ""}`;
 }
@@ -6388,13 +7236,28 @@ function lierBarre() {
 }
 function mesScores(pid) {
   const sc = jeu.scores[pid], comp = jeu.completes[pid];
-  return `<div class="lignes-pions">${OBJECTIFS.map(o => `<div class="ligne-pion score ${objTel === o.id ? "mise" : ""}" data-to="${o.id}" role="button" tabindex="0" aria-expanded="${objTel === o.id}">
+  return `<div class="lignes-pions">${OBJECTIFS.map(o => `<div class="ligne-pion score touchable ${objTel === o.id ? "mise ouverte" : ""}" data-to="${o.id}" role="button" tabindex="0" aria-expanded="${objTel === o.id}">
       <span class="lp-obj"><span class="medaillon" style="--t:var(--obj-${o.id})">${DB.icone(o.id)}</span><span class="lp-nom">${esc(o.court)}</span></span>
       ${cpt("ms-" + pid + "-" + o.id, sc[o.id], "s")}<span class="lp-etat">${comp.includes(o.id) ? laurier() : ""}</span><span class="muted small">sur ${MAX_PAR_OBJECTIF}</span></div>
       ${objTel === o.id ? `<div class="card small">${effetObjectifHtml(o.id)}</div>` : ""}`).join("")}
     <div class="total-ligne"><strong>Total</strong>${cpt("mt-" + pid, total(sc))}</div></div>`;
 }
-function lierScores() { maintenir("[data-to]", "to", v => { objTel = v; }); }
+/* pendant la résolution, tant que ses propres pions ne sont pas appliqués, le joueur garde l’aperçu « après ton tour »
+   (sinon ses points semblent revenir au début du tour pendant les effets des autres) */
+function scoresTel(me) {
+  const idx = jeu.ordre.indexOf(me), fait = idx < (jeu.resIdx || 0) || (idx === jeu.resIdx && jeu.resEtape === "fin");
+  if (enResolution() && !fait && jeu.plans?.[me] && jeu.ctx?.[me]) return scoresPrevus(me, jeu.plans[me]);
+  return mesScores(me);
+}
+function lierScores() { basculerEffet("[data-to]", "to"); }
+/* un toucher sur la ligne d’un objectif affiche son effet, un second le cache (sauf sur les boutons + et −) */
+function basculerEffet(sel, attr) {
+  $app.querySelectorAll(sel).forEach(l => {
+    l.onpointerdown = null; l.oncontextmenu = null; l.onkeyup = null;
+    l.onclick = e => { if (e.target.closest(".pas")) return; const v = l.dataset[attr]; objTel = objTel === v ? "" : v; rendre(); };
+    l.onkeydown = e => { if ((e.key === "Enter" || e.key === " ") && !e.target.closest(".pas")) { e.preventDefault(); l.click(); } };
+  });
+}
 function banniere(pid) {
   const l = (jeu.annonces || []).filter(a => a.n === (jeu.nTour || 0) && jeu.phase !== "choix" && jeu.noms?.[a.pid]);
   return l.map(a => {
@@ -6404,26 +7267,52 @@ function banniere(pid) {
     return `<div class="card annonce-carte ${moi ? "moi" : ""}" style="--teinte:var(--obj-${a.obj})"><span class="medaillon" style="--t:var(--obj-${a.obj});width:44px;height:44px">${DB.icone(a.mi ? "mi-parcours" : a.obj)}</span><div><strong>${titre}</strong><div class="small">${esc(eff)}</div>${!a.mi && a.res && !/^En attente/.test(a.res) ? `<div class="small muted">${esc(a.res)}</div>` : ""}</div></div>`;
   }).join("");
 }
+/* Peste : pions négatifs (−1), jamais sur un objectif à 0 ou complété */
+function blocPeste(pid, n, ap) {
+  const sc = jeu.scores[pid], ok = o => !jeu.completes[pid].includes(o) && sc[o] > 0;
+  const posables = OBJECTIFS.reduce((t, o) => t + (ok(o.id) ? sc[o.id] : 0), 0), nb = Math.min(n, posables);
+  Object.keys(ap).forEach(o => { if (!ok(o)) delete ap[o]; else ap[o] = Math.min(ap[o], sc[o]); });
+  const places = OBJECTIFS.reduce((t, o) => t + (ap[o.id] || 0), 0), reste = nb - places;
+  return {ok: reste <= 0, h: `<div class="card peste-bloc"><strong>${DB.icone("cata-peste", 24)} Peste : ${n} pion${n > 1 ? "s" : ""} négatif${n > 1 ? "s" : ""} (−1)</strong>
+    <p class="small muted">${nb < n ? `Seulement ${nb} peu${nb > 1 ? "vent" : "t"} être posé${nb > 1 ? "s" : ""}. ` : ""}Reste à poser : <b>${Math.max(0, reste)}</b>. Pas sur un objectif à 0 ou complété.</p>
+    <div class="lignes-pions">${OBJECTIFS.map(o => { const a = ap[o.id] || 0, possible = ok(o.id);
+      return `<div class="ligne-pion ${a ? "mise" : ""} ${possible ? "" : "grise"}"><span class="lp-obj"><span class="medaillon" style="--t:var(--obj-${o.id})">${DB.icone(o.id)}</span><span class="lp-nom">${esc(o.court)}</span></span><b class="pp-v">${sc[o.id]}${a ? ` → ${sc[o.id] - a}` : ""}</b><span></span>
+        <div class="pas"><button data-pmo="${o.id}" ${a <= 0 ? "disabled" : ""} aria-label="Retirer un pion négatif en ${esc(o.court)}">−</button><o>${a}</o><button data-ppl="${o.id}" ${!possible || reste <= 0 || a >= sc[o.id] ? "disabled" : ""} aria-label="Poser un pion négatif en ${esc(o.court)}">+</button></div></div>`; }).join("")}</div></div>`};
+}
+function cataBandeauTel(me) {
+  const cat = cataActive(); if (!cat) return "";
+  const c = jeu.colere, k = cataTour(), extra = cat === "tempete" && jeu.foudre?.manche === jeu.manche ? ` La foudre a frappé ${esc(court(jeu.foudre.o))}.` : cat === "seisme" ? " L’aperçu ne montre pas le glissement." : "";
+  return `<div class="card cata-bandeau cata-${cat}">${DB.icone("cata-" + cat, 30)}<div><strong>Colère des dieux · ${esc(CATAS[cat].nom)}</strong><span class="muted small"> tour ${k}/${c.duree}</span><p class="small" style="margin:2px 0 0">${esc(CATAS[cat].effet)}${extra}</p></div></div>`;
+}
+/* pions de dieu à poser avec les autres (écran de pose du téléphone) : {pds, choix} */
+let pdCtx = null;
+const miniDieu = (d, t = 20) => d?.image ? `<img class="mini-dieu" src="${d.image}" alt="" style="width:${t}px;height:${t}px">` : `<span class="mini-dieu" style="--t:var(--obj-${d?.objs?.[0] || "culture"});width:${t}px;height:${t}px;font-size:${Math.round(t * .55)}px">${esc((d?.nom || "?")[0])}</span>`;
 function blocPions(pid, nb, avecTour, idBouton, libelle) {
   const sc = jeu.scores[pid];
   // un pion négatif ne peut être posé que là où il reste des points
-  const posables = OBJECTIFS.reduce((s, o) => { const v = valeurPion(jeu, pid, o.id, avecTour); return s + (v < 0 ? Math.floor(sc[o.id] / -v) : nb); }, 0);
+  const pluie = cataActive() === "pluie" && avecTour;
+  const posables = OBJECTIFS.reduce((s, o) => { const v = valeurPion(jeu, pid, o.id, avecTour); return s + (v < 0 ? Math.floor(sc[o.id] / -v) : pluie ? 1 : nb); }, 0);
   if (posables < nb) nb = posables;
   const places = OBJECTIFS.reduce((s, o) => s + (alloc[o.id] || 0), 0), reste = nb - places;
-  return `${nb === 0 ? `<p>Tu n’as aucun pion à poser ce tour-ci.</p>` : `<div class="reserve">${Array.from({length: Math.min(nb, 10)}, (_, i) => `<span class="pion ${i < reste ? "" : "vide"}"></span>`).join("")}<span class="reserve-t">${reste} pion${reste > 1 ? "s" : ""} à poser sur ${nb}</span></div>`}
+  const pds = pdCtx?.pds || [], pdc = pdCtx?.choix || {};
+  const pdRes = pds.map(c => `<span class="pion pion-d ${pdc[c.id] ? "vide" : ""}" title="${esc(c.nom)}">${miniDieu(dieu(c.dieu), 18)}</span>`).join("");
+  return `${nb === 0 && !pds.length ? `<p>Tu n’as aucun pion à poser ce tour-ci.</p>` : `<div class="reserve">${Array.from({length: Math.min(nb, 10)}, (_, i) => `<span class="pion ${i < reste ? "" : "vide"}"></span>`).join("")}${pdRes}<span class="reserve-t">${reste} pion${reste > 1 ? "s" : ""} à poser sur ${nb}${pds.length ? ` · ${pds.map(c => esc(c.nom) + (pdc[c.id] ? " posé" : " à poser")).join(", ")}` : ""}</span></div>`}
     ${aObjet(jeu, pid, "peluche") ? `<p class="muted small">${objIco("peluche", 18)} Peluche Pokémon : tes points de Culture vont en Jeux.</p>` : ""}
     <div class="lignes-pions">${OBJECTIFS.filter(o => !(o.id === "culture" && aObjet(jeu, pid, "peluche"))).map(o => {
       const a = alloc[o.id] || 0, v = valeurPion(jeu, pid, o.id, avecTour);
-      const apres = Math.max(0, Math.min(plafond(jeu, pid, o.id), sc[o.id] + a * v));
-      return `<div class="ligne-pion ${a ? "mise" : ""}"><button class="lp-obj" data-vo="${o.id}" aria-expanded="${objTel === o.id}" aria-label="Voir l’effet de ${esc(o.court)}"><span class="medaillon" style="--t:var(--obj-${o.id})">${DB.icone(o.id)}</span><span class="lp-nom">${esc(o.court)}</span></button>
+      const pdIci = pds.filter(c => pdc[c.id] === o.id).length;
+      const apres = Math.max(0, Math.min(plafond(jeu, pid, o.id), sc[o.id] + a * v + pdIci * valeurPion(jeu, pid, o.id, false)));
+      const pdBtns = pds.map(c => { const ok = c.e.objs.includes(o.id) && !jeu.completes[pid].includes(o.id), on = pdc[c.id] === o.id;
+        return `<button class="pd-btn ${on ? "on" : ""}" data-pd="${c.id}|${o.id}" ${ok ? "" : "disabled"} aria-pressed="${on}" aria-label="${esc(c.nom)} en ${esc(o.court)}">${miniDieu(dieu(c.dieu), 20)}${on ? "✓" : "+"}</button>`; }).join("");
+      return `<div class="ligne-pion touchable ${a ? "mise" : ""} ${objTel === o.id ? "ouverte" : ""}" data-lo="${o.id}"><button class="lp-obj" data-vo="${o.id}" aria-expanded="${objTel === o.id}" aria-label="Voir l’effet de ${esc(o.court)}"><span class="medaillon" style="--t:var(--obj-${o.id})">${DB.icone(o.id)}</span><span class="lp-nom">${esc(o.court)}</span></button>
         ${cpt("bp-" + pid + "-" + o.id, apres, "s")}<span class="lp-etat">${jeu.completes[pid].includes(o.id) ? laurier() : ""}${v !== 1 ? `<span class="puce">${signe(v)}</span>` : ""}</span>
-        <div class="pas"><button data-m="${o.id}" aria-label="Retirer un pion en ${esc(o.court)}" ${a <= 0 ? "disabled" : ""}>−</button><output>${a}</output>
-        <button data-p="${o.id}" aria-label="Ajouter un pion en ${esc(o.court)}" ${reste <= 0 || (v < 0 && sc[o.id] + (a + 1) * v < 0) ? "disabled" : ""}>+</button></div></div>${objTel === o.id ? `<div class="card small effet-obj">${effetObjectifHtml(o.id)}</div>` : ""}`;
+        <div class="pas">${pdBtns}<button data-m="${o.id}" aria-label="Retirer un pion en ${esc(o.court)}" ${a <= 0 ? "disabled" : ""}>−</button><output>${a}</output>
+        <button data-p="${o.id}" aria-label="Ajouter un pion en ${esc(o.court)}" ${reste <= 0 || (pluie && a >= 1) || (v < 0 && sc[o.id] + (a + 1) * v < 0) ? "disabled" : ""}>+</button></div></div>${objTel === o.id ? `<div class="card small effet-obj">${effetObjectifHtml(o.id)}</div>` : ""}`;
     }).join("")}</div>
     <div class="row valider-zone"><button class="primary large" id="${idBouton}" ${reste !== 0 || busy ? "disabled" : ""}>${libelle}</button></div>`;
 }
 function lierPions() {
-  maintenir("[data-vo]", "vo", v => { objTel = v; });
+  basculerEffet("[data-lo]", "lo");
   $app.querySelectorAll("[data-p]").forEach(b => b.onclick = () => { alloc[b.dataset.p] = (alloc[b.dataset.p] || 0) + 1; DB.son("pion"); rendre(); });
   $app.querySelectorAll("[data-m]").forEach(b => b.onclick = () => { alloc[b.dataset.m] = Math.max(0, (alloc[b.dataset.m] || 0) - 1); rendre(); });
 }
@@ -6454,16 +7343,32 @@ function ecranCompletion(pid, pied) {
     return;
   }
   if (f.minijeu) { $app.innerHTML = `<h1>« ${esc(eff.nomMi)} »</h1><p>Le mini-jeu se prépare… Regarde le plateau !</p>` + pied; return; }
+  if (f.recup) {
+    const l = recupOptions(jeu, pid), [rid, rc] = (ui.carte || "").split("|"), c = rc ? CARTE[rc] : null;
+    const en = c ? entrees(c, pid) : {h: "", pret: false};
+    $app.innerHTML = `<h1>« ${esc(eff.nomMi)} »</h1><p>${esc(eff.mi)}</p>
+      <p class="cs-consigne">${DB.icone("lignee", 22)} Choisis une carte jouée au dernier tour :</p>
+      <div class="pick cs-pick">${l.map(x => { const k = x.id + "|" + x.c; return `<button data-rcp="${k}" class="${ui.carte === k ? "sel" : ""}" aria-label="${esc(nomCarte(CARTE[x.c]))} de ${esc(jeu.noms[x.id])}">${carteSpeciale(x.c, "recup", {de: x.id, tampon: ui.carte === k ? "Choisie" : "À récupérer"})}</button>`; }).join("")}</div>
+      ${en.h}<div class="row" style="margin-top:14px"><button class="primary" id="appl" ${!c || !en.pret || busy ? "disabled" : ""}>Récupérer cette carte</button></div>` + pied;
+    $app.querySelectorAll("[data-rcp]").forEach(b => b.onclick = () => { ui.carte = b.dataset.rcp; ui.cible = ""; ui.nombre = ""; ui.oui = null; rendre(); });
+    lierEntrees();
+    document.getElementById("appl").onclick = () => agir(g => {
+      const f0 = g.file[0]; if (!f0?.recup || f0.pid !== pid || !rc) return;
+      appliquerCarte(g, pid, rc, inp(), true);
+      annoncerMi(g, pid, "lignee", `Récupère la ${nomCarte(CARTE[rc])} de ${g.noms[rid]} : ${g.journal[g.journal.length - 1].replace("Carte rejouée. ", "")}`);
+      g.carteAnim = {id: Math.random().toString(36).slice(2), mode: "recup", par: pid, de: rid, c: rc, t: Date.now()};
+      resolu(g); });
+    return;
+  }
   if (f.bloque) {
     $app.innerHTML = `<h1>« ${esc(eff.nomMi)} »</h1><p>${esc(eff.mi)}</p>
-      <div class="pick">${OBJECTIFS.map(x => `<button class="${ui.obj === x.id ? "selection" : ""}" data-bo="${x.id}" aria-pressed="${ui.obj === x.id}">${DB.icone(x.id, 28)} <strong>${esc(court(x.id))}</strong></button>`).join("")}</div>
-      <div class="valider-zone"><button class="primary large" id="okb" ${!ui.obj || busy ? "disabled" : ""}>${ui.obj ? `Bloquer ${esc(court(ui.obj))}` : "Touche un objectif"}</button></div>` + pied;
-    $app.querySelectorAll("[data-bo]").forEach(b => b.onclick = () => { ui.obj = b.dataset.bo; rendre(); });
-    document.getElementById("okb").onclick = () => agir(g => { const f0 = g.file[0]; if (!f0?.bloque || f0.pid !== pid || !ui.obj) return;
-      (g.blocages = g.blocages || []).push({o: ui.obj, par: pid});
-      log(g, `« ${EFFETS_OBJECTIFS.bonheur.nomMi} » : ${g.noms[pid]} bloque ${court(ui.obj)} pour tout le monde jusqu’à la fin du tour.`);
-      annoncerMi(g, pid, "bonheur", `${court(ui.obj)} bloqué pour tous ce tour`);
-      resolu(g); });
+      <p class="small muted">Touche l’objectif à bloquer.</p>
+      <div class="pick">${OBJECTIFS.map(x => `<button data-bo="${x.id}" ${busy ? "disabled" : ""}>${DB.icone(x.id, 28)} <strong>${esc(court(x.id))}</strong></button>`).join("")}</div>` + pied;
+    $app.querySelectorAll("[data-bo]").forEach(b => b.onclick = () => { const choix = b.dataset.bo; DB.son("panneau"); agir(g => { const f0 = g.file[0]; if (!f0?.bloque || f0.pid !== pid) return;
+      (g.blocages = g.blocages || []).push({o: choix, par: pid});
+      log(g, `« ${EFFETS_OBJECTIFS.bonheur.nomMi} » : ${g.noms[pid]} bloque ${court(choix)} pour tout le monde jusqu’à la fin du tour.`);
+      annoncerMi(g, pid, "bonheur", `${court(choix)} bloqué pour tous ce tour`);
+      resolu(g); }); });
     return;
   }
   if (f.piece) {
@@ -6505,23 +7410,23 @@ function ecranCompletion(pid, pied) {
     const ids = [...new Set(jeu.defausses[pid].filter(id => CARTE[id].type === "immediat" && CARTE[id].e.t !== "perso_vrac"))];
     const c = ui.carte ? CARTE[ui.carte] : null;
     const en = c ? entrees(c, pid) : {h: "", pret: false};
-    h += `<div class="pick">${ids.map(id => `<button data-c="${id}" class="${id === ui.carte ? "sel" : ""}"><strong>${esc(CARTE[id].texte)}</strong><br><span class="muted small">${esc(dieu(CARTE[id].dieu).nom)} · ${esc(decrire(CARTE[id]))}</span></button>`).join("")}</div>
+    h += `<p class="cs-consigne">${DB.icone("lignee", 22)} Choisis une carte de ta défausse à rejouer :</p><div class="pick cs-pick">${ids.map(id => `<button data-c="${id}" class="${id === ui.carte ? "sel" : ""}" aria-label="Rejouer la ${esc(nomCarte(CARTE[id]))}">${carteSpeciale(id, "defausse", {tampon: "À rejouer"})}</button>`).join("")}</div>
       ${en.h}<div class="row" style="margin-top:14px"><button class="primary" id="appl" ${!en.pret || busy ? "disabled" : ""}>Rejouer cette carte</button></div>`;
     $app.innerHTML = h + pied;
     $app.querySelectorAll("[data-c]").forEach(b => b.onclick = () => { ui.carte = b.dataset.c; ui.cible = ""; ui.nombre = ""; ui.oui = null; rendre(); });
     lierEntrees();
-    document.getElementById("appl").onclick = () => agir(g => { appliquerCarte(g, pid, ui.carte, inp(), true); annoncer(g, pid, "lignee", `Rejoue ${citer(CARTE[ui.carte])} : ${g.journal[g.journal.length - 1].replace("Carte rejouée. ", "")}`); resolu(g); });
+    document.getElementById("appl").onclick = () => agir(g => { appliquerCarte(g, pid, ui.carte, inp(), true); annoncer(g, pid, "lignee", `Rejoue une ${nomCarte(CARTE[ui.carte])} tirée de sa défausse : ${g.journal[g.journal.length - 1].replace("Carte rejouée. ", "")}`, {c: ui.carte, mode: "defausse"}); g.carteAnim = {id: Math.random().toString(36).slice(2), mode: "defausse", par: pid, c: ui.carte, t: Date.now()}; resolu(g); });
     return;
   }
   if (o === "humour") {
     const opts = []; jeu.ordre.filter(id => id !== pid && !aObjet(jeu, id, "couronne")).forEach(id => jeu.actives[id].forEach((a, i) => opts.push({id, i, c: a.c})));
-    h += `<div class="pick">${opts.map(x => { const k = x.id + ":" + x.i; return `<button data-v="${k}" class="${k === ui.vol ? "sel" : ""}"><strong>${esc(CARTE[x.c].texte)}</strong><br><span class="muted small">chez ${esc(jeu.noms[x.id])} · ${esc(decrire(CARTE[x.c]))}</span></button>`; }).join("")}</div>
+    h += `<p class="cs-consigne">${DB.icone("humour", 22)} Choisis la carte permanente à voler :</p><div class="pick cs-pick">${opts.map(x => { const k = x.id + ":" + x.i; return `<button data-v="${k}" class="${k === ui.vol ? "sel" : ""}" aria-label="Voler la ${esc(nomCarte(CARTE[x.c]))} de ${esc(jeu.noms[x.id])}">${carteSpeciale(x.c, "vol", {de: x.id, tampon: "À voler"})}</button>`; }).join("")}</div>
       <div class="row" style="margin-top:14px"><button class="primary" id="ok" ${!ui.vol || busy ? "disabled" : ""}>Voler cette carte</button></div>`;
     $app.innerHTML = h + pied;
     $app.querySelectorAll("[data-v]").forEach(b => b.onclick = () => { ui.vol = b.dataset.v; rendre(); });
     document.getElementById("ok").onclick = () => agir(g => {
       const [id, i] = ui.vol.split(":"), c = g.actives[id][+i].c;
-      annoncer(g, pid, "humour", `Veut voler ${citer(CARTE[c])} à ${g.noms[id]}.`); viser(g, pid, id, {k: "vol", c}); resolu(g);
+      annoncer(g, pid, "humour", `Vole la ${nomCarte(CARTE[c])} de ${g.noms[id]}.`, {c, mode: "vol", de: id}); viser(g, pid, id, {k: "vol", c}); resolu(g);
     });
     return;
   }
@@ -6573,10 +7478,19 @@ function rendreJoueur() {
     lierObjet(me); lierBarre();
     $app.insertAdjacentHTML("afterbegin", `<div class="bandeau-joueur">${jeu.objets?.[me] ? `<button class="bandeau-obj" data-pan="objet" aria-label="Voir l’effet de mon objet">${pastille(me, 40)}</button>` : pastille(me, 40)}<span><b>${esc(jeu.noms[me])}</b><br><span class="muted small">${jeu.manche ? `Tour ${jeu.manche}${jeu.dernierTour ? " · dernier tour" : ""}` : ""}</span></span>${(jeu.phase === "choix" && jeu.ctx?.[me] ? jeu.ctx[me].nbRel : relancesDispo(jeu, me)) > 0 ? `<span class="puce">${jetonIco(22)} × ${jeu.phase === "choix" && jeu.ctx?.[me] ? jeu.ctx[me].nbRel : relancesDispo(jeu, me)}</span>` : ""}</div>`); if (!test) $app.insertAdjacentHTML("afterbegin", `<button class="quitter-mini ${confirmeQ ? "on" : ""}" id="q">${confirmeQ ? "Confirmer ?" : "Quitter"}</button>`);
     const q = document.getElementById("q"); if (q) q.onclick = () => { if (confirmeQ) { confirmeQ = false; quitter(); return; } confirmeQ = true; rendre(); setTimeout(() => { if (confirmeQ) { confirmeQ = false; rendre(); } }, 3500); };
-    DB.graver($app); lierBarre(); };
+    DB.graver($app); lierBarre();
+    if (jeu.statut === "en_cours" && jeu.scores && jeu.ordre.includes(me) && !jeu.mj && !["objets", "objets_vus"].includes(jeu.phase)) {
+      $app.insertAdjacentHTML("beforeend", `<div class="vue-plateau-barre"><button id="vueplat" class="${vueTel ? "on" : ""}">${DB.icone(vueTel ? "laurier" : "jeux", 22)} ${vueTel ? "Revenir à mon jeu" : "Vue plateau"}</button></div>`);
+      const vp = $app.querySelector("#vueplat"); if (vp) vp.onclick = () => { vueTel = vueTel ? null : cleProgTel(); rendre(); window.scrollTo(0, 0); $app.scrollTop = 0; const tel = $app.closest?.(".tel"); if (tel) tel.scrollTop = 0; };
+    } };
   if (jeu.statut === "en_cours" && jeu.mj && jeu.ordre.includes(me)) { if (!ecranMiniJeu(me, pied)) fin(); return; }
   if (jeu.statut === "attente" || !jeu.scores) { $app.innerHTML = `<h1>Partie ${esc(code)}</h1><p>C’est noté, ${esc(load("jdd-nom"))}. La partie commence dès que le plateau la lance.</p>${pied}`; fin(); return; }
   if (!jeu.ordre.includes(me)) { $app.innerHTML = `<p>Tu ne fais pas partie de cette partie.</p>${pied}`; fin(); return; }
+  if (vueTel && vueTel !== cleProgTel()) vueTel = null;
+  if (vueTel && jeu.statut === "en_cours") {
+    $app.innerHTML = `<h1>Vue plateau</h1><p class="muted small">Tour ${jeu.manche}. Cette vue se referme dès que la partie avance.</p><h2>Classement</h2>${listeJoueurs()}<h2>Plateau</h2><div class="panneau roue-boite roue-tel">${roue()}<div class="bulle" role="tooltip" hidden></div></div>${pied}`;
+    fin(); lierPlateau(); return;
+  }
   if (jeu.statut === "fini") {
     const rang = jeu.ordre.slice().sort((a, b) => total(jeu.scores[b]) - total(jeu.scores[a])).indexOf(me) + 1;
     $app.innerHTML = `${classementFinal(true).html}${pied}`; fin(); return;
@@ -6586,7 +7500,7 @@ function rendreJoueur() {
     const f = jeu.file[0];
     if (f.pid === me) { ecranCompletion(me, pied); fin(); return; }
     if (jeu.des && jeu.des.gain == null && jeu.des.pid === f.pid) { $app.innerHTML = ecranDes(me) + pied; lierDes(me); fin(); return; }
-    $app.innerHTML = `<h1>${esc(jeu.noms[me])}</h1><p><strong>${esc(jeu.noms[f.pid])}</strong> ${f.taureau ? "choisit qui charger avec son taureau" : f.blocage ? "décide s’il bloque une action" : f.mi ? `a atteint ${SEUIL_MI_PARCOURS} en ${esc(court(f.obj))}` : `a complété ${esc(court(f.obj))}`} et applique son effet.</p>${mesScores(me)}${pied}`; fin(); return;
+    $app.innerHTML = `<h1>${esc(jeu.noms[me])}</h1><p><strong>${esc(jeu.noms[f.pid])}</strong> ${f.taureau ? "choisit qui charger avec son taureau" : f.blocage ? "décide s’il bloque une action" : f.mi ? `a atteint ${SEUIL_MI_PARCOURS} en ${esc(court(f.obj))}` : `a complété ${esc(court(f.obj))}`} et applique son effet.</p>${scoresTel(me)}${pied}`; fin(); return;
   }
   if (jeu.phase === "objets") {
     if (jeu.objets?.[me]) {
@@ -6608,7 +7522,8 @@ function rendreJoueur() {
     fin(); return;
   }
   if (jeu.phase === "choix") { ecranChoix(me, pied); fin(); return; }
-  if (jeu.phase === "resolution") { $app.innerHTML = `<h1>Résolution du tour</h1><p class="muted">Les effets s’appliquent…</p>${mesScores(me)}${pied}`; fin(); return; }
+  if (jeu.phase === "colere" && jeu.colere?.vote) { ecranVoteTel(me, pied); fin(); return; }
+  if (jeu.phase === "resolution") { $app.innerHTML = `<h1>Résolution du tour</h1><p class="muted">Les effets s’appliquent…</p>${scoresTel(me)}${pied}`; fin(); return; }
   if (jeu.phase === "recap") {
     const pret = jeu.prets?.[me] || (pretEnvoi === jetonPret() && !test);
     recapVuTel[jeu.mancheId] = recapVuTel[jeu.mancheId] || Date.now();
@@ -6633,7 +7548,7 @@ function rendreJoueur() {
   if (jeu.phase === "dieu") {
     const voitTout = jeu.completes[me].includes("culture"), voit = voitTout || jeu.voirUne;
     $app.innerHTML = `<h1>À toi de jouer</h1>${banniere(me)}<p>Choisis un dieu. Il t’accorde une carte${voitTout ? " (tu vois laquelle grâce à Culture)" : voit ? " (grâce à Culture, tu vois celle du premier dieu)" : " au hasard"}.</p>
-      <div class="defile">${jeu.offre.map((o, i) => { const d = dieu(o.dieu); return `<button class="choix-dieu" data-i="${i}" ${busy ? "disabled" : ""} aria-label="Choisir ${esc(d.nom)}">${DB.carteDieu({nom: esc(d.nom), objs: d.transverse ? [] : d.objs, extra: d.transverse ? domaines(d, o) : "", image: d.image})}${voitTout || (voit && i === 0) || o.visible ? `<span class="carte-vue"><strong>${esc(citer(CARTE[o.carte]))}</strong><br><span class="muted">${esc(decrire(CARTE[o.carte]))}</span></span>` : ""}</button>`; }).join("")}</div>
+      <div class="defile">${jeu.offre.map((o, i) => { const d = dieu(o.dieu); return `<button class="choix-dieu" data-i="${i}" ${busy ? "disabled" : ""} aria-label="Choisir ${esc(d.nom)}">${DB.carteDieu({nom: esc(d.nom), objs: d.transverse ? [] : d.objs, extra: d.transverse ? domaines(d, o) : "", image: d.image})}${voitTout || (voit && i === 0) || o.visible ? `<span class="carte-vue"><strong>${esc(citer(CARTE[o.carte]))}</strong><br><span class="muted">${eclipseActive() ? "Effet caché par l’éclipse" : esc(decrire(CARTE[o.carte]))}</span></span>` : ""}</button>`; }).join("")}</div>
       ${relancesDispo(jeu, me) > 0 ? `<p class="small" style="margin:12px 0 6px;display:flex;align-items:center;gap:8px">${jetonIco(26)} Tu as ${relancesDispo(jeu, me)} relance${relancesDispo(jeu, me) > 1 ? "s" : ""} (pour un dieu ou, plus tard, pour ta carte). Remplacer un dieu :</p>
         <div class="row">${jeu.offre.map((o, i) => `<button data-rel="${i}" ${busy ? "disabled" : ""}>${jetonIco(22)} ${esc(dieu(o.dieu).nom)}</button>`).join("")}</div>` : ""}
       <h2>Tes points</h2>${mesScores(me)}${pied}`;
@@ -6643,7 +7558,7 @@ function rendreJoueur() {
   }
   if (jeu.phase === "effet" && jeu.tirage.alt) {
     $app.innerHTML = `<h1>${esc(dieu(jeu.tirage.dieu).nom)} te laisse choisir</h1><p>Tu ne trouves plus tes lunettes : choisis une des deux cartes.</p>
-      <div class="pick">${[jeu.tirage.carte, jeu.tirage.alt].map(id => `<button class="choix-carte" data-cc="${id}" ${busy ? "disabled" : ""}>${carteHtml(id, "")}</button>`).join("")}</div>${pied}`;
+      <div class="pick">${[jeu.tirage.carte, jeu.tirage.alt].map(id => `<button class="choix-carte" data-cc="${id}" ${busy ? "disabled" : ""}>${carteHtml(id, "", eclipseActive())}</button>`).join("")}</div>${pied}`;
     $app.querySelectorAll("[data-cc]").forEach(b => b.onclick = () => choisirCarte(b.dataset.cc));
     fin(); return;
   }
@@ -6677,6 +7592,81 @@ function rendreAccueil() {
     <p class="version">Version ${VERSION_JEU}</p>`;
 }
 /* Mode test : lancer directement un mini-jeu, avec le Joueur 1 comme déclencheur */
+function testCatastrophe(cat, n) {
+  const ordre = [...Array(n)].map((_, i) => "j" + (i + 1));
+  const g = {statut: "en_cours", ordre, noms: Object.fromEntries(ordre.map((id, i) => [id, "Joueur " + (i + 1)])), journal: []};
+  g.version = VERSION_JEU; g.objetsTextes = lireTextesObjets(); nouvelleManche(g);
+  g.objets = {}; premierTour(g);
+  g.ordre = ordre.slice();
+  /* scores et cartes de départ variés, pour que chaque effet se voie */
+  const pre = [{repas: 9, lignee: 12, vin: 10, humour: 3, bonheur: 0, jeux: 5, culture: 6}, {repas: 4, lignee: 8, vin: 13, humour: 11, bonheur: 2, jeux: 0, culture: 9}, {repas: 12, lignee: 1, vin: 6, humour: 8, bonheur: 10, jeux: 3, culture: 0}];
+  const cartes = [["christophe-02", "madeleine-03", "madeleine-pd"], ["coleen-pd"], ["martin-pd", "simon-pd"]];
+  g.ordre.forEach((id, i) => { g.scores[id] = {...pre[i % 3]}; g.actives[id] = (cartes[i % 3] || []).filter(c => CARTE[c]).map(c => ({c})); });
+  /* les paliers déjà dépassés par ces scores de départ ne se déclenchent pas */
+  g.etapes = Object.fromEntries(g.ordre.map(id => [id, OBJECTIFS.filter(o => g.scores[id][o.id] >= SEUIL_MI_PARCOURS).map(o => o.id)]));
+  g.colere = cat === "vote" ? {tour: g.manche + 1, raison: RAISONS_COLERE[0]} : {tour: g.manche + 1, raison: RAISONS_COLERE[0], cat, duree: CATAS[cat].duree[1], debut: g.manche + 1};
+  g.phase = "recap"; g.finApresRecap = false; finRecap(g);
+  g.cartesPrec = Object.fromEntries(g.ordre.map((id, i) => [id, ["guillemette-01", "christophe-14", "madeleine-03"][i % 3]]));
+  if (cat === "peste" && g.ctx) g.ordre.forEach(id => { if (g.ctx[id]) g.ctx[id].aDistribuer = 4; });
+  suivre = true; testVue = "j1"; recevoir(g);
+}
+/* Mode test : voir l’effet BD d’un tour (chaque joueur a invoqué un dieu différent) */
+/* Sons de la BD : apparition douce de la bulle, et « charabia » pendant l’écriture (petites syllabes chantées, une voix par dieu) */
+function bdPop() {
+  if (window.DB_MUET) return;
+  try {
+    const c = audioCtx(), t = c.currentTime + .01, o = c.createOscillator(), g = c.createGain();
+    o.type = "sine"; o.frequency.setValueAtTime(520, t); o.frequency.exponentialRampToValueAtTime(880, t + .09);
+    g.gain.setValueAtTime(.0001, t); g.gain.exponentialRampToValueAtTime(.12, t + .02); g.gain.exponentialRampToValueAtTime(.0001, t + .22);
+    o.connect(g); g.connect(c.destination); o.start(t); o.stop(t + .25);
+  } catch (e) {}
+}
+function bdVoix(id) {
+  /* hauteur de base propre à chaque dieu, pour qu’on reconnaisse les voix */
+  const l = DIEUX.map(d => d.id), k = Math.max(0, l.indexOf(id));
+  return {base: [330, 262, 392, 294, 440, 247, 349, 370][k % 8], forme: k % 2 ? "triangle" : "square"};
+}
+function bdSyllabe(ch, voix) {
+  if (window.DB_MUET || !ch || !/[a-zà-ÿ0-9]/i.test(ch)) return;
+  try {
+    const c = audioCtx(), t = c.currentTime + .005, voy = /[aeiouyàâéèêëîïôùûü]/i.test(ch);
+    const code = ch.toLowerCase().charCodeAt(0) % 7, f0 = voix.base * Math.pow(2, ([0, 2, 4, 5, 7, 9, 12][code] + (voy ? 0 : -3)) / 12) * (0.97 + Math.random() * .06);
+    const o = c.createOscillator(), filtre = c.createBiquadFilter(), g = c.createGain();
+    o.type = voix.forme; o.frequency.setValueAtTime(f0, t); o.frequency.linearRampToValueAtTime(f0 * (voy ? 1.06 : .94), t + .05);
+    filtre.type = "bandpass"; filtre.frequency.value = voy ? 1300 : 900; filtre.Q.value = 1.6;
+    g.gain.setValueAtTime(.0001, t); g.gain.exponentialRampToValueAtTime(voy ? .09 : .06, t + .008); g.gain.exponentialRampToValueAtTime(.0001, t + .055);
+    o.connect(filtre); filtre.connect(g); g.connect(c.destination); o.start(t); o.stop(t + .07);
+  } catch (e) {}
+}
+/* icônes de l’effet d’une carte, sans le texte : objectif + valeur */
+function bdIcones(c) {
+  if (!c) return "";
+  const e = c.e || {}, ch = (o, n) => `<span class="delta ${n > 0 ? "plus" : "moins"}">${DB.icone(o, 26)}<b>${n > 0 ? "+" : "−"}${Math.abs(n)}</b></span>`;
+  const objs = OBJECTIFS.map(o => o.id);
+  let l = [];
+  if (e.t === "gain" && e.n === 1 && objs.includes(c.obj)) l = [`<span class="delta plus">${DB.icone(c.obj, 26)}<span class="pion"></span></span>`];
+  else if (["gain", "gain_donner"].includes(e.t) && objs.includes(c.obj)) l = [ch(c.obj, e.n)];
+  else if (e.t === "multi") l = (e.l || []).filter(x => objs.includes(x.o)).map(x => ch(x.o, x.n));
+  else if (e.t === "pion_dieu") l = (e.objs || []).map(o => `<span class="delta plus">${DB.icone(o, 26)}</span>`);
+  else if (objs.includes(c.obj)) l = [`<span class="delta">${DB.icone(c.obj, 26)}</span>`];
+  return l.length ? `<div class="bd-icones deltas">${l.join("")}</div>` : "";
+}
+function testBD(n) {
+  const ordre = [...Array(n)].map((_, i) => "j" + (i + 1));
+  const g = {statut: "en_cours", ordre, noms: Object.fromEntries(ordre.map((id, i) => [id, "Joueur " + (i + 1)])), journal: []};
+  g.version = VERSION_JEU; g.objetsTextes = lireTextesObjets(); nouvelleManche(g);
+  g.objets = {}; premierTour(g);
+  g.ordre = ordre.slice();
+  const dieux = shuffle(DIEUX.map(d => d.id));
+  g.ordre.forEach((id, i) => {
+    const d = dieux[i % dieux.length], l = CARTES.filter(c => c.dieu === d && c.type === "immediat" && ["gain", "multi"].includes(c.e.t) && c.texte);
+    const c = l[Math.floor(Math.random() * l.length)] || CARTES.find(x => x.dieu === d && x.texte);
+    const o = g.ctx[id].offre[0]; o.dieu = d; o.carte = c.id; delete o.alt; delete o.cache; delete o.fc;
+    g.plans[id] = {round: g.mancheId, rel: [], i: 0, carte: c.id, relC: false, fc: false, inp: {}, alloc: {[OBJECTIFS[i % OBJECTIFS.length].id]: 2}};
+  });
+  demarrerResolution(g);
+  bdVue = ""; suivre = true; testVue = "j1"; recevoir(g);
+}
 function testMiniJeu(type, n) {
   const ordre = [...Array(n)].map((_, i) => "j" + (i + 1));
   const g = {statut: "en_cours", ordre, noms: Object.fromEntries(ordre.map((id, i) => [id, "Joueur " + (i + 1)])), journal: []};
@@ -6753,8 +7743,14 @@ function rendreTest() {
     main.innerHTML = `<h1>Mode test</h1><p>Simule une partie sur cet écran : le plateau à gauche, le téléphone d’un joueur à droite. Rien n’est enregistré.</p>
       <label for="tn">Nombre de joueurs</label><select id="tn">${[1,2,3,4,5,6].map(n => `<option ${n === 3 ? "selected" : ""}>${n}</option>`).join("")}</select>
       <div class="row" style="margin-top:14px"><button class="primary" id="tgo">Lancer le test</button><a href="#"><button>Retour</button></a></div>
+      <h2 style="margin-top:28px">Voir l’effet BD</h2><p class="muted">Lance directement la fin d’un tour : chaque joueur a invoqué un dieu différent, et la BD s’affiche sur le plateau avant le récap.</p>
+      <div class="row"><button data-tbd class="primary">Voir l’effet BD</button></div>
       <h2 style="margin-top:28px">Tester un mini-jeu</h2><p class="muted">Lance directement le mini-jeu du bonus de parcours de Jeux. Tu joues avec le Joueur 1 (le déclencheur), les autres joueurs sont simulés.</p>
-      <div class="row">${Object.keys(MJ).map(k => `<button data-tmj="${k}">${esc(MJ[k].nom)}</button>`).join("")}</div>`;
+      <div class="row">${Object.keys(MJ).map(k => `<button data-tmj="${k}">${esc(MJ[k].nom)}</button>`).join("")}</div>
+      <h2 style="margin-top:28px">Tester une catastrophe</h2><p class="muted">Lance une partie au tour 2 avec la catastrophe déjà en place (scores et cartes de départ préremplis pour voir l’effet), ou le vote de la colère des dieux.</p>
+      <div class="test-cata"><button data-tcat="vote" class="primary">${DB.icone("cata-tempete", 22)} Vote de la colère</button>${Object.keys(CATAS).map(k => `<button data-tcat="${k}">${DB.icone("cata-" + k, 22)} ${esc(CATAS[k].nom)}</button>`).join("")}</div>`;
+    main.querySelectorAll("[data-tcat]").forEach(b => b.onclick = () => testCatastrophe(b.dataset.tcat, Math.max(2, +document.getElementById("tn").value)));
+    main.querySelectorAll("[data-tbd]").forEach(b => b.onclick = () => testBD(Math.max(2, +document.getElementById("tn").value)));
     main.querySelectorAll("[data-tmj]").forEach(b => b.onclick = () => testMiniJeu(b.dataset.tmj, Math.max(2, +document.getElementById("tn").value)));
     document.getElementById("tgo").onclick = () => {
       const n = +document.getElementById("tn").value, ordre = [...Array(n)].map((_, i) => "j" + (i + 1));
@@ -6767,11 +7763,12 @@ function rendreTest() {
   if (suivre && jeu.statut === "en_cours") testVue = jeu.phase === "completion" ? (jeu.des && jeu.des.gain == null ? (jeu.ordre.find(id => !jeu.des.des[id]) || jeu.file[0].pid) : jeu.file[0].pid) : jeu.phase === "objets" ? (jeu.ordre.find(id => !jeu.objets?.[id]) || jeu.ordre[0]) : ["objets_vus", "recap"].includes(jeu.phase) ? (jeu.ordre.find(id => !jeu.prets?.[id]) || testVue) : jeu.phase === "choix" ? (jeu.ordre.find(id => !jeu.plans?.[id]) || testVue) : jeu.ordre[jeu.tour];
   if (!jeu.ordre.includes(testVue)) testVue = jeu.ordre[0];
   main.innerHTML = `<div class="test"><div id="tplat" class="plat"></div>
-    <div><div class="onglets tmj-barre"><span class="muted small">Mini-jeux :</span>${Object.keys(MJ).map(k => `<button data-tmj="${k}" title="Recommencer le test sur ce mini-jeu">${esc(MJ[k].nom.replace(/^L[ae] /, ""))}</button>`).join("")}</div><div class="onglets">${jeu.ordre.map(id => `<button data-tv="${id}" class="${id === testVue ? "sel" : ""}">${esc(jeu.noms[id])}</button>`).join("")}</div>
+    <div><div class="onglets tmj-barre"><button data-tbd title="Recommencer le test sur l’effet BD">Effet BD</button><span class="muted small">Mini-jeux :</span>${Object.keys(MJ).map(k => `<button data-tmj="${k}" title="Recommencer le test sur ce mini-jeu">${esc(MJ[k].nom.replace(/^L[ae] /, ""))}</button>`).join("")}</div><div class="onglets">${jeu.ordre.map(id => `<button data-tv="${id}" class="${id === testVue ? "sel" : ""}">${esc(jeu.noms[id])}</button>`).join("")}</div>
       <label class="row small" style="margin:0 0 8px"><input type="checkbox" id="tsuiv" ${suivre ? "checked" : ""}> Afficher automatiquement le joueur qui doit agir</label>
       <div class="tel" id="ttel"></div></div></div>`;
   main.querySelectorAll("[data-tv]").forEach(b => b.onclick = () => { suivre = false; testVue = b.dataset.tv; resetUi(); rendre(); });
   main.querySelectorAll("[data-tmj]").forEach(b => b.onclick = () => { mjLoc = null; testMiniJeu(b.dataset.tmj, Math.max(2, jeu.ordre.length)); });
+  main.querySelectorAll("[data-tbd]").forEach(b => b.onclick = () => { document.querySelectorAll(".bd-scene").forEach(e => e.remove()); bdEnCours = false; testBD(Math.max(2, jeu.ordre.length)); });
   document.getElementById("tsuiv").onchange = e => { suivre = e.target.checked; resetUi(); rendre(); };
   const tel = document.getElementById("ttel"), haut = tel.scrollTop;
   try { $app = document.getElementById("tplat"); rendrePlateau(); $app = tel; rendreJoueur(); }
@@ -6794,6 +7791,24 @@ function animerPiece() {
   document.body.appendChild(d); DB.son("relance"); setTimeout(() => d.remove(), 3400);
 }
 let taureauVu = "";
+let carteAnimVue = "";
+function animerCarteSpe() {
+  const c = jeu?.carteAnim;
+  if (!c || c.id === carteAnimVue) return;
+  carteAnimVue = c.id;
+  if (Date.now() - (c.t || 0) > 15000) return;
+  if (!(vue() === "plateau" || test || monId() === c.par || monId() === c.de || monId() === c.b?.pid)) return;
+  const d = document.createElement("div");
+  d.className = `cs-anim cs-anim-${c.mode}`; d.setAttribute("role", "status");
+  d.innerHTML = c.mode === "echange"
+    ? `<strong>Échange !</strong><div class="cs-scene"><span class="cs-qui">${pastille(c.a.pid, 64)}<b>${esc(jeu.noms[c.a.pid])}</b></span><div class="cs-croise"><div class="cs-ea">${carteSpeciale(c.a.c, "echange")}</div><div class="cs-eb">${carteSpeciale(c.b.c, "echange")}</div></div><span class="cs-qui">${pastille(c.b.pid, 64)}<b>${esc(jeu.noms[c.b.pid])}</b></span></div><span class="cs-leg">${esc(jeu.noms[c.par])} échange les cartes de ${esc(jeu.noms[c.a.pid])} et ${esc(jeu.noms[c.b.pid])}</span>`
+    : c.mode === "recup"
+    ? `<strong>Tradition familiale !</strong><div class="cs-scene"><span class="cs-qui de">${pastille(c.de, 64)}<b>${esc(jeu.noms[c.de])}</b></span><div class="cs-vole">${carteSpeciale(c.c, "recup")}</div><span class="cs-qui par">${pastille(c.par, 64)}<b>${esc(jeu.noms[c.par])}</b></span></div><span class="cs-leg">${esc(jeu.noms[c.par])} récupère la ${esc(nomCarte(CARTE[c.c]))} jouée par ${esc(jeu.noms[c.de])}</span>`
+    : c.mode === "vol"
+    ? `<strong>Vol !</strong><div class="cs-scene"><span class="cs-qui de">${pastille(c.de, 64)}<b>${esc(jeu.noms[c.de])}</b></span><div class="cs-vole">${carteSpeciale(c.c, "vol")}</div><span class="cs-qui par">${pastille(c.par, 64)}<b>${esc(jeu.noms[c.par])}</b></span></div><span class="cs-leg">${esc(jeu.noms[c.par])} vole la ${esc(nomCarte(CARTE[c.c]))} de ${esc(jeu.noms[c.de])}</span>`
+    : `<strong>Retour de la défausse</strong><div class="cs-scene"><div class="cs-pile"><span></span><span></span><span></span></div><div class="cs-sort">${carteSpeciale(c.c, "defausse")}</div></div><span class="cs-leg">${esc(jeu.noms[c.par])} rejoue une ${esc(nomCarte(CARTE[c.c]))}</span>`;
+  jouerPopup(d, () => DB.son(c.mode === "defausse" || c.mode === "recup" ? "relance" : "perte"), 3800);
+}
 function animerTaureau() {
   const c = jeu?.taureauAnim;
   if (!c || c.id === taureauVu) return;
@@ -6821,7 +7836,7 @@ function animerCloche() {
 window.DB_MUET = load("jdd-son") === "0";
 function rendre() {
   setTimeout(apresRendu, 20);
-  setTimeout(animerCloche, 0); setTimeout(animerDe, 0); setTimeout(animerTaureau, 0); setTimeout(animerPiece, 0);
+  setTimeout(animerCloche, 0); setTimeout(animerDe, 0); setTimeout(animerTaureau, 0); setTimeout(animerPiece, 0); setTimeout(animerCarteSpe, 0); setTimeout(animerColere, 0);
   const v0 = vue();
   $app.className = v0 === "plateau" ? "plat large" : "";
   if (v0 === "test") { rendreTest(); return; }
